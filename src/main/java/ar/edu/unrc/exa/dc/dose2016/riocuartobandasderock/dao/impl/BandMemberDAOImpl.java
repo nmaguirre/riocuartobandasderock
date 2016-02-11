@@ -73,9 +73,13 @@ public class BandMemberDAOImpl implements BandMemberDAO {
 		if (areNull || areEmpty) { // I see that the arguments are valid
 			throw new IllegalArgumentException("the params for create a bandmember relation can't be null or empty.");
 		} else {
-			BandMember bm = new BandMember(idArtist, idBand);
-			this.currentSession.save(bm);
-			return true;
+			boolean result = false;
+			if(!existBandMember(idBand, idArtist)){
+				BandMember bm = new BandMember(idArtist, idBand);
+				this.currentSession.save(bm);
+				result = true;
+			}
+			return result;
 		}
 	}
 
