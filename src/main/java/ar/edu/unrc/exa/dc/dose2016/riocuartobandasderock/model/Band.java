@@ -3,6 +3,7 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model;
 import java.util.List;
 
 public class Band {
+  private Integer id;
   private List<Album> albumList;
   private List<BandMember> memberList;
   private List<Song> songList;
@@ -11,67 +12,70 @@ public class Band {
   private String end;
   private Genere genere;
   
+
+  public Band(){  
+  }
+  
+  public Integer getId(){
+    return id;
+  }
+  
   public List<Album> getAlbum(){
-    return this.albumList;
+    return albumList;
   }
   
   public List<BandMember> getBandMember(){
-    return this.memberList;
+    return memberList;
   }
   
   public List<Song> getSong(){
-    return this.songList;
+    return songList;
   }
   
   public String getName(){
-    return this.name;
+    return name;
   }
   
   public String getRelease(){
-    return this.release;
+    return release;
   }
   
   public String getEnd(){
-    return this.end;
+    return end;
   }
   
   public Genere getGenere(){
-    return this.genere;
+    return genere;
   }
-	
-	public Band(){	
-	}
-	
-	public void setId(Integer an_id){
-		id = an_id;
-	}
-	
-	public void setAlbumList(List<Album> an_album_list){
-		albumList = an_album_list;
-	}
-	
-	public void setMemberList(List<BandMember> a_member_list){
-	}
-	
-	public void setSongList(List<Song> a_song_list){
-		songList = a_song_list;
-	}
-	
-	public void setName(String a_name){
-		name = a_name;
-	}
-	
-	public void setRelease(String a_release){
-		release = a_release;
-	}
-	
-	public void setEnd(String an_end){
-		end = an_end;
-	}
-	
-	public void setGenere(Genere a_genere){
-		genere = a_genere;
-	}
-	
-	
+    
+  public void setId(Integer an_id){
+    id = an_id;
+  }
+  
+  public void setAlbumList(List<Album> an_album_list){
+    albumList = an_album_list;
+  }
+  
+  public void setMemberList(List<BandMember> a_member_list){
+  }
+  
+  public void setSongList(List<Song> a_song_list){
+    songList = a_song_list;
+  }
+  
+  public void setName(String a_name){
+    name = a_name;
+  }
+  
+  public void setRelease(String a_release){
+    release = a_release;
+  }
+  
+  public void setEnd(String an_end){
+    end = an_end;
+  }
+  
+  public void setGenere(Genere a_genere){
+    genere = a_genere;
+  } 
 }
