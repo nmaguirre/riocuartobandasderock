@@ -6,15 +6,28 @@ public class Band {
   private Integer id;
   private List<Album> albumList;
   private List<BandMember> memberList;
-  private List<Song> songList;
   private String name;
   private String release;
   private String end;
   private Genere genere;
-  
 
-  public Band(){  
+  public Band(Integer an_id, String a_name, Genere a_genere, List<BandMember> list_of_members, String a_release){
+    id = an_id;
+	name = a_name;
+	genere = a_genere;
+	memberList = list_of_members;
+	release = a_release;
   }
+
+  public Band(Integer an_id, String a_name, Genere a_genere, List<BandMember> list_of_members, String a_release, List<Album> list_of_albums){
+	id = an_id;
+	name = a_name;
+	genere = a_genere;
+	memberList = list_of_members;
+	albumList = list_of_albums;
+	release = a_release;
+  }
+
   
   public Integer getId(){
     return id;
@@ -26,10 +39,6 @@ public class Band {
   
   public List<BandMember> getBandMember(){
     return memberList;
-  }
-  
-  public List<Song> getSong(){
-    return songList;
   }
   
   public String getName(){
@@ -57,10 +66,7 @@ public class Band {
   }
   
   public void setMemberList(List<BandMember> a_member_list){
-  }
-  
-  public void setSongList(List<Song> a_song_list){
-    songList = a_song_list;
+	  memberList = a_member_list;
   }
   
   public void setName(String a_name){
