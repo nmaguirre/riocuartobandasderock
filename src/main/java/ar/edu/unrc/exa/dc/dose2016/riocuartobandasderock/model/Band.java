@@ -10,6 +10,9 @@ public class Band {
   private String release;
   private String end;
   private Genere genere;
+  
+  public Band(){    
+  }
 
   public Band(Integer an_id, String a_name, Genere a_genere, List<BandMember> list_of_members, String a_release){
     id = an_id;

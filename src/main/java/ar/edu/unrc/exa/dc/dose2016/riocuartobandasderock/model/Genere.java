@@ -10,6 +10,9 @@ public class Genere {
   private List<String> initiatedBy;
   private List<Genere> influence;
   
+  public Genere(){
+  }
+  
   public Genere(Integer an_id, String a_name, String a_description){
     id = an_id;
     name = a_name;

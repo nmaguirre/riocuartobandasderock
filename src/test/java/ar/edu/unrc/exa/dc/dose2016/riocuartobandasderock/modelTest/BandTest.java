@@ -7,7 +7,6 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.BandMember;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Genere;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 
 import java.util.LinkedList;
 
@@ -59,14 +58,6 @@ public class BandTest {
     LinkedList<BandMember> a_member_list = new LinkedList<BandMember>();
     band.setMemberList(a_member_list);
     assertEquals(band.getBandMember(),a_member_list);  
-  }
-  
-  @Test
-  public void setSongListTest(){
-    Band band = new Band();
-    LinkedList<Song> a_song_list = new LinkedList<Song>();
-    band.setSongList(a_song_list);
-    assertEquals(band.getSong(),a_song_list);  
   }
   
   @Test
