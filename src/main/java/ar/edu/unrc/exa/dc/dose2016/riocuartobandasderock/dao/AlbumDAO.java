@@ -1,7 +1,9 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao;
 
 import java.util.List;
+//import java.util.Date;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 
 /**
  * @author Dose Team 2016
@@ -49,6 +51,36 @@ public interface AlbumDAO {
 	 * @return
 	 */
 	public List<Album> findByRecordLabel(String recordLabel);
+	
+	/**
+	 * @param producer
+	 * @return
+	 */
+	public List<Album> findByProducer(String producer);
+	
+	/**
+	 * @param duration
+	 * @return
+	 */
+	public List<Album> findByDuration(int duration);
+	
+	/**
+	 * @param song
+	 * @return
+	 */
+	public List<Album> findBySong(Song song);
+	
+//	/**
+//	 * @param releaseDate
+//	 * @return
+//	 */
+//	public List<Album> findByReleaseDate(Date releaseDate);
+	
+//	/**
+//	 * @param recordDate
+//	 * @return
+//	 */
+//	public List<Album> findByRecordDate(Date recordDate);
 	
 	/**
 	 * @param album
