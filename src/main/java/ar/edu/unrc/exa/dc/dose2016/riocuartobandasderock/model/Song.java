@@ -10,17 +10,19 @@ public class Song {
    /**
 	* id represents the id of the song
 	* nameSong represents the name of the song
-	* gender represents the gender of the song
-	* bands represents the bands from Rio Cuarto who played this song
+	* genere represents the genere of the song
+	* performBy represents the bands from Rio Cuarto who played this song
 	* duration represents the duration of this song
 	* author represents the author who composed the song
+	* album represents the album where the song belongs
 	*/
 	private int id;
 	private String nameSong;
-	private String gender;   // will be changed to type enum Gender
-	private List<Band> bands;
+	private Genere genere;   
+	private List<Band> performBy;
 	private int duration;
 	private String author;	//will be changed to type People
+	private Album album;
 	
 	
 	/**
@@ -38,14 +40,16 @@ public class Song {
 	 * @param band represents the band's name of the song to assign
 	 * @param dur represents the duration of the song to assign
 	 * @param aut represents the author of the song to assign
+	 * @param alb represent the album to assign
 	 */
-	public Song(int i, String nsong, String gen, List<Band> band, int dur, String aut){
+	public Song(int i, String nsong, Genere gen, List<Band> band, int dur, String aut, Album alb){
 		id = i;
 		nameSong = nsong;
-		gender = gen;
-		bands = band;
+		genere = gen;
+		performBy = band;
 		duration = dur;
 		author = aut;
+		album = alb;
 	}
 
 // Seters and geters of the method song............
@@ -81,32 +85,32 @@ public class Song {
 	}
 	
 	/**
-	 * @return the gender of the song
+	 * @return the genere of the song
 	 */
-	public String getGender(){
-		return gender;
+	public Genere getGenere(){
+		return genere;
 	}
 	
 	/**
-	 * Sets a gender for the song
-	 * @param gen represents the gender to assign
+	 * Sets a genere for the song
+	 * @param gen represents the genere to assign
 	 */
-	public void setGender(String gen){
-		gender = gen;
+	public void setGender(Genere gen){
+		genere = gen;
 	}
 	
 	/**
 	 * @return a list with the bands who played the song
 	 */
 	public List<Band> getBands(){
-		return bands;
+		return performBy;
 	}
 	/**
 	 * Sets a bands for the song
 	 * @param band represents the bands to assign
 	 */
 	public void setBands(List<Band> band){
-		bands = band;
+		performBy = band;
 	}
 	
 	/**
@@ -139,4 +143,18 @@ public class Song {
 		author = aut;
 	}
 	
+	/**
+	 * @return the album of the song
+	 */
+	public Album getAlbum(){
+		return album;
+	}
+	
+	/**
+	 * Sets an album for the song
+	 * @param alb represents the album to assign
+	 */
+	public void setAlbum(Album alb){
+		album = alb;
+	}
 }
