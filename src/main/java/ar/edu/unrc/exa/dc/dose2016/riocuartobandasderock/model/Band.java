@@ -3,14 +3,41 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model;
 import java.util.List;
 
 public class Band {
-	private Integer id;
-	private List<Album> albumList;
-	private List<BandMember> memberList;
-	private List<Song> songList;
-	private String name;
-	private String release;
-	private String end;
-	private Genere genere;
+  private List<Album> albumList;
+  private List<BandMember> memberList;
+  private List<Song> songList;
+  private String name;
+  private String release;
+  private String end;
+  private Genere genere;
+  
+  public List<Album> getAlbum(){
+    return this.albumList;
+  }
+  
+  public List<BandMember> getBandMember(){
+    return this.memberList;
+  }
+  
+  public List<Song> getSong(){
+    return this.songList;
+  }
+  
+  public String getName(){
+    return this.name;
+  }
+  
+  public String getRelease(){
+    return this.release;
+  }
+  
+  public String getEnd(){
+    return this.end;
+  }
+  
+  public Genere getGenere(){
+    return this.genere;
+  }
 	
 	public Band(){	
 	}
