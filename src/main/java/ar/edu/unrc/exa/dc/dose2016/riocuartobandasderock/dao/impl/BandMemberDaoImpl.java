@@ -14,19 +14,25 @@ public class BandMemberDaoImpl implements BandMemberDAO{
 	}
 
 	@Override
+	public List<BandMember> findByName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<BandMember> findByRole(String role) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public BandMember findById(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public BandMember findByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean insertBandMember(BandMember bandMember) {
+	public boolean createBandMember(BandMember bandMember) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -42,5 +48,7 @@ public class BandMemberDaoImpl implements BandMemberDAO{
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	
 
 }
