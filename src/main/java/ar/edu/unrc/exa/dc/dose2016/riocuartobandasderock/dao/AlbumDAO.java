@@ -16,15 +16,20 @@ public interface AlbumDAO {
 	public Album findById(int id);
 	
 	/**
+	 * @return All albums 
+	 */
+	public List<Album> getAllAlbums();	
+	
+	/**
 	 * @param bandName
 	 * @return 
 	 */
-	public List<Album> findByNameBand(String bandName);
+	public List<Album> findByBandName(String bandName);
 	
 	/**
 	 * @param name
 	 * @return  
-	 */
+	 */ 
 	public Album findByName(String name);
 	
 	/**
@@ -45,6 +50,19 @@ public interface AlbumDAO {
 	 */
 	public List<Album> findByRecordLabel(String recordLabel);
 	
+	/**
+	 * @param album
+	 */
+	public void createAlbum(Album album);
 	
+	/**
+	 * @param album
+	 */
+	public void updateAlbum(Album album);
+	
+	/**
+	 * @param album
+	 */
+	public void deleteAlbum(Album album);
 	
 }
