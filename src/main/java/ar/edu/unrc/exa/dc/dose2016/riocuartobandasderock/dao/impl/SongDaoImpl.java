@@ -31,9 +31,21 @@ public class SongDaoImpl implements SongDAO{
 		return null;
 	}
 	
-	public Song findByName(String name){
+	public List<Song> findByName(String name){
 		return null;
 	}
+                    
+                    public List<Song> findByGenere(String genere){
+                                        return null;
+                    }
+                    
+                    public List<Song> findByAuthor(String author){
+                                        return null;
+                    }
+                    
+                    public List<Song> findByAlbum(String album){
+                                        return null;
+                    }
 	
 	public List<Song> findByDuration(int duration){
 		return null;

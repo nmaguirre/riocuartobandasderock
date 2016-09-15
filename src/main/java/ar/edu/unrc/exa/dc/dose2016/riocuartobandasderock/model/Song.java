@@ -18,7 +18,7 @@ public class Song {
 	*/
 	private int id;
 	private String nameSong;
-	private Genere genere;   
+	private Genere genere;   // will be changed to type enum Gender
 	private List<Band> performBy;
 	private int duration;
 	private String author;	//will be changed to type People
@@ -95,7 +95,7 @@ public class Song {
 	 * Sets a genere for the song
 	 * @param gen represents the genere to assign
 	 */
-	public void setGender(Genere gen){
+	public void setGenere(Genere gen){
 		genere = gen;
 	}
 	
