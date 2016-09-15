@@ -95,7 +95,7 @@ public class Song {
 	 * Sets a genere for the song
 	 * @param gen represents the genere to assign
 	 */
-	public void setGender(Genere gen){
+	public void setGenere(Genere gen){
 		genere = gen;
 	}
 	
