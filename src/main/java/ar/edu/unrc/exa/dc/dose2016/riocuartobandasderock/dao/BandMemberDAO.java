@@ -8,11 +8,17 @@ public interface BandMemberDAO {
 
 	
 	public List<BandMember> getAllBandMember();
-	public BandMember findById(int id);
-	public BandMember findByName(String name);
 	
-	public boolean insertBandMember(BandMember bandMember);
+	public List<BandMember> findByName(String name);
+	
+	public List<BandMember> findByRole(String role); 
+
+	public BandMember findById(int id);
+	
+	public boolean createBandMember(BandMember bandMember);
+	
 	public boolean updateBandMember(BandMember bandMember);
+	
 	public boolean deleteBandMember(BandMember bandMember);
 	
 }
