@@ -20,9 +20,7 @@ public class Bootstrap {
     	put("/albums", (req, res) -> AlbumController.update(req.queryMap()));
     	
     	delete("/albums/:album_id", (req, res) -> AlbumController.delete(req.params(":album_id")));
-    	
-        get("/hello", (req, res) -> "Hello World");
-        
+    	        
         get ("/artist", (req,res)->artistController.getAllArtists(req,res));
         
         get("/artist/:id",(req,res)->artistController.getArtistById(req,res));
@@ -34,6 +32,5 @@ public class Bootstrap {
         put("/artist/:id",(req,res)->artistController.updateArtist(req,res));
         
         delete("/artist/:id",(req,res)->artistController.deleteArtist(req,res));
-        
-    }
+        }
 }
