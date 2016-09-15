@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 /* This class represents one person that is member of a band. */
-public class BandMember {
+public class Artist {
 
   /**
   * id represents the object band member into the database
@@ -25,7 +25,7 @@ public class BandMember {
   /**
   * The constructor of BandMember class sets the new member without an id.
   */
-  private BandMember(String id, String name, String surname, String nickname, List<String> role){    
+  private Artist(String id, String name, String surname, String nickname, List<String> role){    
     this.id = id;
 	this.name = name;
     this.surname = surname;
@@ -36,7 +36,7 @@ public class BandMember {
   /**
    * The constructor of BandMember class sets the new member without an id.
    */
-  public BandMember(String name, String surname, String nickname, List<String> role){    
+  public Artist(String name, String surname, String nickname, List<String> role){    
      this(UUID.randomUUID().toString(), name, surname, nickname, role);
   }
   
