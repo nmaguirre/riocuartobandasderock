@@ -12,24 +12,22 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
 //Working in this class test
 public class AlbumDAOTest {
 	
-	@Mocked AlbumDaoImpl album;
+	@Mocked AlbumDaoImpl albumDao;
 	@Mocked Album albumModel;
 	
+	//Working in this test
 	@Test
 	public void findByIdTestCase() {
-		
-		album = new AlbumDaoImpl();
+		albumDao = new AlbumDaoImpl();
 		albumModel = new Album();
-		
-		//set atributtes
-		albumModel.setId(2);
 		
 		new Expectations(){
 			{
-			//	album.findById(2);
-			//	returns albumModel;
+				albumDao.findById(withEqual(3));
+				albumModel.setId(3);
+				returns (albumModel);
+				assertEquals(3,albumModel.getId());
 			}
 		};
 	}
-
 }

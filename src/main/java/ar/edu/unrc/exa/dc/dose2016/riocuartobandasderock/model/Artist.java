@@ -1,6 +1,5 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model;
 
-import java.util.List;
 import java.util.UUID;
 
 /* This class represents one person that is artist of a band. */
@@ -91,7 +90,7 @@ public class Artist {
 
   /**
   * This method sets the artist surname.
-  * @param art_sur member surname.
+  * @param art_sur: Artist surname.
   * @throws IllegalArgumentException if surname is null.
   */
   public void setSurname(String art_sur){
@@ -101,7 +100,7 @@ public class Artist {
 
   /**
   * This method sets the artist nickname.
-  * @param bm_nick member name.
+  * @param art_nick: Artist nickname.
   * @throws IllegalArgumentException if nickname is null.
   */
   public void setNickname(String art_nick){
