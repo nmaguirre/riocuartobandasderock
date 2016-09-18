@@ -6,7 +6,7 @@ import java.util.UUID;
 public class Band {
   private String id;
   private List<Album> albumList;
-  private List<BandMember> memberList;
+  private List<Artist> artistList;
   private String name;
   private String release;
   private String end;
@@ -15,19 +15,19 @@ public class Band {
   public Band(){    
   }
 
-  public Band(String a_name, Genere a_genere, List<BandMember> list_of_members, String a_release){
+  public Band(String a_name, Genere a_genere, List<Artist> list_of_artist, String a_release){
     id = UUID.randomUUID().toString();
     name = a_name;
     genere = a_genere;
-    memberList = list_of_members;
+    artistList = list_of_artist;
     release = a_release;
   }
 
-  public Band(String a_name, Genere a_genere, List<BandMember> list_of_members, String a_release, List<Album> list_of_albums){
+  public Band(String a_name, Genere a_genere, List<Artist> list_of_artist, String a_release, List<Album> list_of_albums){
     id = UUID.randomUUID().toString();
     name = a_name;
     genere = a_genere;
-    memberList = list_of_members;
+    artistList = list_of_artist;
     albumList = list_of_albums;
     release = a_release;
   }
@@ -41,8 +41,8 @@ public class Band {
     return albumList;
   }
   
-  public List<BandMember> getBandMember(){
-    return memberList;
+  public List<Artist> getArtistList(){
+    return artistList;
   }
   
   public String getName(){
@@ -69,8 +69,8 @@ public class Band {
     albumList = an_album_list;
   }
   
-  public void setMemberList(List<BandMember> a_member_list){
-	  memberList = a_member_list;
+  public void setArtistList(List<Artist> an_artist_list){
+	  artistList = an_artist_list;
   }
   
   public void setName(String a_name){
