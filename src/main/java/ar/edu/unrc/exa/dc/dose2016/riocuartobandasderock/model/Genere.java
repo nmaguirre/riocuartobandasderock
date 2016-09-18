@@ -1,9 +1,10 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model;
 
 import java.util.List;
+import java.util.UUID;
 
 public class Genere {
-  private Integer id;
+  private String id;
   private String name;
   private String description;
   private String release;
@@ -13,20 +14,20 @@ public class Genere {
   public Genere(){
   }
   
-  public Genere(Integer an_id, String a_name, String a_description){
-    id = an_id;
+  public Genere(String a_name, String a_description){
+    id = UUID.randomUUID().toString();
     name = a_name;
     description = a_description;
   }
   
-  public Genere(Integer an_id, String a_name, String a_description, String a_release){
-    id = an_id;
+  public Genere(String a_name, String a_description, String a_release){
+    id = UUID.randomUUID().toString();
     name = a_name;
     description = a_description;
     release = a_release;
   }
   
-  public Integer getId(){
+  public String getId(){
     return id;
   }
   
@@ -50,7 +51,7 @@ public class Genere {
     return influence;
   }
   
-  public void setId(Integer an_id){
+  public void setId(String an_id){
     id = an_id;
   }
   
