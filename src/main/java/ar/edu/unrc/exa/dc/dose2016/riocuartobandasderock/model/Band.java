@@ -1,9 +1,10 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model;
 
 import java.util.List;
+import java.util.UUID;
 
 public class Band {
-  private Integer id;
+  private String id;
   private List<Album> albumList;
   private List<BandMember> memberList;
   private String name;
@@ -14,25 +15,25 @@ public class Band {
   public Band(){    
   }
 
-  public Band(Integer an_id, String a_name, Genere a_genere, List<BandMember> list_of_members, String a_release){
-    id = an_id;
-	name = a_name;
-	genere = a_genere;
-	memberList = list_of_members;
-	release = a_release;
+  public Band(String a_name, Genere a_genere, List<BandMember> list_of_members, String a_release){
+    id = UUID.randomUUID().toString();
+    name = a_name;
+    genere = a_genere;
+    memberList = list_of_members;
+    release = a_release;
   }
 
-  public Band(Integer an_id, String a_name, Genere a_genere, List<BandMember> list_of_members, String a_release, List<Album> list_of_albums){
-	id = an_id;
-	name = a_name;
-	genere = a_genere;
-	memberList = list_of_members;
-	albumList = list_of_albums;
-	release = a_release;
+  public Band(String a_name, Genere a_genere, List<BandMember> list_of_members, String a_release, List<Album> list_of_albums){
+    id = UUID.randomUUID().toString();
+    name = a_name;
+    genere = a_genere;
+    memberList = list_of_members;
+    albumList = list_of_albums;
+    release = a_release;
   }
 
   
-  public Integer getId(){
+  public String getId(){
     return id;
   }
   
@@ -60,7 +61,7 @@ public class Band {
     return genere;
   }
     
-  public void setId(Integer an_id){
+  public void setId(String an_id){
     id = an_id;
   }
   

@@ -10,19 +10,18 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Genere;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 public class BandTest {
   
   @Test
   public void shortConstructorTest(){
-    Integer an_id = 1;
     String a_name = "Led Zeppeling";
     String a_description = "Sex,Drugs,Rock&Roll";
     String a_release = "13/09/2016";
-    Genere a_genere = new Genere(an_id,a_name,a_description);
+    Genere a_genere = new Genere(a_name,a_description);
     LinkedList<BandMember> list_of_members = new LinkedList<BandMember>();
-    Band band = new Band(1,a_name,a_genere,list_of_members,a_release);
-    assertEquals(band.getId(),an_id);
+    Band band = new Band(a_name,a_genere,list_of_members,a_release);
     assertEquals(band.getName(),a_name);
     assertEquals(band.getGenere(),a_genere);
     assertEquals(band.getBandMember(),list_of_members);
@@ -31,15 +30,13 @@ public class BandTest {
   
   @Test
   public void longConstructorTest(){
-    Integer an_id = 1;
     String a_name = "Led Zeppeling";
     String a_description = "Sex,Drugs,Rock&Roll";
     String a_release = "13/09/2016";
-    Genere a_genere = new Genere(an_id,a_name,a_description);
+    Genere a_genere = new Genere(a_name,a_description);
     LinkedList<BandMember> list_of_members = new LinkedList<BandMember>();
     LinkedList<Album> an_album_list = new LinkedList<Album>();
-    Band band = new Band(1,a_name,a_genere,list_of_members,a_release,an_album_list);
-    assertEquals(band.getId(),an_id);
+    Band band = new Band(a_name,a_genere,list_of_members,a_release,an_album_list);
     assertEquals(band.getName(),a_name);
     assertEquals(band.getGenere(),a_genere);
     assertEquals(band.getBandMember(),list_of_members);
@@ -49,7 +46,7 @@ public class BandTest {
 
   @Test
   public void setIdTest(){
-    Integer an_id = 1;
+    String an_id = "1";
     Band band = new Band();
     band.setId(an_id);
     assertEquals(band.getId(),an_id);

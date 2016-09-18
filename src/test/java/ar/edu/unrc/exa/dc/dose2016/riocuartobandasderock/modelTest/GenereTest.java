@@ -21,7 +21,7 @@ public class GenereTest {
   @Test
   public void setIdTest(){
     Genere genere = new Genere();
-    Integer id = 1;
+    String id = "1";
     genere.setId(id);
     assertEquals(genere.getId(),id);  
   }
@@ -58,8 +58,8 @@ public class GenereTest {
   public void influencesTest(){
     Genere genere = new Genere();
     ArrayList<Genere> generes = new ArrayList<Genere>();
-    generes.add(new Genere(1, "rock", "esto es rock vieja"));
-    generes.add(new Genere(1, "cha cha", "huevo poche"));
+    generes.add(new Genere("rock", "esto es rock vieja"));
+    generes.add(new Genere("cha cha", "huevo poche"));
     genere.setInfluence(generes);
     assertEquals(genere.getInfluence() ,generes);  
   }
