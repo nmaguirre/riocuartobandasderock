@@ -1,6 +1,6 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /* This class represents the association between a person and a band. */
@@ -14,9 +14,16 @@ public class BandMember {
   private Artist artist;
   private Band band;
   private List<Role> role;
-  private static List<Role> emptyRole = new ArrayList<Role>();
+  private static List<Role> emptyRole = new LinkedList<Role>();
 
-
+  
+  /**
+   * Empty constructor for testing.
+   */
+  public BandMember(){
+	  
+  }
+  
   /**
   * The constructor of BandMember class sets the new member.
   */
