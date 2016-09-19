@@ -48,5 +48,18 @@ public class BandDAOTest {
 		assertEquals(allBands,bandDao.getAllBands()  );
 	}
 	
-	
+
+	@Test
+	public void getBandsTestCase(){
+		Band bandInst1= new Band();
+		bandInst1.setName("Soda Stereo");
+		bandInst1.setId("1");
+		new Expectations(){
+			{
+				bandDao.getBand("1");
+				returns (bandInst1);
+			}
+		};
+		assertEquals(bandInst1,bandDao.getBand("1")  );
+	}
 }
