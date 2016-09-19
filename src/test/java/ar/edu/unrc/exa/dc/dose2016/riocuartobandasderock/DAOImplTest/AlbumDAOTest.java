@@ -22,7 +22,7 @@ public class AlbumDAOTest {
 	@Test
 	public void findByIdTestCase() {
 		Album albumModel = new Album();
-		albumModel.setId(3);//this 3 must change to string
+		albumModel.setId("3");//this 3 must change to string
 		new Expectations(){
 			{
 				albumDao.findById(withEqual("3"));
@@ -40,13 +40,13 @@ public class AlbumDAOTest {
 		Album albumInst3= new Album();
 	
 		albumInst1.setTitle("Hey Jude");
-		albumInst1.setId(1);
+		albumInst1.setId("1");
 		
 		albumInst2.setTitle("Say No More");
-		albumInst2.setId(2);
+		albumInst2.setId("2");
 		
 		albumInst3.setTitle("Volumen I");
-		albumInst3.setId(3);
+		albumInst3.setId("3");
 		
 		allAlbums.add(albumInst1);
 		allAlbums.add(albumInst2);
@@ -66,7 +66,7 @@ public class AlbumDAOTest {
 		Album albumInst1 = new Album();
 		
 		albumInst1.setTitle("Pendulum");
-		albumInst1.setId(1);
+		albumInst1.setId("1");
 		
 		new Expectations(){{
 			albumDao.findByName("Pendulum");
