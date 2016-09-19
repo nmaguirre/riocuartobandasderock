@@ -13,19 +13,21 @@ public class BandDaoImpl implements BandDAO {
 		return null;
 	}
 	   
-	public Band getBand(int id){
-		   return null;
-	}
-	   
 	public Boolean updateBand(Band band){
 		return null;
 	}
 	   
-	public Boolean deleteBand(Band band){
+	public Boolean deleteBand(String id){
 		return null;
 	}
 	   
 	public Boolean addBand(Band band){
+		return null;
+	}
+
+	@Override
+	public Band getBand(String id) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 	   

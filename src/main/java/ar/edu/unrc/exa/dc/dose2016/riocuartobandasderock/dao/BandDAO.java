@@ -10,11 +10,11 @@ public interface BandDAO {
 	   
 	   public List<Band> getAllBands();
 	   
-	   public Band getBand(int id);
+	   public Band getBand(String id);
 	   
 	   public Boolean updateBand(Band band);
 	   
-	   public Boolean deleteBand(Band band);
+	   public Boolean deleteBand(String id);
 	   
 	   public Boolean addBand(Band band);
 	   
