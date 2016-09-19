@@ -2,11 +2,12 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl;
 
 import java.util.List;
 
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 
 
 
-public class BandDaoImpl {
+public class BandDaoImpl implements BandDAO {
 
 	public List<Band> getAllBands(){
 		return null;
