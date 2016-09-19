@@ -6,6 +6,7 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.ArtistDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.ArtistDaoImpl;
 
 public class Bootstrap {
+
 	private static ArtistController artistController = new ArtistController(new ArtistDaoImpl());
 	AlbumController albumController = AlbumController.getInstance();
 	
@@ -32,5 +33,6 @@ public class Bootstrap {
         put("/artist/:id",(req,res)->artistController.updateArtist(req,res));
         
         delete("/artist/:id",(req,res)->artistController.deleteArtist(req,res));
-        }
+        
+    }
 }
