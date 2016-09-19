@@ -13,7 +13,7 @@ public class BandDaoImpl implements BandDAO {
 		return null;
 	}
 	   
-	public Band getBand(int id){
+	public Band getBand(String id){
 		   return null;
 	}
 	   
@@ -21,7 +21,7 @@ public class BandDaoImpl implements BandDAO {
 		return null;
 	}
 	   
-	public Boolean deleteBand(Band band){
+	public Boolean deleteBand(String id){
 		return null;
 	}
 	   

@@ -3,7 +3,6 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao;
 import java.util.List;
 //import java.util.Date;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 
 /**
  * @author Dose Team 2016
@@ -15,7 +14,7 @@ public interface AlbumDAO {
 	 * @param id
 	 * @return 
 	 */
-	public Album findById(int id);
+	public Album findById(String id);
 	
 	/**
 	 * @return All albums 
@@ -34,11 +33,11 @@ public interface AlbumDAO {
 	 */ 
 	public Album findByName(String name);
 	
-	/**
-	 * @param year
-	 * @return
-	 */
-	public List<Album> findByYear(int year);
+//	/**
+//	 * @param year
+//	 * @return
+//	 */
+//	public List<Album> findByYear(int year);
 	
 	/**
 	 * @param genere
@@ -68,7 +67,7 @@ public interface AlbumDAO {
 	 * @param song
 	 * @return
 	 */
-	public List<Album> findBySong(Song song);
+	public List<Album> findBySong(String song);
 	
 //	/**
 //	 * @param releaseDate
@@ -85,16 +84,16 @@ public interface AlbumDAO {
 	/**
 	 * @param album
 	 */
-	public void createAlbum(Album album);
+	public boolean createAlbum(Album album);
 	
 	/**
 	 * @param album
 	 */
-	public void updateAlbum(Album album);
+	public boolean updateAlbum(Album album);
 	
 	/**
 	 * @param album
 	 */
-	public void deleteAlbum(Album album);
+	public boolean deleteAlbum(Album album);
 	
 }

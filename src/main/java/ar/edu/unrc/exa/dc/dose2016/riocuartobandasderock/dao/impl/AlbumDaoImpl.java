@@ -2,13 +2,12 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl;
 
 import java.util.List;
 
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.AlbumDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
 
 public class AlbumDaoImpl implements AlbumDAO{
 
-	public Album findById(int id){
+	public Album findById(String id){
 		return null;
 	}
 	
@@ -24,9 +23,6 @@ public class AlbumDaoImpl implements AlbumDAO{
 		return null;
 	}
 	
-	public List<Album> findByYear(int year){
-		return null;
-	}
 	public List<Album> findByGenere(String genere){
 		return null;
 	}
@@ -43,22 +39,20 @@ public class AlbumDaoImpl implements AlbumDAO{
 		return null;
 	}
 	
-	public List<Album> findBySong(Song song){
+	public List<Album> findBySong(String song){
 		return null;
 	}
 
-	public void createAlbum(Album album){
-
+	public boolean createAlbum(Album album){
+		return false;
 	}
 	
-	public void updateAlbum(Album album){
-
+	public boolean updateAlbum(Album album){
+		return false;
 	}
 	
-	public void deleteAlbum(Album album){
-
+	public boolean deleteAlbum(Album album){
+		return false;
 	}
 	
-
-
 }

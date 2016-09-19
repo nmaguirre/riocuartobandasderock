@@ -6,7 +6,8 @@ public enum Style {
 	glamRock,
 	popRock,
 	psychedelicRock,
-	stonerRock;
-	// and go on
+	stonerRock,
+	funk;
+	// and go on,
 
 }
