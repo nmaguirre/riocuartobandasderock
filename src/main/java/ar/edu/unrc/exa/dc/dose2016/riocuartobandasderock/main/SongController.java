@@ -1,69 +1,116 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.SongDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 import java.util.List;
+import spark.Request;
+import spark.Response;
+
+
+/**
+ * This Class implements the song controller
+ **/
+
 
 public class SongController {
 
-     /**
-     * 
-     * @return 
-     * 
-     */ 
+    private SongDAO songDao;
     
-    public List<Song> getAllSongs(){
     
+    /**
+     * Get all bands songs
+     * @param req
+     * @param res
+     * @return a list of all bands songs
+     */
+    
+    public List<Song> getAllSongs(Request req, Response res){    
+        return songDao.getAllSongs();
+    }
+    
+    
+    /**
+     * Get all band songs
+     * @param req
+     * @param res
+     * @return a list of all band songs
+     */
+    
+    public List<Song> getBandSongs (Request req, Response res){   
+        String bandName = req.params("name");
+        return songDao.findByBandName(bandName);
+    }
+    
+    
+    /**
+     * Get all album songs
+     * @param req
+     * @param res
+     * @return a list of all ambum songs
+     */
+  
+    public List<Song> getAlbumSongs (Request req, Response res){
+       String albumName = req.params("title"); 
+       return songDao.findByAlbum(albumName);
+    }
+    
+    
+    /**
+     * Get all artist songs
+     * @param req
+     * @param res
+     * @return a list of all artist songs
+     */  
+    
+    public List<Song> getArtistSongs (Request req, Response res){
+        String artistName = req.params("name");
+        return songDao.findByAuthor(artistName);
+    }
+    
+    
+    /**
+     * Get a specific song
+     * @param req
+     * @param res
+     * @return a specific song
+     */
+  
+    
+    public Song getSong (Request req, Response res){
         return null;
     }
     
+    
     /**
-     * @param songId
-     * @return 
-     */ 
-    
-    
-      public Song getSongById(int songId){
-    
-        return null;
-    }
-      
-      /**
-     * @param bandId
-     * @return 
-     */ 
-    
-    
-    public List<Song> getBandSongs (int bandId){
-    
-        return null;
+     * Add a new song
+     * @param req
+     * @param res 
+     */
+  
+    public void addSong (Request req, Response res){
+        Song song = new Song();
+        songDao.addSong(song);
     }
     
+    
     /**
-     * @param albumId
-     * @return 
-     */    
-    
-    public List<Song> getAlbumSongs (int albumId){
-    
-       return null;
+     * Edit a song
+     * @param req
+     * @param res 
+     */
+    public void editSong (Request req, Response res){
+        
     }
     
-    /**
-     * @param bandId
-     */ 
-    
-    public void addSong (int bandId){}
     
     /**
-     * @param songId
-     */ 
+     * Delete a song
+     * @param req
+     * @param res 
+     */
+  
+    public void deleteSong (Request req, Response res){
     
-    public void editSong (int songId){}
-    
-    /**
-     * @param songId
-     */    
-    
-    public void deleteSong (int songId){}
+    }
     
 }
