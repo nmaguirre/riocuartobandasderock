@@ -8,16 +8,74 @@ import java.util.List;
 import mockit.Expectations;
 import mockit.Mocked;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.AlbumDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 
 public class AlbumDAOTest {
 	
 	@Mocked AlbumDAO albumDao;
+	private Album albumInst1;
+	private Album albumInst2;
+	private Album albumInst3;
 	
+	@Before
+	public void setUp(){
+		Band bandInst1 = new Band();
+		Band bandInst2 = new Band();
+		Band bandInst3 = new Band();
+		bandInst1.setName("The Beatles");
+		bandInst2.setName("Charly Garcia");
+		bandInst3.setName("Creedence Clearwater Revival");
+		
+		List<String> producers1 = new LinkedList<String>();
+		producers1.add("Productor1");
+		producers1.add("Productor2");
+		
+		List<String> producers2 = new LinkedList<String>();
+		producers2.add("Productor2");
+		producers2.add("Productor3");
+		
+		Song track1 = new Song();
+		Song track2 = new Song();
+		Song track3 = new Song();
+		Song track4 = new Song();
+		Song track5 = new Song();
+		
+		track1.setName("Song1");
+		track2.setName("Song2");
+		track3.setName("Song3");
+		track4.setName("Song4");
+		track5.setName("Song5");
+		
+		List<Song> songs = new LinkedList<Song>();
+		songs.add(track1);
+		songs.add(track2);
+		songs.add(track3);
+		songs.add(track4);
+		songs.add(track5);
+		
+		albumInst1= new Album("Hey Jude",bandInst1);
+		albumInst2= new Album("Say No More",bandInst2);
+		albumInst3= new Album("Pendulum",bandInst3);
+		
+		albumInst1.setSongs(songs);
+		albumInst2.setSongs(songs);
+		albumInst3.setSongs(songs);
+		
+		albumInst1.setDuration(2440);
+		albumInst2.setDuration(2450);
+		albumInst3.setDuration(2460);
+		
+		albumInst1.setProducers(producers1);
+		albumInst2.setProducers(producers1);
+		albumInst3.setProducers(producers2);
+		
+	}
 	
 	@Test
 	public void findByIdTestCase() {
@@ -35,18 +93,6 @@ public class AlbumDAOTest {
 	@Test
 	public void getAllAlbumTestCase(){
 		List<Album> allAlbums = new LinkedList<Album>();
-		Album albumInst1= new Album();
-		Album albumInst2= new Album();
-		Album albumInst3= new Album();
-	
-		albumInst1.setTitle("Hey Jude");
-		albumInst1.setId("1");
-		
-		albumInst2.setTitle("Say No More");
-		albumInst2.setId("2");
-		
-		albumInst3.setTitle("Volumen I");
-		albumInst3.setId("3");
 		
 		allAlbums.add(albumInst1);
 		allAlbums.add(albumInst2);
@@ -63,10 +109,6 @@ public class AlbumDAOTest {
 	
 	@Test
 	public void findByNameTest(){
-		Album albumInst1 = new Album();
-		
-		albumInst1.setTitle("Pendulum");
-		albumInst1.setId("1");
 		
 		new Expectations(){{
 			albumDao.findByName("Pendulum");
@@ -78,50 +120,22 @@ public class AlbumDAOTest {
 	@Test
 	public void findByBandNameTest(){
 		List<Album> allAlbums = new LinkedList<Album>();
-		Band bandInst1 = new Band();
-		Band bandInst2 = new Band();
-		Album albumInst1= new Album();
-		Album albumInst2= new Album();
-		Album albumInst3= new Album();
-		
-		bandInst1.setName("Creedence Clearwater Revival");
-		bandInst1.setName("ZZ Top");
-		albumInst1.setArtist(bandInst1);
-		albumInst2.setArtist(bandInst1);
-		albumInst3.setArtist(bandInst2);
-		
-		allAlbums.add(albumInst1);
-		allAlbums.add(albumInst2);
+		allAlbums.add(albumInst3);
 		
 		new Expectations(){{
 			albumDao.findByBandName("Creedence Clearwater Revival");
 			returns(allAlbums);
 		}};
-		
 		assertEquals(allAlbums,albumDao.findByBandName("Creedence Clearwater Revival"));
-		
 	}
 	
 	@Test
 	public void findByProducersTest(){
 		List<Album> allAlbums = new LinkedList<Album>();
 		
-		List<String> producers1 = new LinkedList<String>();
-		producers1.add("Productor1");
-		producers1.add("Productor2");
-		
-		List<String> producers2 = new LinkedList<String>();
-		producers2.add("Productor2");
-		producers2.add("Productor3");
-		
-		Album albumInst1= new Album();
-		Album albumInst2= new Album();
-		
-		albumInst1.setProducers(producers1);
-		albumInst2.setProducers(producers2);
-		
 		allAlbums.add(albumInst1);
 		allAlbums.add(albumInst2);
+		allAlbums.add(albumInst3);
 		
 		new Expectations(){{
 			albumDao.findByProducer("Productor2");
@@ -135,10 +149,6 @@ public class AlbumDAOTest {
 	@Test
 	public void findByDurationTest(){
 		List<Album> allAlbums = new LinkedList<Album>();
-		Album albumInst1 = new Album();		
-		
-		albumInst1.setDuration(2460);
-		
 		allAlbums.add(albumInst1);
 		
 		new Expectations(){{
