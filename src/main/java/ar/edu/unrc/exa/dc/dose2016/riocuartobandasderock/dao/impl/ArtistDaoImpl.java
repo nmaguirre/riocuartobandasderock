@@ -19,11 +19,6 @@ public class ArtistDaoImpl implements ArtistDAO{
 		return null;
 	}
 
-	@Override
-	public List<Artist> findByRole(String role) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public Artist findById(String id) {
@@ -49,7 +44,6 @@ public class ArtistDaoImpl implements ArtistDAO{
 		return false;
 	}
 
-	
 	
 	
 

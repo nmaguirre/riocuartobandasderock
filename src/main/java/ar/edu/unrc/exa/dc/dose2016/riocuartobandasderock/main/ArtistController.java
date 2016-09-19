@@ -9,8 +9,13 @@ import java.util.List;
 public class ArtistController {	
 	
 	private ArtistDAO artistDAO;
+	
+	public ArtistDAO getArtistDAO() {
+		return artistDAO;
+	}
 
 	public ArtistController(ArtistDAO artistDAO_a){
+		if (artistDAO_a==null) throw new IllegalArgumentException("Argument is null");
 		artistDAO = artistDAO_a;
 	}
 
