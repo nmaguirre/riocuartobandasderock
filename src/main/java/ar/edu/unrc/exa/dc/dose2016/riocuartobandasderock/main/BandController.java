@@ -51,7 +51,13 @@ public class BandController {
 	 * @return
 	 */
 	public Band createBand(Request req,Response res){
-		return new Band();
+		Band result = new Band(	req.queryParams("name"), 
+								(Genere) req.queryParams("genere"), 
+								req.queryMap("memberList"),
+								req.queryParams("release"),
+								req.queryParams("list_of_albums"));
+		
+		return result;
 	}
 	
 	/***
