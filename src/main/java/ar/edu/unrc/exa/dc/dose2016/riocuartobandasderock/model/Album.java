@@ -138,5 +138,29 @@ public class Album {
 	public void setUPC(int uPC) {
 		UPC = uPC;
 	}
+
+	public Date getReleaseDate() {
+		return releaseDate;
+	}
+
+	public void setReleaseDate(Date releaseDate) {
+		this.releaseDate = releaseDate;
+	}
+
+	public Genre getGenre() {
+		return genre;
+	}
+
+	public void setGenre(Genre genre) {
+		this.genre = genre;
+	}
+
+	public Date getRecordingDate() {
+		return recordingDate;
+	}
+
+	public void setRecordingDate(Date recordingDate) {
+		this.recordingDate = recordingDate;
+	}
 	
 }
