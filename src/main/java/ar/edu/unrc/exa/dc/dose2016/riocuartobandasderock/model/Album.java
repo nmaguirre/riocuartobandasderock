@@ -1,11 +1,12 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model;
 
 import java.util.Date;
+import java.util.UUID;
 import java.util.List;
 
 public class Album {
 
-	private int id;
+	private String id;
 	private String title;
 	private Band artist;
 	private List<String> producers;
@@ -23,15 +24,15 @@ public class Album {
 		
 	}
 	
-	public Album(int id, String title, Band artist) {
-		this.id = id;
+	public Album(String title, Band artist) {
+		this.id = UUID.randomUUID().toString();
 		this.title = title;
 		this.artist = artist;
 	}
 	
-	public Album(int id, String title, Band artist, Date releaseDate, int duration, Genre genre, Date recordingDate,
+	public Album(String title, Band artist, Date releaseDate, int duration, Genre genre, Date recordingDate,
 			String discography, int ISRC, int UPC) {
-		this.id = id;
+		// this.id = UUID.randomUUID().toString(); // responsability of DAO
 		this.title = title;
 		this.artist = artist;
 		this.releaseDate = releaseDate;
@@ -43,11 +44,11 @@ public class Album {
 		this.UPC = UPC;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 	
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	
