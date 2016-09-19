@@ -6,15 +6,18 @@ import static org.junit.Assert.*;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.BandMember;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Genere;
 
 import java.util.LinkedList;
-import java.util.List;
 import java.util.UUID;
 
 public class BandTest {
   
+	/**
+	 * in this test, initily we create a band, then we check 
+	 * with getters all attributes
+	 * are the same are the same as the inserted
+	 */
   @Test
   public void shortConstructorTest(){
     String a_name = "Led Zeppeling";
@@ -29,6 +32,12 @@ public class BandTest {
     assertEquals(band.getRelease(),a_release);
   }
   
+  /**
+	 * in this test, initily we create a band, then we check 
+	 * with getters all attributes
+	 * are the same are the same as the inserted
+	 */
+
   @Test
   public void longConstructorTest(){
     String a_name = "Led Zeppeling";
@@ -45,6 +54,10 @@ public class BandTest {
     assertEquals(band.getAlbum(),an_album_list);
   }
 
+  /**
+   * in this test we set an id, and then we check
+   * that match with the id created
+   */
   @Test
   public void setIdTest(){
     String an_id = "1";
@@ -53,6 +66,10 @@ public class BandTest {
     assertEquals(band.getId(),an_id);
   }
   
+  /**
+   * in this test we set a name, and then we check
+   * that match with the name created
+   */
   @Test
   public void setNameTest(){
     Band band = new Band();
@@ -61,6 +78,10 @@ public class BandTest {
     assertEquals(band.getName(),name);  
   }
   
+  /**
+   * in this test we set a release, and then we check
+   * that match with the release created
+   */
   @Test
   public void setReleaseTest(){
     Band band = new Band();
@@ -69,6 +90,10 @@ public class BandTest {
     assertEquals(band.getRelease(),release);  
   }
   
+  /**
+   * in this test we set an end, and then we check
+   * that match with the end created
+   */
   @Test
   public void setEndTest(){
     Band band = new Band();
@@ -77,6 +102,10 @@ public class BandTest {
     assertEquals(band.getEnd(),end);  
   }
   
+  /**
+   * in this test we set a List of albums, and then we check
+   * that match with the list of albums created
+   */
   @Test
   public void setAlbunListTest(){
     Band band = new Band();
@@ -85,6 +114,10 @@ public class BandTest {
     assertEquals(band.getAlbum(),an_album_list);  
   }
   
+  /**
+   * in this test we set a list of Artists, and then we check
+   * that match with the list of artists created
+   */
   @Test
   public void setArtist(){
     Band band = new Band();
@@ -93,6 +126,10 @@ public class BandTest {
     assertEquals(band.getArtistList(),an_artist_list);  
   }
   
+  /**
+   * in this test we set a Genere , and then we check
+   * that match with the genere created
+   */
   @Test
   public void setGenereTest(){
     Band band = new Band();
