@@ -51,7 +51,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 		return false;
 	}
 	
-	public boolean deleteAlbum(Album album){
+	public boolean deleteAlbum(String id){
 		return false;
 	}
 	
