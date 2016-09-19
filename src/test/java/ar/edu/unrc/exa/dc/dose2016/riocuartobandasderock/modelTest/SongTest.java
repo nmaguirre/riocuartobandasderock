@@ -10,6 +10,7 @@ import org.junit.Test;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Genere;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Genre;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 
 public class SongTest {
@@ -52,10 +53,10 @@ public class SongTest {
 	
 	@Test
 	public void genereTest(){
-		/*Genere gen = new Genere(1 ,"rock","heavy");
 		Song song = new Song();
-		song.setGenere(gen);
-		assertEquals(gen, song.getGenere());*/
+		Genre gen = Genre.pop;
+		song.setGenre(gen);
+		assertEquals(gen, song.getGenre());
 	}
 	
 	@Test
@@ -69,10 +70,10 @@ public class SongTest {
 	@Test
 	public void constructorTest(){
 		Album alb = new Album();
-		Genere gen = new Genere();
+		Genre gen = Genre.pop;
 		List<Band> band = new ArrayList<Band>();
 		Song song = new Song(1, "pinguinos en la cama", gen, band, 300 , "arjona", alb);
-		boolean res = ((song.getId() == 1) && (song.getName() == "pinguinos en la cama") &&(song.getGenere() == gen) 
+		boolean res = ((song.getId() == 1) && (song.getName() == "pinguinos en la cama") &&(song.getGenre() == gen) 
 		&& (song.getBands() == band) && (song.getAlbum() == alb) && (song.getDuration() == 300) 
 		&& (song.getAuthor() == "arjona"));
 		assertTrue(res);
