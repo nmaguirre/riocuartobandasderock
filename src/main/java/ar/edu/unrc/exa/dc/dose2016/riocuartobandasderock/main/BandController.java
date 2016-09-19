@@ -76,6 +76,7 @@ public class BandController {
 		}
 		bandDAO.addBand(band);
 		return band;
+
 	}
 	
 	/***
