@@ -79,6 +79,10 @@ public class Album {
 		this.producers.add(producer);
 	}
 	
+	public Boolean removeProducer(String producer){
+		return this.producers.remove(producer);
+	}
+	
 	public int getDuration() {
 		return duration;
 	}
@@ -105,6 +109,10 @@ public class Album {
 	
 	public void addSong(Song song, int position) {
 		this.songs.add(position, song);
+	}
+	
+	public Song removeSong(int position){
+		return this.songs.remove(position);
 	}
 	
 	public List<Song> getSongs() {
