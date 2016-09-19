@@ -14,7 +14,7 @@ public class ArtistController {
 		artistDAO = artistDAO_a;
 	}
 
-	public List<Artist> getAllArtist (Request req, Response res){
+	public List<Artist> getAllArtists(Request req, Response res){
 		return artistDAO.getAllArtists(); 
 	}
 	
@@ -22,7 +22,7 @@ public class ArtistController {
 		return artistDAO.findById(req.params(":id")); 
 	}
 	
-	public List<Artist> getArtist (Request req, Response res){
+	public List<Artist> getArtistByName (Request req, Response res){
 		return artistDAO.findByName(req.params("name"));
 	}
 		
