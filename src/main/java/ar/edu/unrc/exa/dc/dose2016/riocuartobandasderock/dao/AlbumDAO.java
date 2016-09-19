@@ -15,7 +15,7 @@ public interface AlbumDAO {
 	 * @param id
 	 * @return 
 	 */
-	public Album findById(int id);
+	public Album findById(String id);
 	
 	/**
 	 * @return All albums 

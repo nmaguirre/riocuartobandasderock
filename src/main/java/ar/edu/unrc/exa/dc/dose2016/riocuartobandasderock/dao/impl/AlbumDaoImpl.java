@@ -8,7 +8,7 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
 
 public class AlbumDaoImpl implements AlbumDAO{
 
-	public Album findById(int id){
+	public Album findById(String id){
 		return null;
 	}
 	
