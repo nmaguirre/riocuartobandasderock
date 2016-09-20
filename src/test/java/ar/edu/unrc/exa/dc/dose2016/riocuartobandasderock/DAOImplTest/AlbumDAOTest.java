@@ -249,4 +249,16 @@ public class AlbumDAOTest {
 		};
 		assertEquals(false,albumDao.deleteAlbum("5"));
 	}
+	
+	@Test
+	public void updateAlbumTest(){
+		Album albumUpdate = new Album();
+		
+		new Expectations(){{
+			albumDao.updateAlbum(albumUpdate);
+			returns (true);
+		}};
+		
+		assertEquals(true,albumDao.updateAlbum(albumUpdate));
+	}
 }
