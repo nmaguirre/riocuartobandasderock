@@ -18,13 +18,6 @@ public class BandMember {
 
   
   /**
-   * Empty constructor for testing.
-   */
-  public BandMember(){
-	  
-  }
-  
-  /**
   * The constructor of BandMember class sets the new member.
   */
   public BandMember(Artist artist, Band band , List<Role> role){    

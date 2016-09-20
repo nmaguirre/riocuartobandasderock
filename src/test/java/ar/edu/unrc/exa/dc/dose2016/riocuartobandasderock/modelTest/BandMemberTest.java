@@ -15,70 +15,74 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class BandMemberTest {
-
+	
+	private Artist artist1 = new Artist("Ale","Sergi");
+	private Band band1 = new Band();
+	private Artist artist2 = new Artist("Taylor","Swift");
+	private Band band2 = new Band();
+	
 	@Rule
 	public ExpectedException expected = ExpectedException.none();
 	
 	@Test
 	public void constructorTestWithRole(){
-		Artist artist = new Artist("Ale", "Sergi");
-		Band band = new Band();
-		band.setName("Miranda");
+		band1.setName("Miranda");
 		List<Role> role = new LinkedList<Role>();
 		role.add(Role.vocalist);
 		role.add(Role.guitarist);
-		BandMember bm = new BandMember(artist,band,role);
-		assertTrue(artist.equals(bm.getArtist()));
-		assertTrue(band.equals(bm.getBand()));
+		BandMember bm = new BandMember(artist1,band1,role);
+		assertTrue(artist1.equals(bm.getArtist()));
+		assertTrue(band1.equals(bm.getBand()));
 		assertTrue((bm.getRole()).get(0).equals(Role.vocalist));
 		assertTrue((bm.getRole()).get(1).equals(Role.guitarist));
 	}
 	
 	@Test
 	public void constructorTestWithoutRole(){
-		Artist artist = new Artist("Ale", "Sergi");
-		Band band = new Band();
-		band.setName("Miranda");
-		BandMember bm = new BandMember(artist,band);
-		assertTrue(artist.equals(bm.getArtist()));
-		assertTrue(band.equals(bm.getBand()));
+		band1.setName("Miranda");
+		BandMember bm = new BandMember(artist1,band1);
+		assertTrue(artist1.equals(bm.getArtist()));
+		assertTrue(band1.equals(bm.getBand()));
 		assertTrue((bm.getRole()).isEmpty());
 	}
 	
 	@Test
 	public void setArtistTest(){
-		BandMember bm = new BandMember();
-		Artist artist = new Artist("Ale", "Sergi");
-		bm.setArtist(artist);
-		assertTrue(artist.equals(bm.getArtist()));
+		band1.setName("Miranda");
+		BandMember bm = new BandMember(artist1,band1);
+		bm.setArtist(artist2);
+		assertTrue(artist2.equals(bm.getArtist()));
 	}
 	
 	@Test
 	public void setNullArtistTest(){
-		BandMember bm = new BandMember();
+		band1.setName("Miranda");
+		BandMember bm = new BandMember(artist1,band1);
 		expected.expect(IllegalArgumentException.class);
 		bm.setArtist(null);
 	}
 	
 	@Test
 	public void setBandTest(){
-		BandMember bm = new BandMember();
-		Band band = new Band();
-		band.setName("Miranda");
-		bm.setBand(band);
-		assertTrue(band.equals(bm.getBand()));
+		band1.setName("Miranda");
+		BandMember bm = new BandMember(artist1,band1);
+		band2.setName("TS's Band");
+		bm.setBand(band2);
+		assertTrue(band2.equals(bm.getBand()));
 	}
 	
 	@Test
 	public void setNullBandTest(){
-		BandMember bm = new BandMember();
+		band1.setName("Miranda");
+		BandMember bm = new BandMember(artist1,band1);
 		expected.expect(IllegalArgumentException.class);
 		bm.setBand(null);
 	}
 	
 	@Test
 	public void setRoleTest(){
-		BandMember bm = new BandMember();
+		band1.setName("Miranda");
+		BandMember bm = new BandMember(artist1,band1);
 		List<Role> role = new LinkedList<Role>();
 		role.add(Role.vocalist);
 		bm.setRole(role);
@@ -87,7 +91,8 @@ public class BandMemberTest {
 	
 	@Test
 	public void setNullRoleTest(){
-		BandMember bm = new BandMember();
+		band1.setName("Miranda");
+		BandMember bm = new BandMember(artist1,band1);
 		expected.expect(IllegalArgumentException.class);
 		bm.setRole(null);
 	}
