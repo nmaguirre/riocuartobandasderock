@@ -94,6 +94,6 @@ public interface AlbumDAO {
 	/**
 	 * @param album
 	 */
-	public boolean deleteAlbum(Album album);
+	public boolean deleteAlbum(String id);
 	
 }

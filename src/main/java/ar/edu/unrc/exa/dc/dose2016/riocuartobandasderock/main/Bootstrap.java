@@ -1,26 +1,27 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
-import static spark.Spark.*;
+import static spark.Spark.delete;
+import static spark.Spark.get;
+import static spark.Spark.post;
+import static spark.Spark.put;
 
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.ArtistDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.ArtistDaoImpl;
 
 public class Bootstrap {
-
 	private static ArtistController artistController = new ArtistController(new ArtistDaoImpl());
-	AlbumController albumController = AlbumController.getInstance();
+	private static AlbumController albumController = AlbumController.getInstance();
 	
     public static void main(String[] args) {
     	
-    	get("/albums", (req, res) -> AlbumController.getAll());
+    	get("/albums", (req, res) -> albumController.getAll());
     	
-    	get("/albums/:album_id", (req, res) -> AlbumController.getById(req.params(":album_id")));
+    	get("/albums/:album_id", (req, res) -> albumController.getById(req.params(":album_id")));
     	
-    	post("/albums", (req, res) -> AlbumController.create(req.queryMap()));
+    	post("/albums", (req, res) -> albumController.create(req.queryMap()));
     	
-    	put("/albums", (req, res) -> AlbumController.update(req.queryMap()));
+    	put("/albums", (req, res) -> albumController.update(req.queryMap()));
     	
-    	delete("/albums/:album_id", (req, res) -> AlbumController.delete(req.params(":album_id")));
+    	delete("/albums/:album_id", (req, res) -> albumController.delete(req.params(":album_id")));
     	        
         get ("/artist", (req,res)->artistController.getAllArtists(req,res));
         
