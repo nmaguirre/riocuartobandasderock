@@ -9,8 +9,8 @@ import org.junit.Test;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Genere;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Genre;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.TGenre;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 
 public class SongTest {
@@ -52,9 +52,9 @@ public class SongTest {
 	}
 	
 	@Test
-	public void genereTest(){
+	public void genreTest(){
 		Song song = new Song();
-		Genre gen = Genre.pop;
+		TGenre gen = TGenre.pop;
 		song.setGenre(gen);
 		assertEquals(gen, song.getGenre());
 	}
@@ -70,7 +70,7 @@ public class SongTest {
 	@Test
 	public void constructorTest(){
 		Album alb = new Album();
-		Genre gen = Genre.pop;
+		TGenre gen = TGenre.pop;
 		List<Band> band = new ArrayList<Band>();
 		Song song = new Song(1, "pinguinos en la cama", gen, band, 300 , "arjona", alb);
 		boolean res = ((song.getId() == 1) && (song.getName() == "pinguinos en la cama") &&(song.getGenre() == gen) 

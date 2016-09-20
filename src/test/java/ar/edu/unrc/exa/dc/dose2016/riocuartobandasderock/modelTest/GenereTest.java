@@ -6,7 +6,8 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Genere;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Genre;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.TGenre;
 
 public class GenereTest {
   
@@ -16,8 +17,8 @@ public class GenereTest {
    */
   @Test
   public void setNameTest(){
-    Genere genere = new Genere();
-    String name = "pop";
+    Genre genere = new Genre();
+    TGenre name = TGenre.pop;
     genere.setName(name);
     assertEquals(genere.getName(),name);  
   }
@@ -28,10 +29,10 @@ public class GenereTest {
    */
   @Test
   public void setIdTest(){
-    Genere genere = new Genere();
+    Genre genre = new Genre();
     String id = "1";
-    genere.setId(id);
-    assertEquals(genere.getId(),id);  
+    genre.setId(id);
+    assertEquals(genre.getId(),id);  
   }
   
   /**
@@ -40,7 +41,7 @@ public class GenereTest {
    */
   @Test
   public void setDescriptionTest(){
-    Genere genere = new Genere();
+    Genre genere = new Genre();
     String description;
     description = "La música pop es un género de música popular que tuvo su origen a finales de los años 1950 como una derivación del rock and roll,";
     description += " ;en combinación con otros géneros musicales que estaban en moda en aquel momento";
@@ -54,7 +55,7 @@ public class GenereTest {
    */
   @Test
   public void setReleaseTest(){
-    Genere genere = new Genere();
+    Genre genere = new Genre();
     String release = "24/08/1992";
     genere.setRelease(release);
     assertEquals(genere.getRelease(),release);  
@@ -66,7 +67,7 @@ public class GenereTest {
    */
   @Test
   public void initiatedByTest(){
-    Genere genere = new Genere();
+    Genre genere = new Genre();
     ArrayList<String> authors = new ArrayList<String>();
     authors.add("Ezequiel depetris");
     authors.add("Elver Galarga");
@@ -80,11 +81,13 @@ public class GenereTest {
    */
   @Test
   public void influencesTest(){
-    Genere genere = new Genere();
-    ArrayList<Genere> generes = new ArrayList<Genere>();
-    generes.add(new Genere("rock", "esto es rock vieja"));
-    generes.add(new Genere("cha cha", "huevo poche"));
-    genere.setInfluence(generes);
-    assertEquals(genere.getInfluence() ,generes);  
+    Genre genre = new Genre();
+    TGenre gen = TGenre.pop;
+    TGenre gen1 = TGenre.rock;
+    ArrayList<Genre> generes = new ArrayList<Genre>();
+    generes.add(new Genre(gen, "esto es rock vieja"));
+    generes.add(new Genre(gen1, "huevo poche"));
+    genre.setInfluence(generes);
+    assertEquals(genre.getInfluence() ,generes);  
   }
 }
