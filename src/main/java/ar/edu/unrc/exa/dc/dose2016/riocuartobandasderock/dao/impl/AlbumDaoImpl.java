@@ -42,6 +42,10 @@ public class AlbumDaoImpl implements AlbumDAO{
 	public List<Album> findBySong(String song){
 		return null;
 	}
+	
+	public List<Album> findByReleaseDate(int year){
+		return null;
+	}
 
 	public boolean createAlbum(Album album){
 		return false;
