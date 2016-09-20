@@ -12,7 +12,7 @@ public class Album {
 	private List<String> producers;
 	private Date releaseDate;
 	private int duration;		// in seconds
-	private Genre genre;		// genre is given	
+	private TGenre genre;		// genre is given	
 	private List<Style> styles; 
 	private Date recordingDate;
 	private String discography;
@@ -30,7 +30,7 @@ public class Album {
 		this.artist = artist;
 	}
 	
-	public Album(String title, Band artist, Date releaseDate, int duration, Genre genre, Date recordingDate,
+	public Album(String title, Band artist, Date releaseDate, int duration, TGenre genre, Date recordingDate,
 			String discography, int ISRC, int UPC) {
 		// this.id = UUID.randomUUID().toString(); // responsability of DAO
 		this.title = title;
@@ -148,11 +148,11 @@ public class Album {
 		this.releaseDate = releaseDate;
 	}
 
-	public Genre getGenre() {
+	public TGenre getGenre() {
 		return genre;
 	}
 
-	public void setGenre(Genre genre) {
+	public void setGenre(TGenre genre) {
 		this.genre = genre;
 	}
 

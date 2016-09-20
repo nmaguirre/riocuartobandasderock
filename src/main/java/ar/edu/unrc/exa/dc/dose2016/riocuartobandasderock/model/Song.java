@@ -18,7 +18,7 @@ public class Song {
 	*/
 	private int id;
 	private String nameSong;
-	private Genre genre;  
+	private TGenre genre;  
 	private List<Band> performBy;
 	private int duration;
 	private String author;	//will be changed to type People
@@ -41,7 +41,7 @@ public class Song {
 	 * @param aut represents the author of the song to assign
 	 * @param alb represent the album to assign
 	 */
-	public Song(int i, String nsong, Genre gen, List<Band> band, int dur, String aut, Album alb){
+	public Song(int i, String nsong, TGenre gen, List<Band> band, int dur, String aut, Album alb){
 		id = i;
 		nameSong = nsong;
 		genre = gen;
@@ -86,7 +86,7 @@ public class Song {
 	/**
 	 * @return the genre of the song
 	 */
-	public Genre getGenre(){
+	public TGenre getGenre(){
 		return genre;
 	}
 	
@@ -94,7 +94,7 @@ public class Song {
 	 * Sets a genre for the song
 	 * @param gen represents the genre to assign
 	 */
-	public void setGenre(Genre gen){
+	public void setGenre(TGenre gen){
 		genre = gen;
 	}
 	
