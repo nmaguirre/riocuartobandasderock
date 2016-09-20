@@ -7,11 +7,10 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
 import spark.QueryParamsMap;
 
 public class AlbumController {
-    protected static AlbumController unique_instance;
+    protected static AlbumController unique_instance = null;
     protected AlbumDAO dao;
 
     protected AlbumController() {
-        unique_instance = new AlbumController();
     }
 
     public static AlbumController getInstance() {
