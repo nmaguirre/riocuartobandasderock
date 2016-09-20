@@ -23,7 +23,7 @@ public class BandMemberController {
 		return null; 
 	}
 	
-	public Band getBandsBandMember (Request req, Response res){
+	public List<Band> getBandsBandMember (Request req, Response res){
 		return null; 
 	}
 		
