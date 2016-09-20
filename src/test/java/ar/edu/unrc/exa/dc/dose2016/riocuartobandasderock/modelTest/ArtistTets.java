@@ -1,10 +1,18 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.modelTest;
 
 import static org.junit.Assert.*;
+
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 
+
 public class ArtistTets {
+	
+	@Rule
+	public ExpectedException expected = ExpectedException.none();
 	
 	@Test
 	public void constructorTest(){
@@ -37,6 +45,15 @@ public class ArtistTets {
 	}
 	
 	@Test
+	public void setNullNameTest(){
+		String a_name = "Pablo";
+	    String a_surname = "Beilinson";
+	    Artist artist = new Artist(a_name, a_surname);
+		expected.expect(IllegalArgumentException.class);
+		artist.setName(null);
+	}
+	
+	@Test
 	public void setSurnameTest(){
 	    String a_name = "Gustavo";
 	    String a_surname = "González";
@@ -47,6 +64,15 @@ public class ArtistTets {
 	}
 	
 	@Test
+	public void setNullSurnameTest(){
+		String a_name = "Gustavo";
+	    String a_surname = "Cerati";
+	    Artist artist = new Artist(a_name, a_surname);
+		expected.expect(IllegalArgumentException.class);
+		artist.setSurname(null);
+	}
+	
+	@Test
 	public void setNicknameTest(){
 	    String a_name = "Juan Sebastián";
 	    String a_surname = "Gutiérrez";
@@ -54,6 +80,16 @@ public class ArtistTets {
 	    String nickname = "Juanse";
 	    artist.setNickname(nickname);
 	    assertEquals(artist.getNickname(),nickname);  
+	}
+	
+	@Test
+	public void setNullNicknameTest(){
+      String a_name = "Juan Sebastián";
+      String a_surname = "Gutiérrez";
+      String a_nickname = "Juanse";
+      Artist artist = new Artist(a_name, a_surname, a_nickname);
+      expected.expect(IllegalArgumentException.class);
+      artist.setNickname(null);
 	}
 }
 
