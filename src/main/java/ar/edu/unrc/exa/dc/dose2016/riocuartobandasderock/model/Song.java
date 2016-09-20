@@ -18,12 +18,11 @@ public class Song {
 	*/
 	private int id;
 	private String nameSong;
-	private Genere genere;   // will be changed to type enum Gender
+	private TGenre genre;  
 	private List<Band> performBy;
 	private int duration;
 	private String author;	//will be changed to type People
 	private Album album;
-	
 	
 	/**
 	 * Default constructor of class song
@@ -36,16 +35,16 @@ public class Song {
 	 * Constructor of the class Song with parameters
 	 * @param i represent the id of the song to assign
 	 * @param nsong represents the name of the song to assign
-	 * @param gen represents the gender of the song to assign
+	 * @param gen represents the genre of the song to assign
 	 * @param band represents the band's name of the song to assign
 	 * @param dur represents the duration of the song to assign
 	 * @param aut represents the author of the song to assign
 	 * @param alb represent the album to assign
 	 */
-	public Song(int i, String nsong, Genere gen, List<Band> band, int dur, String aut, Album alb){
+	public Song(int i, String nsong, TGenre gen, List<Band> band, int dur, String aut, Album alb){
 		id = i;
 		nameSong = nsong;
-		genere = gen;
+		genre = gen;
 		performBy = band;
 		duration = dur;
 		author = aut;
@@ -85,18 +84,18 @@ public class Song {
 	}
 	
 	/**
-	 * @return the genere of the song
+	 * @return the genre of the song
 	 */
-	public Genere getGenere(){
-		return genere;
+	public TGenre getGenre(){
+		return genre;
 	}
 	
 	/**
-	 * Sets a genere for the song
-	 * @param gen represents the genere to assign
+	 * Sets a genre for the song
+	 * @param gen represents the genre to assign
 	 */
-	public void setGenere(Genere gen){
-		genere = gen;
+	public void setGenre(TGenre gen){
+		genre = gen;
 	}
 	
 	/**

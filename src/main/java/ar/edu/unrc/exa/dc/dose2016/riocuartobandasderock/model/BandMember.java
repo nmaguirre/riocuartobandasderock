@@ -1,110 +1,87 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model;
 
+import java.util.LinkedList;
 import java.util.List;
-import java.util.UUID;
 
-/* This class represents one person that is member of a band. */
+/* This class represents the association between a person and a band. */
 public class BandMember {
 
   /**
-  * id represents the object band member into the database
-  * name represents the member name
-  * surname represents the member surname
-  * nickname represents the member nickname
-  * role represents the member role in the band
+  * Artist represents the person in the band.
+  * Band represents the band.
+  * Role represents the artist's roles in the band.
   */
-  private String id;
-  private String name;
-  private String surname;
-  private String nickname;
-  private List<String> role;
-  //private List<Role> role; CREAR ENUMERADO DE ROLES.
+  private Artist artist;
+  private Band band;
+  private List<Role> role;
+  private static List<Role> emptyRole = new LinkedList<Role>();
 
-
-
+  
   /**
-  * The constructor of BandMember class sets the new member without an id.
+  * The constructor of BandMember class sets the new member.
   */
-  private BandMember(String id, String name, String surname, String nickname, List<String> role){    
-    this.id = id;
-	this.name = name;
-    this.surname = surname;
-    this.nickname = nickname;
+  public BandMember(Artist artist, Band band , List<Role> role){    
+    this.artist = artist;
+    this.band =  band;
     this.role = role;
   }
   
   /**
-   * The constructor of BandMember class sets the new member without an id.
+   * The constructor of BandMember class sets the new member without 
+   * an list of roles.
    */
-  public BandMember(String name, String surname, String nickname, List<String> role){    
-     this(UUID.randomUUID().toString(), name, surname, nickname, role);
-  }
-  
-  /**
-  * @return member id.
-  */
-  public String getId(){
-    return id;
-  }
-  
-  /**
-  * @return member name.
-  */
-  public String getName(){
-	  return name;
-  }
-  
-  /**
-  * @return member surname.
-  */  
-  public String getSurname(){
-    return surname;
+  public BandMember(Artist artist, Band band){   
+	  this.artist = artist;
+	  this.band =  band;
+	  this.role = emptyRole;
   }
 
+  
   /**
-  * @return member nickname.
-  */ 
-  public String getNickname(){
-    return nickname;
+  * @return Object Artist.
+  */
+  public Artist getArtist(){
+    return artist;
+  }
+  
+  /**
+  * @return Object Band.
+  */
+  public Band getBand(){
+	  return band;
   }
  
   /**
   * @return member role.
   */
-  public List<String> getRole(){
+  public List<Role> getRole(){
     return role;
   } 
   
   /**
-  * This method sets the member name.
-  * @param bm_name member name.
+  * This method sets the artist.
+  * @param bm_artist is object artist.
   */
-  public void setName(String bm_name){
-	  if (bm_name == null) throw new IllegalArgumentException();
-	  name = bm_name;
+  public void setArtist(Artist bm_artist){
+	  if (bm_artist == null) throw new IllegalArgumentException();
+	  artist = bm_artist;
   }
 
   /**
-  * This method sets the member surname.
-  * @param bm_sur member surname.
+  * This method sets the band.
+  * @param bm_band is object band.
   */
-  public void setSurname(String bm_sur){
-    surname = bm_sur;
-  }
-
-  /**
-  * This method sets the member nickname.
-  * @param bm_nick member name.
-  */
-  public void setNickname(String bm_nick){
-    nickname = bm_nick;
+  public void setBand(Band bm_band){
+	  if (bm_band == null) throw new IllegalArgumentException();
+	  band = bm_band;
   }
 
   /**
   * This method sets the member role.
   * @param bm_role member role.
   */
-  public void setRole(List<String> bm_role){
-    role = bm_role;
+  public void setRole(List<Role> bm_role){
+	  if (bm_role == null) throw new IllegalArgumentException();
+	  role = bm_role;
   }
 }

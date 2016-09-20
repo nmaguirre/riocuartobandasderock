@@ -10,8 +10,6 @@ public interface ArtistDAO {
 	public List<Artist> getAllArtists();
 	
 	public List<Artist> findByName(String name);
-	
-	public List<Artist> findByRole(String role); 
 
 	public Artist findById(String id);
 	
