@@ -25,7 +25,7 @@ public class AlbumController {
     }
 
     public Album getById(String id) {
-        return dao.findById(Integer.parseInt(id));
+        return dao.findById(id);
     }
 
     public Boolean create(QueryParamsMap params) {
@@ -44,7 +44,7 @@ public class AlbumController {
     }
 
     public Boolean delete(String id) {
-        dao.deleteAlbum(dao.findById(Integer.parseInt(id)));
+        dao.deleteAlbum(id);
         return false;
     }
 }
