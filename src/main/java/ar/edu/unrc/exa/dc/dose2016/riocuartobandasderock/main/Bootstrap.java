@@ -15,13 +15,13 @@ public class Bootstrap {
     	
     	get("/albums", (req, res) -> albumController.getAll());
     	
-    	get("/albums/:album_id", (req, res) -> albumController.getById(req.params(":album_id")));
+    	get("/albums/:album_id", (req, res) -> albumController.getById(req, res);
     	
-    	post("/albums", (req, res) -> albumController.create(req.queryMap()));
+    	post("/albums", (req, res) -> albumController.create(req, res);
     	
-    	put("/albums", (req, res) -> albumController.update(req.queryMap()));
+    	put("/albums", (req, res) -> albumController.update(req, res);
     	
-    	delete("/albums/:album_id", (req, res) -> albumController.delete(req.params(":album_id")));
+    	delete("/albums/:album_id", (req, res) -> albumController.delete(req, res);
     	        
         get ("/artist", (req,res)->artistController.getAllArtists(req,res));
         
