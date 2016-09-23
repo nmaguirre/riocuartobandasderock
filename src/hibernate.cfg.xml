@@ -6,9 +6,9 @@
     <session-factory>
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-        <property name="hibernate.connection.username">user</property>
-        <property name="hibernate.connection.password">userpass</property>
-        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/rcrockbandsdb</property>
+        <property name="hibernate.connection.username">rock_db_owner</property>
+        <property name="hibernate.connection.password">rockenrio4</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/rcrockbands</property>
         <property name="connection_pool_size">1</property>
         <property name="hbm2ddl.auto">create</property>
         <property name="show_sql">true</property>
