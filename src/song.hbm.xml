@@ -4,12 +4,13 @@
           "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
           <hibernate-mapping>
-          <class name="Song" table="tbd">
+          <class name="Song" table="Songs">
           <id name="tbd">
           <generator class="increment"></generator>
           </id>
           <property name="nameSong"></property>
           <property name="author"></property>
           <property name="genre"></property>
+          <property name="album"></property>
           </class>
           </hibernate-mapping>
