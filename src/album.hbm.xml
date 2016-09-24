@@ -23,12 +23,19 @@
 	          <property name="isrc" type="integer"></property>
 	          <property name="upc" type="integer"></property>
          
+         	<!-- this represents many to many relation -->
          	<set name="songs" table="AlbumsSongs" cascade="all" inverse="true">
          		<key>
          			<column name="idSong" />		
          		</key>
          		<many-to-many column="tbd" class="Song" />
          	</set>	
+			
+			<!-- this represents many to one relation -->
+			<many-to-one name="band">
+				<column name= "bandId" />
+			</many-to-one>	
+		
 
 	      	</class>
           </hibernate-mapping>
