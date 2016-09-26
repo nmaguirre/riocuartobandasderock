@@ -6,7 +6,7 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.ArtistDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.ArtistDaoImpl;
 
 public class Bootstrap {
-	private static ArtistController artistController = new ArtistController(new ArtistDaoImpl());
+	private static ArtistController artistController = new ArtistController();
     public static void main(String[] args) {
         get("/hello", (req, res) -> "Hello World");
         

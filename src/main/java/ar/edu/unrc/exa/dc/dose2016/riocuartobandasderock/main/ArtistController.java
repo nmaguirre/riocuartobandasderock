@@ -4,15 +4,15 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 import spark.Response;
 import spark.Request;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.ArtistDAO;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.ArtistDaoImpl;
+
 import java.util.List;
 /**
- * 
- * this class represent one member banda
- *
+ *the ArtistController class treats http requests referred to the Artist model 
  */
 public class ArtistController {	
 	/**
-	 * one implementation  ArtistDao
+	 * one implementation ArtistDao to connect to db
 	 */
 	private ArtistDAO artistDAO;
 	
@@ -24,18 +24,16 @@ public class ArtistController {
 		return artistDAO;
 	}
     /**
-     * 
-     * @param artistDAO_a  over create object
+     * Constructor
      */
-	public ArtistController(ArtistDAO artistDAO_a){
-		if (artistDAO_a==null) throw new IllegalArgumentException("Argument is null");
-		artistDAO = artistDAO_a;
+	public ArtistController(){
+		artistDAO = new ArtistDaoImpl();
 	}
 
 	/**
 	 * get all Artist 
-	 * @param req (Request 
-	 * @param res (Response
+	 * @param req (Request)
+	 * @param res (Response)
 	 * @return  List of Artist
 	 */
 	public List<Artist> getAllArtists(Request req, Response res){
@@ -43,8 +41,8 @@ public class ArtistController {
 	}
 	
 	/**
-	 * 
-	 * @param req search artist for id
+	 * search artist by his Id
+	 * @param req it contain id of the artist to search
 	 * @param res
 	 * @return one Artist with id parameters
 	 */
@@ -55,8 +53,8 @@ public class ArtistController {
 	}
 	
 	/**
-	 * 
-	 * @param req
+	 * search for artists by name
+	 * @param req It contains the name to search for artists
 	 * @param res
 	 * @return List artist with name parameters
 	 */
@@ -65,10 +63,10 @@ public class ArtistController {
 	}
 		
 	/**
-	 * 
-	 * @param req    Attribute of artist new
+	 * creates an artist 
+	 * @param req    It contains the attributes of the new artist
 	 * @param res
-	 * @return True  Artist It was created successfully
+	 * @return True  when Artist It was created successfully
 	 */
 	public boolean createArtist(Request req,Response res){
 		Artist artist = new Artist(req.queryParams("name"),req.queryParams("surname"),req.queryParams("nickname"));
@@ -77,8 +75,8 @@ public class ArtistController {
 	}
 	
 	/**
-	 * 
-	 * @param req
+	 * update an artist 
+	 * @param req	It contains the attributes of the artist to update
 	 * @param res
 	 * @return True when artist successfully updated
 	 */
@@ -95,8 +93,8 @@ public class ArtistController {
 	}
 	
 	/**
-	 * 
-	 * @param req
+	 * delete an artist by his Id
+	 * @param req it contain id of the artist to delete
 	 * @param res
 	 * @return True when Artist successfully deleted
 	 */
