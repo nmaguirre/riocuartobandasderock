@@ -5,7 +5,7 @@
 
           <hibernate-mapping>
           <class name="Song" table="Songs">
-          <id name="tbd">
+          <id name="SingId">
           <generator class="increment"></generator>
           </id>
           <property name="nameSong"></property>
