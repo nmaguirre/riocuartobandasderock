@@ -1,18 +1,24 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.BandMember;
+
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 import spark.Response;
 import spark.Request;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandMemberDAO;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandMemberDAOImpl;
 import java.util.List;
 
 public class BandMemberController {
 	private BandMemberDAO bmDAO;
 
-	public BandMemberController(BandMemberDAO bmDAO_a){
-		bmDAO = bmDAO_a;
+	public BandMemberController(){
+		bmDAO = new BandMemberDAOImpl();
+	}
+	
+	public BandMember getAllBandMembers (Request req, Response res){
+		return null;
 	}
 	
 	public BandMember getBandMember (Request req, Response res){

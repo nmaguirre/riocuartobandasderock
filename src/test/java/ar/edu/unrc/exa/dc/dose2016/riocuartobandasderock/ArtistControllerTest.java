@@ -27,26 +27,26 @@ public class ArtistControllerTest {
 	
 	@Before
 	 public void beforetest() {
-		artistcon = new ArtistController(artistdao);
+		artistcon = new ArtistController();
 	
 	 }
 	
 	@Test(expected=IllegalArgumentException.class)
 	 public void testArtistControllernull() {
 	  artistdao=null;
-	  ArtistController artistcon = new ArtistController(artistdao);
+	  ArtistController artistcon = new ArtistController();
 	 }
 	
 	@Test
 	 public void testArtistController() {
 	  ArtistDaoImpl artistdao=new ArtistDaoImpl();
-	  ArtistController artistcon = new ArtistController(artistdao);
+	  ArtistController artistcon = new ArtistController();
 	  assertEquals( artistcon.getArtistDAO(),artistcon.getArtistDAO());
 	 }
 	
 	@Test
 	 public void testgetAllArtists() {
-		 ArtistController artistcon = new ArtistController(artistdao);
+		 ArtistController artistcon = new ArtistController();
 		 Request req=null;
 		 Response res=null;
 		 
@@ -61,21 +61,22 @@ public class ArtistControllerTest {
 		assertTrue(artistcon.getAllArtists(req,res).size()==0);
 	 }
 
-	@Test
+	@Test (expected=IllegalArgumentException.class)
 	 public void testgetArtistById() {
-		 Request req=null;
+		 Request req =null; 
 		 Response res=null;
-		 
-		 new Expectations() {
-			    // variables declared here are mocked by default
-			    ArtistDAO artistDAO;
-			   {
-				artistDAO.findById(req.params(":id"));
-			    returns(new Artist("",""));
-			   }
-			  };
-			  
-		assertTrue(artistcon.getArtistById(req,res)==null);
+		 Artist art = artistcon.getArtistById (req, res);  
+	     String name= "";
+	  }
+
+	@Test
+	 public void testgetArtistByIdcase2() {
+		 Request req=null;
+		 req.attribute("id");
+		 Response res=null;
+		 Artist art = artistcon.getArtistById (req, res);  
+	     String name= "";
+	     assertTrue(true);
 	  }
 
 }

@@ -93,16 +93,16 @@ public class AlbumDAOTest {
 		};
 		assertEquals(albumModel,albumDao.findById("3"));
 	}
-//	//new
-//	@Test(expected=IllegalArgumentException.class)
-//	public void findByIdIfIdIsEmpty(){
-//		new Expectations(){
-//			{
-//				albumDao.findById(" ");
-		//	returns (new IllegalArgumentException(""));
-//			}
-//		};
-//	}
+
+	@Test(expected=IllegalArgumentException.class)
+	public void findByIdIfIdIsEmpty(){
+		new Expectations(){
+			{
+				albumDao.findById(" ");
+			returns (new IllegalArgumentException(""));
+			}
+		};
+	}
 	
 	@Test
 	public void getAllAlbumTestCase(){
@@ -172,12 +172,10 @@ public class AlbumDAOTest {
 		assertEquals(allAlbums,albumDao.findByDuration(2460));
 	}
 	
-	//then maury
 	@Test
 	public void finByRecordLabelTestCase(){
-		
+	
 		List<Album> allAlbums = new LinkedList<Album>();
-				
 		allAlbums.add(albumInst1);
 		
 		new Expectations(){
@@ -200,7 +198,8 @@ public class AlbumDAOTest {
 		};
 		assertEquals(true,albumDao.createAlbum(albumInst1));
 	}
-	@Test //this new
+	
+	@Test
 	public void createAlbumIfAlbumParamIsnull(){
 		new Expectations(){
 			{
@@ -238,7 +237,7 @@ public class AlbumDAOTest {
 		assertEquals(true,albumDao.deleteAlbum("3") );
 	}
 	
-	@Test //this new
+	@Test 
 	public void deleteAlbumIfIdAlbumNotExistInDB(){
 		
 		new Expectations(){

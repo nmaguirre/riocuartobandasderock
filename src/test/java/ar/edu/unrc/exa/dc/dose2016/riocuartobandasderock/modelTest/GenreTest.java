@@ -9,11 +9,11 @@ import org.junit.Test;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Genre;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.TGenre;
 
-public class GenereTest {
+public class GenreTest {
   
   /**
    * test that getName method it works ok
-   * @see Genere.getName()
+   * @see Genre.getName()
    */
   @Test
   public void setNameTest(){
@@ -25,7 +25,7 @@ public class GenereTest {
   
   /**
    * test that getId method it works ok
-   * @see Genere.getId()
+   * @see Genre.getId()
    */
   @Test
   public void setIdTest(){
@@ -37,7 +37,7 @@ public class GenereTest {
   
   /**
    * test that getDescription method it works ok
-   * @see Genere.getDescription()
+   * @see Genre.getDescription()
    */
   @Test
   public void setDescriptionTest(){
@@ -51,7 +51,7 @@ public class GenereTest {
   
   /**
    * test that getRelease method it works ok
-   * @see Genere.getRelease()
+   * @see Genre.getRelease()
    */
   @Test
   public void setReleaseTest(){
@@ -63,7 +63,7 @@ public class GenereTest {
   
   /**
    * test that getInitiators it works ok
-   * @see Genere.getInitiators()
+   * @see Genre.getInitiators()
    */
   @Test
   public void initiatedByTest(){
@@ -77,7 +77,7 @@ public class GenereTest {
   
   /**
    * test that getInfluence it works ok
-   * @see Genere.getInfluence()
+   * @see Genre.getInfluence()
    */
   @Test
   public void influencesTest(){
