@@ -12,5 +12,22 @@
           <property name="release"></property>
           <property name="end"></property>
           <property name="genere"></property>
+          <!-- the represents one to many relation -->
+          <!-- relation one band many album -->
+          <list name="albums" cascade="all" inverse="false" >
+          	<key>
+          		<column name="idBand"/>
+          	</key>
+          	<list-index>
+          		<column name="id"></column>
+          	</list-index>
+          	<one-to-many class="Album"></one-to-many>
+          </list>
+          <set name="artists" table="BandArtist" cascade="all" inverse="false" >
+          	<key>
+          		<column name="idArtist"></column>
+          	</key>
+          	<many-to-many column="artistID" class="Artist" />
+          </set>
           </class>
           </hibernate-mapping>
