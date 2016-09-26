@@ -27,26 +27,26 @@ public class ArtistControllerTest {
 	
 	@Before
 	 public void beforetest() {
-		artistcon = new ArtistController(artistdao);
+		artistcon = new ArtistController();
 	
 	 }
 	
 	@Test(expected=IllegalArgumentException.class)
 	 public void testArtistControllernull() {
 	  artistdao=null;
-	  ArtistController artistcon = new ArtistController(artistdao);
+	  ArtistController artistcon = new ArtistController();
 	 }
 	
 	@Test
 	 public void testArtistController() {
 	  ArtistDaoImpl artistdao=new ArtistDaoImpl();
-	  ArtistController artistcon = new ArtistController(artistdao);
+	  ArtistController artistcon = new ArtistController();
 	  assertEquals( artistcon.getArtistDAO(),artistcon.getArtistDAO());
 	 }
 	
 	@Test
 	 public void testgetAllArtists() {
-		 ArtistController artistcon = new ArtistController(artistdao);
+		 ArtistController artistcon = new ArtistController();
 		 Request req=null;
 		 Response res=null;
 		 
