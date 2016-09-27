@@ -28,13 +28,13 @@ public class BandController {
 	}
 	
 	/***
-	 * Missing implementation
+	 * This method returns all bands 
 	 * @param req
 	 * @param res
-	 * @return
+	 * @return A list of all bands
 	 */
 	public List<Band> getBands(Request req ,Response res){
-		return new LinkedList<Band>();
+		return bandDAO.getAllBands();
 	}
 	
 	/***
@@ -76,7 +76,6 @@ public class BandController {
 		}
 		bandDAO.addBand(band);
 		return band;
-
 	}
 	
 	/***

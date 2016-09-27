@@ -26,6 +26,7 @@ public class Band {
    * @param list_of_artist is a list of integrant
    * @param a_release this is the date when it was founded
    */
+
   public Band(String a_name, Genere a_genere, List<Artist> list_of_artist, String a_release){
     id = UUID.randomUUID().toString();
     name = a_name;
@@ -51,6 +52,7 @@ public class Band {
     albumList = list_of_albums;
     release = a_release;
   }
+
 
   /**
    * this method return the id of the band

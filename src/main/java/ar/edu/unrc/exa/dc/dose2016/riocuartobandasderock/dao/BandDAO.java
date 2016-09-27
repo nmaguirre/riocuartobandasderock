@@ -14,6 +14,7 @@ public interface BandDAO {
 	    */
 	   public List<Band> getAllBands();
 	   
+
 	   /**
 	    * 
 	    * @param String id
