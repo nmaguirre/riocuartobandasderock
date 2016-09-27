@@ -25,7 +25,7 @@ public class Album {
 	private int duration;
 
 	/** The album genre. */
-	private Genre genre;
+	private TGenre genre;
 
 	/** The album styles or subgenres. */
 	private List<Style> styles;
@@ -80,7 +80,7 @@ public class Album {
 	 * @param ISRC The album ISRC number.
 	 * @param UPC The album UPC number.
 	 */
-	public Album(String title, Band performer, Date releaseDate, int duration, Genre genre, Date recordingDate, String discography, int ISRC, int UPC) {
+	public Album(String title, Band performer, Date releaseDate, int duration, TGenre genre, Date recordingDate, String discography, int ISRC, int UPC) {
 		this.id = UUID.randomUUID().toString();
 		this.title = title;
 		this.performer = performer;
@@ -207,7 +207,7 @@ public class Album {
 	 *
 	 * @return genre
 	 */
-	public Genre getGenre() {
+	public TGenre getGenre() {
 		return genre;
 	}
 
@@ -216,7 +216,7 @@ public class Album {
 	 *
 	 * @param genre The new album genre.
 	 */
-	public void setGenre(Genre genre) {
+	public void setGenre(TGenre genre) {
 		this.genre = genre;
 	}
 

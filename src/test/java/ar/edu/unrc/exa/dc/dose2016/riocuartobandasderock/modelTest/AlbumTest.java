@@ -30,7 +30,7 @@ public class AlbumTest {
 		artist.setName("Cream");
 		Album albumTest = new Album(title,artist);
 		assertEquals(albumTest.getTitle(),"Disraeli Gears");
-		assertEquals(albumTest.getArtist().getName(),"Cream");
+		assertEquals(albumTest.getPerformer().getName(),"Cream");
 	}
 	
 	@Test
@@ -48,7 +48,7 @@ public class AlbumTest {
 		
 		Album albumTest = new Album(title,artist,releaseDate,duration,genre,recordingDate,discography,ISRC,UPC);
 		assertEquals(albumTest.getTitle(),"Disraeli Gears");
-		assertEquals(albumTest.getArtist().getName(),"Cream");
+		assertEquals(albumTest.getPerformer().getName(),"Cream");
 		assertEquals(albumTest.getReleaseDate(),new Date(1967,11,2));
 		assertEquals(albumTest.getDuration(),2019);
 		assertEquals(albumTest.getGenre(),TGenre.rock);
