@@ -15,13 +15,13 @@ public class Bootstrap {
 
 
     private static BandController bands = new BandController(new BandDaoImpl());
-    private static ArtistController artistController = new ArtistController(new ArtistDaoImpl());
+    private static ArtistController artistController = new ArtistController();
     private static BandMemberController bandMemberController = new BandMemberController();
     private static AlbumController albumController = AlbumController.getInstance();
 
     public static void main(String[] args) {
 
-        get("/albums", (req, res) -> albumController.getAll());
+        get("/albums", (req, res) -> albumController.getAll(req, res));
 
         get("/albums/:album_id", (req, res) -> albumController.getById(req, res));
 
