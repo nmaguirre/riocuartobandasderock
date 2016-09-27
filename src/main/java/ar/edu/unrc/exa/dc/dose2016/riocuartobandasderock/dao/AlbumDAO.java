@@ -69,11 +69,11 @@ public interface AlbumDAO {
 	 */
 	public List<Album> findBySong(String song);
 	
-//	/**
-//	 * @param releaseDate
-//	 * @return
-//	 */
-//	public List<Album> findByReleaseDate(Date releaseDate);
+	/**
+	 * @param releaseDate
+	 * @return
+	 */
+	public List<Album> findByReleaseDate(int year);
 	
 //	/**
 //	 * @param recordDate

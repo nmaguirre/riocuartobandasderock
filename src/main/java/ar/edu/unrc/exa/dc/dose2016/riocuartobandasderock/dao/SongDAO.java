@@ -16,7 +16,7 @@ public interface SongDAO {
 	   
 	public Boolean addSong(Song song);
 	
-	public Song findById(int id);
+	public Song findById(String id);
 	
 	public List<Song> findByBandName(String BandName);
 	

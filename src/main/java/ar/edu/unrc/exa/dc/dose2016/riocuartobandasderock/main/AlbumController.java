@@ -10,8 +10,7 @@ public class AlbumController {
     protected static AlbumController unique_instance = null;
     protected AlbumDAO dao;
 
-    protected AlbumController() {
-    }
+    
 
     public static AlbumController getInstance() {
         if (unique_instance == null)

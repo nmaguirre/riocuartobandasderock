@@ -10,7 +10,7 @@ public class Band {
   private String name;
   private String release;
   private String end;
-  private Genere genere;
+  private Genre genere;
   
   
   /**
@@ -26,7 +26,7 @@ public class Band {
    * @param list_of_artist is a list of integrant
    * @param a_release this is the date when it was founded
    */
-  public Band(String a_name, Genere a_genere, List<Artist> list_of_artist, String a_release){
+  public Band(String a_name, Genre a_genere, List<Artist> list_of_artist, String a_release){
     id = UUID.randomUUID().toString();
     name = a_name;
     genere = a_genere;
@@ -43,7 +43,7 @@ public class Band {
    * @param a_release this is the date when it was founded
    * @param list_of_albums is list with all albumns of the band
    */
-  public Band(String a_name, Genere a_genere, List<Artist> list_of_artist, String a_release, List<Album> list_of_albums){
+  public Band(String a_name, Genre a_genere, List<Artist> list_of_artist, String a_release, List<Album> list_of_albums){
     id = UUID.randomUUID().toString();
     name = a_name;
     genere = a_genere;
@@ -104,7 +104,7 @@ public class Band {
    * return the genre of the band
    * @return Genre (Genere) 
    */
-  public Genere getGenere(){
+  public Genre getGenere(){
     return genere;
   }
     
@@ -160,7 +160,7 @@ public class Band {
    * this method set the principal genre of the band
    * @param a_genere (Genere)
    */
-  public void setGenere(Genere a_genere){
+  public void setGenere(Genre a_genere){
     genere = a_genere;
   } 
 }
