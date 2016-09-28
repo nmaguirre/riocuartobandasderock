@@ -12,11 +12,8 @@ public class Bootstrap {
 
 	
 	private static BandController bands = new BandController(new BandDaoImpl());
-	private static ArtistController artistController = new ArtistController(new ArtistDaoImpl());
-    
-	public static void main(String[] args) {
 	private static ArtistController artistController = new ArtistController();
-	private static BandMemberController bandMemberController = new BandMemberController();
+	private static BandMemberController bandMemberController = new BandMemberController();    
 
     public static void main(String[] args) {
 
