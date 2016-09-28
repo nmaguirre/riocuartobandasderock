@@ -9,7 +9,7 @@ import org.junit.rules.ExpectedException;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 
 
-public class ArtistTets {
+public class ArtistTest {
 	
 	@Rule
 	public ExpectedException expected = ExpectedException.none();
