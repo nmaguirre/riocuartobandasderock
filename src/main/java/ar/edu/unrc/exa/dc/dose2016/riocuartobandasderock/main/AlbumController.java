@@ -31,16 +31,14 @@ public class AlbumController {
     }
 
     public Boolean create(Request req, Response res) {
-        return false;
+    	return dao.createAlbum(new Album());
     }
 
     public Boolean update(Request req, Response res) {
-        dao.updateAlbum(dao.findById(req.params("id")));
-        return false;
+    	return dao.updateAlbum(dao.findById(req.params("id")));
     }
 
     public Boolean delete(Request req, Response res) {
-        dao.deleteAlbum(req.params("id"));
-        return false;
+        return dao.deleteAlbum(req.params("id"));
     }
 }
