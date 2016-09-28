@@ -19,19 +19,19 @@ public interface BandMemberDAO {
 	
 	/**
 	* 
-	* @param Artist artist
+	* @param String artistId, id of an Artist
 	* 
 	* @return BandMembers that have a particular Artist and any Band
 	*/
-	public List<BandMember> findByArtist(Artist artist);
+	public List<BandMember> findByArtist(String artistId);
 	
 	/**
 	* 
-	* @param Band band
+	* @param String bandId. Id of an Band
 	* 
 	* @return BandMembers that have a particular Band and any Artist
 	*/
-	public List<BandMember> findByBand(Band band);
+	public List<BandMember> findByBand(String bandId);
 	
 	/**
 	* 
@@ -43,11 +43,11 @@ public interface BandMemberDAO {
 
 	/**
 	* 
-	* @param String id
+	* @param String idBand, String idArtist. ID of an Artist and a Band
 	* 
 	* @return BandMember that have a particular id
 	*/
-	public BandMember findById(String id);
+	public BandMember findById(String idBand, String idArtist);
 	
 	/**
 	* 
@@ -68,10 +68,10 @@ public interface BandMemberDAO {
 	
 	/**
 	* 
-	* @param String id
+	* @param String idBand, String idArtist. ID of an Artist and a Band
 	* 
 	* @return true if the delete was successful
 	*/
-	public boolean deleteBandMember(String id);
+	public boolean deleteBandMember(String idBand, String idArtist);
 	
 }

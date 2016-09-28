@@ -18,13 +18,13 @@ public class BandMemberDAOImpl implements BandMemberDAO{
 	}
 
 	@Override
-	public List<BandMember> findByArtist(Artist artist) {
+	public List<BandMember> findByArtist(String artistId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<BandMember> findByBand(Band band) {
+	public List<BandMember> findByBand(String bandId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -36,7 +36,7 @@ public class BandMemberDAOImpl implements BandMemberDAO{
 	}
 
 	@Override
-	public BandMember findById(String id) {
+	public BandMember findById(String idBand, String idArtist) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -54,7 +54,7 @@ public class BandMemberDAOImpl implements BandMemberDAO{
 	}
 
 	@Override
-	public boolean deleteBandMember(String id) {
+	public boolean deleteBandMember(String idBand, String idArtist) {
 		// TODO Auto-generated method stub
 		return false;
 	}
