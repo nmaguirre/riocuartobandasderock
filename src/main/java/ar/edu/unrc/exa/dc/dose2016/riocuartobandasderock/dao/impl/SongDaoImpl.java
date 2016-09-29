@@ -23,7 +23,7 @@ public class SongDaoImpl implements SongDAO{
 		return false;
 	}
 	
-	public Song findById(int id){
+	public Song findById(String id){
 		return null;
 	}
 	
