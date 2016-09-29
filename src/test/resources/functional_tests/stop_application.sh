@@ -1,3 +1,7 @@
 #This scripts kills the application whose PID is stored in the hidden file .saved_pid
 
-kill -9 `cat .saved_pid 2>/dev/null` 2>/dev/null && rm .saved_pid -f
+linux="./stop_application_docker_linux.sh"
+darwin="./stop_application_docker_darwin.sh"
+non64Bits="./stop_application_no_docker.sh"
+
+./architectureSwitch.sh "$linux" "$darwin" "$non64Bits"
