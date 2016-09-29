@@ -20,12 +20,12 @@ def create_clean_db
 end
 
 def stop_db
-    system 'sh kill_all_functests_db_containers.sh'
+    system 'sh kill_all_acceptance_tests_db_containers.sh'
 end
 
 def application_up_and_running?
     begin
-        RestClient.get 'http://localhost:4567/alive'
+        RestClient.get 'http://localhost:4567/hello'
         return true
     rescue Exception => e
         $stdout.puts "Error #{e}"

@@ -5,6 +5,5 @@
 
 #1 : The query to execute
 
-args="$@"
+psql -h 192.168.99.100 -p 5432 -U rock_db_owner -d rcrockbands -c "$1" > sql_log_out.txt 2> sql_log_err.txt
 
-echo "Darwin 64 bit implementation of db_execute.sh : $args"
