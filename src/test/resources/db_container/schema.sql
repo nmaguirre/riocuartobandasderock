@@ -1,4 +1,4 @@
-CREATE TABLE artist (
+CREATE TABLE artistDB (
     artistID text primary key,
     name text,
     surname text,
