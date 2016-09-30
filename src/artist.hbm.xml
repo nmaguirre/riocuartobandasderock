@@ -4,12 +4,13 @@
           "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
           <hibernate-mapping>
-          <class name="Artist" table="artistDB">
-          <id name="artistID">
-          <generator class="increment"></generator>
-          </id>
+          <class name="ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist" table="artistDB">
+          <id name="artistID" />
+          <property name="artistID"></property>
           <property name="name"></property>
           <property name="surname"></property>
           <property name="nickname"></property>
           </class>
           </hibernate-mapping>
+          
+          

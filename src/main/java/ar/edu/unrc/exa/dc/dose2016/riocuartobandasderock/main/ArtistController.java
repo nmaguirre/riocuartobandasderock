@@ -70,6 +70,7 @@ public class ArtistController {
 	 */
 	public boolean createArtist(Request req,Response res){
 		Artist artist = new Artist(req.queryParams("name"),req.queryParams("surname"),req.queryParams("nickname"));
+		res.status(201);
 		boolean status = artistDAO.createArtist(artist);
 		return status;
 	}

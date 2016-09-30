@@ -1,8 +1,15 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model;
 
 import java.util.UUID;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+ 
 
 /* This class represents one person that is artist of a band. */
+@Entity
+@Table(name = "artistDB")
 public class Artist {
 
   /**
@@ -11,9 +18,18 @@ public class Artist {
   * surname represents the artist surname
   * nickname represents the artist nickname
   */
-  private String id;
+
+  @Id
+  @Column(name = "artistID")	
+  private String artistID;
+  
+  @Column(name = "name")
   private String name;
+  
+  @Column(name = "surname")
   private String surname;
+  
+  @Column(name = "nickname")
   private String nickname;
 
 
@@ -25,7 +41,7 @@ public class Artist {
    * @param nickname: Artist nickname.
    */
   private Artist(String id, String name, String surname, String nickname){    
-    this.id = id;
+    this.artistID = id;
 	this.name = name;
     this.surname = surname;
     this.nickname = nickname;
@@ -54,7 +70,7 @@ public class Artist {
   * @return artist id.
   */
   public String getId(){
-    return id;
+    return artistID;
   }
   
   /**

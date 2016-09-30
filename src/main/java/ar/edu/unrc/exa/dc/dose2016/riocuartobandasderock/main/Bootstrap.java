@@ -1,6 +1,9 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
 import static spark.Spark.*;
+
+import org.hibernate.cfg.Configuration;
+
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandDaoImpl;
 
 
@@ -12,7 +15,7 @@ public class Bootstrap {
 	private static BandMemberController bandMemberController = new BandMemberController();    
 
     public static void main(String[] args) {
-
+    	
         get("/hello", (req, res) -> "Hello World");
         
         get("/bands",(req, res) -> bands.getBands(req, res));

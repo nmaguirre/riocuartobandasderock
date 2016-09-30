@@ -6,6 +6,6 @@ Feature: The application responds appropriately to all events that correspond to
 
     Scenario: Add a new artist on an empty artist's database 
         Given that the artist's database is empty
-        When I add an artist with name 'Matias' and surname 'Serra'
+        When I add an artist with name "Matias" and surname "Serra"
         Then the artist's database should have 1 entry
-        And the entry should have name 'Matias' and surname 'Serra' 
+        And the entry should have name "Matias" and surname "Serra" 
