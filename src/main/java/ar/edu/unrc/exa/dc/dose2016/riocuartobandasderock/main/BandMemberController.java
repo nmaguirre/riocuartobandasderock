@@ -1,7 +1,6 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.BandMember;
-
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 import spark.Response;
@@ -17,20 +16,20 @@ public class BandMemberController {
 		bmDAO = new BandMemberDAOImpl();
 	}
 	
-	public BandMember getAllBandMembers (Request req, Response res){
-		return null;
+	public List<BandMember> getAllBandMembers (Request req, Response res){
+		return bmDAO.getAllBandMembers();
 	}
 	
 	public BandMember getBandMember (Request req, Response res){
-		return null;
+		return bmDAO.findById(req.params("idBand"), req.params("idArtist"));
 	}
 
-	public List<Artist> getBandMembersBand (Request req, Response res){
-		return null; 
+	public List<BandMember> getBandMembersByArtist (Request req, Response res){
+		return bmDAO.findByArtist(req.params("idArtist")); 
 	}
 	
-	public List<Band> getBandsBandMember (Request req, Response res){
-		return null; 
+	public List<BandMember> getBandMembersByBand (Request req, Response res){
+		return bmDAO.findByBand(req.params("idBand")); 
 	}
 		
 	public boolean createBandMember(Request req,Response res){
@@ -42,7 +41,8 @@ public class BandMemberController {
 	}
 	
 	public boolean deleteBandMember(Request req, Response res){
-	 	return false;
+	 	boolean status = bmDAO.deleteBandMember(req.params(":idBand"),req.params(":idArtist"));
+	 	return status;
 	}
 
 }

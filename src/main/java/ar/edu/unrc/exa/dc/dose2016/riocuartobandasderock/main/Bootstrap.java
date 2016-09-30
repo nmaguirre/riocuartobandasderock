@@ -1,11 +1,7 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
 import static spark.Spark.*;
-
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandDaoImpl;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.ArtistDAO;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.ArtistDaoImpl;
 
 
 public class Bootstrap {
@@ -43,9 +39,9 @@ public class Bootstrap {
         
         get ("/bandMember/:idArtist/:idBand", (req,res)->bandMemberController.getBandMember(req,res));
         
-        get("/bandMember/:idBand",(req,res)->bandMemberController.getBandMembersBand(req,res));
+        get("/bandMember/:idBand",(req,res)->bandMemberController.getBandMembersByBand(req,res));
         
-        get("/bandMember/:idArtist",(req,res)->bandMemberController.getBandsBandMember(req,res));
+        get("/bandMember/:idArtist",(req,res)->bandMemberController.getBandMembersByArtist(req,res));
         
         post("/bandMember/",(req,res)->bandMemberController.createBandMember(req,res));
         
