@@ -5,12 +5,13 @@ Feature: Get all Band Songs
 
 # base case, the list is empty
 
-Scenario: The band no have songs in my list
-	Given The band no have songs 
-	When the user press List Songs
-	Then I say No Songs
+Scenario: The band hasn't songs in the database
+	Given That the band the name "Los Redondos"
+	And the band the name "Los Redondos" hasn't song in the database
+	When I get all band songs
+	Then I return a empty list
 
-# uses the scenario outline for implent others cases
+# uses the scenario outline for implement others cases
 
 Scenario Outline: The list contain <songs>
 	Given there <songs> in the list
@@ -18,6 +19,6 @@ Scenario Outline: The list contain <songs>
 	Then I show you <return>
 
 	Example:
-	| songs            | show            |
-	| one song         | the unique song |
-	| two o more songs | all songs       |
+	| songs | show            |
+	| 1     | the unique song |
+	| 2     | all songs       |

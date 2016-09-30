@@ -1,11 +1,24 @@
-Feature: Delete Song
+Feature: I delete Song
+	The application receive a song that I want to delete from the database
+
 	
-Scenario: The song no exist 
-	Given the user want to delete a song that no exist
-	When the user press Delete Song button
-	Then I say The song no exist
+Scenario: I delete a song that doesn't exist
+	Given That the song with the name "Jijiji" doesn't exist in the database
+	And The database contains 1 song with the name "Un Angel"
+	When I delete a song with the name "Jijiji"
+	Then An exception is thrown
+	And The database contains 1 song with the name "Un Angel"   
 	
-Scenerio: The song exist
-	Given the user want to delete a exist song
-	When the user press Delete Song button
-	Then I remove the song 
+Scenario: I delete a song that exist
+	Given That the song with name "Jijiji" is in the database
+	And The song with name "Un Angel" is in the database 
+	When I delete a song with the name "Jijiji"
+	Then I delete a song with the name "Jijiji" from database
+	And The database contains 1 song with the name "Un Angel"
+	
+Scenario: I delete a song that doesn't exist
+	Given That the song with the name "Jijiji"
+	And The database is empty
+	When I delete a song with the name "Jijij"
+	The An exception is thrown
+	And the database is empty
