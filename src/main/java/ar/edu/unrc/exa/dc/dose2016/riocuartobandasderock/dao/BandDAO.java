@@ -46,6 +46,15 @@ public interface BandDAO {
 	    */
 	   public Boolean addBand(Band band);
 	   
+	   /**
+	    * This method find a band by name
+	    * 
+	    * @param String name
+	    * 
+	    * @return bands with particular name 
+	    */
+	   public Band findBandByName(String name);
+	   
 	   
 	
 }
