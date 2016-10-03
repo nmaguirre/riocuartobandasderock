@@ -9,6 +9,6 @@ Scenario: The album doesn't have songs in the list
 
 
 Scenario: Get all album songs
-        Given the album "alb" with a list of songs, from the band "ban"
-        When I request the "alb" songs
-        Then I return all the songs of the list
+	Given the album "alb" with a list of songs, from the band "ban"
+	When I request the "alb" songs
+	Then I return all the songs of the list
