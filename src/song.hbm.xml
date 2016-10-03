@@ -11,6 +11,7 @@
           <property name="nameSong"></property>
           <property name="author"></property>
           <property name="genre"></property>
+          <property name="duration"></property>
           <property name="album"></property>
            <!-- the represents one to many relation -->
           <!-- relation one song many bands -->
