@@ -1,7 +1,17 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.AlbumDAO;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.SongDAO;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.AlbumDaoImpl;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandDaoImpl;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SongDaoImpl;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.TGenre;
+
+import java.util.ArrayList;
 import java.util.List;
 import spark.Request;
 import spark.Response;
@@ -15,6 +25,19 @@ import spark.Response;
 public class SongController {
 
     private SongDAO songDao;
+    private AlbumDAO albumDao;
+    private BandDAO bandDao;
+    
+    
+    /**
+     * Class constructor 
+     */
+    
+    public SongController(){
+    	songDao = new SongDaoImpl();
+    	albumDao = new AlbumDaoImpl();
+    	bandDao = new BandDaoImpl();
+    }
     
     
     /**
@@ -37,7 +60,7 @@ public class SongController {
      */
     
     public List<Song> getBandSongs (Request req, Response res){   
-        String bandName = req.params("name");
+        String bandName = req.params("name"); //review
         return songDao.findByBandName(bandName);
     }
     
@@ -46,12 +69,25 @@ public class SongController {
      * Get all album songs
      * @param req
      * @param res
-     * @return a list of all ambum songs
+     * @return a list of all album songs
      */
   
     public List<Song> getAlbumSongs (Request req, Response res){
-       String albumName = req.params("title"); 
+       String albumName = req.params("title"); //review
        return songDao.findByAlbum(albumName);
+    }
+    
+    
+    /**
+     * Get songs by genre
+     * @param req
+     * @param res
+     * @return
+     */
+    
+    public List<Song> getSongsbyGenre (Request req, Response res){
+    	String genre = req.params("genre"); 
+    	return songDao.findByGenere(genre);
     }
     
     
@@ -69,15 +105,28 @@ public class SongController {
     
     
     /**
-     * Get a specific song
+     * Get a specific song by its id
      * @param req
      * @param res
-     * @return a specific song
+     * @return a song
      */
   
     
-    public Song getSong (Request req, Response res){
-        return null;
+    public Song getSongById (Request req, Response res){
+    	String songId = req.params(":id");
+        return songDao.findById(songId);
+    }
+    
+    /**
+     * Get a song by its name
+     * @param req
+     * @param res
+     * @return a song
+     */
+    
+    public List<Song> getSongByName (Request req, Response res){
+    	String songName = req.params("name");
+    	return songDao.findByName(songName);    	
     }
     
     
@@ -85,11 +134,59 @@ public class SongController {
      * Add a new song
      * @param req
      * @param res 
+     * @return
      */
   
-    public void addSong (Request req, Response res){
-        Song song = new Song();
-        songDao.addSong(song);
+    public Boolean addSong (Request req, Response res){
+    	String songName = req.queryParams("name");
+    	
+    	String genreName = req.queryParams("genre");
+    	TGenre genre = TGenre.rock;
+    	switch(genreName){
+    	
+    	case "pop":
+    		genre = TGenre.pop;
+    		break;
+    		
+    	case "blues":
+    		genre = TGenre.blues;
+    		break;
+    	
+    	case "reggae":
+    		genre = TGenre.reggae;
+    		break;
+    		
+    	case "folk":
+    		genre = TGenre.folk;
+    		break;
+    		
+    	case "electronic":
+    		genre = TGenre.electronic;
+    		break;
+    		
+    	case "metal":
+    		genre = TGenre.metal;
+    		break;
+    	
+    	case "punk":
+    		genre = TGenre.punk;
+    		break;
+    	}
+    	
+    	String[] bands = req.queryParamsValues("bands");
+    	List<Band> listOfBands = new ArrayList<>();
+    	for(String b:bands){
+    		listOfBands.add(bandDao.findBandByName(b));
+    	}
+    	
+    	String dur = req.queryParams("duration");
+    	int duration = Integer.parseInt(dur);
+    	String author = req.queryParams("author");
+    	String alb = req.queryParams("album");
+    	Album album = albumDao.findByName(alb);
+    	
+    	Song song = new Song(0,songName,genre, listOfBands, duration,author,album);
+    	return songDao.addSong(song);
     }
     
     
@@ -97,8 +194,63 @@ public class SongController {
      * Edit a song
      * @param req
      * @param res 
+     * @return
      */
-    public void editSong (Request req, Response res){
+    public Boolean editSong (Request req, Response res){
+    
+		Song song = songDao.findById(req.params(":id"));
+		
+		song.setName(req.queryParams("name"));
+		
+    	String genreName = req.queryParams("genre");
+    	TGenre genre = TGenre.rock;
+    	switch(genreName){
+    	
+    	case "pop":
+    		genre = TGenre.pop;
+    		break;
+    		
+    	case "blues":
+    		genre = TGenre.blues;
+    		break;
+    	
+    	case "reggae":
+    		genre = TGenre.reggae;
+    		break;
+    		
+    	case "folk":
+    		genre = TGenre.folk;
+    		break;
+    		
+    	case "electronic":
+    		genre = TGenre.electronic;
+    		break;
+    		
+    	case "metal":
+    		genre = TGenre.metal;
+    		break;
+    	
+    	case "punk":
+    		genre = TGenre.punk;
+    		break;
+    	}
+    	
+    	song.setGenre(genre);
+    	
+    	String[] bands = req.queryParamsValues("bands");
+    	List<Band> listOfBands = new ArrayList<>();
+    	for(String b:bands){
+    		listOfBands.add(bandDao.findBandByName(b));
+    	}
+    	
+    	song.setBands(listOfBands);
+    	
+    	String dur = req.queryParams("duration");
+    	song.setDuration(Integer.parseInt(dur));
+    	song.setAuthor(req.queryParams("author"));
+    	String alb = req.queryParams("album");
+    	song.setAlbum(albumDao.findByName(alb));
+    	return songDao.updateSong(song);
         
     }
     
@@ -107,10 +259,12 @@ public class SongController {
      * Delete a song
      * @param req
      * @param res 
+     * @return
      */
   
-    public void deleteSong (Request req, Response res){
-    
+    public Boolean deleteSong (Request req, Response res){
+    	Song song = songDao.findById(req.params(":id"));
+    	return songDao.removeSong(song);
     }
     
 }
