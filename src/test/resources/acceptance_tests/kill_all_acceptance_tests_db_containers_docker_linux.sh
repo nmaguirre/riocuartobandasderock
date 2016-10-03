@@ -1,3 +1,2 @@
 #This script should stop the database
-
-echo "all databases killed..."
+docker ps|grep rcrockbands_db_container|cut -d ' '  -f1|xargs docker kill 2> /dev/null >/dev/null

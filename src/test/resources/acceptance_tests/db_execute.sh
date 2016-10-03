@@ -1,3 +1,4 @@
+#!/bin/bash
 #This scripts take a string representing an database query
 #and it will append the query in a log file and redirect the error stream to an error log file
 

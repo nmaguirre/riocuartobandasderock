@@ -1,3 +1,5 @@
+#!/bin/bash
+
 #This script takes 3 scripts (A, B, C)
 #If this script is ran in a 32Bit OS it will run C
 #If this script is ran in a 64Bit-Darwin OS it will run B
