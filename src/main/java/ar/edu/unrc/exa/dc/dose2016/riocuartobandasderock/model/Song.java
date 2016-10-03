@@ -2,9 +2,17 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model;
 
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * This class represents a song played by Rio Cuarto's bands 
  */
+
+@Entity
+@Table(name = "Songs")
 public class Song {
 	
    /**
@@ -16,12 +24,27 @@ public class Song {
 	* author represents the author who composed the song
 	* album represents the album where the song belongs
 	*/
+	
+	@Id
+	@Column(name = "idSong")
 	private int id;
+	
+	@Column(name = "nameSong")
 	private String nameSong;
+	
+	@Column(name = "genre")
 	private TGenre genre;  
+	
+	
 	private List<Band> performBy;
+	
+	@Column(name = "duration")
 	private int duration;
+	
+	@Column(name = "author")
 	private String author;	//will be changed to type People
+	
+	@Column(name = "album")
 	private Album album;
 	
 	/**
