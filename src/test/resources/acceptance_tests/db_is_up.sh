@@ -1,3 +1,5 @@
+#!/bin/bash
+
 #This script should test if the database is running
 
 linux="./db_is_up_docker_linux.sh"

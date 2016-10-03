@@ -1,3 +1,5 @@
+#!/bin/bash
+
 #This script should stop the database
 
 
