@@ -1,7 +1,4 @@
 Feature: Get all Band Songs
-	All band songs should not show until that user press List Song button
-	If the band not have songs then I say No songs
-	If the band have songs then I show it
 
 # base case, the list is empty
 
@@ -11,14 +8,14 @@ Scenario: The band hasn't songs in the database
 	When I get all band songs
 	Then I return a empty list
 
-# uses the scenario outline for implement others cases
-
-Scenario Outline: The list contain <songs>
-	Given there <songs> in the list
-	When the user press List Songs
-	Then I show you <return>
-
-	Example:
-	| songs | show            |
-	| 1     | the unique song |
-	| 2     | all songs       |
+Scenario: The band doesn't exist in the database
+	Given that the artist with the name "Los Redondos" doesn't exist in the database
+	When I get all songs of the band with the name "Los redondos"
+	Then An exception is thrown
+	
+Scenario: The band has 1 song in the database
+	Given that the band with the name "Los Redondos" has 1 song in the database
+	And That the song with the name "Jijiji" of the artist "Los Redondos"
+	When I get all songs of the artist the name "Los Redondos" 
+	Then I return a list with all songs of "Los Redondos"
+	And The song with the name "Jijiji" is in my list

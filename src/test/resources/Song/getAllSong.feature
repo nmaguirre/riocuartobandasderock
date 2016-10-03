@@ -1,23 +1,25 @@
 Feature: Get all songs
-	Songs should not show until that user press List Songs button
-	If I not have songs then I say No songs
-	If I have songs then I show it
 
-# base case, the list is empty
+# base case, 
 
-Scenario: I no have songs in my list
-	Given I no have songs 
-	When the user press List Songs
-	Then I say No Songs
+Scenario: I haven't songs in the database
+	Given That the database is empty 
+	When I get all songs from database
+	Then A message is shown
 
-# uses the scenario outline for implent others cases
+Scenario: I have 1 song in the database
+	Given That the database contains 1 song
+	And That the song with name "Jijiji" is in the database 
+	When I get all songs from the database
+	Then I return a list with all songs from the database
+	And The song with name "Jijiji" is in the list
 
-Scenario Outline: The list contain <songs>
-	Given there <songs> in the list
-	When the user press List Songs
-	Then I show you <return>
+Scenario: I have 2 songs in the database
+	Given That the database contains 2 songs
+	And That the song with name "Jijiji" is in the database
+	And That the song with name "Un Angel" is in the database 
+	When I get all songs from the database
+	Then I return a list with all songs from the database
+	And The song with name "Jijiji" is in the list
+	And The song with name "Un Angel" is in the list
 
-	Example:
-	| songs            | show            |
-	| one song         | the unique song |
-	| two o more songs | all songs       |
