@@ -2,7 +2,7 @@ Feature: Add a song
 	
 Scenario: Add a song with an inexistent genre
 	Given that I want to add a song with the genre "gen"
-	And the genre "gen" doesn't exists
+	And the genre "gen" doesn't exists in the database
 	When I add the song 
 	Then an exception is thrown, "The genre "gen" doesn't exists"
 	
