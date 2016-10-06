@@ -23,22 +23,37 @@ public class AlbumController {
     }
 
     public List<Album> getAll(Request req, Response res) {
-        return dao.getAllAlbums();
+     	List<Album> albums = dao.getAllAlbums();
+     	int http_status = albums == null ? 200 : 400;
+     	res.status(http_status);
+    	return albums;
     }
 
     public Album getById(Request req, Response res) {
-        return dao.findById(req.params("id"));
+        Album album = dao.findById(req.params("id"));
+        int http_status = album == null ? 200 : 400;
+        res.status(http_status);
+        return album;
     }
 
     public Boolean create(Request req, Response res) {
-    	return dao.createAlbum(new Album());
+    	boolean result = dao.createAlbum(new Album());
+    	int http_status = result ? 200 : 400; 
+    	res.status(http_status);
+    	return result;
     }
 
     public Boolean update(Request req, Response res) {
-    	return dao.updateAlbum(dao.findById(req.params("id")));
+    	boolean result = dao.updateAlbum(dao.findById(req.params("id"))); 
+    	int http_status = result ? 200 : 400; 
+    	res.status(http_status);
+    	return result;
     }
 
     public Boolean delete(Request req, Response res) {
-        return dao.deleteAlbum(req.params("id"));
+    	boolean result = dao.deleteAlbum(req.params("id"));
+    	int http_status = result ? 200 : 400; 
+    	res.status(http_status);
+    	return result;
     }
 }
