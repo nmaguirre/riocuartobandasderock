@@ -1,9 +1,8 @@
-new_host=192.168.99.100
+new_host=localhost
 new_port=5432
 #This script should start the database on a separate thread and redirect all the output to the console
-#the script should be something like start db &>/dev/null
-dropdb -h localhost -p 5432 -U postgres --if-exists rcrockbands 
-psql -h localhost -p 5432 -U postgres < ./../db_container/setup.sql 
-psql -h localhost -p 5432 -U postgres -d rcrockbands < ./../db_container/schema.sql 
+#the script should be something like start db &>/dev/null 
+psql -h $new_host -p $new_port -U postgres < ./../db_container/setup.sql 
+psql -h $new_host -p $new_port -U postgres -d rcrockbands < ./../db_container/schema.sql 
 
 
