@@ -35,7 +35,9 @@ public class Song {
 	@Column(name = "genre")
 	private TGenre genre;  
 	
-	
+	//@OneToMany(cascade= CascadeType.ALL)
+	//@JoinColumn(name="IdSong")
+	//@IndexColumn(name="bandId")
 	private List<Band> performBy;
 	
 	@Column(name = "duration")
