@@ -11,6 +11,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.ArtistDAO;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.Options;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 
 public class ArtistDaoImpl implements ArtistDAO {
@@ -26,13 +27,15 @@ public class ArtistDaoImpl implements ArtistDAO {
 	 * @return SessionFactory
 	 */
 	private SessionFactory buildSessionFactory() {
+		String dbHost = Options.getInstance().getDbHost();
+		String dbPort = Options.getInstance().getDbPort();
 		// Configuration configuration = new Configuration().addPackage("models").configure("hibernate.cfg.xml").addAnnotatedClass(Artist.class);
 		Configuration configuration = new Configuration().addPackage("models");
 		configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
 		configuration.setProperty("hibernate.connection.driver_class", "org.postgresql.Driver");
 		configuration.setProperty("hibernate.connection.username", "rock_db_owner");
 		configuration.setProperty("hibernate.connection.password", "rockenrio4");
-		configuration.setProperty("hibernate.connection.url", "jdbc:postgresql://localhost:5432/rcrockbands");
+		configuration.setProperty("hibernate.connection.url", "jdbc:postgresql://"+dbHost+":"+dbPort+"/rcrockbands");
 		configuration.setProperty("connection_pool_size", "1");
 		configuration.setProperty("hibernate.hbm2ddl.auto", "update");
 		configuration.setProperty("show_sql", "false");
