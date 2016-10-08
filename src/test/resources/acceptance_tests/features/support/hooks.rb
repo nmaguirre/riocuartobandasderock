@@ -2,8 +2,6 @@
 
 require 'rest-client'
 
-VERBOSE = false
-
 def create_clean_db
     started = system 'sh start_db.sh >/dev/null &'
     raise Exception.new('Unable to start DB') unless started
