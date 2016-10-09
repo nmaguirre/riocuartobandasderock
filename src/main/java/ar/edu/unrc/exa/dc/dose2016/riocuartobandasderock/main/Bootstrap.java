@@ -40,10 +40,10 @@ public class Bootstrap {
             // parse the command line arguments
             CommandLine line = parser.parse( options, args );
             if (line.hasOption("dbHost")) { 
-            		ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.Options.getInstance().setDbHost(line.getOptionValue("dbHost"));
+            		ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().setDbHost(line.getOptionValue("dbHost"));
             }
             if (line.hasOption("dbPort")) { 
-            	ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.Options.getInstance().setDbPort(line.getOptionValue("dbPort"));            
+            	ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().setDbPort(line.getOptionValue("dbPort"));            
             }
         }
         catch( ParseException exp ) {

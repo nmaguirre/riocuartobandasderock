@@ -11,7 +11,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.ArtistDAO;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.Options;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 
 public class ArtistDaoImpl implements ArtistDAO {
@@ -27,8 +27,8 @@ public class ArtistDaoImpl implements ArtistDAO {
 	 * @return SessionFactory
 	 */
 	private SessionFactory buildSessionFactory() {
-		String dbHost = Options.getInstance().getDbHost();
-		String dbPort = Options.getInstance().getDbPort();
+		String dbHost = ServerOptions.getInstance().getDbHost();
+		String dbPort = ServerOptions.getInstance().getDbPort();
 		// Configuration configuration = new Configuration().addPackage("models").configure("hibernate.cfg.xml").addAnnotatedClass(Artist.class);
 		Configuration configuration = new Configuration().addPackage("models");
 		configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
