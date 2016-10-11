@@ -14,18 +14,6 @@ public class Band {
    */
   public Band(){
   }
-
-  /**
-   * Is a constructor for a simple band
-   * @param a_name represent the name of the band
-   * @param a_genere is the genere of the band
-   */
-  public Band(String a_name, Genre a_genere){
-    id = UUID.randomUUID().toString();
-    name = a_name;
-    genere = a_genere;
-  }
-
  
   /**
    * this create a initial band with some params
