@@ -1,6 +1,7 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
 import spark.Response;
+
 import spark.Request;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.BandMember;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Role;
@@ -27,6 +28,7 @@ public class BandMemberController {
 	/**
 	 * Constructor;
 	 */
+	
 	public BandMemberController(){
 		bmDAO = new BandMemberDAOImpl();
 	}
@@ -38,7 +40,12 @@ public class BandMemberController {
 	 * @return  List of BandMembers
 	 */
 	public List<BandMember> getAllBandMembers (Request req, Response res){
-		return bmDAO.getAllBandMembers();
+		//bmDAO.openCurrentSession();
+		List <BandMember> bandMembers = bmDAO.getAllBandMembers();
+		//bmDAO.closeCurrentSession();
+		int status = (bandMembers.size()>0)? 200:404;
+		res.status(status);
+		return bandMembers;
 	}
 	
 	
@@ -49,7 +56,16 @@ public class BandMemberController {
 	 * @return one BandMember
 	 */
 	public BandMember getBandMember (Request req, Response res){
-		return bmDAO.findById(req.params("idBand"), req.params("idArtist"));
+		if ((req.params(":idArtist")=="") || (req.params(":idBand")=="")){
+			res.status(400);
+			return null;
+		}
+		//bmDAO.openCurrentSession();
+		BandMember bandMember = bmDAO.findById(req.params(":idBand"), req.params(":idArtist"));
+		//bmDAO.closeCurrentSession();
+		int status = (bandMember!=null)? 200:404;
+		res.status(status);
+		return bandMember;
 	}
 	
 	/**
@@ -59,7 +75,16 @@ public class BandMemberController {
 	 * @return List of BandMembers
 	 */
 	public List<BandMember> getBandMembersByArtist (Request req, Response res){
-		return bmDAO.findByArtist(req.params("idArtist")); 
+		if (req.params(":idArtist")==""){
+			res.status(400);
+			return null;
+		}
+		//bmDAO.openCurrentSession();
+		List<BandMember> bandMembers = bmDAO.findByArtist(req.params(":idArtist"));
+		//bmDAO.closeCurrentSession();
+		int status = (bandMembers.size()>0)? 200:404;
+		res.status(status);
+		return bandMembers;
 	}
 	
 	/**
@@ -69,61 +94,108 @@ public class BandMemberController {
 	 * @return List of BandMembers
 	 */
 	public List<BandMember> getBandMembersByBand (Request req, Response res){
-		return bmDAO.findByBand(req.params("idBand")); 
+		if (req.params(":idBand")==""){
+			res.status(400);
+			return null;
+		}
+		//bmDAO.openCurrentSession();
+		List<BandMember> bandMembers = bmDAO.findByBand(req.params(":idBand"));
+		//bmDAO.closeCurrentSession();
+		int status = (bandMembers.size()>0)? 200:404;
+		res.status(status);
+		return bandMembers;
 	}
 	
 	/**
 	 * creates an BandMember 
 	 * @param req It contains the attributes of the new BandMerber
 	 * @param res
-	 * @return True when BandMember It was created successfully
+	 * @return a string that describes the result of createBandMember
 	 */
-	public boolean createBandMember(Request req,Response res){
+	public String createBandMember(Request req,Response res){
 		String[] rolesAux=req.queryParamsValues("roles");
 		List<Role> roles = new LinkedList<>();
-		for (String i:rolesAux){
-			roles.add(Role.valueOf(i));
+		for (String rol:rolesAux){
+			roles.add(Role.valueOf(rol));
 		}
 		ArtistDAO aDAO= new ArtistDaoImpl();
 		BandDAO bDAO= new BandDaoImpl();
+		//bDAO.openCurrentSession();
 		Band band=bDAO.getBand(req.queryParams("idBand"));
+		//bDAO.closeCurrentSession();
+		//aDAO.openCurrentSession();
 		Artist artist= aDAO.findById(req.queryParams("idArtist"));
+		//aDAO.closeCurrentSession();
 		if (band==null || artist==null){
-			return false;
+			res.status(400);
+			return "Request Invalid";
 		}
 		BandMember bandMember = new BandMember(artist,band,roles);
-		return bmDAO.createBandMember(bandMember);
+		//bmDAO.openCurrentSessionWithTransaction();
+		boolean status = (bmDAO.createBandMember(bandMember));
+		//bmDAO.closeCurrentSessionWithTransaction();
+		if (status){
+			res.status(201);
+			return "Success";
+		}
+		res.status(500);
+		return "Fail";		
 	}
 	
 	/**
 	 * update an BandMember 
 	 * @param req	It contains the attributes of the BandMember to update
 	 * @param res
-	 * @return True when BandMember successfully updated
+	 * @return a string that describes the result of UpdateBandMember
 	 */
-	public boolean updateBandMember(Request req, Response res){
-		BandMember bandMember=bmDAO.findById(req.params("idBand"),req.params("idArtist"));
+	public String updateBandMember(Request req, Response res){
+		if (req.params(":idBand")==""||req.params(":idArtist")==""){
+			res.status(400);
+			return "Request invalid";
+		}
+		//bmDAO.openCurrentSession();
+		BandMember bandMember=bmDAO.findById(req.params(":idBand"),req.params(":idArtist"));
+		//bmDAO.closeCurrentSession();
 		if (bandMember==null){
-			return false;
+			res.status(404);
+			return "Not Found";
 		}
 		String[] rolesAux=req.queryParamsValues("roles");
 		List<Role> roles = bandMember.getRole();
 		roles.clear();
-		for (String i:rolesAux){
-			roles.add(Role.valueOf(i));
+		for (String rol:rolesAux){
+			roles.add(Role.valueOf(rol));
 		}
-		return bmDAO.updateBandMember(bandMember);
+		//bmDAO.openCurrentSessionWithTransaction();
+		boolean status= bmDAO.updateBandMember(bandMember);
+		//bmDAO.closeCurrentSessionWithTransaction();
+		if (status){
+			res.status(200);
+			return "Success";
+		}
+		res.status(500);
+		return "Fail"; 
 	}
 		
 	/**
 	 * delete an BandMember by his idArtist and idBand
 	 * @param req it contains idArtist and idBand of the BandMember to search
 	 * @param res
-	 * @return True when BandMember successfully deleted
+	 * @return a string that describes the result of deleteBandMember
 	 */
-	public boolean deleteBandMember(Request req, Response res){
+	public String deleteBandMember(Request req, Response res){
+		if ((req.params(":idBand")=="")||(req.params(":idArtist")=="")){
+			res.status(400);
+			return "Request invalid";
+		}
+		//bmDAO.openCurrentSessionWithTransaction();
 	 	boolean status = bmDAO.deleteBandMember(req.params(":idBand"),req.params(":idArtist"));
-	 	return status;
+		//bmDAO.closeCurrentSessionWithTransaction();
+	 	if (status){
+	 		res.status(200);
+	 		return "Success";
+	 	}
+	 	res.status(404);
+	 	return "Not Found";
 	}
-
 }

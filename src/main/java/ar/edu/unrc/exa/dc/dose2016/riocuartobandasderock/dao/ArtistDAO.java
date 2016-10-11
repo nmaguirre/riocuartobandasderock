@@ -2,10 +2,34 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao;
 
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 
 public interface ArtistDAO {
 
+	
+	public Session openCurrentSession();
+
+	public Session openCurrentSessionwithTransaction();
+
+	public void closeCurrentSession();
+
+	public void closeCurrentSessionwithTransaction();
+
+	public Session getCurrentSession();
+
+	public void setCurrentSession(Session currentSession);
+	
+	public Transaction getCurrentTransaction();
+
+	public void setCurrentTransaction(Transaction currentTransaction);
+	
 	/**
 	* This method get all artists
 	* 

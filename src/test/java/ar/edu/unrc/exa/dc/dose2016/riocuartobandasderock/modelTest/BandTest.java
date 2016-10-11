@@ -79,54 +79,7 @@ public class BandTest {
     assertEquals(band.getName(),name);  
   }
   
-  /**
-   * in this test we set a release, and then we check
-   * that match with the release created
-   */
-  @Test
-  public void setReleaseTest(){
-    Band band = new Band();
-    String release = "13/09/2016";
-    band.setRelease(release);
-    assertEquals(band.getRelease(),release);  
-  }
-  
-  /**
-   * in this test we set an end, and then we check
-   * that match with the end created
-   */
-  @Test
-  public void setEndTest(){
-    Band band = new Band();
-    String end = "13/09/2016";
-    band.setEnd(end);
-    assertEquals(band.getEnd(),end);  
-  }
-  
-  /**
-   * in this test we set a List of albums, and then we check
-   * that match with the list of albums created
-   */
-  @Test
-  public void setAlbunListTest(){
-    Band band = new Band();
-    LinkedList<Album> an_album_list = new LinkedList<Album>();
-    band.setAlbumList(an_album_list);
-    assertEquals(band.getAlbum(),an_album_list);  
-  }
-  
-  /**
-   * in this test we set a list of Artists, and then we check
-   * that match with the list of artists created
-   */
-  @Test
-  public void setArtist(){
-    Band band = new Band();
-    LinkedList<Artist> an_artist_list = new LinkedList<Artist>();
-    band.setArtistList(an_artist_list);
-    assertEquals(band.getArtistList(),an_artist_list);  
-  }
-  
+
   /**
    * in this test we set a Genere , and then we check
    * that match with the genere created

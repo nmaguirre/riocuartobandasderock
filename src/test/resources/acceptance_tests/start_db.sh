@@ -7,4 +7,5 @@ linux="./start_db_docker_linux.sh"
 darwin="./start_db_docker_darwin.sh"
 non64Bits="./start_db_no_docker.sh"
 
+echo "corriendo start db..."
 ./architectureSwitch.sh "$linux" "$darwin" "$non64Bits"
