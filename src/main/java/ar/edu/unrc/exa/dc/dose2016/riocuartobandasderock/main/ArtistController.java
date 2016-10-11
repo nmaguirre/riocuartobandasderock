@@ -30,9 +30,9 @@ public class ArtistController {
 	 * @return  List of Artist
 	 */
 	public List<Artist> getAllArtists(Request req, Response res){
-		//artistDAO.openCurrentSession();
+		artistDAO.openCurrentSession();
 		List<Artist> artists = artistDAO.getAllArtists();
-		//artistDAO.closeCurrentSession();
+		artistDAO.closeCurrentSession();
 		int status = (artists.size()>0)? 200:404;
 		res.status(status);
 		return artists;
@@ -49,9 +49,9 @@ public class ArtistController {
 		if (req.params(":id")==""){
 			res.status(400);
 		}
-		//artistDAO.openCurrentSession();
+		artistDAO.openCurrentSession();
 		Artist artist = artistDAO.findById(req.params(":id"));
-		//artistDAO.closeCurrentSession();
+		artistDAO.closeCurrentSession();
 		int status = (artist==null)? 201:404;
 		res.status(status);
 		return artist;
@@ -67,9 +67,9 @@ public class ArtistController {
 		if (req.params(":name")==""){
 			res.status(400);
 		}
-		//artistDAO.openCurrentSession();
+		artistDAO.openCurrentSession();
 		List<Artist> artists = artistDAO.findByName(req.params(":name"));
-		//artistDAO.closeCurrentSession();
+		artistDAO.closeCurrentSession();
 		int status = (artists.size()==0)? 201:404;
 		res.status(status);
 		return artists;
@@ -87,9 +87,9 @@ public class ArtistController {
 			return "Request invalid";
 		}
 		Artist artist = new Artist(req.queryParams("name"),req.queryParams("surname"),req.queryParams("nickname"));
-		//artistDAO.openCurrentSessionWithTransaction();
+		artistDAO.openCurrentSessionwithTransaction();
 		boolean status = artistDAO.createArtist(artist);
-		//artistDAO.closeCurrentSessionWithTransaction();
+		artistDAO.closeCurrentSessionwithTransaction();
 		if (status){
 			res.status(201);
 			return "Success";
@@ -109,9 +109,9 @@ public class ArtistController {
 			res.status(400);
 			return "Request invalid";
 		}
-		//artistDAO.openCurrentSession();
+		artistDAO.openCurrentSession();
 		Artist artist = artistDAO.findById(req.params(":id"));
-		//artistDAO.closeCurrentSession();
+		artistDAO.closeCurrentSession();
 		if (artist==null){
 			res.status(400);
 			return "Request invalid";
@@ -119,9 +119,9 @@ public class ArtistController {
 		artist.setName(req.queryParams("name"));
 		artist.setNickname(req.queryParams("nickName"));
 		artist.setSurname(req.queryParams("surName"));
-		//artistDAO.openCurrentSessionWithTransaction();
+		artistDAO.openCurrentSessionwithTransaction();
 		boolean status = artistDAO.updateArtist(artist);
-		//artistDAO.closeCurrentSessionWithTransaction();
+		artistDAO.closeCurrentSessionwithTransaction();
 		if (status){
 			res.status(200);
 			return "Success";
@@ -141,9 +141,9 @@ public class ArtistController {
 			res.status();
 			return "Request invalid";
 		}
-		//artistDAO.openCurrentSessionWithTransaction();
+		artistDAO.openCurrentSessionwithTransaction();
 	 	boolean status = artistDAO.deleteArtist(req.params(":id"));
-		//artistDAO.closeCurrentSessionWithTransaction();
+		artistDAO.closeCurrentSessionwithTransaction();
 		if (status){
 			res.status(200);
 			return "Success";
