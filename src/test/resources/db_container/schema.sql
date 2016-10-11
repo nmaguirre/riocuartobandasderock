@@ -5,4 +5,10 @@ CREATE TABLE artistDB (
     nickname text
 );
 
+CREATE TABLE Songs (
+    idSong int primary key, 
+    nameSong text not null, 
+    duration int
+);
+
 GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO rock_db_owner;
