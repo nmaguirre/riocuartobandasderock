@@ -34,7 +34,17 @@ public class ArtistDaoImpl implements ArtistDAO{
 
 	@Override
 	public boolean createArtist(Artist artist) {
-        Configuration configuration = new Configuration().addPackage("models").configure( "hibernate.cfg.xml").addAnnotatedClass(Artist.class);
+	  Configuration configuration = new Configuration().addPackage("models");
+	  configuration.setProperty("hibernate.dialect","org.hibernate.dialect.PostgreSQLDialect");
+	  configuration.setProperty("hibernate.connection.driver_class","org.postgresql.Driver");
+	  configuration.setProperty("hibernate.connection.username","rock_db_owner");
+	  configuration.setProperty("hibernate.connection.password","rockenrio4");
+	  configuration.setProperty("hibernate.connection.url","jdbc:postgresql://localhost:5432/rcrockbands");
+	  configuration.setProperty("connection_pool_size","1");
+	  configuration.setProperty("hibernate.hbm2ddl.auto","update");
+	  configuration.setProperty("show_sql","false");
+	  configuration.setProperty("hibernate.current_session_context_class","thread");
+	  configuration.addAnnotatedClass(Artist.class);
         StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
                 .applySettings(configuration.getProperties());
         SessionFactory sessionFactory = configuration.buildSessionFactory(builder.build());

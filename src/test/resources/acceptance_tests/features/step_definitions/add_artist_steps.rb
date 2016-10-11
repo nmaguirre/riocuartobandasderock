@@ -20,7 +20,7 @@ Given(/^I have successfully logged in as admin$/) do
 end
 
 Given(/^that the artist's database is empty$/) do
-    result = `psql -h 192.168.99.100 -p 5432  -U rock_db_owner -d rcrockbands -c \"select count(*) from artistDB;\" -t`
+    result = `psql -h 192.168.1.12 -p 5432  -U rock_db_owner -d rcrockbands -c \"select count(*) from artistDB;\" -t`
     result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars 
     expect(result).to eq("0")
 end
@@ -31,16 +31,16 @@ When(/^I add an artist with name "([^"]*)" and surname "([^"]*)"$/) do |name,sur
 end
 
 Then(/^the artist's database should have (\d+) entry$/) do |arg1|
-    result = `psql -h 192.168.99.100 -p 5432  -U rock_db_owner -d rcrockbands -c \"select count(*) from artistDB;\" -t`
+    result = `psql -h 192.168.1.12 -p 5432  -U rock_db_owner -d rcrockbands -c \"select count(*) from artistDB;\" -t`
     result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
     expect(result).to eq("1")  
 end
 
 Then(/^the entry should have name "([^"]*)" and surname "([^"]*)"$/) do |name, surname|
-    resultingName = `psql -h 192.168.99.100 -p 5432  -U rock_db_owner -d rcrockbands -c \"select name from artistDB;\" -t`
+    resultingName = `psql -h 192.168.1.12 -p 5432  -U rock_db_owner -d rcrockbands -c \"select name from artistDB;\" -t`
     resultingName = resultingName.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
     expect(resultingName).to eq(name)  
-    resultingSurname = `psql -h 192.168.99.100 -p 5432  -U rock_db_owner -d rcrockbands -c \"select surname from artistDB;\" -t`
+    resultingSurname = `psql -h 192.168.1.12 -p 5432  -U rock_db_owner -d rcrockbands -c \"select surname from artistDB;\" -t`
     resultingSurname = resultingSurname.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
     expect(resultingSurname).to eq(surname)  
 end
