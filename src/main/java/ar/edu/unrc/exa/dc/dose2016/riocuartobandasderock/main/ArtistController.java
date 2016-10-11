@@ -1,7 +1,6 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.BandMember;
 import spark.Response;
 import spark.Request;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.ArtistDAO;
