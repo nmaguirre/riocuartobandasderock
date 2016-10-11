@@ -26,12 +26,12 @@ public interface BandDAO {
 
 	public void setCurrentTransaction(Transaction currentTransaction);
 	
-	   /**
-	    * This method get all bands
-	    * 
-	    * @return List of Bands
-	    */
-	   public List<Band> getAllBands();
+	   ///**
+	   // * This method get all bands
+	   //* 
+	   //* @return List of Bands
+	   //*/
+	   //public List<Band> getAllBands();
 	   
 	   /**
 	    * 

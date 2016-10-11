@@ -45,6 +45,7 @@ public class BandDaoImpl implements BandDAO {
 		currentSession.close();
 	}
 
+
 	private static SessionFactory getSessionFactory() {
 		String dbHost = ServerOptions.getInstance().getDbHost();
 		String dbPort = ServerOptions.getInstance().getDbPort();
@@ -89,8 +90,7 @@ public class BandDaoImpl implements BandDAO {
 	
 	
 	public List<Band> getAllBands(){
-		
-		return null;
+			return null;
 	}
 	   
 	public Band getBand(String id){
