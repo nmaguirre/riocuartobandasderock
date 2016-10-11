@@ -37,12 +37,6 @@ public class ArtistControllerTest {
 	  ArtistController artistcon = new ArtistController();
 	 }
 	
-	@Test
-	 public void testArtistController() {
-	  ArtistDaoImpl artistdao=new ArtistDaoImpl();
-	  ArtistController artistcon = new ArtistController();
-	  assertEquals( artistcon.getArtistDAO(),artistcon.getArtistDAO());
-	 }
 	
 	@Test
 	 public void testgetAllArtists() {
