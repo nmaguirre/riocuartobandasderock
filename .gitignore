@@ -39,3 +39,7 @@ Thumbs.db
 # SCRIPT UPDATES #
 ##################
 *.sh
+
+*.lock
+*.txt
+*.swp
