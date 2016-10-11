@@ -9,10 +9,10 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 
 public class BandDaoImpl implements BandDAO {
 
-	public List<Band> getAllBands(){
+	/*public List<Band> getAllBands(){
 		
 		return null;
-	}
+	}*/
 	   
 	public Band getBand(String id){
 		

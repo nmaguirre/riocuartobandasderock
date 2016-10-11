@@ -7,12 +7,12 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 
 public interface BandDAO {
 	
-	   /**
-	    * This method get all bands
-	    * 
-	    * @return List of Bands
-	    */
-	   public List<Band> getAllBands();
+	   ///**
+	   // * This method get all bands
+	   //* 
+	   //* @return List of Bands
+	   //*/
+	   //public List<Band> getAllBands();
 	   
 	   /**
 	    * 
