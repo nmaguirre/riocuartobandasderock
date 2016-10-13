@@ -103,28 +103,40 @@ public class ArtistDaoImpl implements ArtistDAO {
 	/**
 	 * Search an artist in database
 	 * 
-	 * @param artist
-	 *            name, surname or nickname to search
+	 * @param artist surname to search
+	 * @return artist wanted
+	 */
+	@Override
+	public List<Artist> findBySurname(String surname) {
+		Query<Artist> query = currentSession.createQuery("from Artist where surname=:n", Artist.class);
+		query.setString("n", surname);
+		return query.getResultList();
+	}
+	
+	/**
+	 * Search an artist in database
+	 * 
+	 * @param artist nickname to search
+	 * @return artist wanted
+	 */
+	@Override
+	public List<Artist> findByNickname(String nickname) {
+		Query<Artist> query = currentSession.createQuery("from Artist where nickname=:n", Artist.class);
+		query.setString("n", nickname);
+		return query.getResultList();
+	}
+	
+	/**
+	 * Search an artist in database
+	 * 
+	 * @param artist name to search
 	 * @return artist wanted
 	 */
 	@Override
 	public List<Artist> findByName(String name) {
-		if (name != null && name != "") {
-			List<Artist> artistList = new LinkedList<>();
-			Query<Artist> query;
-			query = currentSession.createQuery("from Artist where name=:n", Artist.class);
-			query.setString("n", name);
-			artistList.addAll(query.getResultList());
-			query = currentSession.createQuery("from Artist where surname=:n", Artist.class);
-			query.setString("n", name);
-			artistList.addAll(query.getResultList());
-			query = currentSession.createQuery("from Artist where nickname=:n", Artist.class);
-			query.setString("n", name);
-			artistList.addAll(query.getResultList());
-			return artistList;
-		} else {
-			return null;
-		}
+		Query<Artist> query = currentSession.createQuery("from Artist where name=:n", Artist.class);
+		query.setString("n", name);
+		return query.getResultList();
 	}
 
 	/**
