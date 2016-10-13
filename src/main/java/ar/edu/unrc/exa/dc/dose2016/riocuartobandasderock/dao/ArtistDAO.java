@@ -43,7 +43,23 @@ public interface ArtistDAO {
 	* 
 	* @return Artists that have a particular name
 	*/
-	public List<Artist> findByName(String name);
+	public List<Artist> findBySurname(String name);
+	
+	/**
+	* 
+	* @param String nickname
+	* 
+	* @return Artists that have a particular nickname
+	*/
+	public List<Artist> findByNickname(String nickname);
+	
+	/**
+	* 
+	* @param String surname
+	* 
+	* @return Artists that have a particular surname
+	*/
+	public List<Artist> findByName(String surname);
 
 	/**
 	* 
