@@ -1,9 +1,18 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl;
 
+import java.util.LinkedList;
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.AlbumDAO;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 /**
  * This class implements the AlbumDAO interface,
  * and contains the methods necessary 
@@ -12,6 +21,76 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
  *
  */
 public class AlbumDaoImpl implements AlbumDAO{
+	
+	private Session currentSession;
+
+	private Transaction currentTransaction;
+	
+	@Override
+	public Session openCurrentSession() {
+		currentSession = getSessionFactory().openSession();
+		return currentSession;
+	}
+
+	@Override
+	public Session openCurrentSessionwithTransaction() {
+		currentSession = getSessionFactory().openSession();
+		currentTransaction = currentSession.beginTransaction();
+		return currentSession;
+	}
+
+	@Override
+	public void closeCurrentSession() {
+		currentSession.close();
+	}
+
+	@Override
+	public void closeCurrentSessionwithTransaction() {
+		currentTransaction.commit();
+		currentSession.close();
+	}
+
+	private static SessionFactory getSessionFactory() {
+		String dbHost = ServerOptions.getInstance().getDbHost();
+		String dbPort = ServerOptions.getInstance().getDbPort();
+		// Configuration configuration = new Configuration().addPackage("models").configure("hibernate.cfg.xml").addAnnotatedClass(Artist.class);
+		Configuration configuration = new Configuration().addPackage("models");
+		configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+		configuration.setProperty("hibernate.connection.driver_class", "org.postgresql.Driver");
+		configuration.setProperty("hibernate.connection.username", "rock_db_owner");
+		configuration.setProperty("hibernate.connection.password", "rockenrio4");
+		configuration.setProperty("hibernate.connection.url",
+				"jdbc:postgresql://" + dbHost + ":" + dbPort + "/rcrockbands");
+		configuration.setProperty("connection_pool_size", "1");
+		configuration.setProperty("hibernate.hbm2ddl.auto", "update");
+		configuration.setProperty("show_sql", "false");
+		configuration.setProperty("hibernate.current_session_context_class", "thread");
+		configuration.addAnnotatedClass(Album.class);
+		StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
+				.applySettings(configuration.getProperties());
+		SessionFactory sf = configuration.buildSessionFactory(builder.build());
+		return sf;
+	}
+
+	@Override
+	public Session getCurrentSession() {
+		return currentSession;
+	}
+
+	@Override
+	public void setCurrentSession(Session currentSession) {
+		this.currentSession = currentSession;
+	}
+
+	@Override
+	public Transaction getCurrentTransaction() {
+		return currentTransaction;
+	}
+
+	@Override
+	public void setCurrentTransaction(Transaction currentTransaction) {
+		this.currentTransaction = currentTransaction;
+	}
 
 	/**
 	 * Find one album by id
@@ -19,14 +98,22 @@ public class AlbumDaoImpl implements AlbumDAO{
 	 * @return Album iff this album exists by this id.
 	 */
 	public Album findById(String id){
-		return null;
+		if((id!=null)&&(id!="")){
+			Album a = new Album();
+			a = currentSession.find(Album.class, id);
+			return a;
+		}else{
+			return null;
+		}
 	}
 	
 	/**
 	 * @return list of albums contained
 	 */
 	public List<Album> getAllAlbums(){
-		return null;
+		List<Album> l = new LinkedList<Album>();
+		l.addAll(currentSession.createQuery("from Album", Album.class).list());
+		return l;
 	}	
 	
 	/**
@@ -98,7 +185,12 @@ public class AlbumDaoImpl implements AlbumDAO{
 	 * @return true if album was inserted into data base correctly
 	 */
 	public boolean createAlbum(Album album){
-		return false;
+		if (album != null){
+			currentSession.save(album);
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	/**
