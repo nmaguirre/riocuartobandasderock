@@ -1,4 +1,4 @@
-new_host=192.168.99.100
+new_host=localhost
 new_port=5432
 #This script should test if the database is running
 
