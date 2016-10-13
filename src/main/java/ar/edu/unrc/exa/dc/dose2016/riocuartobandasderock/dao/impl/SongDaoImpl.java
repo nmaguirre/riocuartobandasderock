@@ -92,11 +92,22 @@ public class SongDaoImpl implements SongDAO{
 	}
 	   
 	public Boolean updateSong(Song song){
-		return false;
+		if (song != null) {
+			currentSession.update(song);
+			return true;
+		} else {
+			return false;
+		}
 	}
 	   
-	public Boolean removeSong(Song song){
-		return false;
+	public Boolean removeSong(String id){
+		Song song = this.findById(id);
+		if (song != null) {
+			currentSession.delete(song);
+			return true;
+		} else {
+			return false;
+		}
 	}
 	   
 	public Boolean addSong(Song song){
@@ -104,7 +115,12 @@ public class SongDaoImpl implements SongDAO{
 	}
 	
 	public Song findById(String id){
-		return null;
+		if (id != null && id != "") {
+			Song song = currentSession.find(Song.class, id);
+			return song;
+		} else {
+			return null;
+		}
 	}
 	
 	public List<Song> findByBandName(String BandName){
