@@ -7,7 +7,6 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.BandMember;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.TGenre;
 
 import java.util.Date;
 import java.util.LinkedList;
@@ -40,7 +39,7 @@ public class AlbumTest {
 		artist.setName("Cream");
 		Date releaseDate = new Date(1967,11,2);
 		int duration = 2019;
-		TGenre genre = TGenre.rock;
+		String genre = "rock";
 		Date recordingDate = new Date(1967,5,0); //cero indica que el dia es desconocido
 		String discography = "Reaction";
 	    int ISRC = 827361683;
@@ -51,7 +50,7 @@ public class AlbumTest {
 		assertEquals(albumTest.getPerformer().getName(),"Cream");
 		assertEquals(albumTest.getReleaseDate(),new Date(1967,11,2));
 		assertEquals(albumTest.getDuration(),2019);
-		assertEquals(albumTest.getGenre(),TGenre.rock);
+		assertEquals(albumTest.geString(),"rock");
 		assertEquals(albumTest.getRecordingDate(),new Date(1967,5,0));
 		assertEquals(albumTest.getDiscography(),"Reaction");
 		assertEquals(albumTest.getISRC(),827361683);

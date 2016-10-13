@@ -9,18 +9,10 @@ import org.junit.Test;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Genre;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.TGenre;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 
 public class SongTest {
 
-	@Test
-	public void idTest(){
-		Song song = new Song();
-		song.setId(1);
-		assertEquals(1 , song.getId());
-	}
 
 	@Test
 	public void nameTest(){
@@ -29,12 +21,7 @@ public class SongTest {
 		assertEquals("thebeatles", song.getName());
 	}
 	
-	@Test
-	public void nameAuthor(){
-		Song song = new Song();
-		song.setAuthor("arjona");
-		assertEquals("arjona", song.getAuthor());
-	}
+	
 	
 	@Test
 	public void durationTest(){
@@ -43,40 +30,9 @@ public class SongTest {
 		assertEquals(3, song.getDuration());
 	}
 	
-	@Test
-	public void albumTest(){
-		Album alb = new Album();
-		Song song = new Song();
-		song.setAlbum(alb);
-	    assertEquals(alb, song.getAlbum());
-	}
 	
-	@Test
-	public void genreTest(){
-		Song song = new Song();
-		TGenre gen = TGenre.pop;
-		song.setGenre(gen);
-		assertEquals(gen, song.getGenre());
-	}
 	
-	@Test
-	public void bandTest(){
-		List<Band> band = new ArrayList<Band>();
-		Song song = new Song();
-		song.setBands(band);
-		assertEquals(band, song.getBands());
-	}
 	
-	@Test
-	public void constructorTest(){
-		Album alb = new Album();
-		TGenre gen = TGenre.pop;
-		List<Band> band = new ArrayList<Band>();
-		Song song = new Song(1, "pinguinos en la cama", gen, band, 300 , "arjona", alb);
-		boolean res = ((song.getId() == 1) && (song.getName() == "pinguinos en la cama") &&(song.getGenre() == gen) 
-		&& (song.getBands() == band) && (song.getAlbum() == alb) && (song.getDuration() == 300) 
-		&& (song.getAuthor() == "arjona"));
-		assertTrue(res);
-			
-	}
+	
+
 }
