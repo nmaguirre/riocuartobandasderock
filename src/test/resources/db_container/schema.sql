@@ -5,9 +5,9 @@ CREATE TABLE artistDB (
     nickname text
 );
 
-CREATE TABLE Songs (
+CREATE TABLE SongDB (
     idSong int primary key, 
-    nameSong text not null, 
+    name text not null, 
     duration int
 );
 
