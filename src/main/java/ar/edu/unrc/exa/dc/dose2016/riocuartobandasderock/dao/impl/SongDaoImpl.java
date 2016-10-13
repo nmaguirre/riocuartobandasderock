@@ -100,8 +100,7 @@ public class SongDaoImpl implements SongDAO{
 		}
 	}
 	   
-	public Boolean removeSong(String id){
-		Song song = this.findById(id);
+	public Boolean removeSong(Song song){
 		if (song != null) {
 			currentSession.delete(song);
 			return true;
