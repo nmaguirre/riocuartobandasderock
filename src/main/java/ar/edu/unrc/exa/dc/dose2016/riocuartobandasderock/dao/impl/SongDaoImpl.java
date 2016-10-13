@@ -46,46 +46,38 @@ public class SongDaoImpl implements SongDAO{
 		return sf;
 	}
 	
-	@Override
 	public Session openCurrentSession() {
 		currentSession = getSessionFactory().openSession();
 		return currentSession;
 	}
 
-	@Override
 	public Session openCurrentSessionwithTransaction() {
 		currentSession = getSessionFactory().openSession();
 		currentTransaction = currentSession.beginTransaction();
 		return currentSession;
 	}
 
-	@Override
 	public void closeCurrentSession() {
 		currentSession.close();
 	}
 
-	@Override
 	public void closeCurrentSessionwithTransaction() {
 		currentTransaction.commit();
 		currentSession.close();
 	}
 	
-	@Override
 	public Session getCurrentSession() {
 		return currentSession;
 	}
 
-	@Override
 	public void setCurrentSession(Session currentSession) {
 		this.currentSession = currentSession;
 	}
 
-	@Override
 	public Transaction getCurrentTransaction() {
 		return currentTransaction;
 	}
 
-	@Override
 	public void setCurrentTransaction(Transaction currentTransaction) {
 		this.currentTransaction = currentTransaction;
 	}

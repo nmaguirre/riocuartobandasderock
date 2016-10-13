@@ -52,10 +52,10 @@ else
     echo "Updating start_db_no_docker.sh..."
     $sedi "1s/.*/$host_decl/" start_db_no_docker.sh
     $sedi "2s/.*/$port_decl/" start_db_no_docker.sh
-    echo "Updating features/step_definitions/add_artist_steps.rb..."
-    $sedi "8s/.*/HOST = \"$1\"/" features/step_definitions/add_artist_steps.rb
-    $sedi "9s/.*/PORT = \"$2\"/" features/step_definitions/add_artist_steps.rb
+    echo "Updating features/step_definitions/step_definitions.rb..."
+    $sedi "8s/.*/HOST = \"$1\"/" features/step_definitions/step_definitions.rb
+    $sedi "9s/.*/PORT = \"$2\"/" features/step_definitions/step_definitions.rb
     echo "Removing temporary files..."
     rm *\'\'
-    rm features/step_definitions/add_artist_steps.rb\'\'
+    rm features/step_definitions/step_definitions.rb\'\'
 fi
