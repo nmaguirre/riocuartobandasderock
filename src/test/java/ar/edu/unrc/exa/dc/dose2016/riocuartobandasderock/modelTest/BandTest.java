@@ -87,7 +87,7 @@ public class BandTest {
   @Test
   public void setGenereTest(){
     Band band = new Band();
-    Genre a_genere = new Genre();
+    String a_genere = new String("Rock");
     band.setGenere(a_genere);
     assertEquals(band.getGenere(),a_genere);  
   }
