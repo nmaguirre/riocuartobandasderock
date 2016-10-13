@@ -45,39 +45,39 @@ public class SongDaoImpl implements SongDAO{
 		SessionFactory sf = configuration.buildSessionFactory(builder.build());
 		return sf;
 	}
-	
+	@Override
 	public Session openCurrentSession() {
 		currentSession = getSessionFactory().openSession();
 		return currentSession;
 	}
-
+	@Override
 	public Session openCurrentSessionwithTransaction() {
 		currentSession = getSessionFactory().openSession();
 		currentTransaction = currentSession.beginTransaction();
 		return currentSession;
 	}
-
+	@Override
 	public void closeCurrentSession() {
 		currentSession.close();
 	}
-
+	@Override
 	public void closeCurrentSessionwithTransaction() {
 		currentTransaction.commit();
 		currentSession.close();
 	}
-	
+	@Override
 	public Session getCurrentSession() {
 		return currentSession;
 	}
-
+	@Override
 	public void setCurrentSession(Session currentSession) {
 		this.currentSession = currentSession;
 	}
-
+	@Override
 	public Transaction getCurrentTransaction() {
 		return currentTransaction;
 	}
-
+	@Override
 	public void setCurrentTransaction(Transaction currentTransaction) {
 		this.currentTransaction = currentTransaction;
 	}
@@ -90,7 +90,8 @@ public class SongDaoImpl implements SongDAO{
 		songList.addAll(query.getResultList());
 		return songList;
 	}
-	   
+	
+	@Override
 	public Boolean updateSong(Song song){
 		if (song != null) {
 			currentSession.update(song);
@@ -99,7 +100,7 @@ public class SongDaoImpl implements SongDAO{
 			return false;
 		}
 	}
-	   
+	@Override   
 	public Boolean removeSong(Song song){
 		if (song != null) {
 			currentSession.delete(song);
@@ -108,11 +109,12 @@ public class SongDaoImpl implements SongDAO{
 			return false;
 		}
 	}
-	   
+	@Override   
 	public Boolean addSong(Song song){
 		return false;
 	}
 	
+	@Override
 	public Song findById(String id){
 		if (id != null && id != "") {
 			Song song = currentSession.find(Song.class, id);
@@ -122,10 +124,12 @@ public class SongDaoImpl implements SongDAO{
 		}
 	}
 	
+	@Override
 	public List<Song> findByBandName(String BandName){
 		return null;
 	}
 	
+	@Override
 	public List<Song> findByName(String name){
 		if (name != null && name != "") {
 			List<Song> songList = new LinkedList<>();
@@ -144,19 +148,23 @@ public class SongDaoImpl implements SongDAO{
 			return null;
 		}
 	}
-                    
+    
+	@Override
     public List<Song> findByGenere(String genere){
     	return null;
     }
-                    
+    
+	@Override
     public List<Song> findByAuthor(String author){
     	return null;
     }
-                    
+    
+	@Override
     public List<Song> findByAlbum(String album){
     	return null;
     }
 	
+	@Override
 	public List<Song> findByDuration(int duration){
 		return null;
 	}
