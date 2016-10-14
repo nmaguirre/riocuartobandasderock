@@ -1,5 +1,6 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -49,7 +50,7 @@ public interface AlbumDAO {
 	 * @param name
 	 * @return  
 	 */ 
-	public Album findByName(String name);
+	public List<Album> findByName(String name);
 	
 //	/**
 //	 * @param year
@@ -91,7 +92,7 @@ public interface AlbumDAO {
 	 * @param releaseDate
 	 * @return
 	 */
-	public List<Album> findByReleaseDate(int year);
+	public List<Album> findByReleaseDate(Date releaseDate);
 	
 //	/**
 //	 * @param recordDate
