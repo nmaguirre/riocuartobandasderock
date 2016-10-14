@@ -1,3 +1,9 @@
+CREATE TABLE Album (
+	id text primary key,
+	title text not null,
+	releaseDate date
+);
+
 CREATE TABLE artistDB (
     artistID text primary key,
     name text,
