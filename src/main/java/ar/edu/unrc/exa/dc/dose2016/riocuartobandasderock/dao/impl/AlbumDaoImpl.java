@@ -185,12 +185,12 @@ public class AlbumDaoImpl implements AlbumDAO{
 	 */
 	public List<Album> findByReleaseDate(Date releaseDate){
 		List<Album> byReleaseDateList = new LinkedList<Album>();
-		Query<Album> query = currentSession.createQuery("from Album where releaseDate =:date ");
-		query.setParameter("date", releaseDate);
-		byReleaseDateList.addAll(query.list());
-		
-		return byReleaseDateList;
-		
+		if (releaseDate!=null){
+			Query<Album> query = currentSession.createQuery("from Album where releaseDate =:date ");
+			query.setParameter("date", releaseDate);
+			byReleaseDateList.addAll(query.list());
+		}		
+		return byReleaseDateList;		
 	}
 	
 	/**
