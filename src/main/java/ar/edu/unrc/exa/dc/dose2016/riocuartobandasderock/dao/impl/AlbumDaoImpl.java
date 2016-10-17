@@ -211,6 +211,10 @@ public class AlbumDaoImpl implements AlbumDAO{
 	 * @return true iff the album was updated correctly
 	 */
 	public boolean updateAlbum(Album album){
+		if (album!=null){
+			currentSession.update(album);
+			return true;
+		}
 		return false;
 	}
 	
