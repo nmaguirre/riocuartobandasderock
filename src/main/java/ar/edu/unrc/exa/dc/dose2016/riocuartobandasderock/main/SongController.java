@@ -9,7 +9,6 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SongDaoImpl;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.TGenre;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -7,6 +7,7 @@ public class Band {
   private String id;
   private String name;
   private String genre;
+
   
   
   /**
@@ -44,11 +45,11 @@ public class Band {
   
 
   /**
-   * return the genre of the band
-   * @return String (Genere) 
+   * @return the genre of the band 
    */
   public String getGenere(){
     return genre;
+
   }
     
   /**
@@ -72,6 +73,7 @@ public class Band {
    * this method set the principal genre of the band
    * @param a_genre (Genere)
    */
+
   public void setGenere(String a_genre){
     genre = a_genre;
   } 

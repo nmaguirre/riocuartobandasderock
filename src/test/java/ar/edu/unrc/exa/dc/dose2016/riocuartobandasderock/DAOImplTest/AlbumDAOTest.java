@@ -60,9 +60,11 @@ public class AlbumDAOTest {
 		songs.add(track4);
 		songs.add(track5);
 		
+
 		albumInst1= new Album("Hey Jude");
 		albumInst2= new Album("Say No More");
 		albumInst3= new Album("Pendulum");
+
 
 	}
 	

@@ -26,6 +26,7 @@ public class Album {
 	@Column(name = "title")
 	private String title;
 
+
 	/** The album release date. */
 	@Column(name = "releaseDate")
 	private Date releaseDate;
@@ -55,7 +56,9 @@ public class Album {
 	 * @param title The album title.
 	 * @param releaseDate The album release date.
 	 */
+
 	public Album(String title, Date releaseDate) {
+
 		this.id = UUID.randomUUID().toString();
 		this.title = title;
 		this.releaseDate = releaseDate;
@@ -98,6 +101,7 @@ public class Album {
 	}
 
 	/**
+
 	 * Returns the album release date.
 	 *
 	 * @return relaseDate

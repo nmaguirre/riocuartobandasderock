@@ -91,20 +91,6 @@ public class BandDaoImpl implements BandDAO {
 	}
 	
 	/**
-	 * Get all bands from the database
-	 * 
-	 * @return list with all found bands
-	 */
-	
-	public List<Band> getAllBands(){
-		List<Band> bandList = new LinkedList<>();
-		Query<Band> query;
-		query = currentSession.createQuery("from Band", Band.class);
-		bandList.addAll(query.getResultList());
-		return bandList;
-	}
-
-	/**
 	 * Search a band in database
 	 * 
 	 * @param band id to search

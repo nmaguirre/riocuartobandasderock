@@ -6,7 +6,7 @@ require "rspec"
 include RSpec::Matchers
 
 HOST = "localhost"
-PORT = "5432"
+PORT = "7500"
 
 
 def execute_sql(sql_code)

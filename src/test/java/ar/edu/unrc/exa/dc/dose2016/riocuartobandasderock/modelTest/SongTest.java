@@ -3,16 +3,11 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.modelTest;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 
 public class SongTest {
-
-	@Test
-	public void idTest(){
-		Song song = new Song();
-		song.setId("1");
-		assertEquals("1" , song.getId());
-	}
 
 	@Test
 	public void nameTest(){
@@ -21,6 +16,7 @@ public class SongTest {
 		assertEquals("thebeatles", song.getName());
 	}
 	
+
 	@Test
 	public void durationTest(){
 		Song song = new Song();
@@ -34,4 +30,5 @@ public class SongTest {
 		boolean res = (song.getName() == "pinguinos en la cama") && (song.getDuration() == 300);
 		assertTrue(res);
 	}
+
 }
