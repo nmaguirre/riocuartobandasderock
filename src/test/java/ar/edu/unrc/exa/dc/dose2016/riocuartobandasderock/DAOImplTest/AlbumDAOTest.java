@@ -107,17 +107,6 @@ public class AlbumDAOTest {
 		assertEquals(allAlbums,albumDao.getAllAlbums()  );
 	}
 	
-	@Test
-	public void findByBandNameTest(){
-		List<Album> allAlbums = new LinkedList<Album>();
-		allAlbums.add(albumInst3);
-		
-		new Expectations(){{
-			albumDao.findByBandName("Creedence Clearwater Revival");
-			returns(allAlbums);
-		}};
-		assertEquals(allAlbums,albumDao.findByBandName("Creedence Clearwater Revival"));
-	}
 	
 	@Test
 	public void findByNameTest(){
@@ -127,62 +116,7 @@ public class AlbumDAOTest {
 		}};
 		assertEquals(albumInst1,albumDao.findByName("Pendulum"));
 	}
-	
-	@Test
-	public void finByRecordLabelTestCase(){
-		List<Album> allAlbums = new LinkedList<Album>();
-		allAlbums.add(albumInst1);
 		
-		new Expectations(){{
-				albumDao.findByRecordLabel("Record Label1");
-				returns (allAlbums);
-		}};
-		assertEquals(allAlbums,albumDao.findByRecordLabel("Record Label1"));
-	}
-	
-	@Test
-	public void findByProducersTest(){
-		List<Album> allAlbums = new LinkedList<Album>();
-		
-		allAlbums.add(albumInst1);
-		allAlbums.add(albumInst2);
-		allAlbums.add(albumInst3);
-		
-		new Expectations(){{
-			albumDao.findByProducer("Productor2");
-			returns(allAlbums);
-		}};	
-		assertEquals(allAlbums,albumDao.findByProducer("Productor2"));
-		
-	}
-	
-	@Test
-	public void findByDurationTest(){
-		List<Album> allAlbums = new LinkedList<Album>();
-		allAlbums.add(albumInst1);
-		
-		new Expectations(){{
-			albumDao.findByDuration(2460);
-			returns(allAlbums);
-		}};
-		assertEquals(allAlbums,albumDao.findByDuration(2460));
-	}
-	
-	@Test
-	public void findBySongTestCase(){
-		List<Album> allAlbums = new LinkedList<Album>();
-	
-		allAlbums.add(albumInst1);
-		allAlbums.add(albumInst2);
-		allAlbums.add(albumInst3);
-		
-		new Expectations(){{
-				albumDao.findBySong( "Song1" );
-				returns (allAlbums);
-		}};
-		assertEquals(allAlbums,albumDao.findBySong("Song1" ));
-	}
-	
 	@Test
 	public void createAlbumTestCase(){
 		new Expectations(){{

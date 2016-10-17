@@ -91,5 +91,77 @@ public class ArtistTest {
       expected.expect(IllegalArgumentException.class);
       artist.setNickname(null);
 	}
+	
+	@Test
+	public void equalsTrueTest(){
+		String a_name = "Carlos Alberto";
+		String a_surname = "Solari";
+		String a_nick = "Indio";
+		Artist artist1 = new Artist(a_name, a_surname, a_nick);
+		Artist artist2 = new Artist(a_name, a_surname, a_nick);
+		assertTrue(artist1.equals(artist2));
+	}
+	
+	@Test
+	public void equalsFalse1Test(){
+		String a_name1 = "Carlos Alberto";
+		String a_surname1 = "Solari";
+		String a_nick1 = "Indio";
+		Artist artist1 = new Artist(a_name1, a_surname1, a_nick1);
+		String a_name2 = "Juan Sebastián";
+	    String a_surname2 = "Gutiérrez";
+	    String a_nick2 = "Juanse";
+		Artist artist2 = new Artist(a_name2, a_surname2, a_nick2);
+		assertFalse(artist1.equals(artist2));
+	}
+	
+	@Test
+	public void equalsFalse2Test(){
+		String a_name1 = "Carlos Alberto";
+		String a_surname1 = "Solari";
+		String a_nick1 = "Indio";
+		Artist artist1 = new Artist(a_name1, a_surname1, a_nick1);
+		String a_name2 = "Carlos Alberto";
+	    String a_surname2 = "Solari";
+	    String a_nick2 = "Juanse";
+		Artist artist2 = new Artist(a_name2, a_surname2, a_nick2);
+		assertFalse(artist1.equals(artist2));
+	}
+	
+	@Test
+	public void equalsFalse3Test(){
+		String a_name1 = "Carlos Alberto";
+		String a_surname1 = "Solari";
+		String a_nick1 = "Indio";
+		Artist artist1 = new Artist(a_name1, a_surname1, a_nick1);
+		String a_name2 = "Carlos Alberto";
+	    String a_surname2 = "Gutiérrez";
+	    String a_nick2 = "Indio";
+		Artist artist2 = new Artist(a_name2, a_surname2, a_nick2);
+		assertFalse(artist1.equals(artist2));
+	}
+	
+	@Test
+	public void equalsFalse4Test(){
+		String a_name1 = "Carlos Alberto";
+		String a_surname1 = "Solari";
+		String a_nick1 = "Indio";
+		Artist artist1 = new Artist(a_name1, a_surname1, a_nick1);
+		String a_name2 = "Juan Sebastián";
+	    String a_surname2 = "Solari";
+	    String a_nick2 = "Juanse";
+		Artist artist2 = new Artist(a_name2, a_surname2, a_nick2);
+		assertFalse(artist1.equals(artist2));
+	}
+	
+	@Test
+	public void equalsNullTest(){
+		String a_name = "Carlos Alberto";
+		String a_surname = "Solari";
+		String a_nick = "Indio";
+		Artist artist1 = new Artist(a_name, a_surname, a_nick);
+		expected.expect(IllegalArgumentException.class);
+		assertTrue(artist1.equals(null));
+	}
 }
 
