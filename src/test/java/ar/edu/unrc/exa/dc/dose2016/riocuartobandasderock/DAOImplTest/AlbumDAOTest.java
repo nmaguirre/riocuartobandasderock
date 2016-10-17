@@ -117,23 +117,23 @@ public class AlbumDAOTest {
 		assertEquals(albumInst1,albumDao.findByName("Pendulum"));
 	}
 		
-	@Test
-	public void createAlbumTestCase(){
-		new Expectations(){{
-				albumDao.createAlbum(albumInst1);
-				returns(true);
-		}};
-		assertEquals(true,albumDao.createAlbum(albumInst1));
-	}
-	
-	@Test
-	public void createAlbumIfAlbumParamIsnull(){
-		new Expectations(){{
-				albumDao.createAlbum(albumInst4); //albumInst4==null
-				returns (false);
-		}};
-		assertEquals(false,albumDao.createAlbum(albumInst4));
-	}
+//	@Test
+//	public void createAlbumTestCase(){
+//		new Expectations(){{
+//				albumDao.createAlbum(albumInst1);
+//				returns(true);
+//		}};
+//		assertEquals(true,albumDao.createAlbum(albumInst1));
+//	}
+//	
+//	@Test
+//	public void createAlbumIfAlbumParamIsnull(){
+//		new Expectations(){{
+//				albumDao.createAlbum(albumInst4); //albumInst4==null
+//				returns (false);
+//		}};
+//		assertEquals(false,albumDao.createAlbum(albumInst4));
+//	}
 	
 	@Test
 	public void updateAlbumTest(){
