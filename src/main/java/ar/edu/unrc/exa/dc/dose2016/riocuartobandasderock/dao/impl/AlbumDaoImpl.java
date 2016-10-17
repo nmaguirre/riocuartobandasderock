@@ -118,13 +118,6 @@ public class AlbumDaoImpl implements AlbumDAO{
 		return l;
 	}	
 	
-	/**
-	 * @param bandName
-	 * @return Albums list found by name band
-	 */
-	public List<Album> findByBandName(String bandName){		
-		return null;
-	}
 	
 	/**
 	 * @param name
@@ -139,45 +132,6 @@ public class AlbumDaoImpl implements AlbumDAO{
 		return byNameList;
 	}
 	
-	/**
-	 * @param genre
-	 * @return Albums list found by genre
-	 */
-	public List<Album> findByGenere(String genre){
-		return null;
-	}
-	
-	/**
-	 * @param recordLabel
-	 * @return Albums list found by record label
-	 */
-	public List<Album> findByRecordLabel(String recordLabel){
-		return null;
-	}
-	
-	/**
-	 * @param producer
-	 * @return Albums list found by producer
-	 */
-	public List<Album> findByProducer(String producer){
-		return null;
-	}
-	
-	/**
-	 * @param duration
-	 * @return Albums list found by duration
-	 */
-	public List<Album> findByDuration(int duration){
-		return null;
-	}
-	
-	/**
-	 * @param song
-	 * @return Albums list found by song
-	 */
-	public List<Album> findBySong(String song){
-		return null;
-	}
 	
 	/**
 	 * @param releaseDate

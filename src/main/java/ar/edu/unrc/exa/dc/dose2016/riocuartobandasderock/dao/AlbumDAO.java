@@ -40,11 +40,6 @@ public interface AlbumDAO {
 	 */
 	public List<Album> getAllAlbums();	
 	
-	/**
-	 * @param bandName
-	 * @return 
-	 */
-	public List<Album> findByBandName(String bandName);
 	
 	/**
 	 * @param name
@@ -58,35 +53,6 @@ public interface AlbumDAO {
 //	 */
 //	public List<Album> findByYear(int year);
 	
-	/**
-	 * @param genere
-	 * @return
-	 */
-	public List<Album> findByGenere(String genere);
-
-	/**
-	 * @param recordLabel
-	 * @return
-	 */
-	public List<Album> findByRecordLabel(String recordLabel);
-	
-	/**
-	 * @param producer
-	 * @return
-	 */
-	public List<Album> findByProducer(String producer);
-	
-	/**
-	 * @param duration
-	 * @return
-	 */
-	public List<Album> findByDuration(int duration);
-	
-	/**
-	 * @param song
-	 * @return
-	 */
-	public List<Album> findBySong(String song);
 	
 	/**
 	 * @param releaseDate
@@ -94,11 +60,6 @@ public interface AlbumDAO {
 	 */
 	public List<Album> findByReleaseDate(Date releaseDate);
 	
-//	/**
-//	 * @param recordDate
-//	 * @return
-//	 */
-//	public List<Album> findByRecordDate(Date recordDate);
 	
 	/**
 	 * @param album
