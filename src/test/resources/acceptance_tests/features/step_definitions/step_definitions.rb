@@ -38,8 +38,9 @@ When(/^I add an artist with name "([^"]*)" and surname "([^"]*)"$/) do |name,sur
   expect(response.code).to eq(201)
 end
 
-When(/^I add a song with name "([^"]*)" and duration "([^"]*)"$/) do |arg1, arg2|
-    pending  
+When(/^I add a song with name "([^"]*)" and duration "([^"]*)"$/) do |name, duration|
+     response = RestClient.post 'http://localhost:4567/song/', { :name => name, :duration => duration }, :content_type => 'text/plain' 
+  expect(response.code).to eq(201)
 end
 
 Then(/^the artist's database should have (\d+) entry$/) do |arg1|

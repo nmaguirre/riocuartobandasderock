@@ -130,4 +130,17 @@ public class Artist {
     if (art_nick == null) throw new IllegalArgumentException("Nickname can't be null");
     nickname = art_nick;
   }
+  
+  /**
+   * This method compares two artists.
+   * @param art: Object Artist.
+   * @throws IllegalArgumentException if art is null.
+   */
+  public boolean equals(Artist art){
+	  if(art==null) throw new IllegalArgumentException("Artist can't be null");
+	  if(this.name==art.name && this.nickname==art.nickname && this.surname==art.surname){
+		  return true;
+	  }
+	  return false;
+  }
 }
