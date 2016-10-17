@@ -2,21 +2,33 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model;
 
 import java.util.Date;
 import java.util.UUID;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import java.util.List;
 
 /**
  * Class Album. The Album class models an music album.
  */
+@Entity
+@Table(name = "Album")
 public class Album {
 
 	/** The album ID. */
+	@Id
+	@Column(name = "id")
 	private String id;
 
 	/** The album title. */
+	@Column(name = "title")
 	private String title;
 
 
 	/** The album release date. */
+	@Column(name = "releaseDate")
 	private Date releaseDate;
 
 	
@@ -106,12 +118,5 @@ public class Album {
 	public void setReleaseDate(Date releaseDate) {
 		this.releaseDate = releaseDate;
 	}
-
-	public String toString() {
-		return "Album [id=" + id + ", title=" + title + ", releaseDate="
-				+ releaseDate + "]";
-	}
-
-
 
 }

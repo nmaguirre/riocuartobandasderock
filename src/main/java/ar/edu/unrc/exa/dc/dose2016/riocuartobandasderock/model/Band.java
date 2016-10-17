@@ -6,7 +6,6 @@ import java.util.UUID;
 public class Band {
   private String id;
   private String name;
-
   private String genre;
 
   
@@ -22,9 +21,7 @@ public class Band {
    * @param a_name represent the name of the band
    * @param a_genre is the genre of the band
    */
-
   public Band(String a_name, String a_genre){
-
     id = UUID.randomUUID().toString();
     name = a_name;
     genre = a_genre;
@@ -77,8 +74,7 @@ public class Band {
    * @param a_genre (Genere)
    */
 
-  public void setGenere(String a_genere){
-    genre = a_genere;
-
+  public void setGenere(String a_genre){
+    genre = a_genre;
   } 
 }

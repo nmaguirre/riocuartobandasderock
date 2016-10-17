@@ -1,8 +1,10 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -95,7 +97,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 	/**
 	 * Find one album by id
 	 * @param id
-	 * @return Album iff this album exists by this id.
+	 * @return Album iff exists by id.
 	 */
 	public Album findById(String id){
 		if((id!=null)&&(id!="")){
@@ -108,7 +110,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 	}
 	
 	/**
-	 * @return list of albums contained
+	 * @return Albums list contained
 	 */
 	public List<Album> getAllAlbums(){
 		List<Album> l = new LinkedList<Album>();
@@ -118,31 +120,36 @@ public class AlbumDaoImpl implements AlbumDAO{
 	
 	/**
 	 * @param bandName
-	 * @return List of albums found by name band
+	 * @return Albums list found by name band
 	 */
-	public List<Album> findByBandName(String bandName){
+	public List<Album> findByBandName(String bandName){		
 		return null;
 	}
 	
 	/**
 	 * @param name
-	 * @return Album found by name
+	 * @return Albums list found by title name.
 	 */
-	public Album findByName(String name){
-		return null;
+	public List<Album> findByName(String name){
+		List<Album> byNameList = new LinkedList<Album>();
+		Query<Album> query = currentSession.createQuery("from Album where title = :name ");
+		query.setParameter("name", name);
+		byNameList.addAll(query.list());
+		
+		return byNameList;
 	}
 	
 	/**
-	 * @param genere
-	 * @return List of albums found by genere
+	 * @param genre
+	 * @return Albums list found by genre
 	 */
-	public List<Album> findByGenere(String genere){
+	public List<Album> findByGenere(String genre){
 		return null;
 	}
 	
 	/**
 	 * @param recordLabel
-	 * @return List of albums found by record label
+	 * @return Albums list found by record label
 	 */
 	public List<Album> findByRecordLabel(String recordLabel){
 		return null;
@@ -150,7 +157,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 	
 	/**
 	 * @param producer
-	 * @return List of albums found by producer
+	 * @return Albums list found by producer
 	 */
 	public List<Album> findByProducer(String producer){
 		return null;
@@ -158,7 +165,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 	
 	/**
 	 * @param duration
-	 * @return List of albums found by duration
+	 * @return Albums list found by duration
 	 */
 	public List<Album> findByDuration(int duration){
 		return null;
@@ -166,23 +173,29 @@ public class AlbumDaoImpl implements AlbumDAO{
 	
 	/**
 	 * @param song
-	 * @return List of albums found by song
+	 * @return Albums list found by song
 	 */
 	public List<Album> findBySong(String song){
 		return null;
 	}
 	
 	/**
-	 * @param producer
-	 * @return List of albums found by producer
+	 * @param releaseDate
+	 * @return Albums list found by release date.
 	 */
-	public List<Album> findByReleaseDate(int year){
-		return null;
+	public List<Album> findByReleaseDate(Date releaseDate){
+		List<Album> byReleaseDateList = new LinkedList<Album>();
+		if (releaseDate!=null){
+			Query<Album> query = currentSession.createQuery("from Album where releaseDate =:date ");
+			query.setParameter("date", releaseDate);
+			byReleaseDateList.addAll(query.list());
+		}		
+		return byReleaseDateList;		
 	}
 	
 	/**
 	 * @param album
-	 * @return true if album was inserted into data base correctly
+	 * @return true iff album was inserted into data base correctly
 	 */
 	public boolean createAlbum(Album album){
 		if (album != null){
@@ -195,17 +208,26 @@ public class AlbumDaoImpl implements AlbumDAO{
 	
 	/**
 	 * @param album
-	 * @return true if the album was updated correctly
+	 * @return true iff the album was updated correctly
 	 */
 	public boolean updateAlbum(Album album){
+		if (album!=null){
+			currentSession.update(album);
+			return true;
+		}
 		return false;
 	}
 	
 	/**
 	 * @param id
-	 * @return true if the album was removed from de data base correctly
+	 * @return true iff album was removed correctly
 	 */
 	public boolean deleteAlbum(String id){
+		Album a = this.findById(id);
+		if (a!=null){
+			currentSession.delete(a);
+			return true;
+		}
 		return false;
 	}
 	

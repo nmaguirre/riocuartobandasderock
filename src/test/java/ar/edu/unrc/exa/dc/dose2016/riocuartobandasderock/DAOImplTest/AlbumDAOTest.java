@@ -60,25 +60,12 @@ public class AlbumDAOTest {
 		songs.add(track4);
 		songs.add(track5);
 		
-	/*	albumInst1= new Album("Hey Jude",bandInst1);
-		albumInst2= new Album("Say No More",bandInst2);
-		albumInst3= new Album("Pendulum",bandInst3);
-		
-		albumInst1.setSongs(songs);
-		albumInst2.setSongs(songs);
-		albumInst3.setSongs(songs);
-		
-		albumInst1.setDuration(2440);
-		albumInst2.setDuration(2450);
-		albumInst3.setDuration(2460);
-		
-		albumInst1.setProducers(producers1);
-		albumInst2.setProducers(producers1);
-		albumInst3.setProducers(producers2);
-		
-		albumInst1.setDiscography("Record Label1");
-		albumInst2.setDiscography("Record Label2");
-		albumInst3.setDiscography("Record Label3");*/
+
+		albumInst1= new Album("Hey Jude");
+		albumInst2= new Album("Say No More");
+		albumInst3= new Album("Pendulum");
+
+
 	}
 	
 	@Test

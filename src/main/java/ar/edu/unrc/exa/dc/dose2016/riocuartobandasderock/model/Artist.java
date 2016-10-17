@@ -47,6 +47,12 @@ public class Artist {
     this.nickname = nickname;
   }
   
+  /** 
+   * The constructor of Artist class create the new artist empty.
+   */
+  public Artist(){
+  }
+  
   /**
    * The constructor of Artist class sets the new artist.
    * @param name: Artist name.
@@ -65,6 +71,7 @@ public class Artist {
   public Artist(String name, String surname){
     this(UUID.randomUUID().toString(), name, surname, "");
   }
+  
   
   /**
   * @return artist id.
@@ -122,5 +129,18 @@ public class Artist {
   public void setNickname(String art_nick){
     if (art_nick == null) throw new IllegalArgumentException("Nickname can't be null");
     nickname = art_nick;
+  }
+  
+  /**
+   * This method compares two artists.
+   * @param art: Object Artist.
+   * @throws IllegalArgumentException if art is null.
+   */
+  public boolean equals(Artist art){
+	  if(art==null) throw new IllegalArgumentException("Artist can't be null");
+	  if(this.name==art.name && this.nickname==art.nickname && this.surname==art.surname){
+		  return true;
+	  }
+	  return false;
   }
 }
