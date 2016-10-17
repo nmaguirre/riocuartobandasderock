@@ -72,7 +72,7 @@ public interface BandDAO {
 	    * 
 	    * @return bands with particular name 
 	    */
-	   public Band findBandByName(String name);
+	   public List<Band> findBandByName(String name);
 	   
 	   
 	

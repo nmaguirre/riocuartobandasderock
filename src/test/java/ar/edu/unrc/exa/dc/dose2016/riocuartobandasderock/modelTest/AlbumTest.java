@@ -16,45 +16,28 @@ import java.util.UUID;
 public class AlbumTest {
 
 	@Test
-	  public void nonParameterConstructorTest(){
+	  public void nonParameterConstructorTest() {
 		Album albumTest = new Album();
 		albumTest.setTitle("Disraeli Gears");
 		assertEquals(albumTest.getTitle(),"Disraeli Gears");
 	}
 	
 	@Test
-	public void parametersConstructorTest(){
+	public void parametersConstructorTest() {
 		String title = "Disraeli Gears";
 		Band artist = new Band();
-		artist.setName("Cream");
-		Album albumTest = new Album(title,artist);
+		Album albumTest = new Album(title);
 		assertEquals(albumTest.getTitle(),"Disraeli Gears");
-		assertEquals(albumTest.getPerformer().getName(),"Cream");
 	}
 	
 	@Test
-	public void fullParametersConstructorTest(){
+	public void fullParametersConstructorTest() {
 		String title = "Disraeli Gears";
-		Band artist = new Band();
-		artist.setName("Cream");
 		Date releaseDate = new Date(1967,11,2);
-		int duration = 2019;
-		String genre = "rock";
-		Date recordingDate = new Date(1967,5,0); //cero indica que el dia es desconocido
-		String discography = "Reaction";
-	    int ISRC = 827361683;
-		int UPC = 2874103;
-		
-		Album albumTest = new Album(title,artist,releaseDate,duration,genre,recordingDate,discography,ISRC,UPC);
+		Album albumTest = new Album(title, releaseDate);
 		assertEquals(albumTest.getTitle(),"Disraeli Gears");
-		assertEquals(albumTest.getPerformer().getName(),"Cream");
 		assertEquals(albumTest.getReleaseDate(),new Date(1967,11,2));
-		assertEquals(albumTest.getDuration(),2019);
-		assertEquals(albumTest.geString(),"rock");
-		assertEquals(albumTest.getRecordingDate(),new Date(1967,5,0));
-		assertEquals(albumTest.getDiscography(),"Reaction");
-		assertEquals(albumTest.getISRC(),827361683);
-		assertEquals(albumTest.getUPC(),2874103);
+
 	}
 	
 }
