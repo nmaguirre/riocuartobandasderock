@@ -1,5 +1,6 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
+import java.util.Date;
 import java.util.List;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
@@ -27,8 +28,9 @@ public class AlbumController {
     		res.status(400);
     		return false;
     	}
-    	//boolean result = dao.createAlbum(req.params("name"), req.params("release_date"));
-    	boolean result = dao.createAlbum(new Album());
+    	Date release_date = new Date(req.params("release_date"));
+    	boolean result = dao.createAlbum(req.params("name"), release_date);
+    	//boolean result = dao.createAlbum(new Album());
     	int http_status = result ? 201 : 409; 
     	res.status(http_status);
     	if (!result) res.body("Duplicate album");
