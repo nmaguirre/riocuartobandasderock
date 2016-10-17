@@ -60,7 +60,7 @@ public class AlbumDAOTest {
 		songs.add(track4);
 		songs.add(track5);
 		
-		albumInst1= new Album("Hey Jude",bandInst1);
+	/*	albumInst1= new Album("Hey Jude",bandInst1);
 		albumInst2= new Album("Say No More",bandInst2);
 		albumInst3= new Album("Pendulum",bandInst3);
 		
@@ -78,7 +78,7 @@ public class AlbumDAOTest {
 		
 		albumInst1.setDiscography("Record Label1");
 		albumInst2.setDiscography("Record Label2");
-		albumInst3.setDiscography("Record Label3");
+		albumInst3.setDiscography("Record Label3");*/
 	}
 	
 	@Test
