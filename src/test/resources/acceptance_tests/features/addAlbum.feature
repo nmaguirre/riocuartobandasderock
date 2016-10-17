@@ -15,7 +15,7 @@ Feature: The application responds appropriately to all events that correspond to
 	When I try to add an album named "Perdido en un sueno" and release date "2002", it exist on the database 
 	Then an exception is thrown, "The Album already exist on the database"
 	
-    Scenario Add an album with the same tittle but other release date 
+    Scenario: Add an album with the same tittle but other release date 
 	Given that the database contains an album named "Perdido en un sueno" with a null release date
 	When I try to add an album named "Perdido en un sueno" and release date "2002", it exist on the database 
  	Then the database should have a new entry corresponding to an album named "Perdido en un sueno" and release date "2002"
@@ -25,7 +25,7 @@ Feature: The application responds appropriately to all events that correspond to
 	When I try to add an album named "Perdido en un sueno" and release date "2004", it exist on the database 
 	Then the database should have a new entry corresponding to an album named "Perdido en un sueno" and release date "2004"
 	
-    Scenario Add an album with the same tittle but other release date 
+    Scenario: Add an album with the same tittle but other release date 
 	Given that the database contains an album named "Perdido en un sueno" and release date "2002"
 	When I try to add an album named "Perdido en un sueno" with a null release date, it exist on the database 
  	Then the database should have a new entry corresponding to an album named "Perdido en un sueno" with a null release date
