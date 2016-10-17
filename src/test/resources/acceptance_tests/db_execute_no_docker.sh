@@ -1,5 +1,5 @@
-new_host=192.168.99.100
-new_port=5432
+new_host=localhost
+new_port=7500
 #32 bit implementation of db_execute.sh
 
 #This scripts take a string representing an database query

@@ -11,19 +11,19 @@ import spark.Response;
 
 public class BandController {
 	/***
-	 * This class implements the communication layer between the persistence and frontend. 
+	 * This class implements the communication layer between the persistence and frontend.
 	 */
 
 	private BandDAO bandDAO;
-	
+
 	/***
-	 * 
+	 *
 	 * @param bandPersistence
 	 */
 	public BandController(BandDAO bandPersistence){
 		this.bandDAO = bandPersistence;
 	}
-	
+
 	/***
 	 * Missing implementation
 	 * @param req
@@ -33,7 +33,7 @@ public class BandController {
 	public List<Band> getBands(Request req ,Response res){
 		return new LinkedList<Band>();
 	}
-	
+
 	/***
 	 * Missing implementation
 	 * @param req
@@ -43,17 +43,30 @@ public class BandController {
 	public Band getBand(Request req,Response res){
 		return new Band();
 	}
-	
+
 	/***
-	 * Missing implementation
 	 * @param req
 	 * @param res
 	 * @return
 	 */
-	public Band createBand(Request req,Response res){
-		return new Band();
+	public String createBand(Request req,Response res){
+		// return new Band();
+		if((req.queryParams("name")=="") && (req.queryParams("genre")=="")){
+			res.status(400);
+			return "Request invalid";
+		}
+		Band band = new Band(req.queryParams("name"),req.queryParams("genre"));
+		bandDAO.openCurrentSessionwithTransaction();
+		boolean status = bandDAO.createBand(band);
+		bandDAO.closeCurrentSessionwithTransaction();
+		if (status){
+			res.status(201);
+			return "Success";
+		}
+		res.status(500);
+		return "Fail";
 	}
-	
+
 	/***
 	 * Missing implementation
 	 * @param req
@@ -63,7 +76,7 @@ public class BandController {
 	public Band updateBand(Request req,Response res){
 		return new Band();
 	}
-	
+
 	/***
 	 * Missing implementation
 	 * @param req

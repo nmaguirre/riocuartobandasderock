@@ -153,13 +153,13 @@ public class ArtistDaoImpl implements ArtistDAO {
 	 */
 	@Override
 	public boolean createArtist(Artist artist) {
-	  if (artist!=null) {
-	      currentSession.save(artist);
-	      return true;
-	  }
-	  else {
-	    return false;
-	  }
+        SessionFactory sessionFactory = getSessionFactory();
+		Session currentSession = sessionFactory.openSession();
+        Transaction currentTransaction = currentSession.beginTransaction();
+		currentSession.save(artist);
+		currentTransaction.commit();
+		currentSession.close();
+		return true;
 	}
 
 	/**

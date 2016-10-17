@@ -16,14 +16,14 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandDaoImpl;
 
 public class Bootstrap {
 
-	
+
 	private static BandController bands = new BandController(new BandDaoImpl());
 	private static ArtistController artistController;
-	private static BandMemberController bandMemberController = new BandMemberController();    
+	private static BandMemberController bandMemberController = new BandMemberController();
 	private static AlbumController albumController = AlbumController.getInstance();
 
     public static void main(String[] args) {
-    	
+
     	CommandLineParser parser = new DefaultParser();
     	Option dbHost = OptionBuilder.withArgName( "host" )
     			.hasArg()
@@ -39,20 +39,20 @@ public class Bootstrap {
         try {
             // parse the command line arguments
             CommandLine line = parser.parse( options, args );
-            if (line.hasOption("dbHost")) { 
+            if (line.hasOption("dbHost")) {
             		ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().setDbHost(line.getOptionValue("dbHost"));
             }
-            if (line.hasOption("dbPort")) { 
-            	ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().setDbPort(line.getOptionValue("dbPort"));            
+            if (line.hasOption("dbPort")) {
+            	ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().setDbPort(line.getOptionValue("dbPort"));
             }
         }
         catch( ParseException exp ) {
             // oops, something went wrong
             System.err.println( "Parsing failed.  Reason: " + exp.getMessage() );
         }
-        
+
         artistController = new ArtistController();
-             
+
         get("/albums", (req, res) -> albumController.getAll(req, res));
 
         get("/albums/:album_id", (req, res) -> albumController.getById(req, res));
@@ -69,7 +69,7 @@ public class Bootstrap {
 
         get("/band/:name",(req, res) -> bands.getBand(req, res));
 
-        post("/band",(req, res) -> bands.createBand(req, res));
+        post("/band/",(req, res) -> bands.createBand(req, res));
 
         put("/band",(req, res) -> bands.updateBand(req, res));
 
@@ -88,9 +88,9 @@ public class Bootstrap {
         delete("/artist/:id",(req,res)->artistController.deleteArtist(req,res));
 
         get ("/bandMember/:idArtist/:idBand", (req,res)->bandMemberController.getBandMember(req,res));
-        
+
         get("/bandMember/:idBand",(req,res)->bandMemberController.getBandMembersByBand(req,res));
-        
+
         get("/bandMember/:idArtist",(req,res)->bandMemberController.getBandMembersByArtist(req,res));
 
         post("/bandMember/",(req,res)->bandMemberController.createBandMember(req,res));
