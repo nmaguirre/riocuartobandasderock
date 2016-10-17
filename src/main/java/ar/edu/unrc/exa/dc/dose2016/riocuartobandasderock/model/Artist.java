@@ -47,6 +47,12 @@ public class Artist {
     this.nickname = nickname;
   }
   
+  /** 
+   * The constructor of Artist class create the new artist empty.
+   */
+  public Artist(){
+  }
+  
   /**
    * The constructor of Artist class sets the new artist.
    * @param name: Artist name.
@@ -65,6 +71,7 @@ public class Artist {
   public Artist(String name, String surname){
     this(UUID.randomUUID().toString(), name, surname, "");
   }
+  
   
   /**
   * @return artist id.
