@@ -22,38 +22,17 @@ public class AlbumController {
         return unique_instance;
     }
 
-    public List<Album> getAll(Request req, Response res) {
-     	List<Album> albums = dao.getAllAlbums();
-     	int http_status = albums == null ? 404 : 200;
-     	res.status(http_status);
-    	return albums;
-    }
-
-    public Album getById(Request req, Response res) {
-        Album album = dao.findById(req.params("id"));
-        int http_status = album == null ? 404 : 200;
-        res.status(http_status);
-        return album;
-    }
-
     public Boolean create(Request req, Response res) {
+    	if (req.params("name") == null && req.params("release_date") == null){
+    		res.status(400);
+    		return false;
+    	}
+    	//boolean result = dao.createAlbum(req.params("name"), req.params("release_date"));
     	boolean result = dao.createAlbum(new Album());
-    	int http_status = result ? 201 : 500; 
+    	int http_status = result ? 201 : 409; 
     	res.status(http_status);
+    	if (!result) res.body("Duplicate album");
     	return result;
     }
 
-    public Boolean update(Request req, Response res) {
-    	boolean result = dao.updateAlbum(dao.findById(req.params("id"))); 
-    	int http_status = result ? 200 : 500; 
-    	res.status(http_status);
-    	return result;
-    }
-
-    public Boolean delete(Request req, Response res) {
-    	boolean result = dao.deleteAlbum(req.params("id"));
-    	int http_status = result ? 200 : 500; 
-    	res.status(http_status);
-    	return result;
-    }
 }
