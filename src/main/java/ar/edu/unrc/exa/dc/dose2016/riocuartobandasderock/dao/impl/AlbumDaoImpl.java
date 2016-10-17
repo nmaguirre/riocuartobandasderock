@@ -164,29 +164,4 @@ public class AlbumDaoImpl implements AlbumDAO{
 		return true;
 	}
 	
-	/**
-	 * @param album
-	 * @return true iff the album was updated correctly
-	 */
-	public boolean updateAlbum(Album album){
-		if (album!=null){
-			currentSession.update(album);
-			return true;
-		}
-		return false;
-	}
-	
-	/**
-	 * @param id
-	 * @return true iff album was removed correctly
-	 */
-	public boolean deleteAlbum(String id){
-		Album a = this.findById(id);
-		if (a!=null){
-			currentSession.delete(a);
-			return true;
-		}
-		return false;
-	}
-	
 }

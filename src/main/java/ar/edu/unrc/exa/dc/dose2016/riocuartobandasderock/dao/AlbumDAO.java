@@ -67,14 +67,4 @@ public interface AlbumDAO {
 	 */
 	public boolean createAlbum(String title, Date releaseDate);
 	
-	/**
-	 * @param album
-	 */
-	public boolean updateAlbum(Album album);
-	
-	/**
-	 * @param album
-	 */
-	public boolean deleteAlbum(String id);
-	
 }

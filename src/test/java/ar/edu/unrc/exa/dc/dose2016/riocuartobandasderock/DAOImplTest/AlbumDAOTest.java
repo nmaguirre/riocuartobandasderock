@@ -81,16 +81,6 @@ public class AlbumDAOTest {
 		};
 		assertEquals(albumModel,albumDao.findById("3"));
 	}
-
-//	@Test(expected=IllegalArgumentException.class)
-//	public void findByIdIfIdIsEmpty(){
-//		new Expectations(){
-//			{
-//				albumDao.findById(" ");
-//			returns (new IllegalArgumentException(""));
-//			}
-//		};
-//	}
 	
 	@Test
 	public void getAllAlbumTestCase(){
@@ -117,50 +107,4 @@ public class AlbumDAOTest {
 		assertEquals(albumInst1,albumDao.findByName("Pendulum"));
 	}
 		
-//	@Test
-//	public void createAlbumTestCase(){
-//		new Expectations(){{
-//				albumDao.createAlbum(albumInst1);
-//				returns(true);
-//		}};
-//		assertEquals(true,albumDao.createAlbum(albumInst1));
-//	}
-//	
-//	@Test
-//	public void createAlbumIfAlbumParamIsnull(){
-//		new Expectations(){{
-//				albumDao.createAlbum(albumInst4); //albumInst4==null
-//				returns (false);
-//		}};
-//		assertEquals(false,albumDao.createAlbum(albumInst4));
-//	}
-	
-	@Test
-	public void updateAlbumTest(){
-		Album albumUpdate = new Album();
-		
-		new Expectations(){{
-			albumDao.updateAlbum(albumUpdate);
-			returns (true);
-		}};
-		assertEquals(true,albumDao.updateAlbum(albumUpdate));
-	}
-	
-	@Test
-	public void deleteAlbumTestCase(){
-		new Expectations(){{
-				albumDao.deleteAlbum("3");
-				returns(true);
-		}};
-		assertEquals(true,albumDao.deleteAlbum("3") );
-	}
-	
-	@Test 
-	public void deleteAlbumIfIdAlbumNotExistInDB(){
-		new Expectations(){{
-			albumDao.deleteAlbum("5");//Id=5 not in DB
-			returns (false);
-		}};
-		assertEquals(false,albumDao.deleteAlbum("5"));
-	}
 }
