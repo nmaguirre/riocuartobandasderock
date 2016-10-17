@@ -6,7 +6,6 @@ import static org.junit.Assert.*;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Genre;
 
 import java.util.LinkedList;
 import java.util.UUID;

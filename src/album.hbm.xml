@@ -4,38 +4,33 @@
           "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
           <hibernate-mapping>
-          <class name="Album" table="Album">
-	          <id name="id" type="integer">
-	          <generator class="increment"></generator>
-	          </id>
-	          <property name="title"></property>
-	          <property name="producers"></property>
-	          <property name="releaseDate" type="date"></property>
-	          <property name="duration" type="integer"></property>
-	          <property name="genre">
-	          	<type name="org.hibernate.type.EnumType">
-	          		<param name="enumClass">ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Genre</param>
-	          		<param name="type">12</param>
-	          	</type>
-	          </property>
-	          <property name="recordingDate" type="date"></property>
-	          <property name="recordLabel" type="string"></property>
-	          <property name="isrc" type="integer"></property>
-	          <property name="upc" type="integer"></property>
-         
-         	<!-- this represents many to many relation -->
-         	<set name="songs" table="AlbumsSongs" cascade="all" inverse="true">
-         		<key>
-         			<column name="idSong" />		
-         		</key>
-         		<many-to-many column="tbd" class="Song" />
-         	</set>	
-			
-			<!-- this represents many to one relation -->
-			<many-to-one name="band">
-				<column name= "bandId" />
-			</many-to-one>	
-		
-
-	      	</class>
+          	<class name="ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album" table="Album">
+          		<id name="id" />
+          		<property name="id"></property>
+ 	        	<property name="title"></property>
+ 	        	<property name="releaseDate"></property> 
+<!-- 	          <property name="producers"></property> -->
+<!-- 	          <property name="duration" type="integer"></property> -->
+<!-- 	          <property name="genre"> -->
+<!-- 	          	<type name="org.hibernate.type.EnumType"> -->
+<!-- 	          		<param name="enumClass">ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Genre</param> -->
+<!-- 	          		<param name="type">12</param> -->
+<!-- 	          	</type> -->
+<!-- 	          </property> -->
+<!-- 	          <property name="recordingDate" type="date"></property> -->
+<!-- 	          <property name="recordLabel" type="string"></property> -->
+<!-- 	          <property name="isrc" type="integer"></property> -->
+<!-- 	          <property name="upc" type="integer"></property> -->
+<!--          	this represents many to many relation -->
+<!--          	<set name="songs" table="AlbumsSongs" cascade="all" inverse="true"> -->
+<!--          		<key> -->
+<!--          			<column name="idSong" />		 -->
+<!--          		</key> -->
+<!--          		<many-to-many column="tbd" class="Song" /> -->
+<!--          	</set>	 -->		
+<!-- 			<!-- this represents many to one relation --> -->
+<!-- 			<many-to-one name="band"> -->
+<!-- 				<column name= "bandId" /> -->
+<!-- 			</many-to-one>	 -->
+		   	</class>
           </hibernate-mapping>
