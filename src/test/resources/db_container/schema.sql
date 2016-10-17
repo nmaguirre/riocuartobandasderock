@@ -1,3 +1,9 @@
+CREATE TABLE Album (
+	id text primary key,
+	title text not null,
+	releaseDate date
+);
+
 CREATE TABLE artistDB (
     artistID text primary key,
     name text,
@@ -5,9 +11,9 @@ CREATE TABLE artistDB (
     nickname text
 );
 
-CREATE TABLE Songs (
+CREATE TABLE SongDB (
     idSong int primary key, 
-    nameSong text not null, 
+    name text not null, 
     duration int
 );
 

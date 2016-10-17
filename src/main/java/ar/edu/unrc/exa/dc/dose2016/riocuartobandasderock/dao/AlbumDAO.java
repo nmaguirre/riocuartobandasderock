@@ -1,14 +1,33 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao;
 
+import java.util.Date;
 import java.util.List;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions;
 //import java.util.Date;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 
 /**
  * @author Dose Team 2016
  */
 
 public interface AlbumDAO {
+	
+	public Session openCurrentSession();
+	public Session openCurrentSessionwithTransaction();
+	public void closeCurrentSession();
+	public void closeCurrentSessionwithTransaction();
+	public Session getCurrentSession();
+	public void setCurrentSession(Session currentSession);
+	public Transaction getCurrentTransaction();
+	public void setCurrentTransaction(Transaction currentTransaction);
 	
 	/**
 	 * @param id
@@ -31,7 +50,7 @@ public interface AlbumDAO {
 	 * @param name
 	 * @return  
 	 */ 
-	public Album findByName(String name);
+	public List<Album> findByName(String name);
 	
 //	/**
 //	 * @param year
@@ -73,7 +92,7 @@ public interface AlbumDAO {
 	 * @param releaseDate
 	 * @return
 	 */
-	public List<Album> findByReleaseDate(int year);
+	public List<Album> findByReleaseDate(Date releaseDate);
 	
 //	/**
 //	 * @param recordDate

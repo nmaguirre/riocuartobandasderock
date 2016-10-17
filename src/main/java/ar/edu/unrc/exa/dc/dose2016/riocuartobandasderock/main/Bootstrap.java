@@ -80,6 +80,10 @@ public class Bootstrap {
         get("/artist/:id",(req,res)->artistController.getArtistById(req,res));
 
         get("/artist/:name",(req,res)->artistController.getArtistByName(req,res));
+        
+        get("/artist/:nickname",(req,res)->artistController.getArtistByNickname(req,res));
+
+        get("/artist/:surname",(req,res)->artistController.getArtistBySurname(req,res));
 
         post("/artist/",(req,res)->artistController.createArtist(req,res));
 

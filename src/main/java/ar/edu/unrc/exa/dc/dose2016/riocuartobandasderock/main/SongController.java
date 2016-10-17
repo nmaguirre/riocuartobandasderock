@@ -51,45 +51,7 @@ public class SongController {
         return songDao.getAllSongs();
     }
     
-    
-    /**
-     * Get all band songs
-     * @param req
-     * @param res
-     * @return a list of all band songs
-     */
-    
-    public List<Song> getBandSongs (Request req, Response res){   
-        String bandName = req.params("name"); //review
-        return songDao.findByBandName(bandName);
-    }
-    
-    
-    /**
-     * Get all album songs
-     * @param req
-     * @param res
-     * @return a list of all album songs
-     */
-  
-    public List<Song> getAlbumSongs (Request req, Response res){
-       String albumName = req.params("title"); //review
-       return songDao.findByAlbum(albumName);
-    }
-    
-    
-    /**
-     * Get songs by genre
-     * @param req
-     * @param res
-     * @return
-     */
-    
-    public List<Song> getSongsbyGenre (Request req, Response res){
-    	String genre = req.params("genre"); 
-    	return songDao.findByGenere(genre);
-    }
-    
+
     
     /**
      * Get all artist songs
@@ -136,59 +98,18 @@ public class SongController {
      * @param res 
      * @return
      */
-  
+  /*
     public Boolean addSong (Request req, Response res){
-    	String songName = req.queryParams("name");
-    	
-    	String genreName = req.queryParams("genre");
-    	TGenre genre = TGenre.rock;
-    	switch(genreName){
-    	
-    	case "pop":
-    		genre = TGenre.pop;
-    		break;
-    		
-    	case "blues":
-    		genre = TGenre.blues;
-    		break;
-    	
-    	case "reggae":
-    		genre = TGenre.reggae;
-    		break;
-    		
-    	case "folk":
-    		genre = TGenre.folk;
-    		break;
-    		
-    	case "electronic":
-    		genre = TGenre.electronic;
-    		break;
-    		
-    	case "metal":
-    		genre = TGenre.metal;
-    		break;
-    	
-    	case "punk":
-    		genre = TGenre.punk;
-    		break;
-    	}
-    	
-    	String[] bands = req.queryParamsValues("bands");
-    	List<Band> listOfBands = new ArrayList<>();
-    	for(String b:bands){
-    		listOfBands.add(bandDao.findBandByName(b));
-    	}
+    	String songName = req.queryParams("name");    
     	
     	String dur = req.queryParams("duration");
     	int duration = Integer.parseInt(dur);
-    	String author = req.queryParams("author");
-    	String alb = req.queryParams("album");
-    	Album album = albumDao.findByName(alb);
     	
-    	Song song = new Song(0,songName,genre, listOfBands, duration,author,album);
+    	Song song = new Song(songName, duration);
     	return songDao.addSong(song);
     }
     
+    /*
     
     /**
      * Edit a song
@@ -201,55 +122,9 @@ public class SongController {
 		Song song = songDao.findById(req.params(":id"));
 		
 		song.setName(req.queryParams("name"));
-		
-    	String genreName = req.queryParams("genre");
-    	TGenre genre = TGenre.rock;
-    	switch(genreName){
-    	
-    	case "pop":
-    		genre = TGenre.pop;
-    		break;
-    		
-    	case "blues":
-    		genre = TGenre.blues;
-    		break;
-    	
-    	case "reggae":
-    		genre = TGenre.reggae;
-    		break;
-    		
-    	case "folk":
-    		genre = TGenre.folk;
-    		break;
-    		
-    	case "electronic":
-    		genre = TGenre.electronic;
-    		break;
-    		
-    	case "metal":
-    		genre = TGenre.metal;
-    		break;
-    	
-    	case "punk":
-    		genre = TGenre.punk;
-    		break;
-    	}
-    	
-    	song.setGenre(genre);
-    	
-    	String[] bands = req.queryParamsValues("bands");
-    	List<Band> listOfBands = new ArrayList<>();
-    	for(String b:bands){
-    		listOfBands.add(bandDao.findBandByName(b));
-    	}
-    	
-    	song.setBands(listOfBands);
     	
     	String dur = req.queryParams("duration");
     	song.setDuration(Integer.parseInt(dur));
-    	song.setAuthor(req.queryParams("author"));
-    	String alb = req.queryParams("album");
-    	song.setAlbum(albumDao.findByName(alb));
     	return songDao.updateSong(song);
         
     }

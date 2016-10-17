@@ -74,7 +74,43 @@ public class ArtistController {
 		res.status(status);
 		return artists;
 	}
-		
+	
+	/**
+	 * search for artists by surname
+	 * @param req It contains the surname to search for artists
+	 * @param res
+	 * @return List artist with surname parameters
+	 */
+	public List<Artist> getArtistBySurname (Request req, Response res){
+		if (req.params(":surname")==""){
+			res.status(400);
+		}
+		artistDAO.openCurrentSession();
+		List<Artist> artists = artistDAO.findBySurname(req.params(":name"));
+		artistDAO.closeCurrentSession();
+		int status = (artists.size()==0)? 201:404;
+		res.status(status);
+		return artists;
+	}
+	
+	/**
+	 * search for artists by nickname
+	 * @param req It contains the nickname to search for artists
+	 * @param res
+	 * @return List artist with nickname parameters
+	 */
+	public List<Artist> getArtistByNickname (Request req, Response res){
+		if (req.params(":nickname")==""){
+			res.status(400);
+		}
+		artistDAO.openCurrentSession();
+		List<Artist> artists = artistDAO.findByNickname(req.params(":name"));
+		artistDAO.closeCurrentSession();
+		int status = (artists.size()==0)? 201:404;
+		res.status(status);
+		return artists;
+	}
+	
 	/**
 	 * creates an artist 
 	 * @param req    It contains the attributes of the new artist
@@ -94,7 +130,7 @@ public class ArtistController {
 			res.status(201);
 			return "Success";
 		}
-		res.status(500);
+		res.status(409);
 		return "Fail";	
 	}
 	
@@ -126,7 +162,7 @@ public class ArtistController {
 			res.status(200);
 			return "Success";
 		}
-		res.status(500);
+		res.status(409);
 		return "Fail";
 	}
 	
