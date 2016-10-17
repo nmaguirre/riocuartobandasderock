@@ -223,6 +223,11 @@ public class AlbumDaoImpl implements AlbumDAO{
 	 * @return true iff album was removed correctly
 	 */
 	public boolean deleteAlbum(String id){
+		Album a = this.findById(id);
+		if (a!=null){
+			currentSession.delete(a);
+			return true;
+		}
 		return false;
 	}
 	
