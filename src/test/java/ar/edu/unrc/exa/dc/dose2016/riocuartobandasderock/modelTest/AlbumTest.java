@@ -7,7 +7,6 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.BandMember;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.TGenre;
 
 import java.util.Date;
 import java.util.LinkedList;
@@ -35,7 +34,6 @@ public class AlbumTest {
 	public void fullParametersConstructorTest() {
 		String title = "Disraeli Gears";
 		Date releaseDate = new Date(1967,11,2);
-		
 		Album albumTest = new Album(title, releaseDate);
 		assertEquals(albumTest.getTitle(),"Disraeli Gears");
 		assertEquals(albumTest.getReleaseDate(),new Date(1967,11,2));

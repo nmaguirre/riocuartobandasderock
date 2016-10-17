@@ -53,15 +53,9 @@ public class Bootstrap {
         
         artistController = new ArtistController();
              
-        get("/albums", (req, res) -> albumController.getAll(req, res));
-
-        get("/albums/:album_id", (req, res) -> albumController.getById(req, res));
 
         post("/albums", (req, res) -> albumController.create(req, res));
 
-        put("/albums", (req, res) -> albumController.update(req, res));
-
-        delete("/albums/:album_id", (req, res) -> albumController.delete(req, res));
 
         get("/hello", (req, res) -> "Hello World");
 
