@@ -62,9 +62,10 @@ public interface AlbumDAO {
 	
 	
 	/**
-	 * @param album
+	 * @param title, releaseDate
+	 * @return 
 	 */
-	public boolean createAlbum(Album album);
+	public boolean createAlbum(String title, Date releaseDate);
 	
 	/**
 	 * @param album

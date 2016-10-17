@@ -151,13 +151,17 @@ public class AlbumDaoImpl implements AlbumDAO{
 	 * @param album
 	 * @return true iff album was inserted into data base correctly
 	 */
-	public boolean createAlbum(Album album){
-		if (album != null){
-			currentSession.save(album);
-			return true;
-		} else {
-			return false;
+	public boolean createAlbum(String title, Date releaseDate){
+		if((title==null)&&(releaseDate==null)) throw new IllegalArgumentException("Error: AlbumDaoImpl.createAlbum() null params");
+		List<Album> lt = this.findByName(title);
+		for(int i=0;i<lt.size();i++){
+			if(lt.get(i).getReleaseDate().equals(releaseDate)){
+				return false;
+			}
 		}
+		Album a = new Album(title,releaseDate);
+		currentSession.save(a);
+		return true;
 	}
 	
 	/**
