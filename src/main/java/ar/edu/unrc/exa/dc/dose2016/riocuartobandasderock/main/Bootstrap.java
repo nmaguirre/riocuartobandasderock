@@ -55,7 +55,6 @@ public class Bootstrap {
 
         post("/albums", (req, res) -> albumController.create(req, res));
 
-
         get("/hello", (req, res) -> "Hello World");
 
         get("/bands",(req, res) -> bands.getBands(req, res));
