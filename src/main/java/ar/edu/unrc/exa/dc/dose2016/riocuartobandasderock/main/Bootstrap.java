@@ -71,31 +71,13 @@ public class Bootstrap {
 
         get ("/artist", (req,res)->artistController.getAllArtists(req,res));
 
-        get("/artist/:id",(req,res)->artistController.getArtistById(req,res));
-
-        get("/artist/:name",(req,res)->artistController.getArtistByName(req,res));
+        get("/artist/findbyname/:name",(req,res)->artistController.getArtistByName(req,res));
         
-        get("/artist/:nickname",(req,res)->artistController.getArtistByNickname(req,res));
+        get("/artist/findbynickname/:nickname",(req,res)->artistController.getArtistByNickname(req,res));
 
-        get("/artist/:surname",(req,res)->artistController.getArtistBySurname(req,res));
+        get("/artist/findbysurname/:surname",(req,res)->artistController.getArtistBySurname(req,res));
 
         post("/artist/",(req,res)->artistController.createArtist(req,res));
-
-        put("/artist/:id",(req,res)->artistController.updateArtist(req,res));
-
-        delete("/artist/:id",(req,res)->artistController.deleteArtist(req,res));
-
-        get ("/bandMember/:idArtist/:idBand", (req,res)->bandMemberController.getBandMember(req,res));
-        
-        get("/bandMember/:idBand",(req,res)->bandMemberController.getBandMembersByBand(req,res));
-        
-        get("/bandMember/:idArtist",(req,res)->bandMemberController.getBandMembersByArtist(req,res));
-
-        post("/bandMember/",(req,res)->bandMemberController.createBandMember(req,res));
-
-        put("/bandMember/:idArtist/:idBand",(req,res)->bandMemberController.updateBandMember(req,res));
-
-        delete("/bandMember/:idArtist/:idBand",(req,res)->bandMemberController.deleteBandMember(req,res));
 
     }
 }
