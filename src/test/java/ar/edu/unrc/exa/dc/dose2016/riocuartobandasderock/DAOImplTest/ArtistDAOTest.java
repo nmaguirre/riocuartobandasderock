@@ -23,12 +23,12 @@ public class ArtistDAOTest {
 	@Before
 	public void setUp(){
 		artistDAO = new ArtistDaoImpl();
-		artistDAO.openCurrentSession();
+		//artistDAO.openCurrentSession();
 	}
 	
 	@After 
 	public void finish() {
-		artistDAO.closeCurrentSession();
+		//artistDAO.closeCurrentSession();
 	}
 	
 	@Test
@@ -38,8 +38,11 @@ public class ArtistDAOTest {
 		Artist artistToAdd = new Artist("Luca", "Prodan", "");
 		
 		List<Artist> artistList = new LinkedList<>();
+		
 		// Search all artist with Luca as name
+		artistDAO.openCurrentSession();
 		artistList.addAll(artistDAO.findByName(artistToAdd.getName()));
+		artistDAO.closeCurrentSession();
 		
 		// Check that the artist to add is not in db
 		for(Artist currentArtist: artistList){
@@ -47,20 +50,29 @@ public class ArtistDAOTest {
 		}
 
 		// Add artistToAdd in db
-		//artistDAO.createArtist("Luca","Prodan","");
+		artistDAO.openCurrentSessionwithTransaction();
+		artistDAO.createArtist("Luca","Prodan","");
+		artistDAO.closeCurrentSessionwithTransaction();
+		
 		
 		artistList = new LinkedList<>();
+		
+		artistDAO.openCurrentSession();
 		artistList.addAll(artistDAO.findByName(artistToAdd.getName()));
+		artistDAO.closeCurrentSession();
+		
+		
+		List<Artist> result = new LinkedList<>();
+		
 		for(Artist currentArtist: artistList){
-			// Remove all artist that arent equals to artistToAdd
-			if (!currentArtist.equals(artistToAdd)){
-				artistList.remove(currentArtist);
+			// Add in result an artist if it is equals to artistToAdd
+			if (currentArtist.equals(artistToAdd)){
+				result.add(currentArtist);
 			}
 		}
 		
 		// Check that in db there is only 1 artist with artistToAdd information
-		assertEquals(artistList.size(),1);
-		assertTrue(artistList.get(0).equals(artistToAdd));
-		
+		assertTrue(result.size() == 1);
+		assertTrue(result.get(0).equals(artistToAdd));
 	}
 }
