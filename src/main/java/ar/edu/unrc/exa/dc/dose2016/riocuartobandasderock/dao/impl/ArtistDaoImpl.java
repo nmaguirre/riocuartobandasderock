@@ -108,9 +108,13 @@ public class ArtistDaoImpl implements ArtistDAO {
 	 */
 	@Override
 	public List<Artist> findBySurname(String surname) {
-		Query<Artist> query = currentSession.createQuery("from Artist where surname=:n", Artist.class);
-		query.setString("n", surname);
-		return query.getResultList();
+		if(surname == null || surname.equals("")){
+			throw new IllegalArgumentException("the 'surname' param for search an artist can not be null or empty.");
+		} else {
+			Query<Artist> query = currentSession.createQuery("from Artist where surname=:n", Artist.class);
+			query.setString("n", surname);
+			return query.getResultList();
+		}
 	}
 	
 	/**
@@ -121,9 +125,13 @@ public class ArtistDaoImpl implements ArtistDAO {
 	 */
 	@Override
 	public List<Artist> findByNickname(String nickname) {
-		Query<Artist> query = currentSession.createQuery("from Artist where nickname=:n", Artist.class);
-		query.setString("n", nickname);
-		return query.getResultList();
+		if(nickname == null || nickname.equals("")){
+			throw new IllegalArgumentException("the 'nickname' param for search an artist can not be null or empty.");
+		} else {
+			Query<Artist> query = currentSession.createQuery("from Artist where nickname=:n", Artist.class);
+			query.setString("n", nickname);
+			return query.getResultList();
+		}
 	}
 	
 	/**
@@ -134,73 +142,34 @@ public class ArtistDaoImpl implements ArtistDAO {
 	 */
 	@Override
 	public List<Artist> findByName(String name) {
-		Query<Artist> query = currentSession.createQuery("from Artist where name=:n", Artist.class);
-		query.setString("n", name);
-		return query.getResultList();
-	}
-
-	/**
-	 * Search an artist in database
-	 * 
-	 * @param artist
-	 *            id to search
-	 * @return artist wanted
-	 */
-	@Override
-	public Artist findById(String id) {
-		if (id != null && id != "") {
-			Artist artist = currentSession.find(Artist.class, id);
-			return artist;
+		if(name == null || name.equals("")){
+			throw new IllegalArgumentException("the 'name' param for search an artist can not be null or empty.");
 		} else {
-			return null;
+			Query<Artist> query = currentSession.createQuery("from Artist where name=:n", Artist.class);
+			query.setString("n", name);
+			return query.getResultList();
 		}
 	}
 
 	/**
-	 * Create an artist from the database
+	 * Create an artist in the database
 	 * 
-	 * @param artist
-	 *            to create
+	 * @param name from an artist
+	 * @param nickname from an artist
+	 * @param surname from an artist
+	 * 
 	 * @return boolean, true if the artist was created
 	 */
 	@Override
-	public boolean createArtist(Artist artist) {
-        currentSession.save(artist);
-		return true;
-	}
-
-	/**
-	 * Update an artist in the database
-	 * 
-	 * @param artist
-	 *            to update
-	 * @return boolean, true if the artist was updated
-	 */
-	@Override
-	public boolean updateArtist(Artist artist) {
-		if (artist != null) {
-			currentSession.update(artist);
-			return true;
+	public boolean createArtist(String name, String nickname, String surname) {
+		boolean areNull = name == null || nickname == null || surname == null;
+		boolean areEmpty = !name.equals("") || !nickname.equals("") || !surname.equals("");
+		if(areNull || !areEmpty){
+			throw new IllegalArgumentException("the params for create artist can't be null or empty.");
 		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * Remove an artist from the database
-	 * 
-	 * @param id
-	 *            from artist to delete
-	 * @return boolean, true if the artist was deleted
-	 */
-	@Override
-	public boolean deleteArtist(String id) {
-		Artist artist = this.findById(id);
-		if (artist != null) {
-			currentSession.delete(artist);
+			Artist artist = new Artist(name, surname, nickname);
+	        currentSession.save(artist);
 			return true;
-		} else {
-			return false;
 		}
 	}
 
