@@ -161,10 +161,10 @@ public class ArtistDaoImpl implements ArtistDAO {
 	 * @return boolean, true if the artist was created
 	 */
 	@Override
-	public boolean createArtist(String name, String nickname, String surname) {
-		boolean areNull = name == null || nickname == null || surname == null;
-		boolean areEmpty = !name.equals("") || !nickname.equals("") || !surname.equals("");
-		if(areNull || !areEmpty){
+	public boolean createArtist(String name, String surname, String nickname) {
+		boolean areNull = name == null && nickname == null && surname == null;
+		boolean areEmpty = name.equals("") && nickname.equals("") && surname.equals("");
+		if(areNull || areEmpty){
 			throw new IllegalArgumentException("the params for create artist can't be null or empty.");
 		} else {
 			Artist artist = new Artist(name, surname, nickname);

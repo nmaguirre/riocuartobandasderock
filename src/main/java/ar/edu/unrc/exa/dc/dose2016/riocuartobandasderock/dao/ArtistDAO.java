@@ -69,6 +69,6 @@ public interface ArtistDAO {
 	* 
 	* @return true if the create was successful
 	*/
-	public boolean createArtist(String name, String nickname, String surname);
+	public boolean createArtist(String name, String surname, String nickname);
 	
 }
