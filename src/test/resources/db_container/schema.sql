@@ -20,7 +20,7 @@ CREATE TABLE SongDB (
 CREATE TABLE BandDB (
     bandID text primary key,
     name text not null,
-    genre text not null,
+    genre text not null
 );
 
 

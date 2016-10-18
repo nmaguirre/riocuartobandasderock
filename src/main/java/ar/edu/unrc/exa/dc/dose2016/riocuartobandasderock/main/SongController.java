@@ -141,4 +141,21 @@ public class SongController {
     	return songDao.removeSong(song);
     }
     
+    
+	public String createSong(Request req,Response res){
+		/*if((req.queryParams("name")=="") && (req.queryParams("duration")=="")){
+			res.status(400);
+			return "Request invalid";
+		}
+		Song song = new Song(req.queryParams("name"), Integer.parseInt(req.queryParams("duration")));
+		boolean result = songDao.addSong(song);
+		if (result) {
+			res.status(201);
+			return "Success";
+		}
+		else {
+			return "Failed";
+		}*/
+		return "gorra resolve esto jaja";
+	}
 }

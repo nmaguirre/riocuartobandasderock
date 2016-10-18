@@ -110,8 +110,11 @@ public class SongDaoImpl implements SongDAO{
 		}
 	}
 	@Override   
-	public Boolean addSong(Song song){
-		return false;
+
+	public Boolean addSong(String name,Integer duration){
+		Song song = new Song(name,duration);
+		currentSession.save(song);
+		return true;
 	}
 	
 	@Override
@@ -125,25 +128,17 @@ public class SongDaoImpl implements SongDAO{
 	}
 	
 	@Override
-	public List<Song> findByBandName(String BandName){
+	public List<Song> findByBandName(String bandName){
 		return null;
 	}
 	
 	@Override
 	public List<Song> findByName(String name){
 		if (name != null && name != "") {
-			List<Song> songList = new LinkedList<>();
 			Query<Song> query;
 			query = currentSession.createQuery("from Song where name=:n", Song.class);
 			query.setString("n", name);
-			songList.addAll(query.getResultList());
-			query = currentSession.createQuery("from Song where surname=:n", Song.class);
-			query.setString("n", name);
-			songList.addAll(query.getResultList());
-			query = currentSession.createQuery("from Song where nickname=:n", Song.class);
-			query.setString("n", name);
-			songList.addAll(query.getResultList());
-			return songList;
+			return (query.getResultList());
 		} else {
 			return null;
 		}
