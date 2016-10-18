@@ -3,10 +3,24 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model;
 import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "bandDB")
 public class Band {
+
+  @Id
+  @Column(name = "id")
   private String id;
+  
+  @Column(name = "name")
   private String name;
-  private Genre genere;
+  
+  @Column(name = "genre")
+  private String genre;
   
   
   /**
@@ -18,12 +32,12 @@ public class Band {
   /**
    * this create a initial band with some params
    * @param a_name represent the name of the band
-   * @param a_genere is the genere of the band
+   * @param a_genre is the genre of the band
    */
-  public Band(String a_name, Genre a_genere){
+  public Band(String a_name, String a_genre){
     id = UUID.randomUUID().toString();
     name = a_name;
-    genere = a_genere;
+    genre = a_genre;
   }
 
   /**
@@ -45,10 +59,10 @@ public class Band {
 
   /**
    * return the genre of the band
-   * @return Genre (Genere) 
+   * @return String (Genere) 
    */
-  public Genre getGenere(){
-    return genere;
+  public String getGenere(){
+    return genre;
   }
     
   /**
@@ -70,9 +84,9 @@ public class Band {
 
   /**
    * this method set the principal genre of the band
-   * @param a_genere (Genere)
+   * @param a_genre (Genere)
    */
-  public void setGenere(Genre a_genere){
-    genere = a_genere;
+  public void setGenere(String a_genre){
+    genre = a_genre;
   } 
 }

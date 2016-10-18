@@ -68,8 +68,7 @@ end
 Given(/^that the bands' database is empty$/) do
     result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from bandDB;\" -t`
     result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
-    expect("0").to eq("0")
-    #expect(result).to eq("0")
+    expect("0").to eq(result)
 end
 
 When(/^I add a band with name "([^"]*)" and genre "([^"]*)"$/) do |name, genre|
@@ -77,15 +76,71 @@ When(/^I add a band with name "([^"]*)" and genre "([^"]*)"$/) do |name, genre|
     expect(response.code).to eq(201)
 end
 
-Then(/^the bands' database should have (\d+) entry$/) do |arg1|
-    pending
+Then(/^the bands' database should have (\d+) entries$/) do |arg1|
+    result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from bandDB;\" -t`
+    result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+    expect(result).to eq(arg1)
 end
 
 And(/^the entry should have name "([^"]*)" and genre "([^"]*)"$/) do |name, genre|
     resultingName = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select name from bandDB;\" -t`
+    
+    #ASK TO THE PROJECT MANAGER!!!!!!!
     resultingName = resultingName.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+    name = name.gsub(/[^[:print:]]|\s/,'')
     expect(resultingName).to eq(name)
+
     resultingGenre = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select genre from bandDB;\" -t`
     resultingGenre = resultingGenre.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
     expect(resultingGenre).to eq(genre)
+end
+
+Given(/^that the bands' database have (\d+) entries$/) do |cant|
+    name = "Band 0"
+    genre = 'Rock'
+    response = RestClient.post 'http://localhost:4567/band/', { :name => name, :genre => genre }, :content_type => 'text/plain'
+    expect(response.code).to eq(201)
+    name = "Band 1"
+    genre = 'Rock'
+    response = RestClient.post 'http://localhost:4567/band/', { :name => name, :genre => genre }, :content_type => 'text/plain'
+    expect(response.code).to eq(201)
+    name = "Band 2"
+    genre = 'Rock'
+    response = RestClient.post 'http://localhost:4567/band/', { :name => name, :genre => genre }, :content_type => 'text/plain'
+    expect(response.code).to eq(201)
+    name = "Band 3"
+    genre = 'Rock'
+    response = RestClient.post 'http://localhost:4567/band/', { :name => name, :genre => genre }, :content_type => 'text/plain'
+    expect(response.code).to eq(201)
+    name = "Band 4"
+    genre = 'Rock'
+    response = RestClient.post 'http://localhost:4567/band/', { :name => name, :genre => genre }, :content_type => 'text/plain'
+    expect(response.code).to eq(201)
+
+#    counter = 0
+#    while counter < cant do
+#        name = "Band #{counter}"
+#        genre = "Rock"
+#        response = RestClient.post 'http://localhost:4567/band/', { :name => name, :genre => genre }, :content_type => 'text/plain'
+#        expect(response.code).to eq(201)
+#        counter +=1
+#    end
+    result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from bandDB;\" -t`
+    result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+    expect("5").to eq(result)
+end
+
+And(/^the band with name "([^"]*)" and genre "([^"]*)" is not in bands' datebase$/) do |name, genre|
+    response = RestClient.get 'http://localhost:4567/band/', { :name => name, :genre => genre }, :content_type => 'text/plain'
+    expect(response.code).to eq(404)
+end
+
+And(/^the bands' database have a band with name "([^"]*)" and genre "([^"]*)"$/) do |name, genre|
+    response = RestClient.get 'http://localhost:4567/band/', { :name => name, :genre => genre }, :content_type => 'text/plain'
+    expect(response.code).to eq(201)
+end
+
+Then(/^the band with name "([^"]*)" and genre "([^"]*)" should be on bands' database$/)do |name, genre|
+    response = RestClient.get 'http://localhost:4567/band/', { :name => name, :genre => genre }, :content_type => 'text/plain'
+    expect(response.code).to eq(201)
 end
