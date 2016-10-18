@@ -112,7 +112,7 @@ public class ArtistDaoImpl implements ArtistDAO {
 			throw new IllegalArgumentException("the 'surname' param for search an artist can not be null or empty.");
 		} else {
 			Query<Artist> query = currentSession.createQuery("from Artist where surname=:n", Artist.class);
-			query.setString("n", surname);
+			query.setParameter("n", surname);
 			return query.getResultList();
 		}
 	}
@@ -129,7 +129,7 @@ public class ArtistDaoImpl implements ArtistDAO {
 			throw new IllegalArgumentException("the 'nickname' param for search an artist can not be null or empty.");
 		} else {
 			Query<Artist> query = currentSession.createQuery("from Artist where nickname=:n", Artist.class);
-			query.setString("n", nickname);
+			query.setParameter("n", nickname);
 			return query.getResultList();
 		}
 	}
@@ -146,7 +146,7 @@ public class ArtistDaoImpl implements ArtistDAO {
 			throw new IllegalArgumentException("the 'name' param for search an artist can not be null or empty.");
 		} else {
 			Query<Artist> query = currentSession.createQuery("from Artist where name=:n", Artist.class);
-			query.setString("n", name);
+			query.setParameter("n", name);
 			return query.getResultList();
 		}
 	}
@@ -162,14 +162,26 @@ public class ArtistDaoImpl implements ArtistDAO {
 	 */
 	@Override
 	public boolean createArtist(String name, String surname, String nickname) {
+		boolean result;
 		boolean areNull = name == null && nickname == null && surname == null;
 		boolean areEmpty = name.equals("") && nickname.equals("") && surname.equals("");
 		if(areNull || areEmpty){
 			throw new IllegalArgumentException("the params for create artist can't be null or empty.");
 		} else {
-			Artist artist = new Artist(name, surname, nickname);
-	        currentSession.save(artist);
-			return true;
+			String hq1 = "FROM Artist A WHERE A.name = :paramName and A.nickname = :paramNickname and A.surname = :paramSurname";
+			Query<Artist> query = currentSession.createQuery(hq1, Artist.class);
+			query.setParameter("paramName", name);
+			query.setParameter("paramNickname", nickname);
+			query.setParameter("paramSurname", surname);
+			List<Artist> artistList = query.getResultList();
+			if(artistList != null || !artistList.isEmpty()){
+				result = false;
+			} else {
+				Artist artist = new Artist(name, surname, nickname);
+				currentSession.save(artist);
+				result = true;
+			}
+			return result;
 		}
 	}
 
