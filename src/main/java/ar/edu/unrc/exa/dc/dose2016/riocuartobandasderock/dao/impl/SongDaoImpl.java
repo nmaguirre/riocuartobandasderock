@@ -111,6 +111,7 @@ public class SongDaoImpl implements SongDAO{
 	}
 	@Override   
 	public Boolean addSong(Song song){
+	//	currentSession = SongDaoImpl.getSessionFactory();
 		return false;
 	}
 	
