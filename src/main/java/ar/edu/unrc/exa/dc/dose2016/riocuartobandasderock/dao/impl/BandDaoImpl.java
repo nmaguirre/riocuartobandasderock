@@ -109,6 +109,7 @@ public class BandDaoImpl implements BandDAO {
 		return true;
 	}
 
+
 	public Boolean updateBand(Band band){
 
 		return null;
@@ -123,10 +124,19 @@ public class BandDaoImpl implements BandDAO {
 
 		return null;
 	}
+
 	public Band findBandByName(String name){
 
 		return null;
 	}
 
 
+
+	@Override
+	public Band getBand(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	   
+	
 }

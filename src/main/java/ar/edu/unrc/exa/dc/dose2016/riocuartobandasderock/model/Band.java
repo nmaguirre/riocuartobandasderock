@@ -40,6 +40,7 @@ public class Band {
     genre = a_genre;
   }
 
+
   /**
    * this method return the id of the band
    * @return id (String)
