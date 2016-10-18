@@ -30,7 +30,9 @@ Given(/^that the artist's database is empty$/) do
 end
 
 Given(/^that the song's database is empty$/) do
-    pending # Write code here that turns the phrase above into concrete actions 
+   result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from SongDB;\" -t`
+    result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars 
+    expect(result).to eq("0")
 end
 
 Given(/^that the artist's database have one artist with name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)"$/) do |name,surname,nickname|
@@ -92,7 +94,7 @@ end
 
 When(/^I add a song with name "([^"]*)" and duration "([^"]*)"$/) do |name, duration|
      response = RestClient.post 'http://localhost:4567/song/', { :name => name, :duration => duration }, :content_type => 'text/plain' 
-  expect(response.code).to eq(201)
+	 expect(response.code).to eq(201)
 end
 
 Then(/^the artist's database should have (\d+) entry$/) do |arg1|
@@ -102,7 +104,9 @@ Then(/^the artist's database should have (\d+) entry$/) do |arg1|
 end
 
 Then(/^the song's database should have (\d+) entry$/) do |arg1|
-    pending 
+    result = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select count(*) from SongDB;\" -t`
+    result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+    expect(result).to eq("1")  
 end
 
 Then(/^the entry should have name "([^"]*)" and surname "([^"]*)"$/) do |name, surname|
