@@ -105,16 +105,14 @@ public class ArtistController {
 			return "Request invalid";
 		}
 		artistDAO.openCurrentSessionwithTransaction();
-		/*boolean status = artistDAO.createArtist(req.queryParams("name"),req.queryParams("surname"),req.queryParams("nickname"));
+		boolean status = artistDAO.createArtist(req.queryParams("name"),req.queryParams("surname"),req.queryParams("nickname"));
 		artistDAO.closeCurrentSessionwithTransaction();
 		if (status){
 			res.status(201);
 			return "Success";
 		}
 		res.status(409);
-		return "Fail";*/
-		res.status(201);
-		return "Success";
+		return "Fail";
 	}
 
 }

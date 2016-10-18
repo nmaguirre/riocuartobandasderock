@@ -40,4 +40,13 @@ Feature: The application responds appropriately to all events that correspond to
 	Scenario: Search artists on an not empty artist's database by nickname, and the result is No content
 		Given that the artist's database have one artist with name "Matias" and surname "Serra" and nickname "locato"
         When I search an artist with nickname "locato" , the result of the search should have 1 entry
+        
+	        
+	Scenario: Search artists on an empty artist's database
+        Given that the artist's database is empty
+        When I list the artists from the database , the result of the search should have 0 entry
+        
+	Scenario: Search artists on an artist's database with one artist
+		Given that the artist's database have one artist with name "Matias" and surname "Serra" and nickname "locato"
+        When I list the artists from the database , the result of the search should have 1 entry
          
