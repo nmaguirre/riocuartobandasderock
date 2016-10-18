@@ -116,59 +116,5 @@ public class ArtistController {
 		res.status(201);
 		return "Success";
 	}
-	
-	/**
-	 * update an artist 
-	 * @param req	It contains the attributes of the artist to update
-	 * @param res
-	 * @return a string that describes the result of updateBandMember
-	 */
-	public String updateArtist(Request req, Response res){
-		if((req.queryParams("name")=="") && (req.queryParams("surname")=="") && (req.queryParams("nickname")=="")){
-			res.status(400);
-			return "Request invalid";
-		}
-		artistDAO.openCurrentSession();
-		Artist artist = artistDAO.findById(req.params(":id"));
-		artistDAO.closeCurrentSession();
-		if (artist==null){
-			res.status(400);
-			return "Request invalid";
-		}
-		artist.setName(req.queryParams("name"));
-		artist.setNickname(req.queryParams("nickName"));
-		artist.setSurname(req.queryParams("surName"));
-		artistDAO.openCurrentSessionwithTransaction();
-		boolean status = artistDAO.updateArtist(artist);
-		artistDAO.closeCurrentSessionwithTransaction();
-		if (status){
-			res.status(200);
-			return "Success";
-		}
-		res.status(409);
-		return "Fail";
-	}
-	
-	/**
-	 * delete an artist by his Id
-	 * @param req it contain id of the artist to delete
-	 * @param res
-	 * @return a string that describes the result of deleteBandMember
-	 */
-	public String deleteArtist(Request req, Response res){
-		if ((req.params(":id"))==""){
-			res.status();
-			return "Request invalid";
-		}
-		artistDAO.openCurrentSessionwithTransaction();
-	 	boolean status = artistDAO.deleteArtist(req.params(":id"));
-		artistDAO.closeCurrentSessionwithTransaction();
-		if (status){
-			res.status(200);
-			return "Success";
-		}
-		res.status(409);
-		return "Fail";
-	}
 
 }
