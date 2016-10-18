@@ -4,54 +4,171 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 import spark.Response;
 import spark.Request;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.ArtistDAO;
-import java.util.List;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.ArtistDaoImpl;
 
+import java.util.List;
+/**
+ *the ArtistController class treats http requests referred to the Artist model 
+ */
 public class ArtistController {	
-	
+	/**
+	 * one implementation ArtistDao to connect to db
+	 */
 	private ArtistDAO artistDAO;
 	
-	public ArtistDAO getArtistDAO() {
-		return artistDAO;
+    /**
+     * Constructor
+     */
+	public ArtistController(){
+		artistDAO = new ArtistDaoImpl();
 	}
 
-	public ArtistController(ArtistDAO artistDAO_a){
-		if (artistDAO_a==null) throw new IllegalArgumentException("Argument is null");
-		artistDAO = artistDAO_a;
-	}
-
+	/**
+	 * get all Artist 
+	 * @param req (Request)
+	 * @param res (Response)
+	 * @return  List of Artist
+	 */
 	public List<Artist> getAllArtists(Request req, Response res){
-		return artistDAO.getAllArtists(); 
+		artistDAO.openCurrentSession();
+		List<Artist> artists = artistDAO.getAllArtists();
+		artistDAO.closeCurrentSession();
+		int status = (artists.size()>0)? 200:409;
+		res.status(status);
+		return artists;
 	}
 	
-	public Artist getArtistById (Request req, Response res){
-		return artistDAO.findById(req.params(":id")); 
-	}
 	
+	/**
+	 * search for artists by name
+	 * @param req It contains the name to search for artists
+	 * @param res
+	 * @return List artist with name parameters
+	 */
 	public List<Artist> getArtistByName (Request req, Response res){
-		return artistDAO.findByName(req.params("name"));
-	}
-		
-	public boolean createArtist(Request req,Response res){
-		Artist artist = new Artist(req.queryParams("name"),req.queryParams("surname"),req.queryParams("nickname"));
-		boolean status = artistDAO.createArtist(artist);
-		return status;
+		if (req.params(":name")==""){
+			res.status(400);
+		}
+		artistDAO.openCurrentSession();
+		List<Artist> artists = artistDAO.findByName(req.params(":name"));
+		artistDAO.closeCurrentSession();
+		int status = (artists.size()!=0)? 200:409;
+		res.status(status);
+		return artists;
 	}
 	
-	public boolean updateArtist(Request req, Response res){
+	/**
+	 * search for artists by surname
+	 * @param req It contains the surname to search for artists
+	 * @param res
+	 * @return List artist with surname parameters
+	 */
+	public List<Artist> getArtistBySurname (Request req, Response res){
+		if (req.params(":surname")==""){
+			res.status(400);
+		}
+		artistDAO.openCurrentSession();
+		List<Artist> artists = artistDAO.findBySurname(req.params(":surname"));
+		artistDAO.closeCurrentSession();
+		int status = (artists.size()!=0)? 200:409;
+		res.status(status);
+		return artists;
+	}
+	
+	/**
+	 * search for artists by nickname
+	 * @param req It contains the nickname to search for artists
+	 * @param res
+	 * @return List artist with nickname parameters
+	 */
+	public List<Artist> getArtistByNickname (Request req, Response res){
+		if (req.params(":nickname")==""){
+			res.status(400);
+		}
+		artistDAO.openCurrentSession();
+		List<Artist> artists = artistDAO.findByNickname(req.params(":nickname"));
+		artistDAO.closeCurrentSession();
+		int status = (artists.size()!=0)? 200:409;
+		res.status(status);
+		return artists;
+	}
+	
+	/**
+	 * creates an artist 
+	 * @param req    It contains the attributes of the new artist
+	 * @param res
+	 * @return a string that describes the result of createArtist
+	 */
+	public String createArtist(Request req,Response res){
+		if((req.queryParams("name")=="") && (req.queryParams("surname")=="") && (req.queryParams("nickname")=="")){
+			res.status(400);
+			return "Request invalid";
+		}
+		artistDAO.openCurrentSessionwithTransaction();
+		/*boolean status = artistDAO.createArtist(req.queryParams("name"),req.queryParams("surname"),req.queryParams("nickname"));
+		artistDAO.closeCurrentSessionwithTransaction();
+		if (status){
+			res.status(201);
+			return "Success";
+		}
+		res.status(409);
+		return "Fail";*/
+		res.status(201);
+		return "Success";
+	}
+	
+	/**
+	 * update an artist 
+	 * @param req	It contains the attributes of the artist to update
+	 * @param res
+	 * @return a string that describes the result of updateBandMember
+	 */
+	public String updateArtist(Request req, Response res){
+		if((req.queryParams("name")=="") && (req.queryParams("surname")=="") && (req.queryParams("nickname")=="")){
+			res.status(400);
+			return "Request invalid";
+		}
+		artistDAO.openCurrentSession();
 		Artist artist = artistDAO.findById(req.params(":id"));
+		artistDAO.closeCurrentSession();
 		if (artist==null){
-			return false;
+			res.status(400);
+			return "Request invalid";
 		}
 		artist.setName(req.queryParams("name"));
 		artist.setNickname(req.queryParams("nickName"));
 		artist.setSurname(req.queryParams("surName"));
+		artistDAO.openCurrentSessionwithTransaction();
 		boolean status = artistDAO.updateArtist(artist);
-		return status;
+		artistDAO.closeCurrentSessionwithTransaction();
+		if (status){
+			res.status(200);
+			return "Success";
+		}
+		res.status(409);
+		return "Fail";
 	}
 	
-	public boolean deleteArtist(Request req, Response res){
+	/**
+	 * delete an artist by his Id
+	 * @param req it contain id of the artist to delete
+	 * @param res
+	 * @return a string that describes the result of deleteBandMember
+	 */
+	public String deleteArtist(Request req, Response res){
+		if ((req.params(":id"))==""){
+			res.status();
+			return "Request invalid";
+		}
+		artistDAO.openCurrentSessionwithTransaction();
 	 	boolean status = artistDAO.deleteArtist(req.params(":id"));
-	 	return status;
+		artistDAO.closeCurrentSessionwithTransaction();
+		if (status){
+			res.status(200);
+			return "Success";
+		}
+		res.status(409);
+		return "Fail";
 	}
 
 }

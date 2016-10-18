@@ -1,7 +1,16 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.AlbumDAO;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.SongDAO;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.AlbumDaoImpl;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandDaoImpl;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SongDaoImpl;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
+
+import java.util.ArrayList;
 import java.util.List;
 import spark.Request;
 import spark.Response;
@@ -15,6 +24,19 @@ import spark.Response;
 public class SongController {
 
     private SongDAO songDao;
+    private AlbumDAO albumDao;
+    private BandDAO bandDao;
+    
+    
+    /**
+     * Class constructor 
+     */
+    
+    public SongController(){
+    	songDao = new SongDaoImpl();
+    	albumDao = new AlbumDaoImpl();
+    	bandDao = new BandDaoImpl();
+    }
     
     
     /**
@@ -28,32 +50,7 @@ public class SongController {
         return songDao.getAllSongs();
     }
     
-    
-    /**
-     * Get all band songs
-     * @param req
-     * @param res
-     * @return a list of all band songs
-     */
-    
-    public List<Song> getBandSongs (Request req, Response res){   
-        String bandName = req.params("name");
-        return songDao.findByBandName(bandName);
-    }
-    
-    
-    /**
-     * Get all album songs
-     * @param req
-     * @param res
-     * @return a list of all ambum songs
-     */
-  
-    public List<Song> getAlbumSongs (Request req, Response res){
-       String albumName = req.params("title"); 
-       return songDao.findByAlbum(albumName);
-    }
-    
+
     
     /**
      * Get all artist songs
@@ -69,15 +66,28 @@ public class SongController {
     
     
     /**
-     * Get a specific song
+     * Get a specific song by its id
      * @param req
      * @param res
-     * @return a specific song
+     * @return a song
      */
   
     
-    public Song getSong (Request req, Response res){
-        return null;
+    public Song getSongById (Request req, Response res){
+    	String songId = req.params(":id");
+        return songDao.findById(songId);
+    }
+    
+    /**
+     * Get a song by its name
+     * @param req
+     * @param res
+     * @return a song
+     */
+    
+    public List<Song> getSongByName (Request req, Response res){
+    	String songName = req.params("name");
+    	return songDao.findByName(songName);    	
     }
     
     
@@ -85,20 +95,36 @@ public class SongController {
      * Add a new song
      * @param req
      * @param res 
+     * @return
      */
-  
-    public void addSong (Request req, Response res){
-        Song song = new Song();
-        songDao.addSong(song);
+  /*
+    public Boolean addSong (Request req, Response res){
+    	String songName = req.queryParams("name");    
+    	
+    	String dur = req.queryParams("duration");
+    	int duration = Integer.parseInt(dur);
+    	
+    	Song song = new Song(songName, duration);
+    	return songDao.addSong(song);
     }
     
+    /*
     
     /**
      * Edit a song
      * @param req
      * @param res 
+     * @return
      */
-    public void editSong (Request req, Response res){
+    public Boolean editSong (Request req, Response res){
+    
+		Song song = songDao.findById(req.params(":id"));
+		
+		song.setName(req.queryParams("name"));
+    	
+    	String dur = req.queryParams("duration");
+    	song.setDuration(Integer.parseInt(dur));
+    	return songDao.updateSong(song);
         
     }
     
@@ -107,10 +133,12 @@ public class SongController {
      * Delete a song
      * @param req
      * @param res 
+     * @return
      */
   
-    public void deleteSong (Request req, Response res){
-    
+    public Boolean deleteSong (Request req, Response res){
+    	Song song = songDao.findById(req.params(":id"));
+    	return songDao.removeSong(song);
     }
     
 }

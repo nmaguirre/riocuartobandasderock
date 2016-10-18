@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+          "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+          <hibernate-mapping>
+          <class name="ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist" table="artistDB">
+          <id name="artistID" />
+          <property name="artistID"></property>
+          <property name="name"></property>
+          <property name="surname"></property>
+          <property name="nickname"></property>
+          </class>
+          </hibernate-mapping>
+          
+          

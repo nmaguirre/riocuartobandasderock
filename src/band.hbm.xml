@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+          "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+          <hibernate-mapping>
+          <class  name="Band" table="bandDB">
+          <id name="bandId">
+          <generator class="increment"></generator>
+          </id>
+          <property name="name"></property>
+          <property name="release"></property>
+          <property name="end"></property>
+          <property name="genere"></property>
+          <!-- the represents one to many relation -->
+          <!-- relation one band many album -->
+          <list name="albums" cascade="all" inverse="false" >
+          	<key>
+          		<column name="idBand"/>
+          	</key>
+          	<list-index>
+          		<column name="id"></column>
+          	</list-index>
+          	<one-to-many class="Album"></one-to-many>
+          </list>
+          <set name="artists" table="BandArtist" cascade="all" inverse="false" >
+          	<key>
+          		<column name="idArtist"></column>
+          	</key>
+          	<many-to-many column="artistID" class="Artist" />
+          </set>
+          </class>
+          </hibernate-mapping>

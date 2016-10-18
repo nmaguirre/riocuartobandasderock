@@ -1,8 +1,15 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model;
 
 import java.util.UUID;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+ 
 
 /* This class represents one person that is artist of a band. */
+@Entity
+@Table(name = "artistDB")
 public class Artist {
 
   /**
@@ -11,9 +18,18 @@ public class Artist {
   * surname represents the artist surname
   * nickname represents the artist nickname
   */
-  private String id;
+
+  @Id
+  @Column(name = "artistID")	
+  private String artistID;
+  
+  @Column(name = "name")
   private String name;
+  
+  @Column(name = "surname")
   private String surname;
+  
+  @Column(name = "nickname")
   private String nickname;
 
 
@@ -25,10 +41,16 @@ public class Artist {
    * @param nickname: Artist nickname.
    */
   private Artist(String id, String name, String surname, String nickname){    
-    this.id = id;
+    this.artistID = id;
 	this.name = name;
     this.surname = surname;
     this.nickname = nickname;
+  }
+  
+  /** 
+   * The constructor of Artist class create the new artist empty.
+   */
+  public Artist(){
   }
   
   /**
@@ -50,11 +72,12 @@ public class Artist {
     this(UUID.randomUUID().toString(), name, surname, "");
   }
   
+  
   /**
   * @return artist id.
   */
   public String getId(){
-    return id;
+    return artistID;
   }
   
   /**
@@ -106,5 +129,18 @@ public class Artist {
   public void setNickname(String art_nick){
     if (art_nick == null) throw new IllegalArgumentException("Nickname can't be null");
     nickname = art_nick;
+  }
+  
+  /**
+   * This method compares two artists.
+   * @param art: Object Artist.
+   * @throws IllegalArgumentException if art is null.
+   */
+  public boolean equals(Artist art){
+	  if(art==null) throw new IllegalArgumentException("Artist can't be null");
+	  if(this.name==art.name && this.nickname==art.nickname && this.surname==art.surname){
+		  return true;
+	  }
+	  return false;
   }
 }

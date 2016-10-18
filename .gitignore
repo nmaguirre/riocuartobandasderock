@@ -24,7 +24,6 @@ target/
 # Logs and databases #
 ######################
 *.log
-*.sql
 *.sqlite
 
 # OS generated files #
@@ -36,3 +35,11 @@ target/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# SCRIPT UPDATES #
+##################
+*.sh
+
+*.lock
+*.txt
+*.swp
