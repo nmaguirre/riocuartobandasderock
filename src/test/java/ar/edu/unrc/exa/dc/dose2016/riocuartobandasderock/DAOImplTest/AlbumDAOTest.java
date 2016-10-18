@@ -60,25 +60,12 @@ public class AlbumDAOTest {
 		songs.add(track4);
 		songs.add(track5);
 		
-		albumInst1= new Album("Hey Jude",bandInst1);
-		albumInst2= new Album("Say No More",bandInst2);
-		albumInst3= new Album("Pendulum",bandInst3);
-		
-		albumInst1.setSongs(songs);
-		albumInst2.setSongs(songs);
-		albumInst3.setSongs(songs);
-		
-		albumInst1.setDuration(2440);
-		albumInst2.setDuration(2450);
-		albumInst3.setDuration(2460);
-		
-		albumInst1.setProducers(producers1);
-		albumInst2.setProducers(producers1);
-		albumInst3.setProducers(producers2);
-		
-		albumInst1.setDiscography("Record Label1");
-		albumInst2.setDiscography("Record Label2");
-		albumInst3.setDiscography("Record Label3");
+
+		albumInst1= new Album("Hey Jude");
+		albumInst2= new Album("Say No More");
+		albumInst3= new Album("Pendulum");
+
+
 	}
 	
 	@Test
@@ -94,16 +81,6 @@ public class AlbumDAOTest {
 		};
 		assertEquals(albumModel,albumDao.findById("3"));
 	}
-
-//	@Test(expected=IllegalArgumentException.class)
-//	public void findByIdIfIdIsEmpty(){
-//		new Expectations(){
-//			{
-//				albumDao.findById(" ");
-//			returns (new IllegalArgumentException(""));
-//			}
-//		};
-//	}
 	
 	@Test
 	public void getAllAlbumTestCase(){
@@ -120,17 +97,6 @@ public class AlbumDAOTest {
 		assertEquals(allAlbums,albumDao.getAllAlbums()  );
 	}
 	
-	@Test
-	public void findByBandNameTest(){
-		List<Album> allAlbums = new LinkedList<Album>();
-		allAlbums.add(albumInst3);
-		
-		new Expectations(){{
-			albumDao.findByBandName("Creedence Clearwater Revival");
-			returns(allAlbums);
-		}};
-		assertEquals(allAlbums,albumDao.findByBandName("Creedence Clearwater Revival"));
-	}
 	
 	@Test
 	public void findByNameTest(){
@@ -140,106 +106,5 @@ public class AlbumDAOTest {
 		}};
 		assertEquals(albumInst1,albumDao.findByName("Pendulum"));
 	}
-	
-	@Test
-	public void finByRecordLabelTestCase(){
-		List<Album> allAlbums = new LinkedList<Album>();
-		allAlbums.add(albumInst1);
 		
-		new Expectations(){{
-				albumDao.findByRecordLabel("Record Label1");
-				returns (allAlbums);
-		}};
-		assertEquals(allAlbums,albumDao.findByRecordLabel("Record Label1"));
-	}
-	
-	@Test
-	public void findByProducersTest(){
-		List<Album> allAlbums = new LinkedList<Album>();
-		
-		allAlbums.add(albumInst1);
-		allAlbums.add(albumInst2);
-		allAlbums.add(albumInst3);
-		
-		new Expectations(){{
-			albumDao.findByProducer("Productor2");
-			returns(allAlbums);
-		}};	
-		assertEquals(allAlbums,albumDao.findByProducer("Productor2"));
-		
-	}
-	
-	@Test
-	public void findByDurationTest(){
-		List<Album> allAlbums = new LinkedList<Album>();
-		allAlbums.add(albumInst1);
-		
-		new Expectations(){{
-			albumDao.findByDuration(2460);
-			returns(allAlbums);
-		}};
-		assertEquals(allAlbums,albumDao.findByDuration(2460));
-	}
-	
-	@Test
-	public void findBySongTestCase(){
-		List<Album> allAlbums = new LinkedList<Album>();
-	
-		allAlbums.add(albumInst1);
-		allAlbums.add(albumInst2);
-		allAlbums.add(albumInst3);
-		
-		new Expectations(){{
-				albumDao.findBySong( "Song1" );
-				returns (allAlbums);
-		}};
-		assertEquals(allAlbums,albumDao.findBySong("Song1" ));
-	}
-	
-	@Test
-	public void createAlbumTestCase(){
-		new Expectations(){{
-				albumDao.createAlbum(albumInst1);
-				returns(true);
-		}};
-		assertEquals(true,albumDao.createAlbum(albumInst1));
-	}
-	
-	@Test
-	public void createAlbumIfAlbumParamIsnull(){
-		new Expectations(){{
-				albumDao.createAlbum(albumInst4); //albumInst4==null
-				returns (false);
-		}};
-		assertEquals(false,albumDao.createAlbum(albumInst4));
-	}
-	
-	@Test
-	public void updateAlbumTest(){
-		Album albumUpdate = new Album();
-		
-		new Expectations(){{
-			albumDao.updateAlbum(albumUpdate);
-			returns (true);
-		}};
-		assertEquals(true,albumDao.updateAlbum(albumUpdate));
-	}
-	
-	@Test
-	public void deleteAlbumTestCase(){
-		new Expectations(){{
-				albumDao.deleteAlbum("3");
-				returns(true);
-		}};
-		assertEquals(true,albumDao.deleteAlbum("3") );
-	}
-	
-	@Test 
-	public void deleteAlbumIfIdAlbumNotExistInDB(){
-		new Expectations(){{
-			albumDao.deleteAlbum("5");//Id=5 not in DB
-			returns (false);
-		}};
-		assertEquals(false,albumDao.deleteAlbum("5"));
-	}
 }

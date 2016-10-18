@@ -38,3 +38,4 @@ Feature: The application responds appropriately to all events that correspond to
     	When I add a band with name "The Beatles" and genre "Rock" 
     	Then the bands' database should have 6 entries
     	And the band with name "The Beatles" and genre "Rock" should be on bands' database
+

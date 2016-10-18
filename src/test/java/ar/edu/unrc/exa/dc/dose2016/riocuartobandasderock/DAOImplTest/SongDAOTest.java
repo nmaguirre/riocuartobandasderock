@@ -20,7 +20,7 @@ public class SongDAOTest {
             @Test
 	public void findByIdTest() {
 		Song songModel = new Song();
-		songModel.setId(3);
+		songModel.setId("3");
 		new Expectations(){
 			{
 				songDao.findById(withEqual("3"));

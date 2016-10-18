@@ -55,22 +55,5 @@ public class ArtistControllerTest {
 		assertTrue(artistcon.getAllArtists(req,res).size()==0);
 	 }
 
-	@Test (expected=IllegalArgumentException.class)
-	 public void testgetArtistById() {
-		 Request req =null; 
-		 Response res=null;
-		 Artist art = artistcon.getArtistById (req, res);  
-	     String name= "";
-	  }
-
-	@Test
-	 public void testgetArtistByIdcase2() {
-		 Request req=null;
-		 req.attribute("id");
-		 Response res=null;
-		 Artist art = artistcon.getArtistById (req, res);  
-	     String name= "";
-	     assertTrue(true);
-	  }
 
 }

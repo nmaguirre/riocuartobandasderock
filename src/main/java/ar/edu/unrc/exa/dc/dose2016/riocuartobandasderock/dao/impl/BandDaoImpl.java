@@ -1,5 +1,6 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -7,6 +8,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions;
@@ -87,56 +89,88 @@ public class BandDaoImpl implements BandDAO {
 	public void setCurrentTransaction(Transaction currentTransaction) {
 		this.currentTransaction = currentTransaction;
 	}
-
-
-	public List<Band> getAllBands(){
-			return null;
-	}
-
+	
+	/**
+	 * Search a band in database
+	 * 
+	 * @param band id to search
+	 * 
+	 * @return band wanted
+	 */
+	
 	public Band getBand(String id){
-
-		return null;
+		if (id != null && id != "") {
+			Band band = currentSession.find(Band.class, id);
+			return band;
+		} else {
+			return null;
+		}
 	}
-
-	@Override
-	public boolean createBand(Band band) {
-    SessionFactory sessionFactory = getSessionFactory();
-		Session currentSession = sessionFactory.openSession();
-    Transaction currentTransaction = currentSession.beginTransaction();
-		currentSession.save(band);
-		currentTransaction.commit();
-		currentSession.close();
-		return true;
-	}
-
-
+	
+	/**
+	 * Update a band in the database
+	 * 
+	 * @param band to update
+	 * 
+	 * @return boolean, true if the band was updated
+	 */
+	
 	public Boolean updateBand(Band band){
-
-		return null;
+			if (band != null) {
+				currentSession.update(band);
+				return true;
+			} else {
+				return false;
+			}
 	}
-
+	
+	/**
+	 * Remove a band from the database
+	 * 
+	 * @param id from band to delete
+	 * 
+	 * @return boolean, true if the band was deleted
+	 */
 	public Boolean deleteBand(String id){
-
-		return null;
+		Band band = this.getBand(id);
+		if (band != null) {
+			currentSession.delete(band);
+			return true;
+		} else {
+			return false;
+		}
 	}
-
+	
+	/**
+	 * Create a band from the database
+	 * 
+	 * @param band to create
+	 * 
+	 * @return boolean, true if the band was created
+	 */
+	
 	public Boolean addBand(Band band){
-
-		return null;
+		SessionFactory sessionFactory = getSessionFactory();
+		Session currentSession = sessionFactory.openSession();
+		Transaction currentTransaction = currentSession.beginTransaction();
+	    currentSession.save(band);
+	    currentTransaction.commit();
+	    currentSession.close();
+	    return true;
+		
 	}
-
-	public Band findBandByName(String name){
-
-		return null;
-	}
-
-
-
-	@Override
-	public Band getBand(String id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	   
+	public List<Band> findBandByName(String name){
+		if (name != null && name != ""){
+			List<Band> bandList = new LinkedList<>();
+			Query<Band> query;
+			query = currentSession.createQuery("from Band where name=:n", Band.class);
+			query.setString("n", name);
+			bandList.addAll(query.getResultList());
+			return bandList;
+		} else {
+					return null;
+		}
+			
+	}  
 	
 }

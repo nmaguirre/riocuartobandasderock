@@ -31,7 +31,7 @@ public class BandController {
 	 * @return A list of all bands
 	 */
 	public List<Band> getBands(Request req ,Response res){
-		return bandDAO.getAllBands();
+		return bandDAO.findBandByName("");
 	}
 
 	/***
@@ -73,22 +73,25 @@ public class BandController {
 	public Band createBand(Request req,Response res){
 		Band band = null ;
 		String name = req.params("name");
-		// String genereStr = req.params("genere");
+		// String genereStr = req.params("genre");
 		// genereDAO is not defined
 		//Genere genere = genereDAO.getBand(genereStr);
-		Genere genere = null; 
-		String artistListStr = req.params("artist_list");
+		String genre = req.params("genre"); 
+		//String artistListStr = req.params("artist_list");
 		// here we the data of artist_list will be processed.
-		List<Artist> artistList = null;
-		String release = req.params("release");
-		String albumListStr = req.params("album_list");
-		if (albumListStr == null){
-			band = new Band(name, genere, artistList, release);
+		//List<Artist> artistList = null;
+		//String release = req.params("release");
+		//String albumListStr = req.params("album_list");
+		/*if (albumListStr == null){
+			//band = new Band(name, genre, artistList, release);
+			band = new Band(name,genre);
 		}else{
 			// here we the data of album_list will be processed.
-			List<Album> albumList = null;
-			band = new Band(name, genere, artistList, release, albumList);
-		}
+			//List<Album> albumList = null;
+			//band = new Band(name, genre, artistList, release, albumList);
+			band = new Band(name,genre);
+		}*/
+		band = new Band(name,genre); 
 		bandDAO.addBand(band);
 		return band;
 	}
@@ -102,18 +105,18 @@ public class BandController {
 	public Band updateBand(Request req,Response res){
 		Band band = bandDAO.getBand(req.params("id"));
 		band.setName(req.params("name"));
-		// Genere genere = genereDAO.getGenere(req.params("genere"));
-		Genere genere = null;
-		band.setGenere(genere);
-		String artistListStr = req.params("artist_list");
+		String genre = req.params("genre");
+		//String genre = "";
+		band.setGenere(genre);
+		//String artistListStr = req.params("artist_list");
 		// here we the data of artist_list will be processed.
-		List<Artist> artistList = null;
-		band.setArtistList(artistList);
-		band.setRelease(req.params("release"));
-		String albumListStr = req.params("album_list");
+		//List<Artist> artistList = null;
+		//band.setArtistList(artistList);
+		//band.setRelease(req.params("release"));
+		//String albumListStr = req.params("album_list");
 		// here we the data of album_list will be processed.
-		List<Album> albumList = null;
-		band.setAlbumList(albumList);
+		//List<Album> albumList = null;
+		//band.setAlbumList(albumList);
 		bandDAO.updateBand(band);
 		return band;
 	}

@@ -42,14 +42,6 @@ public interface BandDAO {
 	   public Band getBand(String id);
 
 	   /**
-			*
-			* @param Band band
-			*
-			* @return true if the create was successful
-			*/
-			public boolean createBand(Band band);
-
-	   /**
 	    *
 	    * @param Band band
 	    *
@@ -80,9 +72,7 @@ public interface BandDAO {
 	    *
 	    * @return bands with particular name
 	    */
-	   public Band findBandByName(String name);
-
-
-
+	   public List<Band> findBandByName(String name);
+	   
 }
 
