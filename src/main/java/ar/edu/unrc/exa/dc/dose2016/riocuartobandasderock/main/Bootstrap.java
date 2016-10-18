@@ -19,7 +19,6 @@ public class Bootstrap {
 	
 	private static BandController bands = new BandController(new BandDaoImpl());
 	private static ArtistController artistController;
-	private static BandMemberController bandMemberController = new BandMemberController();    
 	private static AlbumController albumController = AlbumController.getInstance();
 	private static SongController songController;
 
@@ -57,7 +56,6 @@ public class Bootstrap {
              
 
         post("/albums", (req, res) -> albumController.create(req, res));
-
 
         get("/hello", (req, res) -> "Hello World");
 
