@@ -47,12 +47,6 @@ public interface AlbumDAO {
 	 */ 
 	public List<Album> findByName(String name);
 	
-//	/**
-//	 * @param year
-//	 * @return
-//	 */
-//	public List<Album> findByYear(int year);
-	
 	
 	/**
 	 * @param releaseDate
