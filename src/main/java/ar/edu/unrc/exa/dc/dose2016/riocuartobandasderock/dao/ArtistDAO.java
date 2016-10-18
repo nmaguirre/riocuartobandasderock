@@ -63,35 +63,12 @@ public interface ArtistDAO {
 
 	/**
 	* 
-	* @param String id
-	* 
-	* @return Artists that have a particular id
-	*/
-	public Artist findById(String id);
-	
-	/**
-	* 
-	* @param Artist artist
+	* @param name
+	* @param nickname
+	* @param surname
 	* 
 	* @return true if the create was successful
 	*/
-	public boolean createArtist(Artist artist);
-	
-	/**
-	* 
-	* @param Artist artist
-	* 
-	* @return true if the update was successful
-	*/
-	public boolean updateArtist(Artist artist);
-	
-	
-	/**
-	* 
-	* @param String id
-	* 
-	* @return true if the delete was successful
-	*/
-	public boolean deleteArtist(String id);
+	public boolean createArtist(String name, String nickname, String surname);
 	
 }

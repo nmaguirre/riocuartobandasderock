@@ -118,13 +118,6 @@ public class AlbumDaoImpl implements AlbumDAO{
 		return l;
 	}	
 	
-	/**
-	 * @param bandName
-	 * @return Albums list found by name band
-	 */
-	public List<Album> findByBandName(String bandName){		
-		return null;
-	}
 	
 	/**
 	 * @param name
@@ -139,45 +132,6 @@ public class AlbumDaoImpl implements AlbumDAO{
 		return byNameList;
 	}
 	
-	/**
-	 * @param genre
-	 * @return Albums list found by genre
-	 */
-	public List<Album> findByGenere(String genre){
-		return null;
-	}
-	
-	/**
-	 * @param recordLabel
-	 * @return Albums list found by record label
-	 */
-	public List<Album> findByRecordLabel(String recordLabel){
-		return null;
-	}
-	
-	/**
-	 * @param producer
-	 * @return Albums list found by producer
-	 */
-	public List<Album> findByProducer(String producer){
-		return null;
-	}
-	
-	/**
-	 * @param duration
-	 * @return Albums list found by duration
-	 */
-	public List<Album> findByDuration(int duration){
-		return null;
-	}
-	
-	/**
-	 * @param song
-	 * @return Albums list found by song
-	 */
-	public List<Album> findBySong(String song){
-		return null;
-	}
 	
 	/**
 	 * @param releaseDate
@@ -197,38 +151,17 @@ public class AlbumDaoImpl implements AlbumDAO{
 	 * @param album
 	 * @return true iff album was inserted into data base correctly
 	 */
-	public boolean createAlbum(Album album){
-		if (album != null){
-			currentSession.save(album);
-			return true;
-		} else {
-			return false;
+	public boolean createAlbum(String title, Date releaseDate){
+		if((title==null)&&(releaseDate==null)) throw new IllegalArgumentException("Error: AlbumDaoImpl.createAlbum() null params");
+		List<Album> lt = this.findByName(title);
+		for(int i=0;i<lt.size();i++){
+			if(lt.get(i).getReleaseDate().equals(releaseDate)){
+				return false;
+			}
 		}
-	}
-	
-	/**
-	 * @param album
-	 * @return true iff the album was updated correctly
-	 */
-	public boolean updateAlbum(Album album){
-		if (album!=null){
-			currentSession.update(album);
-			return true;
-		}
-		return false;
-	}
-	
-	/**
-	 * @param id
-	 * @return true iff album was removed correctly
-	 */
-	public boolean deleteAlbum(String id){
-		Album a = this.findById(id);
-		if (a!=null){
-			currentSession.delete(a);
-			return true;
-		}
-		return false;
+		Album a = new Album(title,releaseDate);
+		currentSession.save(a);
+		return true;
 	}
 	
 }

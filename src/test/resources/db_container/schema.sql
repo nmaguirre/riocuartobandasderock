@@ -17,8 +17,8 @@ CREATE TABLE SongDB (
     duration int
 );
 
-CREATE TABLE Band (
-    id text primary key,
+CREATE TABLE BandDB (
+    bandID text primary key,
     name text not null,
     genre text not null,
 );
