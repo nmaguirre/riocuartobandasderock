@@ -110,6 +110,7 @@ public class SongDaoImpl implements SongDAO{
 		}
 	}
 	@Override   
+
 	public Boolean addSong(String name,Integer duration){
 		Song song = new Song(name,duration);
 		currentSession.save(song);

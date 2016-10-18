@@ -19,8 +19,8 @@ public class Bootstrap {
 	
 	private static BandController bands = new BandController(new BandDaoImpl());
 	private static ArtistController artistController;
-	private static BandMemberController bandMemberController = new BandMemberController();    
 	private static AlbumController albumController = AlbumController.getInstance();
+	private static SongController songController;
 
     public static void main(String[] args) {
     	
@@ -52,10 +52,10 @@ public class Bootstrap {
         }
         
         artistController = new ArtistController();
+        songController = new SongController();
              
 
         post("/albums", (req, res) -> albumController.create(req, res));
-
 
         get("/hello", (req, res) -> "Hello World");
 
@@ -78,6 +78,8 @@ public class Bootstrap {
         get("/artist/findbysurname/:surname",(req,res)->artistController.getArtistBySurname(req,res));
 
         post("/artist/",(req,res)->artistController.createArtist(req,res));
+        
+        post("/song/",(req,res)->songController.createSong(req,res));
 
     }
 }
