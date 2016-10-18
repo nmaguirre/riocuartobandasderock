@@ -41,11 +41,16 @@ public class AlbumController {
 	    	res.status(http_status);
 	    	if (!result) res.body("Duplicate album"); //If the result of the creation was false, it means that there is a duplicate
 	    	return result;
-		} catch (ParseException e) {
+		} catch (ParseException | IllegalArgumentException e) {
 			//If an exception was thrown, then there was a problem with the parameters.
 			e.printStackTrace();
 			res.status(400);
-			res.body("Bad date");
+			res.body("Bad parameters.");
+			return false;
+		} catch (Exception e){
+			e.printStackTrace();
+			res.status(500);
+			res.body("Internal server error");
 			return false;
 		}
     	
