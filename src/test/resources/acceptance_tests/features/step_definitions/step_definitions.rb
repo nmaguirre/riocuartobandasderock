@@ -6,7 +6,7 @@ require "rspec"
 include RSpec::Matchers
 
 HOST = "localhost"
-PORT = "7500"
+PORT = "5432"
 
 
 def execute_sql(sql_code)
@@ -33,9 +33,50 @@ Given(/^that the song's database is empty$/) do
     pending # Write code here that turns the phrase above into concrete actions 
 end
 
-When(/^I add an artist with name "([^"]*)" and surname "([^"]*)"$/) do |name,surname|
-  response = RestClient.post 'http://localhost:4567/artist/', { :name => name, :surname => surname }, :content_type => 'text/plain' 
+Given(/^that the artist's database have one artist with name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)"$/) do |name,surname,nickname|
+  response = RestClient.post 'http://localhost:4567/artist/', { :name => name, :surname => surname, :nickname => nickname }, :content_type => 'text/plain' 
   expect(response.code).to eq(201)
+end
+
+When(/^I add an artist with name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)"$/) do |name,surname,nickname|
+  response = RestClient.post 'http://localhost:4567/artist/', { :name => name, :surname => surname, :nickname => nickname }, :content_type => 'text/plain' 
+  expect(response.code).to eq(201)
+end
+
+When(/^I search an artist with name "([^"]*)" , the result of the search should have (\d+) entry$/) do |name,arg1|
+  begin
+    String s = 'http://localhost:4567/artist/findbyname/' + name
+    response = RestClient.get s
+    if arg1 == "0"
+      expect(response.code).to eq(200)
+    end
+  rescue RestClient::Conflict => e
+    expect(arg1).to eq("0")
+  end
+end
+
+When(/^I search an artist with surname "([^"]*)" , the result of the search should have (\d+) entry$/) do |surname,arg1|
+  begin
+    String s = 'http://localhost:4567/artist/findbysurname/' + surname
+    response = RestClient.get s
+    if arg1 != "0"
+      expect(response.code).to eq(200)
+    end
+  rescue RestClient::Conflict => e
+    expect(arg1).to eq("0")
+  end
+end
+
+When(/^I search an artist with nickname "([^"]*)" , the result of the search should have (\d+) entry$/) do |nickname,arg1|
+  begin
+    String s = 'http://localhost:4567/artist/findbynickname/' + nickname
+    response = RestClient.get s
+    if arg1 != "0"
+      expect(response.code).to eq(200)
+    end
+  rescue RestClient::Conflict => e
+    expect(arg1).to eq("0")
+  end
 end
 
 When(/^I add a song with name "([^"]*)" and duration "([^"]*)"$/) do |name, duration|
