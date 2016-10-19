@@ -59,7 +59,7 @@ public class Bootstrap {
 
         get("/bands",(req, res) -> bands.getBands(req, res));
 
-        get("/band/:name",(req, res) -> bands.getBand(req, res));
+        get("/band/:name",(req, res) -> bands.getBandByName(req, res));
 
         post("/band/",(req, res) -> bands.createBand(req, res));
 

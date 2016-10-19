@@ -60,9 +60,9 @@ public class Band {
 
   /**
    * return the genre of the band
-   * @return String (Genere) 
+   * @return String (Genre) 
    */
-  public String getGenere(){
+  public String getGenre(){
     return genre;
   }
     
@@ -85,9 +85,9 @@ public class Band {
 
   /**
    * this method set the principal genre of the band
-   * @param a_genre (Genere)
+   * @param a_genre (Genre)
    */
-  public void setGenere(String a_genre){
+  public void setGenre(String a_genre){
     genre = a_genre;
   } 
 }

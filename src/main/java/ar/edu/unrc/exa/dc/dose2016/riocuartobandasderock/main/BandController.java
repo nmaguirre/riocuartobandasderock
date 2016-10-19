@@ -31,29 +31,58 @@ public class BandController {
 	 * @return A list of all bands
 	 */
 	public List<Band> getBands(Request req ,Response res){
-		return bandDAO.findBandByName("");
+		bandDAO.openCurrentSession();
+		List<Band> bands;
+		//= bandDAO.getAllBands();
+		bandDAO.closeCurrentSession();
+		int status = (bands.size()>0)? 200:409;
+		res.status(status);
+		return bands;
 	}
 
 	/***
-	 * This method takes a band id, and returns its data encapsulated in an object
+	 * This method takes a band name, and returns a list of bands with this name
+	 * @param req
+	 * @param res
+	 * @return a list of bands with the name of the request 
+	 */
+	public List<Band> getBandByName(Request req,Response res){
+		if (req.params(":name")==""){
+			res.status(400);
+		}
+		bandDAO.openCurrentSession();
+		List<Band> bands = bandDAO.findBandByName(req.params(":name"));
+		bandDAO.closeCurrentSession();
+		int status = (bands.size()!=0)? 200:409;
+		res.status(status);
+		return bands;
+	}
+
+	/***
+	 * This method takes a band genre and return a list of bands with this genre
 	 * @param req
 	 * @param res
 	 * @return the data of a band, encapsulated in an object.
 	 */
-	public Band getBand(Request req,Response res){
-		// we must define if we can use the "name" as unique attribute
-		String name = req.params(":name");
-		return bandDAO.getBand(name);
+	public List<Band> getBandByGenre(Request req,Response res){
+		if (req.params(":genre")==""){
+			res.status(400);
+		}
+		bandDAO.openCurrentSession();
+		List<Band> bands = bandDAO.findBandByName(req.params(":name"));
+		bandDAO.closeCurrentSession();
+		int status = (bands.size()!=0)? 200:409;
+		res.status(status);
+		return bands;
 	}
-
+	
 	/***
-
 	 * This method takes the data of a band from the frontend, and creates a band in database
 	 * @param req
 	 * @param res
 	 * @return the object of the band created.
 	 */
-/*	public String createBand(Request req,Response res){
+	public String createBand(Request req,Response res){
 		// return new Band();
 		if((req.queryParams("name")=="") && (req.queryParams("genre")=="")){
 			res.status(400);
@@ -61,7 +90,7 @@ public class BandController {
 		}
 		Band band = new Band(req.queryParams("name"),req.queryParams("genre"));
 		bandDAO.openCurrentSessionwithTransaction();
-		boolean status = bandDAO.createBand(band);
+		boolean status = bandDAO.addBand(band);
 		bandDAO.closeCurrentSessionwithTransaction();
 		if (status){
 			res.status(201);
@@ -69,56 +98,37 @@ public class BandController {
 		}
 		res.status(500);
 		return "Fail";
-*/
-	public Band createBand(Request req,Response res){
-		Band band = null ;
-		String name = req.params("name");
-		// String genereStr = req.params("genre");
-		// genereDAO is not defined
-		//Genere genere = genereDAO.getBand(genereStr);
-		String genre = req.params("genre"); 
-		//String artistListStr = req.params("artist_list");
-		// here we the data of artist_list will be processed.
-		//List<Artist> artistList = null;
-		//String release = req.params("release");
-		//String albumListStr = req.params("album_list");
-		/*if (albumListStr == null){
-			//band = new Band(name, genre, artistList, release);
-			band = new Band(name,genre);
-		}else{
-			// here we the data of album_list will be processed.
-			//List<Album> albumList = null;
-			//band = new Band(name, genre, artistList, release, albumList);
-			band = new Band(name,genre);
-		}*/
-		band = new Band(name,genre); 
-		bandDAO.addBand(band);
-		return band;
 	}
 
 	/***
 	 * This method takes the data of a band from the frontend, and updates a band in database
 	 * @param req
 	 * @param res
-	 * @return the object of the band updated.
+	 * @return a String that describes the result of update a band.
 	 */
-	public Band updateBand(Request req,Response res){
-		Band band = bandDAO.getBand(req.params("id"));
-		band.setName(req.params("name"));
-		String genre = req.params("genre");
-		//String genre = "";
-		band.setGenere(genre);
-		//String artistListStr = req.params("artist_list");
-		// here we the data of artist_list will be processed.
-		//List<Artist> artistList = null;
-		//band.setArtistList(artistList);
-		//band.setRelease(req.params("release"));
-		//String albumListStr = req.params("album_list");
-		// here we the data of album_list will be processed.
-		//List<Album> albumList = null;
-		//band.setAlbumList(albumList);
-		bandDAO.updateBand(band);
-		return band;
+	public String updateBand(Request req,Response res){
+		if((req.queryParams("name")=="") && (req.queryParams("genre")=="")){
+			res.status(400);
+			return "Request invalid";
+		}
+		bandDAO.openCurrentSession();
+		Band band = bandDAO.findById(req.params(":id"));
+		bandDAO.closeCurrentSession();
+		if (band==null){
+			res.status(400);
+			return "Request invalid";
+		}
+		band.setName(req.queryParams("name"));
+		band.setGenre(req.queryParams("genre"));
+		bandDAO.openCurrentSessionwithTransaction();
+		boolean status = bandDAO.updateBand(band);
+		bandDAO.closeCurrentSessionwithTransaction();
+		if (status){
+			res.status(200);
+			return "Success";
+		}
+		res.status(409);
+		return "Fail";
 	}
 
 	/***
@@ -127,8 +137,20 @@ public class BandController {
 	 * @param res
 	 * @return true if the the band was created. Otherwise, false.
 	 */
-	public Boolean deleteBand(Request req,Response res){
-		// we must define if we can use the "name" as unique attribute
-		return bandDAO.deleteBand(req.params(":name"));
+	public String deleteBand(Request req,Response res){
+		if ((req.params(":id"))==""){
+			res.status();
+			return "Request invalid";
+		}
+		bandDAO.openCurrentSessionwithTransaction();
+	 	boolean status = bandDAO.deleteBand(req.params(":id"));
+		bandDAO.closeCurrentSessionwithTransaction();
+		if (status){
+			res.status(200);
+			return "Success";
+		}
+		res.status(409);
+		return "Fail";
+
 	}
 }
