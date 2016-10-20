@@ -165,18 +165,20 @@ public class ArtistDaoImpl implements ArtistDAO {
 		boolean result;
 		boolean areNull = name == null && nickname == null && surname == null;
 		boolean areEmpty = name.equals("") && nickname.equals("") && surname.equals("");
-		if(areNull || areEmpty){
+		if(areNull || areEmpty){ //I see that the arguments are valid
 			throw new IllegalArgumentException("the params for create artist can't be null or empty.");
 		} else {
+			//I look for the artist to create in the database
 			String hq1 = "FROM Artist A WHERE A.name = :paramName and A.nickname = :paramNickname and A.surname = :paramSurname";
 			Query<Artist> query = currentSession.createQuery(hq1, Artist.class);
 			query.setParameter("paramName", name);
 			query.setParameter("paramNickname", nickname);
 			query.setParameter("paramSurname", surname);
 			List<Artist> artistList = query.getResultList();
-			if(artistList != null || !artistList.isEmpty()){
+			//if the artist is already in database, don't save again 
+			if(!artistList.isEmpty()){
 				result = false;
-			} else {
+			} else { //if not exist, register the new artist in database
 				Artist artist = new Artist(name, surname, nickname);
 				currentSession.save(artist);
 				result = true;
