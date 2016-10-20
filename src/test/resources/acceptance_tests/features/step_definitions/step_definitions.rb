@@ -46,6 +46,11 @@ Given(/^that the artist's database have one artist with name "([^"]*)" and surna
   expect(response.code).to eq(201)
 end
 
+Given(/^that the song's database have one song with name "([^"]*)" and duration "([^"]*)"$/) do |name, duration|#
+  response = RestClient.post 'http://localhost:4567/song/', { :name => name, :duration => surname }, :content_type => 'text/plain' 
+  expect(response.code).to eq(201)
+end
+
 When(/^I add an artist with name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)"$/) do |name,surname,nickname|
   begin
   response = RestClient.post 'http://localhost:4567/artist/', { :name => name, :surname => surname, :nickname => nickname }, :content_type => 'text/plain' 
