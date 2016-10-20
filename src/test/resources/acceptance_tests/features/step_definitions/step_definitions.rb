@@ -6,7 +6,7 @@ require "rspec"
 include RSpec::Matchers
 
 HOST = "localhost"
-PORT = "5432"
+PORT = "7500"
 
 
 def execute_sql(sql_code)
@@ -125,6 +125,11 @@ Then(/^the entry should have name "([^"]*)" and surname "([^"]*)"$/) do |name, s
 end
 
 Then(/^the entry should have name "([^"]*)" and duration "([^"]*)"$/) do |arg1, arg2|
-    pending 
+    resultingName = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select name from SongDB;\" -t`
+    resultingName = resultingName.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+    expect(resultingName).to eq(name)  
+    resultingDuration = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select duration from SongDB;\" -t`
+    resultingDuration = resultingDuration.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+    expect(resultingDuration).to eq(duration) 
 end
 

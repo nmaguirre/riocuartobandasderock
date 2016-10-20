@@ -26,7 +26,12 @@ public class AlbumController {
     }
 
     public String create(Request req, Response res) {
-    	if (req.queryParams("name") == null && req.queryParams("release_date") == null){
+    	if (req.queryParams("title") == null){
+    		res.status(400);
+    		res.body("Album title can't be null");
+    		return res.body();
+    	}
+    	if (req.queryParams("title") == null && req.queryParams("release_date") == null){
     		//If both parameters are non existent, return false and a bad request.
     		res.status(400);
     		res.body("Both params can't be null");
@@ -37,7 +42,8 @@ public class AlbumController {
 			dao.openCurrentSession();
 			//Date should be in the next pattern: dd/mm/yyyy
 			Date release_date = df.parse(req.queryParams("release_date"));
-			boolean result = dao.createAlbum(req.params("name"), release_date);
+			boolean result = dao.createAlbum(req.params("title"), release_date);
+			dao.closeCurrentSession();
 	    	int http_status = result ? 201 : 409; 
 	    	res.status(http_status);
 	    	if (!result) res.body("Duplicate album"); //If the result of the creation was false, it means that there is a duplicate
