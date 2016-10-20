@@ -150,6 +150,23 @@ public class ArtistDaoImpl implements ArtistDAO {
 			return query.getResultList();
 		}
 	}
+	
+	@Override
+	public boolean existArtist(String name, String surname, String nickname){
+		boolean result = false;
+		//look for the artist in the database
+		String hq1 = "FROM Artist A WHERE A.name = :paramName and A.nickname = :paramNickname and A.surname = :paramSurname";
+		Query<Artist> query = currentSession.createQuery(hq1, Artist.class);
+		query.setParameter("paramName", name);
+		query.setParameter("paramNickname", nickname);
+		query.setParameter("paramSurname", surname);
+		List<Artist> artistList = query.getResultList();
+		//if the artist is already in database
+		if(!artistList.isEmpty()){
+			result = true;
+		}
+		return result;
+	}
 
 	/**
 	 * Create an artist in the database
@@ -163,20 +180,17 @@ public class ArtistDaoImpl implements ArtistDAO {
 	@Override
 	public boolean createArtist(String name, String surname, String nickname) {
 		boolean result;
-		boolean areNull = name == null && nickname == null && surname == null;
-		boolean areEmpty = name.equals("") && nickname.equals("") && surname.equals("");
+		boolean areEmpty = false;
+		boolean areNull = false;
+		areNull = name == null || nickname == null || surname == null;
+		if(!areNull){
+			areEmpty = name.equals("") && nickname.equals("") && surname.equals("");
+		}
 		if(areNull || areEmpty){ //I see that the arguments are valid
 			throw new IllegalArgumentException("the params for create artist can't be null or empty.");
 		} else {
-			//I look for the artist to create in the database
-			String hq1 = "FROM Artist A WHERE A.name = :paramName and A.nickname = :paramNickname and A.surname = :paramSurname";
-			Query<Artist> query = currentSession.createQuery(hq1, Artist.class);
-			query.setParameter("paramName", name);
-			query.setParameter("paramNickname", nickname);
-			query.setParameter("paramSurname", surname);
-			List<Artist> artistList = query.getResultList();
-			//if the artist is already in database, don't save again 
-			if(!artistList.isEmpty()){
+			//if the artist is already in database
+			if(existArtist(name, surname, nickname)){
 				result = false;
 			} else { //if not exist, register the new artist in database
 				Artist artist = new Artist(name, surname, nickname);

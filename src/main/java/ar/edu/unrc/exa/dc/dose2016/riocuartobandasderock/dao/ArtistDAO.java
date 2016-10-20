@@ -62,6 +62,16 @@ public interface ArtistDAO {
 	public List<Artist> findByName(String surname);
 
 	/**
+	 * 
+	 * @param name
+	 * @param surname
+	 * @param nickname
+	 * 
+	 * @return true if this Artist exists in the database.
+	 */
+	public boolean existArtist(String name, String surname, String nickname);
+	
+	/**
 	* 
 	* @param name
 	* @param nickname
