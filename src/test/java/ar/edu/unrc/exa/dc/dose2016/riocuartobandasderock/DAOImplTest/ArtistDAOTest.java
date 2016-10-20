@@ -23,12 +23,6 @@ public class ArtistDAOTest {
 	@Before
 	public void setUp(){
 		artistDAO = new ArtistDaoImpl();
-		//artistDAO.openCurrentSession();
-	}
-	
-	@After 
-	public void finish() {
-		//artistDAO.closeCurrentSession();
 	}
 	
 	@Test
@@ -75,4 +69,33 @@ public class ArtistDAOTest {
 		assertTrue(result.size() == 1);
 		assertTrue(result.get(0).equals(artistToAdd));
 	}
+	
+	@Test
+	public void addArtistTest_Artist_in_db() {
+		
+		String name = "a";
+		String surname = "b";
+		String nickname = "";
+		
+		//while(artistDAO.existArtist(name,surname,nickname)){
+			name+="a";
+		//}
+		
+		// Create the artist to add in db
+		Artist artistToAdd = new Artist(name, surname, nickname);
+		
+		// Add artistToAdd in db for first time
+		artistDAO.openCurrentSessionwithTransaction();
+		artistDAO.createArtist(name, surname, nickname);
+		artistDAO.closeCurrentSessionwithTransaction();
+		
+		// Add artistToAdd in db for second time
+		artistDAO.openCurrentSessionwithTransaction();
+		boolean successfulOperation = artistDAO.createArtist(name, surname, nickname);
+		artistDAO.closeCurrentSessionwithTransaction();
+		
+		assertTrue(!successfulOperation);
+		
+	}
+	
 }
