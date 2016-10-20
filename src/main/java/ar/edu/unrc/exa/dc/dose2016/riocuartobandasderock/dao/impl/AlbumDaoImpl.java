@@ -152,16 +152,33 @@ public class AlbumDaoImpl implements AlbumDAO{
 	 * @return true iff album was inserted into data base correctly
 	 */
 	public boolean createAlbum(String title, Date releaseDate){
-		if((title==null)&&(releaseDate==null)) throw new IllegalArgumentException("Error: AlbumDaoImpl.createAlbum() null params");
-		List<Album> lt = this.findByName(title);
-		for(int i=0;i<lt.size();i++){
-			if(lt.get(i).getReleaseDate().equals(releaseDate)){
-				return false;
+		if(title==null ) throw new IllegalArgumentException("Error: AlbumDaoImpl.createAlbum() : Database doesnt support null title");
+		if(title.equals("") && releaseDate==null) throw new IllegalArgumentException("Error: AlbumDaoImpl.createAlbum() : incorrect parameters");
+		boolean isCreated=false;
+		if(!title.equals("")){
+			//case title=some and releaseDate=(?)
+			List<Album> lt = this.findByName(title);
+			for(int i=0;i<lt.size();i++){
+				if(lt.get(i).getReleaseDate().equals(releaseDate)){
+					return false;
+				}
 			}
-		}
-		Album a = new Album(title,releaseDate);
-		currentSession.save(a);
-		return true;
-	}
+			Album album = new Album(title,releaseDate);
+			currentSession.save(album);
+			isCreated=true;
+		}else if(releaseDate!=null){
+			//case title=(?) and releaseDate= some
+			List<Album> byReleaseDate = this.findByReleaseDate(releaseDate);
+			for(int i=0; i<byReleaseDate.size();i++){
+				if( byReleaseDate.get(i).getTitle().equals(title) ){
+					return false;
+				}
+			}
+			Album album = new Album(title,releaseDate);
+			currentSession.save(album);
+			isCreated=true;
+		}		
+		return isCreated;
+} 
 	
 }
