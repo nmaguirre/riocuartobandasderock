@@ -1,11 +1,8 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandDAO;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 import spark.Request;
 import spark.Response;
@@ -32,8 +29,7 @@ public class BandController {
 	 */
 	public List<Band> getBands(Request req ,Response res){
 		bandDAO.openCurrentSession();
-		List<Band> bands;
-		//= bandDAO.getAllBands();
+		List<Band> bands= bandDAO.getAllBands();
 		bandDAO.closeCurrentSession();
 		int status = (bands.size()>0)? 200:409;
 		res.status(status);
@@ -83,14 +79,12 @@ public class BandController {
 	 * @return the object of the band created.
 	 */
 	public String createBand(Request req,Response res){
-		// return new Band();
 		if((req.queryParams("name")=="") && (req.queryParams("genre")=="")){
 			res.status(400);
 			return "Request invalid";
 		}
-		Band band = new Band(req.queryParams("name"),req.queryParams("genre"));
 		bandDAO.openCurrentSessionwithTransaction();
-		boolean status = bandDAO.addBand(band);
+		boolean status = bandDAO.createBand(req.queryParams("name"),req.queryParams("genre"));
 		bandDAO.closeCurrentSessionwithTransaction();
 		if (status){
 			res.status(201);
@@ -107,7 +101,7 @@ public class BandController {
 	 * @return a String that describes the result of update a band.
 	 */
 	public String updateBand(Request req,Response res){
-		if((req.queryParams("name")=="") && (req.queryParams("genre")=="")){
+		/*if((req.queryParams("name")=="") && (req.queryParams("genre")=="")){
 			res.status(400);
 			return "Request invalid";
 		}
@@ -127,7 +121,7 @@ public class BandController {
 			res.status(200);
 			return "Success";
 		}
-		res.status(409);
+		res.status(409);*/
 		return "Fail";
 	}
 
