@@ -11,6 +11,13 @@ import org.hibernate.cfg.Configuration;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 
+/**
+ * 
+ * @author Adrian Galfioni, Ezequiel Zensich.
+ *
+ * Artist DAO Interface.
+ *
+ */
 public interface ArtistDAO {
 
 	
