@@ -26,30 +26,28 @@ public class ArtistDAOTest {
 	}
 	
 	@Test
-	public void addArtistTest_Artist_not_in_db() {
-		
-		// Create the artist to add in db
-		Artist artistToAdd = new Artist("Luca", "Prodan", "");
+	public void createArtistTest_Artist_not_in_db() {
 		
 		List<Artist> artistList = new LinkedList<>();
 		
-		// Search all artist with Luca as name
+		String name = "a";
+		String surname = "b";
+		String nickname = "";
+		
 		artistDAO.openCurrentSession();
-		artistList.addAll(artistDAO.findByName(artistToAdd.getName()));
+		while(artistDAO.existArtist(name,surname,nickname)){
+			name+="a";
+		}
 		artistDAO.closeCurrentSession();
 		
-		// Check that the artist to add is not in db
-		for(Artist currentArtist: artistList){
-			assertTrue(!currentArtist.equals(artistToAdd));
-		}
-
+		// Create the artist to add in db
+		Artist artistToAdd = new Artist(name, surname, nickname);
+		
 		// Add artistToAdd in db
 		artistDAO.openCurrentSessionwithTransaction();
-		artistDAO.createArtist("Luca","Prodan","");
+		artistDAO.createArtist(name,surname,nickname);
 		artistDAO.closeCurrentSessionwithTransaction();
 		
-		
-		artistList = new LinkedList<>();
 		
 		artistDAO.openCurrentSession();
 		artistList.addAll(artistDAO.findByName(artistToAdd.getName()));
@@ -70,16 +68,19 @@ public class ArtistDAOTest {
 		assertTrue(result.get(0).equals(artistToAdd));
 	}
 	
+	
 	@Test
-	public void addArtistTest_Artist_in_db() {
+	public void createArtistTest_Artist_in_db() {
 		
 		String name = "a";
 		String surname = "b";
 		String nickname = "";
 		
-		//while(artistDAO.existArtist(name,surname,nickname)){
+		artistDAO.openCurrentSession();
+		while(artistDAO.existArtist(name,surname,nickname)){
 			name+="a";
-		//}
+		}
+		artistDAO.closeCurrentSession();
 		
 		// Create the artist to add in db
 		Artist artistToAdd = new Artist(name, surname, nickname);
@@ -94,8 +95,56 @@ public class ArtistDAOTest {
 		boolean successfulOperation = artistDAO.createArtist(name, surname, nickname);
 		artistDAO.closeCurrentSessionwithTransaction();
 		
-		assertTrue(!successfulOperation);
-		
+		assertTrue(!successfulOperation);	
 	}
+	
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void createArtistTest_Artist_with_null_name() {
+		String name = null;
+		String surname = "b";
+		String nickname = "";
+		
+		// Create the artist to add in db
+		Artist artistToAdd = new Artist(name, surname, nickname);
+		
+		// Add artistToAdd in db
+		artistDAO.openCurrentSessionwithTransaction();
+		artistDAO.createArtist(name, surname, nickname);
+		artistDAO.closeCurrentSessionwithTransaction();
+	}
+	
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void createArtistTest_Artist_with_null_surname() {
+		String name = "a";
+		String surname = null;
+		String nickname = "";
+		
+		// Create the artist to add in db
+		Artist artistToAdd = new Artist(name, surname, nickname);
+		
+		// Add artistToAdd in db
+		artistDAO.openCurrentSessionwithTransaction();
+		artistDAO.createArtist(name, surname, nickname);
+		artistDAO.closeCurrentSessionwithTransaction();
+	}
+	
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void createArtistTest_Artist_with_null_nickname() {
+		String name = "a";
+		String surname = "b";
+		String nickname = null;
+		
+		// Create the artist to add in db
+		Artist artistToAdd = new Artist(name, surname, nickname);
+		
+		// Add artistToAdd in db
+		artistDAO.openCurrentSessionwithTransaction();
+		artistDAO.createArtist(name, surname, nickname);
+		artistDAO.closeCurrentSessionwithTransaction();
+	}
+	
 	
 }
