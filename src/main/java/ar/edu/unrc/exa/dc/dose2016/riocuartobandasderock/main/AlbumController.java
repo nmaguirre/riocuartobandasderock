@@ -42,7 +42,7 @@ public class AlbumController {
 			dao.openCurrentSession();
 			//Date should be in the next pattern: dd/mm/yyyy
 			Date release_date = df.parse(req.queryParams("release_date"));
-			boolean result = dao.createAlbum(req.params("title"), release_date);
+			boolean result = dao.createAlbum(req.queryParams("title"), release_date);
 			dao.closeCurrentSession();
 	    	int http_status = result ? 201 : 409; 
 	    	res.status(http_status);
