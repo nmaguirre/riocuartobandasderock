@@ -89,6 +89,12 @@ public class SongController {
     	String songName = req.params("name");
     	return songDao.findByName(songName);    	
     }
+  
+    
+    public List<Song> getSongByDuration (Request req, Response res){
+    	String songName = req.params("duration");
+    	return songDao.findByDuration(songName);  
+    }
     
     
     /**

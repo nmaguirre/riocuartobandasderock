@@ -81,5 +81,10 @@ public class Bootstrap {
         
         post("/song/",(req,res)->songController.createSong(req,res));
 
+        get("/song/findbyname/:name",(req,res)->songController.getSongByName(req,res));
+        
+        get("/song/findbyduration/:name",(req,res)->songController.getSongByDuration(req,res));
+        
+        
     }
 }
