@@ -6,7 +6,7 @@ require "rspec"
 include RSpec::Matchers
 
 HOST = "localhost"
-PORT = "5432"
+PORT = "7550"
 
 
 def execute_sql(sql_code)
@@ -41,32 +41,55 @@ Given(/^that the song's database is empty$/) do
     expect(result).to eq("0")
 end
 
+Given(/^that the song's database have one song with name "([^"]*)" and duration "([^"]*)"$/) do |arg1, arg2|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+
 Given(/^that the artist's database have one artist with name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)"$/) do |name,surname,nickname|
   response = RestClient.post 'http://localhost:4567/artist/', { :name => name, :surname => surname, :nickname => nickname }, :content_type => 'text/plain' 
   expect(response.code).to eq(201)
 end
 
 When(/^I add an artist with name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)"$/) do |name,surname,nickname|
-  begin
   response = RestClient.post 'http://localhost:4567/artist/', { :name => name, :surname => surname, :nickname => nickname }, :content_type => 'text/plain' 
   expect(response.code).to eq(201)
-  rescue RestClient::Conflict => e  
-  end 
-  
 end
 
-When(/^I search an artist with "([^"]*)" "([^"]*)" , the result should have (\d+) entry$/) do |atributo,valor,entradas| 
-    begin
-      String s = 'http://localhost:4567/artist/findby' + atributo + '/' + valor
-      response = RestClient.get s
-      if entradas != "0"
-        expect(response.code).to eq(200)
-      else
-        expect(response.code).to eq(204)
-      end
-    rescue RestClient::NotFound => e
-        expect(valor).to eq("")
+When(/^I search an artist with name "([^"]*)" , the result of the search should have (\d+) entry$/) do |name,arg1|
+  begin
+    String s = 'http://localhost:4567/artist/findbyname/' + name
+    response = RestClient.get s
+    if arg1 == "0"
+      expect(response.code).to eq(200)
     end
+  rescue RestClient::Conflict => e
+    expect(arg1).to eq("0")
+  end
+end
+
+When(/^I search an artist with surname "([^"]*)" , the result of the search should have (\d+) entry$/) do |surname,arg1|
+  begin
+    String s = 'http://localhost:4567/artist/findbysurname/' + surname
+    response = RestClient.get s
+    if arg1 != "0"
+      expect(response.code).to eq(200)
+    end
+  rescue RestClient::Conflict => e
+    expect(arg1).to eq("0")
+  end
+end
+
+When(/^I search an artist with nickname "([^"]*)" , the result of the search should have (\d+) entry$/) do |nickname,arg1|
+  begin
+    String s = 'http://localhost:4567/artist/findbynickname/' + nickname
+    response = RestClient.get s
+    if arg1 != "0"
+      expect(response.code).to eq(200)
+    end
+  rescue RestClient::Conflict => e
+    expect(arg1).to eq("0")
+  end
 end
 
 When(/^I list the artists from the database , the result of the search should have (\d+) entry$/) do |arg1|
@@ -80,10 +103,26 @@ When(/^I list the artists from the database , the result of the search should ha
   end
 end
 
+
 When(/^I add a song with name "([^"]*)" and duration "([^"]*)"$/) do |name, duration|
      response = RestClient.post 'http://localhost:4567/song/', { :name => name, :duration => duration }, :content_type => 'text/plain' 
 	 expect(response.code).to eq(201)
 end
+
+When(/^I search a song with "([^"]*)" "([^"]*)" , the result of the search should have (\d+) entry$/) do |atributo, valor, entradas|
+  begin
+      String s = 'http://localhost:4567/song/findby' + atributo + '/' + valor
+      response = RestClient.get s
+      if entradas != "0"
+        expect(response.code).to eq(200)
+      else
+        expect(response.code).to eq(204)
+      end
+    rescue RestClient::NotFound => e
+        expect(valor).to eq("")
+    end
+end
+
 
 Then(/^the artist's database should have (\d+) entry$/) do |arg1|
     result = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select count(*) from artistDB;\" -t`
@@ -107,11 +146,6 @@ Then(/^the entry should have name "([^"]*)" and surname "([^"]*)"$/) do |name, s
 end
 
 Then(/^the entry should have name "([^"]*)" and duration "([^"]*)"$/) do |arg1, arg2|
-    resultingName = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select name from SongDB;\" -t`
-    resultingName = resultingName.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
-    expect(resultingName).to eq(name)  
-    resultingDuration = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select duration from SongDB;\" -t`
-    resultingDuration = resultingDuration.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
-    expect(resultingDuration).to eq(duration) 
+    pending 
 end
 
