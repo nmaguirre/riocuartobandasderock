@@ -23,35 +23,57 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
  *
  */
 public class AlbumDaoImpl implements AlbumDAO{
-	
+	/**
+	 * currentSession represents a Session.
+	 */
 	private Session currentSession;
-
+	/**
+	 * currentTransaction represents a Session with Transaction.
+	 */
 	private Transaction currentTransaction;
 	
+	/**
+	 * @return a Session
+	 */
 	@Override
 	public Session openCurrentSession() {
+		if (getSessionFactory().openSession() == null) throw new IllegalStateException("Error : AlbumDaoImpl.openCurrentSession(), getSessionFactory().openSession() is null"); 
 		currentSession = getSessionFactory().openSession();
 		return currentSession;
 	}
-
+	/**
+	 * @return new Session with Transaction.
+	 */
 	@Override
 	public Session openCurrentSessionwithTransaction() {
+		if (getSessionFactory().openSession() == null) throw new IllegalStateException("Error : AlbumDaoImpl.openCurrentSessionWithTransaction(), getSessionFactory().openSession() is null"); 
 		currentSession = getSessionFactory().openSession();
+		if (currentSession==null) throw new IllegalStateException("Error : AlbumDaoImpl.openCurrentSessionWithTransaction() currentSession is null");
 		currentTransaction = currentSession.beginTransaction();
 		return currentSession;
 	}
 
+	/**
+	 * closeCurrentSession close a current Session.
+	 */
 	@Override
 	public void closeCurrentSession() {
 		currentSession.close();
 	}
 
+	/**
+	 * closeCurrentSessionWithTransaction close a current Session with Transaction.
+	 */
 	@Override
 	public void closeCurrentSessionwithTransaction() {
 		currentTransaction.commit();
 		currentSession.close();
 	}
 
+	/**
+	 * getSessionFactory configuration for Session Factory.
+	 * @return SessionFactory
+	 */
 	private static SessionFactory getSessionFactory() {
 		String dbHost = ServerOptions.getInstance().getDbHost();
 		String dbPort = ServerOptions.getInstance().getDbPort();
@@ -74,21 +96,33 @@ public class AlbumDaoImpl implements AlbumDAO{
 		return sf;
 	}
 
+	/**
+	 * @return a Session 
+	 */
 	@Override
 	public Session getCurrentSession() {
+		if (currentSession==null) throw new IllegalStateException("Error: AlbumDaoImpl.getCurrentSession() : currentSession is null  ");
 		return currentSession;
 	}
 
+	/**
+	 * setCurrentSession, set attribute currentSession.
+	 */
 	@Override
 	public void setCurrentSession(Session currentSession) {
 		this.currentSession = currentSession;
 	}
-
+	/**
+	 * @return currentTransaction
+	 */
 	@Override
 	public Transaction getCurrentTransaction() {
+		if (currentTransaction==null) throw new IllegalStateException("Error: AlbumDaoImpl.getCurrentTransaction() : currentTransaction is null");
 		return currentTransaction;
 	}
-
+	/**
+	 * setCurrentTransaction, set attribute currentTransaction.
+	 */
 	@Override
 	public void setCurrentTransaction(Transaction currentTransaction) {
 		this.currentTransaction = currentTransaction;
@@ -179,6 +213,6 @@ public class AlbumDaoImpl implements AlbumDAO{
 			isCreated=true;
 		}		
 		return isCreated;
-} 
+	} 
 	
 }
