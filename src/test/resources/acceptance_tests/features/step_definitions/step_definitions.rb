@@ -6,7 +6,7 @@ require "rspec"
 include RSpec::Matchers
 
 HOST = "localhost"
-PORT = "7500"
+PORT = "5432"
 
 
 def execute_sql(sql_code)
@@ -55,16 +55,18 @@ When(/^I add an artist with name "([^"]*)" and surname "([^"]*)" and nickname "(
   
 end
 
-When(/^I search an artist with "([^"]*)" "([^"]*)" , the result should have (\d+) entry$/) do |atributo,valor,entradas|
-  begin  
-    String s = 'http://localhost:4567/artist/findby' + atributo + '/' + valor
-    response = RestClient.get s
-    if entradas == "0"
-      expect(response.code).to eq(200)
+When(/^I search an artist with "([^"]*)" "([^"]*)" , the result should have (\d+) entry$/) do |atributo,valor,entradas| 
+    begin
+      String s = 'http://localhost:4567/artist/findby' + atributo + '/' + valor
+      response = RestClient.get s
+      if entradas != "0"
+        expect(response.code).to eq(200)
+      else
+        expect(response.code).to eq(204)
+      end
+    rescue RestClient::NotFound => e
+        expect(valor).to eq("")
     end
-  rescue RestClient::Conflict => e
-    expect(entradas).to eq("0")
-  end
 end
 
 When(/^I list the artists from the database , the result of the search should have (\d+) entry$/) do |arg1|
