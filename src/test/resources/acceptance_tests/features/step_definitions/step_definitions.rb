@@ -47,43 +47,23 @@ Given(/^that the artist's database have one artist with name "([^"]*)" and surna
 end
 
 When(/^I add an artist with name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)"$/) do |name,surname,nickname|
+  begin
   response = RestClient.post 'http://localhost:4567/artist/', { :name => name, :surname => surname, :nickname => nickname }, :content_type => 'text/plain' 
   expect(response.code).to eq(201)
+  rescue RestClient::Conflict => e  
+  end 
+  
 end
 
-When(/^I search an artist with name "([^"]*)" , the result of the search should have (\d+) entry$/) do |name,arg1|
-  begin
-    String s = 'http://localhost:4567/artist/findbyname/' + name
+When(/^I search an artist with "([^"]*)" "([^"]*)" , the result should have (\d+) entry$/) do |atributo,valor,entradas|
+  begin  
+    String s = 'http://localhost:4567/artist/findby' + atributo + '/' + valor
     response = RestClient.get s
-    if arg1 == "0"
+    if entradas == "0"
       expect(response.code).to eq(200)
     end
   rescue RestClient::Conflict => e
-    expect(arg1).to eq("0")
-  end
-end
-
-When(/^I search an artist with surname "([^"]*)" , the result of the search should have (\d+) entry$/) do |surname,arg1|
-  begin
-    String s = 'http://localhost:4567/artist/findbysurname/' + surname
-    response = RestClient.get s
-    if arg1 != "0"
-      expect(response.code).to eq(200)
-    end
-  rescue RestClient::Conflict => e
-    expect(arg1).to eq("0")
-  end
-end
-
-When(/^I search an artist with nickname "([^"]*)" , the result of the search should have (\d+) entry$/) do |nickname,arg1|
-  begin
-    String s = 'http://localhost:4567/artist/findbynickname/' + nickname
-    response = RestClient.get s
-    if arg1 != "0"
-      expect(response.code).to eq(200)
-    end
-  rescue RestClient::Conflict => e
-    expect(arg1).to eq("0")
+    expect(entradas).to eq("0")
   end
 end
 
