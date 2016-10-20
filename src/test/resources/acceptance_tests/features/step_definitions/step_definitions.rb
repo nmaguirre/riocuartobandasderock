@@ -6,7 +6,7 @@ require "rspec"
 include RSpec::Matchers
 
 HOST = "localhost"
-PORT = "5432"
+PORT = "7500"
 
 
 def execute_sql(sql_code)
@@ -120,6 +120,21 @@ When(/^I add a song with name "([^"]*)" and duration "([^"]*)"$/) do |name, dura
      response = RestClient.post 'http://localhost:4567/song/', { :name => name, :duration => duration }, :content_type => 'text/plain' 
 	 expect(response.code).to eq(201)
 end
+
+When(/^I search a song with "([^"]*)" "([^"]*)" , the result of the search should have (\d+) entry$/) do |atributo, valor, entradas|
+  begin
+      String s = 'http://localhost:4567/song/findby' + atributo + '/' + valor
+      response = RestClient.get s
+      if entradas != "0"
+        expect(response.code).to eq(200)
+      else
+        expect(response.code).to eq(204)
+      end
+    rescue RestClient::NotFound => e
+        expect(valor).to eq("")
+    end
+end
+
 
 Then(/^the artist's database should have (\d+) entry$/) do |arg1|
     result = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select count(*) from artistDB;\" -t`
