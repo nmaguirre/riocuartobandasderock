@@ -14,6 +14,13 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.ArtistDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 
+/**
+ * 
+ * @author Adrian Galfioni, Ezequiel Zensich.
+ *
+ * Artist DAO Implementation.
+ *
+ */
 public class ArtistDaoImpl implements ArtistDAO {
 
 	private Session currentSession;

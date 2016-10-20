@@ -33,7 +33,7 @@ public class ArtistController {
 		artistDAO.openCurrentSession();
 		List<Artist> artists = artistDAO.getAllArtists();
 		artistDAO.closeCurrentSession();
-		int status = (artists.size()>0)? 200:409;
+		int status = (artists.size()>0)? 200:204;
 		res.status(status);
 		return artists;
 	}
@@ -48,11 +48,12 @@ public class ArtistController {
 	public List<Artist> getArtistByName (Request req, Response res){
 		if (req.params(":name")==""){
 			res.status(400);
+			return null;
 		}
 		artistDAO.openCurrentSession();
 		List<Artist> artists = artistDAO.findByName(req.params(":name"));
 		artistDAO.closeCurrentSession();
-		int status = (artists.size()!=0)? 200:409;
+		int status = (artists.size()!=0)? 200:204;
 		res.status(status);
 		return artists;
 	}
@@ -66,11 +67,12 @@ public class ArtistController {
 	public List<Artist> getArtistBySurname (Request req, Response res){
 		if (req.params(":surname")==""){
 			res.status(400);
+			return null;
 		}
 		artistDAO.openCurrentSession();
 		List<Artist> artists = artistDAO.findBySurname(req.params(":surname"));
 		artistDAO.closeCurrentSession();
-		int status = (artists.size()!=0)? 200:409;
+		int status = (artists.size()!=0)? 200:204;
 		res.status(status);
 		return artists;
 	}
@@ -84,11 +86,12 @@ public class ArtistController {
 	public List<Artist> getArtistByNickname (Request req, Response res){
 		if (req.params(":nickname")==""){
 			res.status(400);
+			return null;
 		}
 		artistDAO.openCurrentSession();
 		List<Artist> artists = artistDAO.findByNickname(req.params(":nickname"));
 		artistDAO.closeCurrentSession();
-		int status = (artists.size()!=0)? 200:409;
+		int status = (artists.size()!=0)? 200:204;
 		res.status(status);
 		return artists;
 	}
