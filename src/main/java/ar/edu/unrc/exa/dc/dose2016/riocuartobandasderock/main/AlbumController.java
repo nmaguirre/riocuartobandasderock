@@ -1,5 +1,7 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -23,18 +25,36 @@ public class AlbumController {
         return unique_instance;
     }
 
-    public Boolean create(Request req, Response res) {
-    	if (req.params("name") == null && req.params("release_date") == null){
+    public String create(Request req, Response res) {
+    	if (req.queryParams("name") == null && req.queryParams("release_date") == null){
+    		//If both parameters are non existent, return false and a bad request.
     		res.status(400);
-    		return false;
+    		res.body("Both params can't be null");
+    		return res.body();
     	}
-    	Date release_date = new Date(req.params("release_date"));
-    	boolean result = dao.createAlbum(req.params("name"), release_date);
-    	//boolean result = dao.createAlbum(new Album());
-    	int http_status = result ? 201 : 409; 
-    	res.status(http_status);
-    	if (!result) res.body("Duplicate album");
-    	return result;
+    	DateFormat df = DateFormat.getDateInstance();
+		try {
+			dao.openCurrentSession();
+			//Date should be in the next pattern: dd/mm/yyyy
+			Date release_date = df.parse(req.queryParams("release_date"));
+			boolean result = dao.createAlbum(req.params("name"), release_date);
+	    	int http_status = result ? 201 : 409; 
+	    	res.status(http_status);
+	    	if (!result) res.body("Duplicate album"); //If the result of the creation was false, it means that there is a duplicate
+    		return res.body();
+		} catch (ParseException | IllegalArgumentException e) {
+			//If an exception was thrown, then there was a problem with the parameters.
+			e.printStackTrace();
+			res.status(400);
+			res.body("Bad parameters.");
+    		return res.body();
+		} catch (Exception e){
+			e.printStackTrace();
+			res.status(500);
+			res.body("Internal server error");
+    		return res.body();
+		}
+    	
     }
 
 }

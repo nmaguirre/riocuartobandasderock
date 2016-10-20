@@ -31,11 +31,11 @@ public interface SongDAO {
 	   
 	public Boolean removeSong(Song song);
 	   
-	public Boolean addSong(Song song);
+	public Boolean addSong(String name, Integer duration);
 	
 	public Song findById(String id);
 	
-	public List<Song> findByBandName(String BandName);
+	public List<Song> findByBandName(String bandName);
 	
     public List<Song> findByGenere(String genere);
                     

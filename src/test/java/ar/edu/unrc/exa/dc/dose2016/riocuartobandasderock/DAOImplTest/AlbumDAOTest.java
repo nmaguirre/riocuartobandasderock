@@ -100,11 +100,13 @@ public class AlbumDAOTest {
 	
 	@Test
 	public void findByNameTest(){
+		List<Album> allAlbums = new LinkedList<Album>();
+		allAlbums.add(albumInst3);		
 		new Expectations(){{
 			albumDao.findByName("Pendulum");
-			returns(albumInst1);
+			returns(allAlbums);
 		}};
-		assertEquals(albumInst1,albumDao.findByName("Pendulum"));
+		assertEquals(allAlbums,albumDao.findByName("Pendulum"));
 	}
 		
 }

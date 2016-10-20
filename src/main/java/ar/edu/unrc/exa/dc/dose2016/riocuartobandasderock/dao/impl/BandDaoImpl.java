@@ -15,8 +15,6 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 
-
-
 public class BandDaoImpl implements BandDAO {
 
 	private Session currentSession;
@@ -89,7 +87,19 @@ public class BandDaoImpl implements BandDAO {
 	public void setCurrentTransaction(Transaction currentTransaction) {
 		this.currentTransaction = currentTransaction;
 	}
-	
+	/**
+	 * Get all bands from the database
+	 * 
+	 * @return list with all found bands
+	 */
+	@Override
+	public List<Band> getAllBands() {
+		List<Band> bandList = new LinkedList<>();
+		Query<Band> query;
+		query = currentSession.createQuery("from Band", Band.class);
+		bandList.addAll(query.getResultList());
+		return bandList;
+	}
 	/**
 	 * Search a band in database
 	 * 
@@ -97,7 +107,7 @@ public class BandDaoImpl implements BandDAO {
 	 * 
 	 * @return band wanted
 	 */
-	
+	@Override
 	public Band getBand(String id){
 		if (id != null && id != "") {
 			Band band = currentSession.find(Band.class, id);
@@ -114,7 +124,7 @@ public class BandDaoImpl implements BandDAO {
 	 * 
 	 * @return boolean, true if the band was updated
 	 */
-	
+	@Override
 	public Boolean updateBand(Band band){
 			if (band != null) {
 				currentSession.update(band);
@@ -131,6 +141,7 @@ public class BandDaoImpl implements BandDAO {
 	 * 
 	 * @return boolean, true if the band was deleted
 	 */
+	@Override
 	public Boolean deleteBand(String id){
 		Band band = this.getBand(id);
 		if (band != null) {
@@ -142,35 +153,56 @@ public class BandDaoImpl implements BandDAO {
 	}
 	
 	/**
-	 * Create a band from the database
+	 * Create a band in the database
 	 * 
-	 * @param band to create
+	 * @param name from an artist
+	 * @param nickname from an artist
+	 * @param surname from an artist
 	 * 
-	 * @return boolean, true if the band was created
+	 * @return boolean, true if the artist was created
 	 */
-	
-	public Boolean addBand(Band band){
-		SessionFactory sessionFactory = getSessionFactory();
-		Session currentSession = sessionFactory.openSession();
-		Transaction currentTransaction = currentSession.beginTransaction();
-	    currentSession.save(band);
-	    currentTransaction.commit();
-	    currentSession.close();
-	    return true;
-		
-	}
-	public List<Band> findBandByName(String name){
-		if (name != null && name != ""){
-			List<Band> bandList = new LinkedList<>();
-			Query<Band> query;
-			query = currentSession.createQuery("from Band where name=:n", Band.class);
-			query.setString("n", name);
-			bandList.addAll(query.getResultList());
-			return bandList;
+	@Override
+	public Boolean createBand(String name, String genre) {
+		Boolean result;
+		Boolean areNull = name == null && genre == null;
+		Boolean areEmpty = name.equals("") && genre.equals("");
+		if(areNull || areEmpty){
+			throw new IllegalArgumentException("the params for create band can't be null or empty.");
 		} else {
-					return null;
+			String hq1 = "FROM Band A WHERE A.name = :paramName and A.genre = :paramGenre";
+			Query<Band> query = currentSession.createQuery(hq1, Band.class);
+			query.setParameter("paramName", name);
+			query.setParameter("paramGenre", genre);
+			List<Band> bandList = query.getResultList();
+			if(bandList != null || !bandList.isEmpty()){
+				result = false;
+			} else {
+				Band band = new Band(name, genre);
+				currentSession.save(band);
+				result = true;
+			}
+			return result;
+		}
+	}
+	
+	/**
+	 * Search a band in database
+	 * 
+	 * @param band name to search
+	 * @return band wanted
+	 */
+	@Override
+	public List<Band> findBandByName(String name){
+		if(name == null || name.equals("")){
+				throw new IllegalArgumentException("the 'name' param for search a band can not be null or empty.");
+			} else {
+				Query<Band> query = currentSession.createQuery("from Band where name=:n", Band.class);
+				query.setParameter("n", name);
+				return query.getResultList();
+			}
 		}
 			
 	}  
+
 	
-}
+

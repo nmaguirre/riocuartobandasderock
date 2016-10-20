@@ -25,14 +25,14 @@ public interface BandDAO {
 	public Transaction getCurrentTransaction();
 
 	public void setCurrentTransaction(Transaction currentTransaction);
-
-	   ///**
-	   // * This method get all bands
-	   //*
-	   //* @return List of Bands
-	   //*/
-	   //public List<Band> getAllBands();
-
+	
+	   /**
+	    * This method get all bands
+	   * 
+	   * @return List of Bands
+	   */
+	   public List<Band> getAllBands();
+	   
 	   /**
 	    *
 	    * @param String id
@@ -63,8 +63,8 @@ public interface BandDAO {
 	    *
 	    * @return true if the insert was successful
 	    */
-	   public Boolean addBand(Band band);
-
+	   public Boolean createBand(String name, String genre);
+	   
 	   /**
 	    * This method find a band by name
 	    *
