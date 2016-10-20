@@ -180,8 +180,12 @@ public class ArtistDaoImpl implements ArtistDAO {
 	@Override
 	public boolean createArtist(String name, String surname, String nickname) {
 		boolean result;
-		boolean areNull = name == null || nickname == null || surname == null;
-		boolean areEmpty = name.equals("") && nickname.equals("") && surname.equals("");
+		boolean areEmpty = false;
+		boolean areNull = false;
+		areNull = name == null || nickname == null || surname == null;
+		if(!areNull){
+			areEmpty = name.equals("") && nickname.equals("") && surname.equals("");
+		}
 		if(areNull || areEmpty){ //I see that the arguments are valid
 			throw new IllegalArgumentException("the params for create artist can't be null or empty.");
 		} else {
