@@ -6,10 +6,8 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Option;
-import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.hibernate.cfg.Configuration;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandDaoImpl;
 
@@ -25,17 +23,16 @@ public class Bootstrap {
     public static void main(String[] args) {
     	
     	CommandLineParser parser = new DefaultParser();
-    	Option dbHost = OptionBuilder.withArgName( "host" )
-    			.hasArg()
-                .withDescription("use given host as database host")
-                .create("dbHost");
-    	Option dbPort = OptionBuilder.withArgName( "port" )
-                .hasArg()
-                .withDescription("use given port as database port")
-                .create("dbPort");
+    	
+    	Option dbHost = new Option("dbh","dbHost",true,"use given host as database host");
+    	Option dbPort = new Option("dbp","dbPort",true,"use given port as database port");
+    	Option appPort =  new Option("ap","appPort",true,"use given port as application port");
+    	appPort.setRequired(false);
+    	
     	Options options = new Options();
     	options.addOption(dbHost);
     	options.addOption(dbPort);
+    	options.addOption(appPort);
         try {
             // parse the command line arguments
             CommandLine line = parser.parse( options, args );
@@ -45,16 +42,23 @@ public class Bootstrap {
             if (line.hasOption("dbPort")) { 
             	ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().setDbPort(line.getOptionValue("dbPort"));            
             }
+            
+            if (line.hasOption("appPort")) { 
+            	ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().setAppPort(line.getOptionValue("appPort"));            
+            }
         }
         catch( ParseException exp ) {
             // oops, something went wrong
             System.err.println( "Parsing failed.  Reason: " + exp.getMessage() );
         }
         
+        
         artistController = new ArtistController();
         songController = new SongController();
              
 
+        port(Integer.parseInt(ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().getAppPort()));
+        
         post("/albums", (req, res) -> albumController.create(req, res));
 
         get("/hello", (req, res) -> "Hello World");

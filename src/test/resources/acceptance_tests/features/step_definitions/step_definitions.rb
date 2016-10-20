@@ -6,7 +6,7 @@ require "rspec"
 include RSpec::Matchers
 
 HOST = "localhost"
-PORT = "7500"
+PORT = "5432"
 
 
 def execute_sql(sql_code)
@@ -98,6 +98,24 @@ When(/^I list the artists from the database , the result of the search should ha
   end
 end
 
+##########################ALBUM##########################################  
+When(/^I add an album with title "([^"]*)" and release date "([^"]*)"$/) do |title,release_date| 
+    response = RestClient.post 'http://localhost:4567/albums', { :title => title, :release_date => release_date}, :content_type => 'text/plain' 
+    expect(response.code).to eq(201)
+end 
+
+Then(/^the album's database should have (\d+) entry$/) do |arg1| 
+    result = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select count(*) from Album;\" -t`
+    result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+    expect(result).to eq(arg1)  
+end
+
+Then(/^the entry should have title "([^"]*)" and release date "([^"]*)"$/) do |arg1, arg2|
+  #falta implementar
+end
+#######################################################################
+
+
 When(/^I add a song with name "([^"]*)" and duration "([^"]*)"$/) do |name, duration|
      response = RestClient.post 'http://localhost:4567/song/', { :name => name, :duration => duration }, :content_type => 'text/plain' 
 	 expect(response.code).to eq(201)
@@ -125,11 +143,6 @@ Then(/^the entry should have name "([^"]*)" and surname "([^"]*)"$/) do |name, s
 end
 
 Then(/^the entry should have name "([^"]*)" and duration "([^"]*)"$/) do |arg1, arg2|
-    resultingName = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select name from SongDB;\" -t`
-    resultingName = resultingName.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
-    expect(resultingName).to eq(name)  
-    resultingDuration = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select duration from SongDB;\" -t`
-    resultingDuration = resultingDuration.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
-    expect(resultingDuration).to eq(duration) 
+    pending 
 end
 

@@ -35,6 +35,12 @@ public class ServerOptions {
 	private String dbPort = "5432";
 	
 	/**
+	 * Server option that holds the port where the application
+	 * server listens for clients. Default value is "4567".
+	 */
+	private String appPort = "4567";
+	
+	/**
 	 * Returns the (sole) instance of ServerOptions, on demand.
 	 * It is created the first time it is accessed, and from that
 	 * point onwards, the same instance is returned.
@@ -65,6 +71,14 @@ public class ServerOptions {
 	}
 	
 	/**
+	 * Sets the application port, that is used to enter to the application.
+	 * @param appPort is the new application port
+	 */
+	public void setAppPort(String appPort) {
+		this.appPort = appPort;	
+	}
+	
+	/**
 	 * Returns the host where the database that the application communicates with, resides.
 	 * @return the host where the database server is running
 	 */
@@ -80,4 +94,12 @@ public class ServerOptions {
 		return this.dbPort;
 	}
 	
+	/**
+	 * Returns the port where the application is listening.
+	 * @return the port where the application is listening.
+	 */
+	public String getAppPort() {
+		return this.appPort;
+	}
+
 }
