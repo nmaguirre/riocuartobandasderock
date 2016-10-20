@@ -30,5 +30,13 @@ public class SongTest {
 		boolean res = (song.getName() == "pinguinos en la cama") && (song.getDuration() == 300);
 		assertTrue(res);
 	}
+	
+	@Test
+	public void getDurationInStringTest(){
+		Song song = new Song();
+		int a = 129;
+		song.setDuration(a);
+		assertEquals("2:9",song.getDurationAsString());
+	}
 
 }

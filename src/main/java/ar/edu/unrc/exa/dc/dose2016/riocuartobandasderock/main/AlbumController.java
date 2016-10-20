@@ -47,6 +47,7 @@ public class AlbumController {
 	    	int http_status = result ? 201 : 409; 
 	    	res.status(http_status);
 	    	if (!result) res.body("Duplicate album"); //If the result of the creation was false, it means that there is a duplicate
+	    	res.body("Album created");
     		return res.body();
 		} catch (ParseException | IllegalArgumentException e) {
 			//If an exception was thrown, then there was a problem with the parameters.
@@ -63,4 +64,42 @@ public class AlbumController {
     	
     }
 
+    public List<Album> findByTitle(Request req, Response res) {
+    	if (req.queryParams("title") == null){
+    		res.status(400);
+    		res.body("Title can't be null");
+    		return null;
+    	}
+    	dao.openCurrentSession();
+        List<Album> albums = dao.findByName(req.queryParams("title"));
+        dao.closeCurrentSession();
+        int http_status = albums.size() > 0 ? 200 : 204;		
+        res.status(http_status);		
+        return albums;		
+    }
+    
+    public List<Album> findByReleaseDate(Request req, Response res){
+    	if (req.queryParams("release_date") == null) {
+    		res.status(400);
+    		res.body("Release date can't be null");
+    		return null;
+    	}
+    	DateFormat df = DateFormat.getInstance();
+    	try {
+    		Date release_date = df.parse(req.queryParams("release_date"));
+    		dao.openCurrentSession();
+    		List<Album> albums = dao.findByReleaseDate(release_date);
+    		dao.closeCurrentSession();
+    		int http_status = albums.size() > 0 ? 200 : 204;		
+            res.status(http_status);		
+            return albums;
+    	} catch (ParseException e){
+    		e.printStackTrace();
+    		res.status(400);
+    		res.body("Bad date");
+    		return null;
+    	}
+    	
+    	
+    }
 }
