@@ -10,25 +10,32 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "bandDB")
+
+/**
+ * Title:   riocuartobandasderock.model.Band<p>
+ * Description: class which defines a band of rock with the basic elements
+ *              that are required for a band like a genre and artist.<p>
+ * @author Ezequiel Depetris&Gaston Massimino
+ */
 public class Band {
 
   @Id
   @Column(name = "id")
   private String id;
-  
+
   @Column(name = "name")
   private String name;
-  
+
   @Column(name = "genre")
   private String genre;
-  
-  
+
+
   /**
    * this is a constructor for an empty band
    */
   public Band(){
   }
- 
+
   /**
    * this create a initial band with some params
    * @param a_name represent the name of the band
@@ -55,16 +62,16 @@ public class Band {
   public String getName(){
     return name;
   }
-  
+
 
   /**
    * return the genre of the band
-   * @return String (Genere) 
+   * @return String (Genere)
    */
   public String getGenere(){
     return genre;
   }
-    
+
   /**
    * this method set a different id for the band
    * @param an_id (String)
@@ -80,7 +87,7 @@ public class Band {
   public void setName(String a_name){
     name = a_name;
   }
-  
+
 
   /**
    * this method set the principal genre of the band
@@ -88,5 +95,5 @@ public class Band {
    */
   public void setGenere(String a_genre){
     genre = a_genre;
-  } 
+  }
 }
