@@ -45,6 +45,6 @@ public interface SongDAO {
                     
 	public List<Song> findByName(String name);
 	
-	public List<Song> findByDuration(int songName);
+	public List<Song> findByDuration(String songName);
 
 }

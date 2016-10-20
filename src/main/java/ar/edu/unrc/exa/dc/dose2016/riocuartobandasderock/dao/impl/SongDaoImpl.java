@@ -160,7 +160,7 @@ public class SongDaoImpl implements SongDAO{
     }
 	
 	@Override
-	public List<Song> findByDuration(int duration){
+	public List<Song> findByDuration(String duration){
 		return null;
 	}
 
