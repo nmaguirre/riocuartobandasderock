@@ -104,5 +104,13 @@ public class Song {
 		duration = dur;
 	}
 	
+	/**
+	 * @return the duration in format of conventional time
+	 **/
+	public String getDurationAsString(){
+		int cociente = duration/60;
+		int resto = duration%60;
+		return cociente + ":" + resto;
+	} 
 	
 }
