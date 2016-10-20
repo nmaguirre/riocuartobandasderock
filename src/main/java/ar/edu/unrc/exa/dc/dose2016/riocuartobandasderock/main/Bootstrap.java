@@ -11,7 +11,11 @@ import org.apache.commons.cli.ParseException;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandDaoImpl;
 
-
+/**
+ * 
+ * @author Dose 
+ *
+ */
 public class Bootstrap {
 
 	
@@ -51,13 +55,15 @@ public class Bootstrap {
             // oops, something went wrong
             System.err.println( "Parsing failed.  Reason: " + exp.getMessage() );
         }
-        
+        // List of controller
+
         
         artistController = new ArtistController();
         songController = new SongController();
-             
-
         port(Integer.parseInt(ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().getAppPort()));
+
+
+        // List of route and verbs API REST
         
         post("/albums", (req, res) -> albumController.create(req, res));
 
