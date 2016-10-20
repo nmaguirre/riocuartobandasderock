@@ -7,6 +7,4 @@ new_port=5432
 
 #1 : The query to execute
 
-args="$@"
-
-echo "Linux 64 bit implementation of db_execute.sh : $args"
+psql -h $new_host -p $new_port -U rock_db_owner -d rcrockbands -c "$1" > sql_log_out.txt 2> sql_log_err.txt
