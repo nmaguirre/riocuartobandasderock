@@ -29,6 +29,12 @@ Given(/^that the artist's database is empty$/) do
     expect(result).to eq("0")
 end
 
+Given(/^that the album's database is empty$/) do
+    result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from Album;\" -t`
+    result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars 
+    expect(result).to eq("0")
+end
+
 Given(/^that the song's database is empty$/) do
    result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from SongDB;\" -t`
     result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars 
