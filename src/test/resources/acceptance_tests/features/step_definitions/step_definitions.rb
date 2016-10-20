@@ -6,7 +6,7 @@ require "rspec"
 include RSpec::Matchers
 
 HOST = "localhost"
-PORT = "7500"
+PORT = "7550"
 
 
 def execute_sql(sql_code)
@@ -40,6 +40,11 @@ Given(/^that the song's database is empty$/) do
     result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars 
     expect(result).to eq("0")
 end
+
+Given(/^that the song's database have one song with name "([^"]*)" and duration "([^"]*)"$/) do |arg1, arg2|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
 
 Given(/^that the artist's database have one artist with name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)"$/) do |name,surname,nickname|
   response = RestClient.post 'http://localhost:4567/artist/', { :name => name, :surname => surname, :nickname => nickname }, :content_type => 'text/plain' 
