@@ -14,7 +14,7 @@ public class BandController {
 
 	private BandDAO bandDAO;
 	/***
-	 *
+	 * Constructor of class BandController
 	 * @param bandPersistence
 	 */
 	public BandController(BandDAO bandPersistence){
@@ -31,7 +31,7 @@ public class BandController {
 		bandDAO.openCurrentSession();
 		List<Band> bands= bandDAO.getAllBands();
 		bandDAO.closeCurrentSession();
-		int status = (bands.size()>0)? 200:409;
+		int status = (bands.size()>0)? 200:204;
 		res.status(status);
 		return bands;
 	}
@@ -45,11 +45,12 @@ public class BandController {
 	public List<Band> getBandByName(Request req,Response res){
 		if (req.params(":name")==""){
 			res.status(400);
+			return null;
 		}
 		bandDAO.openCurrentSession();
 		List<Band> bands = bandDAO.findBandByName(req.params(":name"));
 		bandDAO.closeCurrentSession();
-		int status = (bands.size()!=0)? 200:409;
+		int status = (bands.size()!=0)? 200:204;
 		res.status(status);
 		return bands;
 	}
@@ -65,9 +66,9 @@ public class BandController {
 			res.status(400);
 		}
 		bandDAO.openCurrentSession();
-		List<Band> bands = bandDAO.findBandByName(req.params(":name"));
+		List<Band> bands = bandDAO.findBandByName(req.params(":genre"));
 		bandDAO.closeCurrentSession();
-		int status = (bands.size()!=0)? 200:409;
+		int status = (bands.size()!=0)? 200:204;
 		res.status(status);
 		return bands;
 	}
@@ -90,7 +91,7 @@ public class BandController {
 			res.status(201);
 			return "Success";
 		}
-		res.status(500);
+		res.status(409);
 		return "Fail";
 	}
 
@@ -120,8 +121,8 @@ public class BandController {
 		if (status){
 			res.status(200);
 			return "Success";
-		}
-		res.status(409);*/
+		}*/
+		res.status(409);
 		return "Fail";
 	}
 

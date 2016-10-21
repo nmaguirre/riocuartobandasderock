@@ -175,8 +175,8 @@ Given(/^that the bands' database have (\d+) entries$/) do |cant|
     genre = 'Rock'
     response = RestClient.post 'http://localhost:4567/band/', { :name => name, :genre => genre }, :content_type => 'text/plain'
     expect(response.code).to eq(201)
-    name = "Band 4"
-    genre = 'Rock'
+    name = "Carajo"
+    genre = 'New Metal'
     response = RestClient.post 'http://localhost:4567/band/', { :name => name, :genre => genre }, :content_type => 'text/plain'
     expect(response.code).to eq(201)
 
@@ -193,17 +193,26 @@ Given(/^that the bands' database have (\d+) entries$/) do |cant|
     expect("5").to eq(result)
 end
 
-And(/^the band with name "([^"]*)" and genre "([^"]*)" is not in bands' datebase$/) do |name, genre|
-    response = RestClient.get 'http://localhost:4567/band/', { :name => name, :genre => genre }, :content_type => 'text/plain'
-    expect(response.code).to eq(404)
+And(/^the band with name "([^"]*)" and genre "([^"]*)" is not in bands' datebase$/) do |name,genre|
+  begin  
+    response = RestClient.get "http://localhost:4567/band/:#{name}"
+    rescue RestClient::Conflict => e
+    expect(e.response).to eq(204)
+  end
 end
 
-And(/^the bands' database have a band with name "([^"]*)" and genre "([^"]*)"$/) do |name, genre|
-    response = RestClient.get 'http://localhost:4567/band/', { :name => name, :genre => genre }, :content_type => 'text/plain'
-    expect(response.code).to eq(201)
+And(/^the bands' database have a band with name "([^"]*)" and genre "([^"]*)"$/) do |name,genre|
+  begin
+    response = RestClient.get "http://localhost:4567/band/:#{name}"
+    rescue RestClient::Conflict => e
+    expect(e.response).to eq(201)
+  end
 end
 
 Then(/^the band with name "([^"]*)" and genre "([^"]*)" should be on bands' database$/)do |name, genre|
-    response = RestClient.get 'http://localhost:4567/band/', { :name => name, :genre => genre }, :content_type => 'text/plain'
-    expect(response.code).to eq(201)
+  begin
+    response = RestClient.get "http://localhost:4567/band/:#{name}"
+    rescue RestClient::Conflict => e
+    expect(e.response).to eq(201)
+  end
 end
