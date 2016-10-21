@@ -11,6 +11,13 @@ import org.hibernate.cfg.Configuration;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 
+/**
+ * 
+ * @author Adrian Galfioni, Ezequiel Zensich.
+ *
+ * Artist DAO Interface.
+ *
+ */
 public interface ArtistDAO {
 
 	
@@ -61,6 +68,16 @@ public interface ArtistDAO {
 	*/
 	public List<Artist> findByName(String surname);
 
+	/**
+	 * 
+	 * @param name
+	 * @param surname
+	 * @param nickname
+	 * 
+	 * @return true if this Artist exists in the database.
+	 */
+	public boolean existArtist(String name, String surname, String nickname);
+	
 	/**
 	* 
 	* @param name

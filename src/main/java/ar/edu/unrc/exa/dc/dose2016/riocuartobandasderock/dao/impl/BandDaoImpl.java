@@ -155,11 +155,10 @@ public class BandDaoImpl implements BandDAO {
 	/**
 	 * Create a band in the database
 	 * 
-	 * @param name from an artist
-	 * @param nickname from an artist
-	 * @param surname from an artist
+	 * @param name from a band
+	 * @param genre from a band
 	 * 
-	 * @return boolean, true if the artist was created
+	 * @return boolean, true if the band was created
 	 */
 	@Override
 	public Boolean createBand(String name, String genre) {
@@ -184,7 +183,25 @@ public class BandDaoImpl implements BandDAO {
 			return result;
 		}
 	}
-	
+	/**
+	 * @param name of band
+	 * @param genre of band
+	 * 
+	 * @return true if exists a band
+	 */
+	@Override
+	public boolean existBand(String name, String genre){
+		boolean result = false;
+		String hq1 = "FROM Artist A WHERE A.name = :paramName and A.genre = :paramGenre";
+		Query<Band> query = currentSession.createQuery(hq1, Band.class);
+		query.setParameter("paramName", name);
+		query.setParameter("paramGenre", genre);
+		List<Band> bandList = query.getResultList();
+		if(!bandList.isEmpty()){
+			result = true;
+		}
+		return result;
+	}
 	/**
 	 * Search a band in database
 	 * 

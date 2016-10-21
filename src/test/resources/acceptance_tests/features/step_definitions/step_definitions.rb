@@ -41,6 +41,11 @@ Given(/^that the song's database is empty$/) do
     expect(result).to eq("0")
 end
 
+Given(/^that the song's database have one song with name "([^"]*)" and duration "([^"]*)"$/) do |arg1, arg2|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+
 Given(/^that the artist's database have one artist with name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)"$/) do |name,surname,nickname|
   response = RestClient.post 'http://localhost:4567/artist/', { :name => name, :surname => surname, :nickname => nickname }, :content_type => 'text/plain' 
   expect(response.code).to eq(201)
@@ -98,10 +103,26 @@ When(/^I list the artists from the database , the result of the search should ha
   end
 end
 
+
 When(/^I add a song with name "([^"]*)" and duration "([^"]*)"$/) do |name, duration|
      response = RestClient.post 'http://localhost:4567/song/', { :name => name, :duration => duration }, :content_type => 'text/plain' 
 	 expect(response.code).to eq(201)
 end
+
+When(/^I search a song with "([^"]*)" "([^"]*)" , the result of the search should have (\d+) entry$/) do |atributo, valor, entradas|
+  begin
+      String s = 'http://localhost:4567/song/findby' + atributo + '/' + valor
+      response = RestClient.get s
+      if entradas != "0"
+        expect(response.code).to eq(200)
+      else
+        expect(response.code).to eq(204)
+      end
+    rescue RestClient::NotFound => e
+        expect(valor).to eq("")
+    end
+end
+
 
 Then(/^the artist's database should have (\d+) entry$/) do |arg1|
     result = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select count(*) from artistDB;\" -t`
@@ -136,8 +157,11 @@ Given(/^that the bands' database is empty$/) do
 end
 
 When(/^I add a band with name "([^"]*)" and genre "([^"]*)"$/) do |name, genre|
-    response = RestClient.post 'http://localhost:4567/band/', { :name => name, :genre => genre }, :content_type => 'text/plain'
-    expect(response.code).to eq(201)
+  begin
+   response = RestClient.post 'http://localhost:4567/band/', { :name => name, :genre => genre }, :content_type => 'text/plain'
+   rescue RestClient::Conflict => e
+   expect(e.response.code).to eq(409)
+  end
 end
 
 Then(/^the bands' database should have (\d+) entries$/) do |arg1|

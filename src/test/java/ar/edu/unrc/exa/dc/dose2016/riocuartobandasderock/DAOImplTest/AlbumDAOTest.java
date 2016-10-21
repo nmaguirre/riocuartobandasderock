@@ -2,6 +2,7 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.DAOImplTest;
 
 import static org.junit.Assert.*;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,101 +13,108 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.AlbumDAO;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.AlbumDaoImpl;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 
 public class AlbumDAOTest {
 	
-	@Mocked AlbumDAO albumDao;
-	private Album albumInst1;
-	private Album albumInst2;
-	private Album albumInst3;
-	private Album albumInst4;
+	private AlbumDAO albumDao;
 	
 	@Before
 	public void setUp(){
-		Band bandInst1 = new Band();
-		Band bandInst2 = new Band();
-		Band bandInst3 = new Band();
-		bandInst1.setName("The Beatles");
-		bandInst2.setName("Charly Garcia");
-		bandInst3.setName("Creedence Clearwater Revival");
-		
-		List<String> producers1 = new LinkedList<String>();
-		producers1.add("Productor1");
-		producers1.add("Productor2");
-		
-		List<String> producers2 = new LinkedList<String>();
-		producers2.add("Productor2");
-		producers2.add("Productor3");
-		
-		Song track1 = new Song();
-		Song track2 = new Song();
-		Song track3 = new Song();
-		Song track4 = new Song();
-		Song track5 = new Song();
-		
-		track1.setName("Song1");
-		track2.setName("Song2");
-		track3.setName("Song3");
-		track4.setName("Song4");
-		track5.setName("Song5");
-		
-		List<Song> songs = new LinkedList<Song>();
-		songs.add(track1);
-		songs.add(track2);
-		songs.add(track3);
-		songs.add(track4);
-		songs.add(track5);
-		
-
-		albumInst1= new Album("Hey Jude");
-		albumInst2= new Album("Say No More");
-		albumInst3= new Album("Pendulum");
-
-
+		albumDao = new AlbumDaoImpl();
 	}
 	
 	@Test
-	public void findByIdTestCase() {
-		Album albumModel = new Album();
-		albumModel.setId("3");
+	public void createAlbumIfNotInDB(){
 		
-		new Expectations(){
-			{
-				albumDao.findById(withEqual("3"));
-				returns (albumModel);
-			}
-		};
-		assertEquals(albumModel,albumDao.findById("3"));
+		albumDao.openCurrentSessionwithTransaction();
+		boolean a = albumDao.createAlbum("Tocando Fondo",new Date(2010,04,10));
+		albumDao.closeCurrentSessionwithTransaction();
+		
+		assertTrue(a);
+		
 	}
 	
 	@Test
-	public void getAllAlbumTestCase(){
-		List<Album> allAlbums = new LinkedList<Album>();
+	public void createAlbumIfInDB(){
+		albumDao.openCurrentSessionwithTransaction();
+		boolean a = albumDao.createAlbum("Tocando Fondo",new Date(2010,04,10));
+		boolean b = albumDao.createAlbum("Tocando Fondo",new Date(2010,04,10));
+		albumDao.closeCurrentSessionwithTransaction();
 		
-		allAlbums.add(albumInst1);
-		allAlbums.add(albumInst2);
-		allAlbums.add(albumInst3);
+		assertTrue(!b);
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void createAlbumIfTitleIsNull(){
+		albumDao.openCurrentSessionwithTransaction();
+		boolean a = albumDao.createAlbum(null,null);		
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void createAlbumIfTitleIsEmptyAndReleaseDateIsNull(){
+		albumDao.openCurrentSessionwithTransaction();
+		boolean a = albumDao.createAlbum("",null);		
+	}
+	
+	@Test
+	public void findByIdWhenIdIsNull() {
+		albumDao.openCurrentSession();
+		Album a = albumDao.findById(null);
+		albumDao.closeCurrentSession();
+		assertNull(a);
+	}
+	
+	@Test
+	public void findByIdWhenIdIsEmpty() {
+		albumDao.openCurrentSession();
+		Album a = albumDao.findById("");
+		albumDao.closeCurrentSession();
+		assertNull(a);
+	}
+	
+	@Test
+	public void findById() {
+		albumDao.openCurrentSessionwithTransaction();
+		boolean a = albumDao.createAlbum("Tocando Fondo",new Date(2010,04,10));
+		List<Album> lista = albumDao.getAllAlbums();
+		Album aux = lista.get(0);
+		Album aux1 = albumDao.findById(aux.getId());
+		albumDao.closeCurrentSessionwithTransaction();
+		assertTrue(aux.getId().equals(aux1.getId()));
+	}
+	
+	@Test
+	public void findByIdNotInDB() {
+		albumDao.openCurrentSessionwithTransaction();
+		boolean a = albumDao.createAlbum("Tocando Fondo",new Date(2010,04,10));
+		Album aux1 = albumDao.findById("9893948593845");
+		albumDao.closeCurrentSessionwithTransaction();
+		assertNull(aux1);
+	}
+	
+	@Test
+	public void getAllAlbumWhenDBIsEmpty(){
 		
-		new Expectations(){{
-				albumDao.getAllAlbums();
-				returns (allAlbums);
-		}};
-		assertEquals(allAlbums,albumDao.getAllAlbums()  );
+		albumDao.openCurrentSessionwithTransaction();
+		albumDao.createAlbum("Tocando Fondo",new Date(2010,04,10));
+		albumDao.createAlbum("5to Piso",new Date(2010,04,10));
+		List<Album> lista = new LinkedList<Album>();
+		lista.addAll(albumDao.getAllAlbums());
+		albumDao.closeCurrentSessionwithTransaction();
+		System.out.println(lista.get(0).getTitle()+" "+lista.get(0).getReleaseDate().toString());
+		System.out.println(lista.get(1).getTitle()+" "+lista.get(1).getReleaseDate().toString());
+		System.out.println(lista.get(2).getTitle()+" "+lista.get(2).getReleaseDate().toString());
+		assertEquals(3,lista.size());
 	}
 	
 	
 	@Test
 	public void findByNameTest(){
-		List<Album> allAlbums = new LinkedList<Album>();
-		allAlbums.add(albumInst3);		
-		new Expectations(){{
-			albumDao.findByName("Pendulum");
-			returns(allAlbums);
-		}};
-		assertEquals(allAlbums,albumDao.findByName("Pendulum"));
+		assertTrue(true);
 	}
 		
 }

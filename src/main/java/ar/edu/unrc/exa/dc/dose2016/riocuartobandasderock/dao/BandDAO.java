@@ -74,5 +74,13 @@ public interface BandDAO {
 	    */
 	   public List<Band> findBandByName(String name);
 	   
+
+	   /**
+	    * This method find a band
+	    * @param name
+	    * @param genre
+	    * @return true if a band exist
+	    */
+	   public boolean existBand(String name, String genre);
 }
 

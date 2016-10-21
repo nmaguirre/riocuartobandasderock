@@ -23,35 +23,57 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
  *
  */
 public class AlbumDaoImpl implements AlbumDAO{
-	
+	/**
+	 * currentSession represents a Session.
+	 */
 	private Session currentSession;
-
+	/**
+	 * currentTransaction represents a Session with Transaction.
+	 */
 	private Transaction currentTransaction;
 	
+	/**
+	 * @return a Session
+	 */
 	@Override
 	public Session openCurrentSession() {
+		if (getSessionFactory().openSession() == null) throw new IllegalStateException("Error : AlbumDaoImpl.openCurrentSession(), getSessionFactory().openSession() is null"); 
 		currentSession = getSessionFactory().openSession();
 		return currentSession;
 	}
-
+	/**
+	 * @return new Session with Transaction.
+	 */
 	@Override
 	public Session openCurrentSessionwithTransaction() {
+		if (getSessionFactory().openSession() == null) throw new IllegalStateException("Error : AlbumDaoImpl.openCurrentSessionWithTransaction(), getSessionFactory().openSession() is null"); 
 		currentSession = getSessionFactory().openSession();
+		if (currentSession==null) throw new IllegalStateException("Error : AlbumDaoImpl.openCurrentSessionWithTransaction() currentSession is null");
 		currentTransaction = currentSession.beginTransaction();
 		return currentSession;
 	}
 
+	/**
+	 * closeCurrentSession close a current Session.
+	 */
 	@Override
 	public void closeCurrentSession() {
 		currentSession.close();
 	}
 
+	/**
+	 * closeCurrentSessionWithTransaction close a current Session with Transaction.
+	 */
 	@Override
 	public void closeCurrentSessionwithTransaction() {
 		currentTransaction.commit();
 		currentSession.close();
 	}
 
+	/**
+	 * getSessionFactory configuration for Session Factory.
+	 * @return SessionFactory
+	 */
 	private static SessionFactory getSessionFactory() {
 		String dbHost = ServerOptions.getInstance().getDbHost();
 		String dbPort = ServerOptions.getInstance().getDbPort();
@@ -74,21 +96,33 @@ public class AlbumDaoImpl implements AlbumDAO{
 		return sf;
 	}
 
+	/**
+	 * @return a Session 
+	 */
 	@Override
 	public Session getCurrentSession() {
+		if (currentSession==null) throw new IllegalStateException("Error: AlbumDaoImpl.getCurrentSession() : currentSession is null  ");
 		return currentSession;
 	}
 
+	/**
+	 * setCurrentSession, set attribute currentSession.
+	 */
 	@Override
 	public void setCurrentSession(Session currentSession) {
 		this.currentSession = currentSession;
 	}
-
+	/**
+	 * @return currentTransaction
+	 */
 	@Override
 	public Transaction getCurrentTransaction() {
+		if (currentTransaction==null) throw new IllegalStateException("Error: AlbumDaoImpl.getCurrentTransaction() : currentTransaction is null");
 		return currentTransaction;
 	}
-
+	/**
+	 * setCurrentTransaction, set attribute currentTransaction.
+	 */
 	@Override
 	public void setCurrentTransaction(Transaction currentTransaction) {
 		this.currentTransaction = currentTransaction;
@@ -152,16 +186,33 @@ public class AlbumDaoImpl implements AlbumDAO{
 	 * @return true iff album was inserted into data base correctly
 	 */
 	public boolean createAlbum(String title, Date releaseDate){
-		if((title==null)&&(releaseDate==null)) throw new IllegalArgumentException("Error: AlbumDaoImpl.createAlbum() null params");
-		List<Album> lt = this.findByName(title);
-		for(int i=0;i<lt.size();i++){
-			if(lt.get(i).getReleaseDate().equals(releaseDate)){
-				return false;
+		if(title==null ) throw new IllegalArgumentException("Error: AlbumDaoImpl.createAlbum() : Database doesnt support null title");
+		if(title.equals("") && releaseDate==null) throw new IllegalArgumentException("Error: AlbumDaoImpl.createAlbum() : incorrect parameters");
+		boolean isCreated=false;
+		if(!title.equals("")){
+			//case title=some and releaseDate=(?)
+			List<Album> lt = this.findByName(title);
+			for(int i=0;i<lt.size();i++){
+				if(lt.get(i).getReleaseDate().equals(releaseDate)){
+					return false;
+				}
 			}
-		}
-		Album a = new Album(title,releaseDate);
-		currentSession.save(a);
-		return true;
-	}
+			Album album = new Album(title,releaseDate);
+			currentSession.save(album);
+			isCreated=true;
+		}else if(releaseDate!=null){
+			//case title=(?) and releaseDate= some
+			List<Album> byReleaseDate = this.findByReleaseDate(releaseDate);
+			for(int i=0; i<byReleaseDate.size();i++){
+				if( byReleaseDate.get(i).getTitle().equals(title) ){
+					return false;
+				}
+			}
+			Album album = new Album(title,releaseDate);
+			currentSession.save(album);
+			isCreated=true;
+		}		
+		return isCreated;
+	} 
 	
 }
