@@ -129,9 +129,10 @@ Then(/^the entry should have name "([^"]*)" and duration "([^"]*)"$/) do |arg1, 
 end
 
 Given(/^that the bands' database is empty$/) do
+    sleep (2)
     result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from bandDB;\" -t`
     result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
-    expect("0").to eq(result)
+    expect(result).to eq("0")
 end
 
 When(/^I add a band with name "([^"]*)" and genre "([^"]*)"$/) do |name, genre|
