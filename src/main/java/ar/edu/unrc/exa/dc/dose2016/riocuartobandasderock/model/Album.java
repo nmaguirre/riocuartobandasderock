@@ -11,7 +11,9 @@ import javax.persistence.Table;
 import java.util.List;
 
 /**
- * Class Album. The Album class models an music album.
+ * Class Album models a music album.
+ * @author Gabriela Bertorello
+ * @author Mariano Ontivero
  */
 @Entity
 @Table(name = "Album")
@@ -26,12 +28,10 @@ public class Album {
 	@Column(name = "title")
 	private String title;
 
-
 	/** The album release date. */
 	@Column(name = "releaseDate")
 	private Date releaseDate;
 
-	
 	/**
 	 * Default or non-parameterized constructor. Instantiates a new empty Album.
 	 */
@@ -40,10 +40,9 @@ public class Album {
 	}
 
 	/**
-	 * Basic parameterized constructor. Instantiates a new album setting the fields title and performer with their corresponding parameters.
+	 * Basic parameterized constructor. Instantiates a new album setting the field title with their corresponding parameter.
 	 *
 	 * @param title The album title.
-	 * @param performer The album band performer.
 	 */
 	public Album(String title) {
 		this.id = UUID.randomUUID().toString();
@@ -51,7 +50,7 @@ public class Album {
 	}
 
 	/**
-	 * Full parameterized constructor. Instantiates a new album setting the fields title, releaseDate with their corresponding parameters.
+	 * Full parameterized constructor. Instantiates a new album setting the fields title and releaseDate with their corresponding parameters.
 	 *
 	 * @param title The album title.
 	 * @param releaseDate The album release date.
