@@ -89,7 +89,7 @@ public class Bootstrap {
 
         post("/artist/",(req,res)->artistController.createArtist(req,res));
         
-        post("/song/",(req,res)->songController.createSong(req,res));
+        post("/song/",(req,res)->songController.addSong(req, res));
 
         get("/song/findbyname/:name",(req,res)->songController.getSongByName(req,res));
         
