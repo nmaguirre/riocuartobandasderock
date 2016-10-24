@@ -1,6 +1,7 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -52,10 +53,17 @@ public class Song {
 	 * @param aut represents the author of the song to assign
 	 * @param alb represent the album to assign
 	 */
-	public Song(String nsong, int dur){
+	public Song(String id,String nsong, int dur){
+		this.id = id;
 		nameSong = nsong;
 		duration = dur;
 	}
+	public Song(String nsong, int dur){
+		this(UUID.randomUUID().toString(),nsong, dur);
+		nameSong = nsong;
+		duration = dur;
+	}
+	
 
 // Seters and geters of the method song............
 	
