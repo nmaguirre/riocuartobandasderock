@@ -34,17 +34,11 @@ public interface SongDAO {
 	public Boolean addSong(String name, Integer duration);
 	
 	public Song findById(String id);
-	
-	public List<Song> findByBandName(String bandName);
-	
-    public List<Song> findByGenere(String genere);
                     
     public List<Song> findByAuthor(String author);
                     
-    public List<Song> findByAlbum(String album);
-                    
 	public List<Song> findByName(String name);
 	
-	public List<Song> findByDuration(String songName);
+	public List<Song> findByDuration(String duration);
 
 }

@@ -1,16 +1,10 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.AlbumDAO;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandDAO;
+
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.SongDAO;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.AlbumDaoImpl;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandDaoImpl;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SongDaoImpl;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 
-import java.util.ArrayList;
 import java.util.List;
 import spark.Request;
 import spark.Response;
@@ -24,8 +18,7 @@ import spark.Response;
 public class SongController {
 
     private SongDAO songDao;
-    private AlbumDAO albumDao;
-    private BandDAO bandDao;
+ 
     
     
     /**
@@ -34,8 +27,6 @@ public class SongController {
     
     public SongController(){
     	songDao = new SongDaoImpl();
-    	albumDao = new AlbumDaoImpl();
-    	bandDao = new BandDaoImpl();
     }
     
     
@@ -86,14 +77,41 @@ public class SongController {
      */
     
     public List<Song> getSongByName (Request req, Response res){
-    	String songName = req.params("name");
-    	return songDao.findByName(songName);    	
+    	
+    	String songName = req.queryParams("name");
+    	
+    	if (songName == null || songName == ""){
+    		res.status(400);
+    		return null;
+    	}
+    	
+    	songDao.openCurrentSession();
+    	List<Song> songs = songDao.findByName(songName);
+    	songDao.closeCurrentSession();
+    	res.status(songs.size() > 0 ? 200 : 204);
+    	return songs;    	
     }
   
+    /**
+     * Get list of songs by a specific duration  
+     * @param req
+     * @param res
+     * @return
+     */
     
     public List<Song> getSongByDuration (Request req, Response res){
-    	String songName = req.params("duration");
-    	return songDao.findByDuration(songName);  
+    	String duration = req.queryParams("duration");
+    	
+    	if (duration == null || duration == ""){
+    		res.status(400);
+    		return null;
+    	}
+    	
+    	songDao.openCurrentSession();
+    	List<Song> songs = songDao.findByDuration(duration);
+    	songDao.closeCurrentSession();
+    	res.status(songs.size() > 0 ? 200 : 204);
+    	return songs;
     }
     
     
@@ -103,65 +121,30 @@ public class SongController {
      * @param res 
      * @return
      */
-  /*
-    public Boolean addSong (Request req, Response res){
-    	String songName = req.queryParams("name");    
-    	
-    	String dur = req.queryParams("duration");
-    	int duration = Integer.parseInt(dur);
-    	
-    	Song song = new Song(songName, duration);
-    	return songDao.addSong(song);
-    }
-    
-    /*
-    
-    /**
-     * Edit a song
-     * @param req
-     * @param res 
-     * @return
-     */
-    public Boolean editSong (Request req, Response res){
-    
-		Song song = songDao.findById(req.params(":id"));
-		
-		song.setName(req.queryParams("name"));
-    	
-    	String dur = req.queryParams("duration");
-    	song.setDuration(Integer.parseInt(dur));
-    	return songDao.updateSong(song);
-        
-    }
-    
-    
-    /**
-     * Delete a song
-     * @param req
-     * @param res 
-     * @return
-     */
   
-    public Boolean deleteSong (Request req, Response res){
-    	Song song = songDao.findById(req.params(":id"));
-    	return songDao.removeSong(song);
+    public String addSong (Request req, Response res){
+    	
+    	String songName = req.queryParams("name");    	
+    	String dur = req.queryParams("duration");    	
+    	
+    	if(( songName == null || songName == "" ) || dur == null) {
+			res.status(400);
+			res.body("Invalid content of parameters");
+			return res.body();
+		}
+    	
+    	songDao.openCurrentSession();
+    	boolean result = songDao.addSong(songName, Integer.parseInt(dur));
+    	songDao.closeCurrentSession();
+    	if(result){
+    	res.body("Song created");
+    	res.status(201);
+    	}
+    	return res.body();    		
     }
     
+   
     
-	public String createSong(Request req,Response res){
-		/*if((req.queryParams("name")=="") && (req.queryParams("duration")=="")){
-			res.status(400);
-			return "Request invalid";
-		}
-		Song song = new Song(req.queryParams("name"), Integer.parseInt(req.queryParams("duration")));
-		boolean result = songDao.addSong(song);
-		if (result) {
-			res.status(201);
-			return "Success";
-		}
-		else {
-			return "Failed";
-		}*/
-		return "gorra resolve esto jaja";
-	}
+
+    
 }

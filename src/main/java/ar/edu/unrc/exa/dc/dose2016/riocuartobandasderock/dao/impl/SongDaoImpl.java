@@ -112,9 +112,16 @@ public class SongDaoImpl implements SongDAO{
 	@Override   
 
 	public Boolean addSong(String name,Integer duration){
-		Song song = new Song(name,duration);
-		currentSession.save(song);
-		return true;
+		boolean result = false;
+		if ((name != null && !name.equals("")) || duration != null){
+			Song song = new Song(name,duration);
+			currentSession.save(song);
+			result = true;
+		}
+		else {
+			throw new IllegalArgumentException("the parameters for creating a song can not all be empty or null");
+		}
+		return result;
 	}
 	
 	@Override
@@ -128,37 +135,21 @@ public class SongDaoImpl implements SongDAO{
 	}
 	
 	@Override
-	public List<Song> findByBandName(String bandName){
+	public List<Song> findByAuthor(String author){
 		return null;
 	}
 	
 	@Override
 	public List<Song> findByName(String name){
 		if (name != null && name != "") {
-			Query<Song> query;
-			query = currentSession.createQuery("from Song where name=:n", Song.class);
-			query.setString("n", name);
-			return (query.getResultList());
+			Query<Song> query = currentSession.createQuery("from Song where name=:n", Song.class);
+			query.setParameter("n", name);
+			return query.getResultList();
 		} else {
-			return null;
+			throw new IllegalArgumentException("the 'name' param for search an song can not be null or empty.");
 		}
 	}
-    
-	@Override
-    public List<Song> findByGenere(String genere){
-    	return null;
-    }
-    
-	@Override
-    public List<Song> findByAuthor(String author){
-    	return null;
-    }
-    
-	@Override
-    public List<Song> findByAlbum(String album){
-    	return null;
-    }
-	
+    	
 	@Override
 	public List<Song> findByDuration(String duration){
 		return null;
