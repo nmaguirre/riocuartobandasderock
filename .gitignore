@@ -43,3 +43,6 @@ Thumbs.db
 *.lock
 *.txt
 *.swp
+
+/src/test/resources/acceptance_tests/.bundle
+
