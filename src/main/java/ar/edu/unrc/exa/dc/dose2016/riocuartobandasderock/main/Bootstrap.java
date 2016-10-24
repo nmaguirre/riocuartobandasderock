@@ -18,14 +18,14 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandDaoImpl;
  */
 public class Bootstrap {
 
-	
+
 	private static BandController bands = new BandController(new BandDaoImpl());
 	private static ArtistController artistController;
 	private static AlbumController albumController = AlbumController.getInstance();
 	private static SongController songController;
 
     public static void main(String[] args) {
-    	
+
     	CommandLineParser parser = new DefaultParser();
     	
     	Option dbHost = new Option("dbh","dbHost",true,"use given host as database host");
@@ -40,11 +40,11 @@ public class Bootstrap {
         try {
             // parse the command line arguments
             CommandLine line = parser.parse( options, args );
-            if (line.hasOption("dbHost")) { 
+            if (line.hasOption("dbHost")) {
             		ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().setDbHost(line.getOptionValue("dbHost"));
             }
-            if (line.hasOption("dbPort")) { 
-            	ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().setDbPort(line.getOptionValue("dbPort"));            
+            if (line.hasOption("dbPort")) {
+            	ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().setDbPort(line.getOptionValue("dbPort"));
             }
             
             if (line.hasOption("appPort")) { 
@@ -55,10 +55,12 @@ public class Bootstrap {
             // oops, something went wrong
             System.err.println( "Parsing failed.  Reason: " + exp.getMessage() );
         }
+
         // List of controller
 
         
         artistController = new ArtistController();
+
         songController = new SongController();
         port(Integer.parseInt(ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().getAppPort()));
 
@@ -71,9 +73,9 @@ public class Bootstrap {
 
         get("/bands",(req, res) -> bands.getBands(req, res));
 
-        get("/band/:name",(req, res) -> bands.getBand(req, res));
+        get("/band/:name",(req, res) -> bands.getBandByName(req, res));
 
-        post("/band",(req, res) -> bands.createBand(req, res));
+        post("/band/",(req, res) -> bands.createBand(req, res));
 
         put("/band",(req, res) -> bands.updateBand(req, res));
 

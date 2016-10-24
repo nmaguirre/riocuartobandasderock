@@ -16,7 +16,7 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 
 public class BandDaoImpl implements BandDAO {
-	
+
 	private Session currentSession;
 
 	private Transaction currentTransaction;
@@ -218,7 +218,8 @@ public class BandDaoImpl implements BandDAO {
 				return query.getResultList();
 			}
 		}
-	}
-	   
+			
+	}  
+
 	
 
