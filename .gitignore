@@ -44,5 +44,9 @@ Thumbs.db
 *.txt
 *.swp
 
-/src/test/resources/acceptance_tests/.bundle
+
+# Ruby generatedFiles#
+######################
+src/test/resources/acceptance_tests/.bundle/
+src/test/resources/acceptance_tests/vendor/
 
