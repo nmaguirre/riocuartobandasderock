@@ -173,7 +173,7 @@ public class BandDaoImpl implements BandDAO {
 			query.setParameter("paramName", name);
 			query.setParameter("paramGenre", genre);
 			List<Band> bandList = query.getResultList();
-			if(bandList != null || !bandList.isEmpty()){
+			if(!bandList.isEmpty()){
 				result = false;
 			} else {
 				Band band = new Band(name, genre);
