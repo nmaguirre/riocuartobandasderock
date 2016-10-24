@@ -39,11 +39,11 @@ public class AlbumController {
         }
         DateFormat df = DateFormat.getDateInstance();
         try {
-            dao.openCurrentSession();
+            dao.openCurrentSessionwithTransaction();
             //Date should be in the next pattern: dd/mm/yyyy
             Date release_date = df.parse(req.queryParams("release_date"));
             boolean result = dao.createAlbum(req.queryParams("title"), release_date);
-            dao.closeCurrentSession();
+            dao.closeCurrentSessionwithTransaction();
             int http_status = result ? 201 : 409;
             res.status(http_status);
             if (!result) res.body("Duplicate album"); //If the result of the creation was false, it means that there is a duplicate
