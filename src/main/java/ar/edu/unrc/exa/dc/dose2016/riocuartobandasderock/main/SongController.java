@@ -138,6 +138,7 @@ public class SongController {
     	songDao.closeCurrentSession();
     	if(result){
     	res.body("Song created");
+    	res.status(201);
     	}
     	return res.body();    		
     }
