@@ -43,3 +43,10 @@ Thumbs.db
 *.lock
 *.txt
 *.swp
+
+
+# Ruby generatedFiles#
+######################
+src/test/resources/acceptance_tests/.bundle/
+src/test/resources/acceptance_tests/vendor/
+
