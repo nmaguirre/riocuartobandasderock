@@ -56,6 +56,17 @@ public class Bootstrap {
             System.err.println( "Parsing failed.  Reason: " + exp.getMessage() );
         }
 
+        /* TABLE CODE  RESPONSE HTTP 
+         * ===============================================================
+         * WHEN ACTION PASS INVALID ARGUMENT RETURN                      CODE 400
+         * INSERT ONE NEW REGISTER IS OK                                 CODE 201
+         * INSERT ONE NEW REGISTER IS DATABASE ERROR                     CODE 409
+         * 
+         * SEARCH REGISTER ALL OR FOR ATRIBUTTE AND RETURN NO EMPTY LIST CODE 200
+         * SEARCH REGISTER ALL OR FOR ATRIBUTTE AND RETURN EMPTY  LIST   CODE 204
+         *
+         */
+        
         // List of controller
 
         
