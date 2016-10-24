@@ -41,8 +41,9 @@ Given(/^that the song's database is empty$/) do
     expect(result).to eq("0")
 end
 
-Given(/^that the song's database have one song with name "([^"]*)" and duration "([^"]*)"$/) do |arg1, arg2|
-  pending # Write code here that turns the phrase above into concrete actions
+Given(/^that the song's database have one song with name "([^"]*)" and duration "([^"]*)"$/) do |name, duration|
+  response = RestClient.post 'http://localhost:4567/song/', { :name => name, :duration => duration }, :content_type => 'text/plain' 
+  expect(response.code).to eq(201)
 end
 
 
