@@ -20,5 +20,5 @@ Scenario: I delete a song that doesn't exist
 	Given That the song with the name "Jijiji"
 	And The database is empty
 	When I delete a song with the name "Jijij"
-	The An exception is thrown
+	Then An exception is thrown
 	And the database is empty

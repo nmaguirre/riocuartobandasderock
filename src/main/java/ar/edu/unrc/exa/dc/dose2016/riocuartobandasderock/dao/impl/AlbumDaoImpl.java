@@ -186,6 +186,8 @@ public class AlbumDaoImpl implements AlbumDAO{
 	 * @return true iff album was inserted into data base correctly
 	 */
 	public boolean createAlbum(String title, Date releaseDate){
+		releaseDate.setYear(releaseDate.getYear()-1900);
+
 		if(title==null ) throw new IllegalArgumentException("Error: AlbumDaoImpl.createAlbum() : Database doesnt support null title");
 		if(title.equals("") && releaseDate==null) throw new IllegalArgumentException("Error: AlbumDaoImpl.createAlbum() : incorrect parameters");
 		boolean isCreated=false;
