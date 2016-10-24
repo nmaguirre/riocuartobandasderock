@@ -66,11 +66,13 @@ When(/^I search an artist with "([^"]*)" "([^"]*)" , the result should have (\d+
   begin  
     String s = 'http://localhost:4567/artist/findby' + atributo + '/' + valor
     response = RestClient.get s
-    if entradas == "0"
+    if entradas != "0"
       expect(response.code).to eq(200)
+    else
+      expect(response.code).to eq(204)
     end
-  rescue RestClient::Conflict => e
-    expect(entradas).to eq("0")
+  rescue RestClient::NotFound => e
+    expect(entradas).to eq("")
   end
 end
 
