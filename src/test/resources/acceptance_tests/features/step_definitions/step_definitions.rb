@@ -72,7 +72,7 @@ When(/^I search an artist with "([^"]*)" "([^"]*)" , the result should have (\d+
       expect(response.code).to eq(204)
     end
   rescue RestClient::NotFound => e
-    expect(entradas).to eq("")
+    expect(valoe).to eq("")
   end
 end
 
