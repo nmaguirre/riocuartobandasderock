@@ -11,6 +11,11 @@
 ##Artist
 - Leader : Adrián Galfioni
 - minions :
+  - Leandro Etcharren.
+  - Elisa Boselli.
+  - Diana Gonzalez.
+  - Ezequiel Zenzich
+  - Fernando Muñoz
 
 ##Band
 - Leader : Leandro Buttignol
