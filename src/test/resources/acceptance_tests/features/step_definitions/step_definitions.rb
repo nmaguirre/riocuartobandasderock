@@ -62,6 +62,11 @@ When(/^I add an artist with name "([^"]*)" and surname "([^"]*)" and nickname "(
   
 end
 
+When(/^I add an album with name "([^"]*)" and release date "([^"]*)"$/) do |title,release_date|
+  response = RestClient.post 'http://localhost:4567/albums/', { :title => title, :release_date => release_date }, :content_type => 'text/plain' 
+  expect(response.code).to eq(201)  
+end
+
 When(/^I search an artist with "([^"]*)" "([^"]*)" , the result should have (\d+) entry$/) do |atributo,valor,entradas|
   begin  
     String s = 'http://localhost:4567/artist/findby' + atributo + '/' + valor
@@ -114,6 +119,12 @@ Then(/^the artist's database should have (\d+) entry$/) do |arg1|
     expect(result).to eq(arg1)  
 end
 
+Then(/^the album's database should have (\d+) entry$/) do |arg1|
+    result = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select count(*) from Album;\" -t`
+    result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+    expect(result).to eq(arg1)  
+end
+
 Then(/^the song's database should have (\d+) entry$/) do |arg1|
     result = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select count(*) from SongDB;\" -t`
     result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
@@ -128,6 +139,16 @@ Then(/^the entry should have name "([^"]*)" and surname "([^"]*)"$/) do |name, s
     resultingSurname = resultingSurname.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
     expect(resultingSurname).to eq(surname)
 end
+
+Then(/^the entry should have name "([^"]*)" and release date "([^"]*)"$/) do |title,release_date|
+    resultingTitle = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select title from Album;\" -t`
+    resultingTitle = resultingTitle.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+    expect(resultingTitle).to eq(title)
+    resultingReleaseDate = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select releaseDate from Album;\" -t`
+    resultingReleaseDate = resultingReleaseDate.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+    expect(resultingReleaseDate).to eq(release_date)
+end
+
 
 Then(/^the entry should have name "([^"]*)" and duration "([^"]*)"$/) do |arg1, arg2|
     pending
