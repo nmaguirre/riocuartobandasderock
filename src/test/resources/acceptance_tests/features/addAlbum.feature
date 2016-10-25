@@ -6,9 +6,9 @@ Feature: The application responds appropriately to all events that correspond to
 
     Scenario: Add a new album on an empty album's database 
 	Given that the album's database is empty
-	When I add an album with name "Perdido en un sueno" and release date "2002"
+	When I add an album with name "Perdido" and release date "27/12/2000"
 	Then the album's database should have 1 entry
-	And the entry should have name "Perdido en un sueno" and release date "2002" 
+	And the entry should have name "Perdido" and release date "2000-12-27" 
 
     Scenario: Add an existing album
 	Given that the database contains an album named "Perdido en un sueno" and release date "2002"
