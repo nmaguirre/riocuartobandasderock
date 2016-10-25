@@ -125,7 +125,7 @@ public class BandDaoImpl implements BandDAO {
 	 * @return boolean, true if the band was updated
 	 */
 	@Override
-	public Boolean updateBand(Band band){
+	public boolean updateBand(Band band){
 			if (band != null) {
 				currentSession.update(band);
 				return true;
@@ -142,7 +142,7 @@ public class BandDaoImpl implements BandDAO {
 	 * @return boolean, true if the band was deleted
 	 */
 	@Override
-	public Boolean deleteBand(String id){
+	public boolean deleteBand(String id){
 		Band band = this.getBand(id);
 		if (band != null) {
 			currentSession.delete(band);
@@ -161,21 +161,20 @@ public class BandDaoImpl implements BandDAO {
 	 * @return boolean, true if the band was created
 	 */
 	@Override
-	public Boolean createBand(String name, String genre) {
-		Boolean result;
-		Boolean areNull = name == null && genre == null;
-		Boolean areEmpty = name.equals("") && genre.equals("");
+	public boolean createBand(String name, String genre) {
+		boolean result;
+		boolean areNull = false;
+		boolean areEmpty = false;
+		areNull = name == null || genre == null;
+		if(!areNull){
+			areEmpty = name.equals("") && genre.equals("");
+		}
 		if(areNull || areEmpty){
 			throw new IllegalArgumentException("the params for create band can't be null or empty.");
 		} else {
-			String hq1 = "FROM Band A WHERE A.name = :paramName and A.genre = :paramGenre";
-			Query<Band> query = currentSession.createQuery(hq1, Band.class);
-			query.setParameter("paramName", name);
-			query.setParameter("paramGenre", genre);
-			List<Band> bandList = query.getResultList();
-			if(!bandList.isEmpty()){
+			if(existBand(name, genre)){
 				result = false;
-			} else {
+			} else { 
 				Band band = new Band(name, genre);
 				currentSession.save(band);
 				result = true;
@@ -192,13 +191,24 @@ public class BandDaoImpl implements BandDAO {
 	@Override
 	public boolean existBand(String name, String genre){
 		boolean result = false;
-		String hq1 = "FROM Artist A WHERE A.name = :paramName and A.genre = :paramGenre";
-		Query<Band> query = currentSession.createQuery(hq1, Band.class);
-		query.setParameter("paramName", name);
-		query.setParameter("paramGenre", genre);
-		List<Band> bandList = query.getResultList();
-		if(!bandList.isEmpty()){
-			result = true;
+		boolean areEmpty = false;
+		boolean areNull = false;
+		areNull = name == null || genre == null;
+		if(!areNull){
+			areEmpty = name.equals("") && genre.equals("");
+		}
+		if(areNull || areEmpty){ 
+			throw new IllegalArgumentException("the params for search band can't be null or empty.");
+		} else {
+			
+			String hq1 = "FROM Band A WHERE A.name = :paramName and A.genre = :paramGenre";
+			Query<Band> query = currentSession.createQuery(hq1, Band.class);
+			query.setParameter("paramName", name);
+			query.setParameter("paramGenre", genre);
+			List<Band> bandList = query.getResultList();
+			if(!bandList.isEmpty()){
+				result = true;
+			}
 		}
 		return result;
 	}

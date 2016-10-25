@@ -47,7 +47,7 @@ public interface BandDAO {
 	    *
 	    * @return true if the update was successful
 	    */
-	   public Boolean updateBand(Band band);
+	   public boolean updateBand(Band band);
 
 	   /**
 	    *
@@ -55,7 +55,7 @@ public interface BandDAO {
 	    *
 	    * @return true if the delete was successful
 	    */
-	   public Boolean deleteBand(String id);
+	   public boolean deleteBand(String id);
 
 	   /**
 	    *
@@ -63,7 +63,7 @@ public interface BandDAO {
 	    *
 	    * @return true if the insert was successful
 	    */
-	   public Boolean createBand(String name, String genre);
+	   public boolean createBand(String name, String genre);
 	   
 	   /**
 	    * This method find a band by name
