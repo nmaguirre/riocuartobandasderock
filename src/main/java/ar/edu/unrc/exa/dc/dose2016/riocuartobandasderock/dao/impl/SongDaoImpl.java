@@ -151,8 +151,14 @@ public class SongDaoImpl implements SongDAO{
 	}
     	
 	@Override
-	public List<Song> findByDuration(String duration){
-		return null;
+	public List<Song> findByDuration(Integer duration){
+		if (duration != null && duration.equals("")) {
+			Query<Song> query = currentSession.createQuery("from Song where duration=:n", Song.class);
+			query.setParameter("n", duration);
+			return query.getResultList();
+		} else {
+			throw new IllegalArgumentException("the 'duration' param for search an song can not be null or empty.");
+		}
 	}
 
 
