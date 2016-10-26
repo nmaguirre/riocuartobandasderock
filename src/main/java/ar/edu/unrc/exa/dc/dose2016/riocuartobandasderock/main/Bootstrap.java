@@ -84,13 +84,13 @@ public class Bootstrap {
 
         get("/bands",(req, res) -> bands.getBands(req, res));
 
-        get("/band/:name",(req, res) -> bands.getBandByName(req, res));
+        get("/bands/:name",(req, res) -> bands.getBandByName(req, res));
 
-        post("/band/",(req, res) -> bands.createBand(req, res));
+        post("/bands/",(req, res) -> bands.createBand(req, res));
 
-        put("/band",(req, res) -> bands.updateBand(req, res));
+        put("/bands",(req, res) -> bands.updateBand(req, res));
 
-        delete("/band/:name",(req, res) -> bands.deleteBand(req, res));
+        delete("/bands/:name",(req, res) -> bands.deleteBand(req, res));
 
         get ("/artist", (req,res)->artistController.getAllArtists(req,res));
 
