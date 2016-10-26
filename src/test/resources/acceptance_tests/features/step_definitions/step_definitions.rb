@@ -163,7 +163,7 @@ end
 
 When(/^I add a band with name "([^"]*)" and genre "([^"]*)"$/) do |name, genre|
   begin
-   response = RestClient.post 'http://localhost:4567/band/', { :name => name, :genre => genre }, :content_type => 'text/plain'
+   response = RestClient.post 'http://localhost:4567/bands/', { :name => name, :genre => genre }, :content_type => 'text/plain'
    rescue RestClient::Conflict => e
    expect(e.response.code).to eq(409)
   end
@@ -191,30 +191,30 @@ end
 Given(/^that the bands' database have (\d+) entries$/) do |cant|
     name = "Band 0"
     genre = 'Rock'
-    response = RestClient.post 'http://localhost:4567/band/', { :name => name, :genre => genre }, :content_type => 'text/plain'
+    response = RestClient.post 'http://localhost:4567/bands/', { :name => name, :genre => genre }, :content_type => 'text/plain'
     expect(response.code).to eq(201)
     name = "Band 1"
     genre = 'Rock'
-    response = RestClient.post 'http://localhost:4567/band/', { :name => name, :genre => genre }, :content_type => 'text/plain'
+    response = RestClient.post 'http://localhost:4567/bands/', { :name => name, :genre => genre }, :content_type => 'text/plain'
     expect(response.code).to eq(201)
     name = "Band 2"
     genre = 'Rock'
-    response = RestClient.post 'http://localhost:4567/band/', { :name => name, :genre => genre }, :content_type => 'text/plain'
+    response = RestClient.post 'http://localhost:4567/bands/', { :name => name, :genre => genre }, :content_type => 'text/plain'
     expect(response.code).to eq(201)
     name = "Band 3"
     genre = 'Rock'
-    response = RestClient.post 'http://localhost:4567/band/', { :name => name, :genre => genre }, :content_type => 'text/plain'
+    response = RestClient.post 'http://localhost:4567/bands/', { :name => name, :genre => genre }, :content_type => 'text/plain'
     expect(response.code).to eq(201)
     name = "Carajo"
     genre = 'New Metal'
-    response = RestClient.post 'http://localhost:4567/band/', { :name => name, :genre => genre }, :content_type => 'text/plain'
+    response = RestClient.post 'http://localhost:4567/bands/', { :name => name, :genre => genre }, :content_type => 'text/plain'
     expect(response.code).to eq(201)
 
 #    counter = 0
 #    while counter < cant do
 #        name = "Band #{counter}"
 #        genre = "Rock"
-#        response = RestClient.post 'http://localhost:4567/band/', { :name => name, :genre => genre }, :content_type => 'text/plain'
+#        response = RestClient.post 'http://localhost:4567/bands/', { :name => name, :genre => genre }, :content_type => 'text/plain'
 #        expect(response.code).to eq(201)
 #        counter +=1
 #    end
@@ -225,7 +225,7 @@ end
 
 And(/^the band with name "([^"]*)" and genre "([^"]*)" is not in bands' datebase$/) do |name,genre|
   begin  
-    response = RestClient.get "http://localhost:4567/band/:#{name}"
+    response = RestClient.get "http://localhost:4567/bands/:#{name}"
     rescue RestClient::Conflict => e
     expect(e.response).to eq(204)
   end
@@ -233,7 +233,7 @@ end
 
 And(/^the bands' database have a band with name "([^"]*)" and genre "([^"]*)"$/) do |name,genre|
   begin
-    response = RestClient.get "http://localhost:4567/band/:#{name}"
+    response = RestClient.get "http://localhost:4567/bands/:#{name}"
     rescue RestClient::Conflict => e
     expect(e.response).to eq(201)
   end
@@ -241,7 +241,7 @@ end
 
 Then(/^the band with name "([^"]*)" and genre "([^"]*)" should be on bands' database$/)do |name, genre|
   begin
-    response = RestClient.get "http://localhost:4567/band/:#{name}"
+    response = RestClient.get "http://localhost:4567/bands/:#{name}"
     rescue RestClient::Conflict => e
     expect(e.response).to eq(201)
   end
