@@ -11,6 +11,7 @@
 ##Artist
 - Leader : Adrián Galfioni
 - minions :
+  - Zensich Ezequiel
 
 ##Band
 - Leader : Leandro Buttignol
