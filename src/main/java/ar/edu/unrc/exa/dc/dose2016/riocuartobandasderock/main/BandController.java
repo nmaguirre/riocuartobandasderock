@@ -3,26 +3,42 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 import java.util.List;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandDAO;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandDaoImpl;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 import spark.Request;
 import spark.Response;
 
+/***
+ *
+ * @author DOSE
+ * This class implements the communication layer between the persistence and frontend
+ * following the singleton patter.
+ */
+
 public class BandController {
-	/***
-	 * This class implements the communication layer between the persistence and frontend.
+	/*
+	 * check that have only one instance of class
 	 */
-
+	private static BandController instance = null;
 	private BandDAO bandDAO;
-	/***
+
+	/*
 	 * Constructor of class BandController
-	 * @param bandPersistence
+	 * Implement the singleton pattern.
 	 */
-	public BandController(BandDAO bandPersistence){
-		this.bandDAO = bandPersistence;
-	}
+	public static BandController getInstance() {
+      if(instance == null) {
+         instance = new BandController();
+      }
+      return instance;
+  }
+
+  private BandController(){
+  	bandDAO = new BandDaoImpl();
+  }
 
 	/***
-	 * This method returns all bands 
+	 * This method returns all bands
 	 * @param req
 	 * @param res
 	 * @return A list of all bands
@@ -40,7 +56,7 @@ public class BandController {
 	 * This method takes a band name, and returns a list of bands with this name
 	 * @param req
 	 * @param res
-	 * @return a list of bands with the name of the request 
+	 * @return a list of bands with the name of the request
 	 */
 	public List<Band> getBandByName(Request req,Response res){
 		if (req.params(":name")==""){
@@ -72,7 +88,7 @@ public class BandController {
 		res.status(status);
 		return bands;
 	}
-	
+
 	/***
 	 * This method takes the data of a band from the frontend, and creates a band in database
 	 * @param req
