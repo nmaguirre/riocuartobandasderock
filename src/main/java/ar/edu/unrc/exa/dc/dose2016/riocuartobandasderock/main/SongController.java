@@ -1,7 +1,9 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
 
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.SessionManager;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.SongDAO;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SessionManagerHibernate;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SongDaoImpl;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 
@@ -18,6 +20,7 @@ import spark.Response;
 public class SongController {
 
     private SongDAO songDao;
+    private SessionManager session;
  
     
     
@@ -84,10 +87,10 @@ public class SongController {
     		res.status(400);
     		return null;
     	}
-    	
-    	songDao.openCurrentSession();
+    	session= SessionManagerHibernate.getInstance();   	
+    	session.openCurrentSession();
     	List<Song> songs = songDao.findByName(songName);
-    	songDao.closeCurrentSession();
+    	session.closeCurrentSession();
     	res.status(songs.size() > 0 ? 200 : 204);
     	return songs;    	
     }
@@ -106,10 +109,10 @@ public class SongController {
     		res.status(400);
     		return null;
     	}
-    	
-    	songDao.openCurrentSession();
+    	session= SessionManagerHibernate.getInstance();
+    	session.openCurrentSession();
     	List<Song> songs = songDao.findByDuration(Integer.parseInt(duration));
-    	songDao.closeCurrentSession();
+    	session.closeCurrentSession();
     	res.status(songs.size() > 0 ? 200 : 204);
     	return songs;
     }
@@ -132,10 +135,10 @@ public class SongController {
 			res.body("Invalid content of parameters");
 			return res.body();
 		}
-    	
-    	songDao.openCurrentSession();
+    	session= SessionManagerHibernate.getInstance();
+    	session.openCurrentSession();
     	boolean result = songDao.addSong(songName, Integer.parseInt(dur));
-    	songDao.closeCurrentSession();
+    	session.closeCurrentSession();
     	if(result){
     	res.body("Song created");
     	res.status(201);

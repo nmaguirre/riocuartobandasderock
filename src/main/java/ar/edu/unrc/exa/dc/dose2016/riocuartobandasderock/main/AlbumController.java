@@ -7,13 +7,16 @@ import java.util.List;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.AlbumDAO;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.SessionManager;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.AlbumDaoImpl;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SessionManagerHibernate;
 import spark.Request;
 import spark.Response;
 
 public class AlbumController {
     protected static AlbumController unique_instance = null;
     protected AlbumDAO dao;
+    private SessionManager session;
 
     public AlbumController(AlbumDaoImpl albumDaoImpl) {
         dao = albumDaoImpl;
@@ -39,11 +42,12 @@ public class AlbumController {
         }
         DateFormat df = DateFormat.getDateInstance();
         try {
-            dao.openCurrentSessionwithTransaction();
+        	session= SessionManagerHibernate.getInstance();
+        	session.openCurrentSessionwithTransaction();
             //Date should be in the next pattern: dd/mm/yyyy
             Date release_date = df.parse(req.queryParams("release_date"));
             boolean result = dao.createAlbum(req.queryParams("title"), release_date);
-            dao.closeCurrentSessionwithTransaction();
+            session.closeCurrentSessionwithTransaction();
             int http_status = result ? 201 : 409;
             res.status(http_status);
             if (!result) res.body("Duplicate album"); //If the result of the creation was false, it means that there is a duplicate
@@ -70,9 +74,10 @@ public class AlbumController {
             res.body("Title can't be null");
             return null;
         }
-        dao.openCurrentSession();
+        session= SessionManagerHibernate.getInstance();
+        session.openCurrentSession();
         List<Album> albums = dao.findByName(req.queryParams("title"));
-        dao.closeCurrentSession();
+        session.closeCurrentSession();
         int http_status = albums.size() > 0 ? 200 : 204;
         res.status(http_status);
         return albums;
@@ -87,9 +92,10 @@ public class AlbumController {
         DateFormat df = DateFormat.getInstance();
         try {
             Date release_date = df.parse(req.queryParams("release_date"));
-            dao.openCurrentSession();
+            session= SessionManagerHibernate.getInstance();
+            session.openCurrentSession();
             List<Album> albums = dao.findByReleaseDate(release_date);
-            dao.closeCurrentSession();
+            session.closeCurrentSession();
             int http_status = albums.size() > 0 ? 200 : 204;
             res.status(http_status);
             return albums;
