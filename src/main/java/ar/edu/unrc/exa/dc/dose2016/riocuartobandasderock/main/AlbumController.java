@@ -1,7 +1,7 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
-import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -40,12 +40,12 @@ public class AlbumController {
             res.body("Both params can't be null");
             return res.body();
         }
-        DateFormat df = DateFormat.getDateInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
         try {
+            //Date should be in the next pattern: yyyy-mm-dd
+            Date release_date = sdf.parse(req.queryParams("release_date"));
         	session= SessionManagerHibernate.getInstance();
         	session.openCurrentSessionwithTransaction();
-            //Date should be in the next pattern: dd/mm/yyyy
-            Date release_date = df.parse(req.queryParams("release_date"));
             boolean result = dao.createAlbum(req.queryParams("title"), release_date);
             session.closeCurrentSessionwithTransaction();
             int http_status = result ? 201 : 409;
@@ -89,9 +89,9 @@ public class AlbumController {
             res.body("Release date can't be null");
             return null;
         }
-        DateFormat df = DateFormat.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
         try {
-            Date release_date = df.parse(req.queryParams("release_date"));
+            Date release_date = sdf.parse(req.queryParams("release_date"));
             session= SessionManagerHibernate.getInstance();
             session.openCurrentSession();
             List<Album> albums = dao.findByReleaseDate(release_date);
