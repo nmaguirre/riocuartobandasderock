@@ -1,12 +1,13 @@
 #Teams
 
 ##Song
-- Leader : Buttignol Leandro
-- minions : 
-  - Massimino Gastón
-  - Depetriz Ezequiel
-  - Calcagno Camila
-  - Martinez Agustín
+- Leader : Daniel Sanchez
+- minions :
+  - Fernando Bentolila
+  - Daniel Ortolano
+  - Federico Mollea
+  - Lucas Palacios
+  - Emiliano Gutlein
 
 ##Artist
 - Leader : Adrián Galfioni
@@ -19,7 +20,11 @@
 
 ##Band
 - Leader : Leandro Buttignol
-- minions :
+- minions : 
+  - Massimino Gastón
+  - Depetriz Ezequiel
+  - Calcagno Camila
+  - Martinez Agustín
 
 ##Album
 - Leader : Joaquin Heredia
