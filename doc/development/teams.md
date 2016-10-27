@@ -4,7 +4,7 @@
 - Leader : Daniel Sanchez
 - minions :
   - Fernando Bentolila
-  - Daniel Ortolano
+  - Daniel Jorge Ortolano
   - Federico Mollea
   - Lucas Palacios
   - Emiliano Gutlein
