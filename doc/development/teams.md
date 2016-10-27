@@ -10,10 +10,10 @@
   - Emiliano Gutlein
 
 ##Artist
-- Leader : Adrián Galfioni
+- Leader : Elisa Boselli
 - minions :
   - Leandro Etcharren.
-  - Elisa Boselli.
+  - Adrián Galfioni
   - Diana Gonzalez.
   - Ezequiel Zenzich
   - Fernando Muñoz
