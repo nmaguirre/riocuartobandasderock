@@ -12,17 +12,20 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.ArtistDAO;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.SessionManager;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.ArtistDaoImpl;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SessionManagerHibernate;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 
 
 public class ArtistDAOTest {
 
 	private ArtistDAO artistDAO;
-	
+	private SessionManager session;
 	@Before
 	public void setUp(){
 		artistDAO = new ArtistDaoImpl();
+		session = SessionManagerHibernate.getInstance();
 	}
 	
 	/*
@@ -38,24 +41,24 @@ public class ArtistDAOTest {
 		String surname = "b";
 		String nickname = "";
 		
-		artistDAO.openCurrentSession();
+		session.openCurrentSession();
 		while(artistDAO.existArtist(name,surname,nickname)){
 			name+="a";
 		}
-		artistDAO.closeCurrentSession();
+		session.closeCurrentSession();
 		
 		// Create the artist to add in db
 		Artist artistToAdd = new Artist(name, surname, nickname);
 		
 		// Add artistToAdd in db
-		artistDAO.openCurrentSessionwithTransaction();
+		session.openCurrentSessionwithTransaction();
 		artistDAO.createArtist(name,surname,nickname);
-		artistDAO.closeCurrentSessionwithTransaction();
+		session.closeCurrentSessionwithTransaction();
 		
 		
-		artistDAO.openCurrentSession();
+		session.openCurrentSession();
 		artistList.addAll(artistDAO.findByName(artistToAdd.getName()));
-		artistDAO.closeCurrentSession();
+		session.closeCurrentSession();
 		
 		
 		List<Artist> result = new LinkedList<>();
@@ -80,24 +83,24 @@ public class ArtistDAOTest {
 		String surname = "b";
 		String nickname = "";
 		
-		artistDAO.openCurrentSession();
+		session.openCurrentSession();
 		while(artistDAO.existArtist(name,surname,nickname)){
 			name+="a";
 		}
-		artistDAO.closeCurrentSession();
+		session.closeCurrentSession();
 		
 		// Create the artist to add in db
 		Artist artistToAdd = new Artist(name, surname, nickname);
 		
 		// Add artistToAdd in db for first time
-		artistDAO.openCurrentSessionwithTransaction();
+		session.openCurrentSessionwithTransaction();
 		artistDAO.createArtist(name, surname, nickname);
-		artistDAO.closeCurrentSessionwithTransaction();
+		session.closeCurrentSessionwithTransaction();
 		
 		// Add artistToAdd in db for second time
-		artistDAO.openCurrentSessionwithTransaction();
+		session.openCurrentSessionwithTransaction();
 		boolean successfulOperation = artistDAO.createArtist(name, surname, nickname);
-		artistDAO.closeCurrentSessionwithTransaction();
+		session.closeCurrentSessionwithTransaction();
 		
 		assertTrue(!successfulOperation);	
 	}
@@ -113,9 +116,9 @@ public class ArtistDAOTest {
 		Artist artistToAdd = new Artist(name, surname, nickname);
 		
 		// Add artistToAdd in db
-		artistDAO.openCurrentSessionwithTransaction();
+		session.openCurrentSessionwithTransaction();
 		artistDAO.createArtist(name, surname, nickname);
-		artistDAO.closeCurrentSessionwithTransaction();
+		session.closeCurrentSessionwithTransaction();
 	}
 	
 	
@@ -129,9 +132,9 @@ public class ArtistDAOTest {
 		Artist artistToAdd = new Artist(name, surname, nickname);
 		
 		// Add artistToAdd in db
-		artistDAO.openCurrentSessionwithTransaction();
+		session.openCurrentSessionwithTransaction();
 		artistDAO.createArtist(name, surname, nickname);
-		artistDAO.closeCurrentSessionwithTransaction();
+		session.closeCurrentSessionwithTransaction();
 	}
 	
 	
@@ -145,9 +148,9 @@ public class ArtistDAOTest {
 		Artist artistToAdd = new Artist(name, surname, nickname);
 		
 		// Add artistToAdd in db
-		artistDAO.openCurrentSessionwithTransaction();
+		session.openCurrentSessionwithTransaction();
 		artistDAO.createArtist(name, surname, nickname);
-		artistDAO.closeCurrentSessionwithTransaction();
+		session.closeCurrentSessionwithTransaction();
 	}
 	
 	
@@ -161,9 +164,9 @@ public class ArtistDAOTest {
 		Artist artistToAdd = new Artist(name, surname, nickname);
 		
 		// Add artistToAdd in db
-		artistDAO.openCurrentSessionwithTransaction();
+		session.openCurrentSessionwithTransaction();
 		artistDAO.createArtist(name, surname, nickname);
-		artistDAO.closeCurrentSessionwithTransaction();
+		session.closeCurrentSessionwithTransaction();
 	}
 	
 	
@@ -179,23 +182,23 @@ public class ArtistDAOTest {
 		String surname = "b";
 		String nickname = "";
 		
-		artistDAO.openCurrentSession();
+		session.openCurrentSession();
 		while(artistDAO.existArtist(name,surname,nickname)){
 			name+="a";
 		}
-		artistDAO.closeCurrentSession();
+		session.closeCurrentSession();
 		
 		// Create the artist to add in db
 		Artist artistToAdd = new Artist(name, surname, nickname);
 		
 		// Add artistToAdd in db
-		artistDAO.openCurrentSessionwithTransaction();
+		session.openCurrentSessionwithTransaction();
 		artistDAO.createArtist(name,surname,nickname);
-		artistDAO.closeCurrentSessionwithTransaction();
+		session.closeCurrentSessionwithTransaction();
 		
-		artistDAO.openCurrentSession();
+		session.openCurrentSession();
 		List<Artist> obtained = artistDAO.findByName(name);
-		artistDAO.closeCurrentSession();
+		session.closeCurrentSession();
 		
 		assertEquals(obtained.get(0).getName(),name);
 	}
@@ -207,15 +210,15 @@ public class ArtistDAOTest {
 		String surname = "";
 		String nickname = "";
 		
-		artistDAO.openCurrentSession();
+		session.openCurrentSession();
 		while(artistDAO.existArtist(name,surname,nickname)){
 			name+="a";
 		}
-		artistDAO.closeCurrentSession();
+		session.closeCurrentSession();
 		
-		artistDAO.openCurrentSession();
+		session.openCurrentSession();
 		List<Artist> obtained = artistDAO.findByName(name);
-		artistDAO.closeCurrentSession();
+		session.closeCurrentSession();
 		
 		assertEquals(obtained.size(), 0);
 	}
@@ -226,9 +229,9 @@ public class ArtistDAOTest {
 		
 		String name = null;
 		
-		artistDAO.openCurrentSession();
+		session.openCurrentSession();
 		List<Artist> obtained = artistDAO.findByName(name);
-		artistDAO.closeCurrentSession();
+		session.closeCurrentSession();
 	}
 	
 	
@@ -237,9 +240,9 @@ public class ArtistDAOTest {
 		
 		String name = "";
 		
-		artistDAO.openCurrentSession();
+		session.openCurrentSession();
 		List<Artist> obtained = artistDAO.findByName(name);
-		artistDAO.closeCurrentSession();
+		session.closeCurrentSession();
 	}
 	
 	
@@ -255,23 +258,23 @@ public class ArtistDAOTest {
 		String surname = "b";
 		String nickname = "";
 		
-		artistDAO.openCurrentSession();
+		session.openCurrentSession();
 		while(artistDAO.existArtist(name,surname,nickname)){
 			surname+="b";
 		}
-		artistDAO.closeCurrentSession();
+		session.closeCurrentSession();
 		
 		// Create the artist to add in db
 		Artist artistToAdd = new Artist(name, surname, nickname);
 		
 		// Add artistToAdd in db
-		artistDAO.openCurrentSessionwithTransaction();
+		session.openCurrentSessionwithTransaction();
 		artistDAO.createArtist(name,surname,nickname);
-		artistDAO.closeCurrentSessionwithTransaction();
+		session.closeCurrentSessionwithTransaction();
 		
-		artistDAO.openCurrentSession();
+		session.openCurrentSession();
 		List<Artist> obtained = artistDAO.findBySurname(surname);
-		artistDAO.closeCurrentSession();
+		session.closeCurrentSession();
 		
 		assertEquals(obtained.get(0).getSurname(),surname);
 	}
@@ -283,15 +286,15 @@ public class ArtistDAOTest {
 		String surname = "i_will_not_find_u";
 		String nickname = "";
 		
-		artistDAO.openCurrentSession();
+		session.openCurrentSession();
 		while(artistDAO.existArtist(name,surname,nickname)){
 			surname+="a";
 		}
-		artistDAO.closeCurrentSession();
+		session.closeCurrentSession();
 		
-		artistDAO.openCurrentSession();
+		session.openCurrentSession();
 		List<Artist> obtained = artistDAO.findBySurname(surname);
-		artistDAO.closeCurrentSession();
+		session.closeCurrentSession();
 		
 		assertEquals(obtained.size(), 0);
 	}
@@ -302,9 +305,9 @@ public class ArtistDAOTest {
 		
 		String surname = null;
 		
-		artistDAO.openCurrentSession();
+		session.openCurrentSession();
 		List<Artist> obtained = artistDAO.findBySurname(surname);
-		artistDAO.closeCurrentSession();
+		session.closeCurrentSession();
 	}
 	
 	
@@ -313,9 +316,9 @@ public class ArtistDAOTest {
 		
 		String surname = "";
 		
-		artistDAO.openCurrentSession();
+		session.openCurrentSession();
 		List<Artist> obtained = artistDAO.findBySurname(surname);
-		artistDAO.closeCurrentSession();
+		session.closeCurrentSession();
 	}
 	
 	
@@ -331,23 +334,23 @@ public class ArtistDAOTest {
 		String surname = "b";
 		String nickname = "c";
 		
-		artistDAO.openCurrentSession();
+		session.openCurrentSession();
 		while(artistDAO.existArtist(name,surname,nickname)){
 			nickname+="a";
 		}
-		artistDAO.closeCurrentSession();
+		session.closeCurrentSession();
 		
 		// Create the artist to add in db
 		Artist artistToAdd = new Artist(name, surname, nickname);
 		
 		// Add artistToAdd in db
-		artistDAO.openCurrentSessionwithTransaction();
+		session.openCurrentSessionwithTransaction();
 		artistDAO.createArtist(name,surname,nickname);
-		artistDAO.closeCurrentSessionwithTransaction();
+		session.closeCurrentSessionwithTransaction();
 		
-		artistDAO.openCurrentSession();
+		session.openCurrentSession();
 		List<Artist> obtained = artistDAO.findByNickname(nickname);
-		artistDAO.closeCurrentSession();
+		session.closeCurrentSession();
 		
 		assertEquals(obtained.get(0).getName(),name);
 	}
@@ -359,15 +362,15 @@ public class ArtistDAOTest {
 		String surname = "";
 		String nickname = "i_will_not_find_u";
 		
-		artistDAO.openCurrentSession();
+		session.openCurrentSession();
 		while(artistDAO.existArtist(name,surname,nickname)){
 			nickname+="a";
 		}
-		artistDAO.closeCurrentSession();
+		session.closeCurrentSession();
 		
-		artistDAO.openCurrentSession();
+		session.openCurrentSession();
 		List<Artist> obtained = artistDAO.findByNickname(nickname);
-		artistDAO.closeCurrentSession();
+		session.closeCurrentSession();
 		
 		assertEquals(obtained.size(), 0);
 	}
@@ -378,9 +381,9 @@ public class ArtistDAOTest {
 		
 		String nickname = null;
 		
-		artistDAO.openCurrentSession();
+		session.openCurrentSession();
 		List<Artist> obtained = artistDAO.findByNickname(nickname);
-		artistDAO.closeCurrentSession();
+		session.closeCurrentSession();
 	}
 	
 	
@@ -389,9 +392,9 @@ public class ArtistDAOTest {
 		
 		String nickname = "";
 		
-		artistDAO.openCurrentSession();
+		session.openCurrentSession();
 		List<Artist> obtained = artistDAO.findByNickname(nickname);
-		artistDAO.closeCurrentSession();
+		session.closeCurrentSession();
 	}
 	
 }

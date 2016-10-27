@@ -21,72 +21,7 @@ public class BandDaoImpl implements BandDAO {
 
 	private Transaction currentTransaction;
 
-	@Override
-	public Session openCurrentSession() {
-		currentSession = getSessionFactory().openSession();
-		return currentSession;
-	}
-
-	@Override
-	public Session openCurrentSessionwithTransaction() {
-		currentSession = getSessionFactory().openSession();
-		currentTransaction = currentSession.beginTransaction();
-		return currentSession;
-	}
-
-	@Override
-	public void closeCurrentSession() {
-		currentSession.close();
-	}
-
-	@Override
-	public void closeCurrentSessionwithTransaction() {
-		currentTransaction.commit();
-		currentSession.close();
-	}
-
-
-	private static SessionFactory getSessionFactory() {
-		String dbHost = ServerOptions.getInstance().getDbHost();
-		String dbPort = ServerOptions.getInstance().getDbPort();
-		// Configuration configuration = new Configuration().addPackage("models").configure("hibernate.cfg.xml").addAnnotatedClass(Band.class);
-		Configuration configuration = new Configuration().addPackage("models");
-		configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
-		configuration.setProperty("hibernate.connection.driver_class", "org.postgresql.Driver");
-		configuration.setProperty("hibernate.connection.username", "rock_db_owner");
-		configuration.setProperty("hibernate.connection.password", "rockenrio4");
-		configuration.setProperty("hibernate.connection.url",
-				"jdbc:postgresql://" + dbHost + ":" + dbPort + "/rcrockbands");
-		configuration.setProperty("connection_pool_size", "1");
-		configuration.setProperty("hibernate.hbm2ddl.auto", "update");
-		configuration.setProperty("show_sql", "false");
-		configuration.setProperty("hibernate.current_session_context_class", "thread");
-		configuration.addAnnotatedClass(Band.class);
-		StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
-				.applySettings(configuration.getProperties());
-		SessionFactory sf = configuration.buildSessionFactory(builder.build());
-		return sf;
-	}
-
-	@Override
-	public Session getCurrentSession() {
-		return currentSession;
-	}
-
-	@Override
-	public void setCurrentSession(Session currentSession) {
-		this.currentSession = currentSession;
-	}
-
-	@Override
-	public Transaction getCurrentTransaction() {
-		return currentTransaction;
-	}
-
-	@Override
-	public void setCurrentTransaction(Transaction currentTransaction) {
-		this.currentTransaction = currentTransaction;
-	}
+	
 	/**
 	 * Get all bands from the database
 	 * 
