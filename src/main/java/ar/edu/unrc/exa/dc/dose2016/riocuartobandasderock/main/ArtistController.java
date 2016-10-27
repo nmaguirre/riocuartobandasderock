@@ -4,9 +4,8 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 import spark.Response;
 import spark.Request;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.ArtistDAO;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.SessionManager;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.ArtistDaoImpl;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SessionManagerHibernate;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SessionManager;
 
 import java.util.List;
 /**
@@ -33,7 +32,7 @@ public class ArtistController {
 	 * @return  List of Artist
 	 */
 	public List<Artist> getAllArtists(Request req, Response res){
-		session= SessionManagerHibernate.getInstance();
+		session= SessionManager.getInstance();
 		session.openCurrentSession();
 		List<Artist> artists = artistDAO.getAllArtists();
 		session.closeCurrentSession();
@@ -54,7 +53,7 @@ public class ArtistController {
 			res.status(400);
 			return null;
 		}
-		session= SessionManagerHibernate.getInstance();
+		session= SessionManager.getInstance();
 		session.openCurrentSession();
 		List<Artist> artists = artistDAO.findByName(req.params(":name"));
 		session.closeCurrentSession();
@@ -74,7 +73,7 @@ public class ArtistController {
 			res.status(400);
 			return null;
 		}
-		session= SessionManagerHibernate.getInstance();
+		session= SessionManager.getInstance();
 		session.openCurrentSession();
 		List<Artist> artists = artistDAO.findBySurname(req.params(":surname"));
 		session.closeCurrentSession();
@@ -94,7 +93,7 @@ public class ArtistController {
 			res.status(400);
 			return null;
 		}
-		session= SessionManagerHibernate.getInstance();
+		session= SessionManager.getInstance();
 		session.openCurrentSession();
 		List<Artist> artists = artistDAO.findByNickname(req.params(":nickname"));
 		session.closeCurrentSession();
@@ -114,7 +113,7 @@ public class ArtistController {
 			res.status(400);
 			return "Request invalid";
 		}
-		session= SessionManagerHibernate.getInstance();
+		session= SessionManager.getInstance();
 		session.openCurrentSessionwithTransaction();
 		boolean status = artistDAO.createArtist(req.queryParams("name"),req.queryParams("surname"),req.queryParams("nickname"));
 		session.closeCurrentSessionwithTransaction();

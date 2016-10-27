@@ -6,15 +6,10 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.AlbumDAO;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 /**
  * This class implements the AlbumDAO interface,
  * and contains the methods necessary 
@@ -24,10 +19,10 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
  */
 public class AlbumDaoImpl implements AlbumDAO{
 	/**
-	 * currentSession represents a Session.
+	 * SessionManager.getInstance().getCurrentSession() represents a Session.
 	 */
-	private Session currentSession;
-	/**
+	private SessionManager SessionManager;
+	/*
 	 * currentTransaction represents a Session with Transaction.
 	 */
 	private Transaction currentTransaction;
@@ -40,7 +35,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 	public Album findById(String id){
 		if((id!=null)&&(id!="")){
 			Album a = new Album();
-			a = currentSession.find(Album.class, id);
+			a = SessionManager.getInstance().getCurrentSession().find(Album.class, id);
 			return a;
 		}else{
 			return null;
@@ -52,7 +47,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 	 */
 	public List<Album> getAllAlbums(){
 		List<Album> l = new LinkedList<Album>();
-		l.addAll(currentSession.createQuery("from Album", Album.class).list());
+		l.addAll(SessionManager.getInstance().getCurrentSession().createQuery("from Album", Album.class).list());
 		return l;
 	}	
 	
@@ -63,7 +58,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 	 */
 	public List<Album> findByName(String name){
 		List<Album> byNameList = new LinkedList<Album>();
-		Query<Album> query = currentSession.createQuery("from Album where title = :name ");
+		Query<Album> query = SessionManager.getInstance().getCurrentSession().createQuery("from Album where title = :name ");
 		query.setParameter("name", name);
 		byNameList.addAll(query.list());
 		
@@ -78,7 +73,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 	public List<Album> findByReleaseDate(Date releaseDate){
 		List<Album> byReleaseDateList = new LinkedList<Album>();
 		if (releaseDate!=null){
-			Query<Album> query = currentSession.createQuery("from Album where releaseDate =:date ");
+			Query<Album> query = SessionManager.getInstance().getCurrentSession().createQuery("from Album where releaseDate =:date ");
 			query.setParameter("date", releaseDate);
 			byReleaseDateList.addAll(query.list());
 		}		
@@ -102,7 +97,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 				}
 			}
 			Album album = new Album(title,releaseDate);
-			currentSession.save(album);
+			SessionManager.getInstance().getCurrentSession().save(album);
 			isCreated=true;
 		}else if(releaseDate!=null){
 			//case title=(?) and releaseDate= some
@@ -113,7 +108,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 				}
 			}
 			Album album = new Album(title,releaseDate);
-			currentSession.save(album);
+			SessionManager.getInstance().getCurrentSession().save(album);
 			isCreated=true;
 		}		
 		return isCreated;

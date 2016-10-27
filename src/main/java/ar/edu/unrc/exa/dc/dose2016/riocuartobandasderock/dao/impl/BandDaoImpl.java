@@ -3,23 +3,15 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
+
 import org.hibernate.query.Query;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandDAO;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 
 public class BandDaoImpl implements BandDAO {
 
-	private Session currentSession;
-
-	private Transaction currentTransaction;
+	private SessionManager SessionManager;
 
 	
 	/**
@@ -31,7 +23,7 @@ public class BandDaoImpl implements BandDAO {
 	public List<Band> getAllBands() {
 		List<Band> bandList = new LinkedList<>();
 		Query<Band> query;
-		query = currentSession.createQuery("from Band", Band.class);
+		query = SessionManager.getInstance().getCurrentSession().createQuery("from Band", Band.class);
 		bandList.addAll(query.getResultList());
 		return bandList;
 	}
@@ -45,7 +37,7 @@ public class BandDaoImpl implements BandDAO {
 	@Override
 	public Band getBand(String id){
 		if (id != null && id != "") {
-			Band band = currentSession.find(Band.class, id);
+			Band band = SessionManager.getInstance().getCurrentSession().find(Band.class, id);
 			return band;
 		} else {
 			return null;
@@ -62,7 +54,7 @@ public class BandDaoImpl implements BandDAO {
 	@Override
 	public boolean updateBand(Band band){
 			if (band != null) {
-				currentSession.update(band);
+				SessionManager.getInstance().getCurrentSession().update(band);
 				return true;
 			} else {
 				return false;
@@ -80,7 +72,7 @@ public class BandDaoImpl implements BandDAO {
 	public boolean deleteBand(String id){
 		Band band = this.getBand(id);
 		if (band != null) {
-			currentSession.delete(band);
+			SessionManager.getInstance().getCurrentSession().delete(band);
 			return true;
 		} else {
 			return false;
@@ -111,7 +103,7 @@ public class BandDaoImpl implements BandDAO {
 				result = false;
 			} else { 
 				Band band = new Band(name, genre);
-				currentSession.save(band);
+				SessionManager.getInstance().getCurrentSession().save(band);
 				result = true;
 			}
 			return result;
@@ -137,7 +129,7 @@ public class BandDaoImpl implements BandDAO {
 		} else {
 			
 			String hq1 = "FROM Band A WHERE A.name = :paramName and A.genre = :paramGenre";
-			Query<Band> query = currentSession.createQuery(hq1, Band.class);
+			Query<Band> query = SessionManager.getInstance().getCurrentSession().createQuery(hq1, Band.class);
 			query.setParameter("paramName", name);
 			query.setParameter("paramGenre", genre);
 			List<Band> bandList = query.getResultList();
@@ -158,7 +150,7 @@ public class BandDaoImpl implements BandDAO {
 		if(name == null || name.equals("")){
 				throw new IllegalArgumentException("the 'name' param for search a band can not be null or empty.");
 			} else {
-				Query<Band> query = currentSession.createQuery("from Band where name=:n", Band.class);
+				Query<Band> query = SessionManager.getInstance().getCurrentSession().createQuery("from Band where name=:n", Band.class);
 				query.setParameter("n", name);
 				return query.getResultList();
 			}

@@ -1,9 +1,9 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
 
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.SessionManager;
+
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.SongDAO;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SessionManagerHibernate;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SessionManager;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SongDaoImpl;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 
@@ -87,7 +87,7 @@ public class SongController {
     		res.status(400);
     		return null;
     	}
-    	session= SessionManagerHibernate.getInstance();   	
+    	session= SessionManager.getInstance();   	
     	session.openCurrentSession();
     	List<Song> songs = songDao.findByName(songName);
     	session.closeCurrentSession();
@@ -109,7 +109,7 @@ public class SongController {
     		res.status(400);
     		return null;
     	}
-    	session= SessionManagerHibernate.getInstance();
+    	session= SessionManager.getInstance();
     	session.openCurrentSession();
     	List<Song> songs = songDao.findByDuration(Integer.parseInt(duration));
     	session.closeCurrentSession();
@@ -135,7 +135,7 @@ public class SongController {
 			res.body("Invalid content of parameters");
 			return res.body();
 		}
-    	session= SessionManagerHibernate.getInstance();
+    	session= SessionManager.getInstance();
     	session.openCurrentSession();
     	boolean result = songDao.addSong(songName, Integer.parseInt(dur));
     	session.closeCurrentSession();

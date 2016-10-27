@@ -14,7 +14,7 @@ import org.junit.Test;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.ArtistDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.SessionManager;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.ArtistDaoImpl;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SessionManagerHibernate;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SessionManager;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 
 
@@ -25,7 +25,7 @@ public class ArtistDAOTest {
 	@Before
 	public void setUp(){
 		artistDAO = new ArtistDaoImpl();
-		session = SessionManagerHibernate.getInstance();
+		session = SessionManager.getInstance();
 	}
 	
 	/*

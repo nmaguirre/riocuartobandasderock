@@ -6,14 +6,13 @@ import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.SessionManager;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 
-public class SessionManagerHibernate implements SessionManager{
+public class SessionManager{
 
 	private Session currentSession;
 
@@ -22,31 +21,28 @@ public class SessionManagerHibernate implements SessionManager{
 	/**
 	 * Empty, private default constructor.
 	 */
-	private SessionManagerHibernate() { }
+	private SessionManager() { }
 	
 	/**
 	 * Singleton, on demand instance of ServerOptions.
 	 */
-	private static SessionManagerHibernate instance = null;
-	@Override
+	private static SessionManager instance = null;
+	
 	public Session openCurrentSession() {
 		currentSession = getSessionFactory().openSession();
 		return currentSession;
 	}
 
-	@Override
 	public Session openCurrentSessionwithTransaction() {
 		currentSession = getSessionFactory().openSession();
 		currentTransaction = currentSession.beginTransaction();
 		return currentSession;
 	}
 
-	@Override
 	public void closeCurrentSession() {
 		currentSession.close();
 	}
 
-	@Override
 	public void closeCurrentSessionwithTransaction() {
 		currentTransaction.commit();
 		currentSession.close();
@@ -77,22 +73,18 @@ public class SessionManagerHibernate implements SessionManager{
 		return sf;
 	}
 
-	@Override
 	public Session getCurrentSession() {
 		return currentSession;
 	}
 
-	@Override
 	public void setCurrentSession(Session currentSession) {
 		this.currentSession = currentSession;
 	}
 
-	@Override
 	public Transaction getCurrentTransaction() {
 		return currentTransaction;
 	}
 
-	@Override
 	public void setCurrentTransaction(Transaction currentTransaction) {
 		this.currentTransaction = currentTransaction;
 	}
@@ -104,8 +96,8 @@ public class SessionManagerHibernate implements SessionManager{
 	 * See the Singleton Pattern for reference.
 	 * @return the instance of ServerOptions.
 	 */
-	public static SessionManagerHibernate getInstance() {
-		if (instance==null) instance = new SessionManagerHibernate();
+	public static SessionManager getInstance() {
+		if (instance==null) instance = new SessionManager();
 		return instance;
 	}
 	

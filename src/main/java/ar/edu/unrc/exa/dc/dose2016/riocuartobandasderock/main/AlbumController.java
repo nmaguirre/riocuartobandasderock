@@ -7,9 +7,8 @@ import java.util.List;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.AlbumDAO;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.SessionManager;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.AlbumDaoImpl;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SessionManagerHibernate;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SessionManager;
 import spark.Request;
 import spark.Response;
 
@@ -42,7 +41,7 @@ public class AlbumController {
         }
         DateFormat df = DateFormat.getDateInstance();
         try {
-        	session= SessionManagerHibernate.getInstance();
+        	session= SessionManager.getInstance();
         	session.openCurrentSessionwithTransaction();
             //Date should be in the next pattern: dd/mm/yyyy
             Date release_date = df.parse(req.queryParams("release_date"));
@@ -74,7 +73,7 @@ public class AlbumController {
             res.body("Title can't be null");
             return null;
         }
-        session= SessionManagerHibernate.getInstance();
+        session= SessionManager.getInstance();
         session.openCurrentSession();
         List<Album> albums = dao.findByName(req.queryParams("title"));
         session.closeCurrentSession();
@@ -92,7 +91,7 @@ public class AlbumController {
         DateFormat df = DateFormat.getInstance();
         try {
             Date release_date = df.parse(req.queryParams("release_date"));
-            session= SessionManagerHibernate.getInstance();
+            session= SessionManager.getInstance();
             session.openCurrentSession();
             List<Album> albums = dao.findByReleaseDate(release_date);
             session.closeCurrentSession();

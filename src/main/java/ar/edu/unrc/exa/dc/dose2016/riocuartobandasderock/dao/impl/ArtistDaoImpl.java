@@ -3,15 +3,9 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.ArtistDAO;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 
 /**
@@ -23,11 +17,7 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
  */
 public class ArtistDaoImpl implements ArtistDAO {
 
-	private Session currentSession;
-
-	private Transaction currentTransaction;
-
-
+	
 	/**
 	 * Get all artists from the database
 	 * 
@@ -37,7 +27,7 @@ public class ArtistDaoImpl implements ArtistDAO {
 	public List<Artist> getAllArtists() {
 		List<Artist> artistList = new LinkedList<>();
 		Query<Artist> query;
-		query = currentSession.createQuery("from Artist", Artist.class);
+		query = SessionManager.getInstance().getCurrentSession().createQuery("from Artist", Artist.class);
 		artistList.addAll(query.getResultList());
 		return artistList;
 	}
@@ -53,7 +43,7 @@ public class ArtistDaoImpl implements ArtistDAO {
 		if(surname == null || surname.equals("")){
 			throw new IllegalArgumentException("the 'surname' param for search an artist can not be null or empty.");
 		} else {
-			Query<Artist> query = currentSession.createQuery("from Artist where surname=:n", Artist.class);
+			Query<Artist> query = SessionManager.getInstance().getCurrentSession().createQuery("from Artist where surname=:n", Artist.class);
 			query.setParameter("n", surname);
 			return query.getResultList();
 		}
@@ -70,7 +60,7 @@ public class ArtistDaoImpl implements ArtistDAO {
 		if(nickname == null || nickname.equals("")){
 			throw new IllegalArgumentException("the 'nickname' param for search an artist can not be null or empty.");
 		} else {
-			Query<Artist> query = currentSession.createQuery("from Artist where nickname=:n", Artist.class);
+			Query<Artist> query = SessionManager.getInstance().getCurrentSession().createQuery("from Artist where nickname=:n", Artist.class);
 			query.setParameter("n", nickname);
 			return query.getResultList();
 		}
@@ -87,7 +77,7 @@ public class ArtistDaoImpl implements ArtistDAO {
 		if(name == null || name.equals("")){
 			throw new IllegalArgumentException("the 'name' param for search an artist can not be null or empty.");
 		} else {
-			Query<Artist> query = currentSession.createQuery("from Artist where name=:n", Artist.class);
+			Query<Artist> query = SessionManager.getInstance().getCurrentSession().createQuery("from Artist where name=:n", Artist.class);
 			query.setParameter("n", name);
 			return query.getResultList();
 		}
@@ -115,7 +105,7 @@ public class ArtistDaoImpl implements ArtistDAO {
 		} else {
 			//look for the artist in the database
 			String hq1 = "FROM Artist A WHERE A.name = :paramName and A.nickname = :paramNickname and A.surname = :paramSurname";
-			Query<Artist> query = currentSession.createQuery(hq1, Artist.class);
+			Query<Artist> query = SessionManager.getInstance().getCurrentSession().createQuery(hq1, Artist.class);
 			query.setParameter("paramName", name);
 			query.setParameter("paramNickname", nickname);
 			query.setParameter("paramSurname", surname);
@@ -154,7 +144,7 @@ public class ArtistDaoImpl implements ArtistDAO {
 				result = false;
 			} else { //if not exist, register the new artist in database
 				Artist artist = new Artist(name, surname, nickname);
-				currentSession.save(artist);
+				SessionManager.getInstance().getCurrentSession().save(artist);
 				result = true;
 			}
 			return result;

@@ -4,7 +4,6 @@ import java.util.List;
 
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandDAO;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.SessionManager;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.*;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 import spark.Request;
@@ -33,7 +32,7 @@ public class BandController {
 	 * @return A list of all bands
 	 */
 	public List<Band> getBands(Request req ,Response res){
-		session= SessionManagerHibernate.getInstance();
+		session= SessionManager.getInstance();
 		session.openCurrentSession();
 		List<Band> bands= bandDAO.getAllBands();
 		session.closeCurrentSession();
@@ -53,7 +52,7 @@ public class BandController {
 			res.status(400);
 			return null;
 		}
-		session= SessionManagerHibernate.getInstance();
+		session= SessionManager.getInstance();
 		session.openCurrentSession();
 		List<Band> bands = bandDAO.findBandByName(req.params(":name"));
 		session.closeCurrentSession();
@@ -72,7 +71,7 @@ public class BandController {
 		if (req.params(":genre")==""){
 			res.status(400);
 		}
-		session= SessionManagerHibernate.getInstance();
+		session= SessionManager.getInstance();
 		session.openCurrentSession();
 		List<Band> bands = bandDAO.findBandByName(req.params(":genre"));
 		session.closeCurrentSession();
@@ -92,7 +91,7 @@ public class BandController {
 			res.status(400);
 			return "Request invalid";
 		}
-		session= SessionManagerHibernate.getInstance();
+		session= SessionManager.getInstance();
 		session.openCurrentSessionwithTransaction();
 		boolean status = bandDAO.createBand(req.queryParams("name"),req.queryParams("genre"));
 		session.closeCurrentSessionwithTransaction();
@@ -146,7 +145,7 @@ public class BandController {
 			res.status();
 			return "Request invalid";
 		}
-		session= SessionManagerHibernate.getInstance();
+		session= SessionManager.getInstance();
 		session.openCurrentSessionwithTransaction();
 	 	boolean status = bandDAO.deleteBand(req.params(":id"));
 	 	session.closeCurrentSessionwithTransaction();
