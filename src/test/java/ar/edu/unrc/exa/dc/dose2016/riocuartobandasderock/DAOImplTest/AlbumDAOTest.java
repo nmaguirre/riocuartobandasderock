@@ -13,7 +13,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.AlbumDAO;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.SessionManager;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.AlbumDaoImpl;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SessionManager;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
@@ -35,12 +34,26 @@ public class AlbumDAOTest {
 		
 		session.openCurrentSessionwithTransaction();
 		
+			
 		boolean a = albumDao.createAlbum("AlbumTest1",new Date(2010,04,10));
 		
 		session.closeCurrentSessionwithTransaction();
 		
 		assertTrue(a);
 		
+	}
+	@Test
+	public void createAlbumIfExistInDBwithOtherSession(){
+		session.openCurrentSessionwithTransaction();
+		boolean a = albumDao.createAlbum("AlbumTest2",new Date(2010,04,10));
+		session.closeCurrentSessionwithTransaction();
+		
+		session.openCurrentSessionwithTransaction();
+		boolean b = albumDao.createAlbum("AlbumTest2",new Date(2010,04,10));
+		session.closeCurrentSessionwithTransaction();
+	
+		
+		assertTrue(!b);
 	}
 	
 	@Test
