@@ -29,6 +29,12 @@
 ##Album
 - Leader : Joaquin Heredia
 - minions :
+  - Mauricio Delle Vedove
+  - Matias Rondeau
+  - Alan Gonzalez
+  - Rocha Luciano
+  - Gabriela Bertorello
+  - Mariano Ontivero
 
 **Session Manager : Daniel Sanchez**
 **Admin login : Leandro Buttignol**
