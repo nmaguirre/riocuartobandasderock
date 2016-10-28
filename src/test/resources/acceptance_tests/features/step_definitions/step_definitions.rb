@@ -189,35 +189,12 @@ And(/^the entry should have name "([^"]*)" and genre "([^"]*)"$/) do |name, genr
 end
 
 Given(/^that the bands' database have (\d+) entries$/) do |cant|
-    name = "Band 0"
-    genre = 'Rock'
-    response = RestClient.post 'http://localhost:4567/bands/', { :name => name, :genre => genre }, :content_type => 'text/plain'
-    expect(response.code).to eq(201)
-    name = "Band 1"
-    genre = 'Rock'
-    response = RestClient.post 'http://localhost:4567/bands/', { :name => name, :genre => genre }, :content_type => 'text/plain'
-    expect(response.code).to eq(201)
-    name = "Band 2"
-    genre = 'Rock'
-    response = RestClient.post 'http://localhost:4567/bands/', { :name => name, :genre => genre }, :content_type => 'text/plain'
-    expect(response.code).to eq(201)
-    name = "Band 3"
-    genre = 'Rock'
-    response = RestClient.post 'http://localhost:4567/bands/', { :name => name, :genre => genre }, :content_type => 'text/plain'
-    expect(response.code).to eq(201)
-    name = "Carajo"
-    genre = 'New Metal'
-    response = RestClient.post 'http://localhost:4567/bands/', { :name => name, :genre => genre }, :content_type => 'text/plain'
-    expect(response.code).to eq(201)
-
-#    counter = 0
-#    while counter < cant do
-#        name = "Band #{counter}"
-#        genre = "Rock"
-#        response = RestClient.post 'http://localhost:4567/bands/', { :name => name, :genre => genre }, :content_type => 'text/plain'
-#        expect(response.code).to eq(201)
-#        counter +=1
-#    end
+    1..cant.to_i.times do |n|
+        name = "Band #{n}"
+        genre = "Nu Metal"
+        response = RestClient.post 'http://localhost:4567/bands/', { :name => name, :genre => genre }, :content_type => 'text/plain'
+        expect(response.code).to eq(201)
+    end
     result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from bandDB;\" -t`
     result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
     expect("5").to eq(result)

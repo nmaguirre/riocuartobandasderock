@@ -19,8 +19,8 @@ Feature: The application responds appropriately to all events that correspond to
 
     Scenario: Add a band that is alredy in the bands' database 
     	Given that the bands' database have 5 entries
-        And the bands' database have a band with name "Carajo" and genre "Nu Metal"
-    	When I add a band with name "Carajo" and genre "Nu Metal" 
+        And the bands' database have a band with name "Band1" and genre "Nu Metal"
+    	When I add a band with name "Band1" and genre "Nu Metal" 
     	Then the bands' database should have 5 entries
 
     Scenario: Add a band that have a same name but difrent genre that other in the bands' database
