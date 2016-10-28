@@ -1,7 +1,7 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
-import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -15,7 +15,7 @@ import spark.Response;
 public class AlbumController {
     protected static AlbumController unique_instance = null;
     protected AlbumDAO dao;
-    private SessionManager session;
+    private SessionManager sessionManager = SessionManager.getInstance();
 
     public AlbumController(AlbumDaoImpl albumDaoImpl) {
         dao = albumDaoImpl;
@@ -39,14 +39,13 @@ public class AlbumController {
             res.body("Both params can't be null");
             return res.body();
         }
-        DateFormat df = DateFormat.getDateInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
         try {
-        	session= SessionManager.getInstance();
-        	session.openCurrentSessionwithTransaction();
-            //Date should be in the next pattern: dd/mm/yyyy
-            Date release_date = df.parse(req.queryParams("release_date"));
+            //Date should be in the next pattern: yyyy-mm-dd
+            Date release_date = sdf.parse(req.queryParams("release_date"));
+        	sessionManager.openCurrentSessionwithTransaction();
             boolean result = dao.createAlbum(req.queryParams("title"), release_date);
-            session.closeCurrentSessionwithTransaction();
+            sessionManager.closeCurrentSessionwithTransaction();
             int http_status = result ? 201 : 409;
             res.status(http_status);
             if (!result) res.body("Duplicate album"); //If the result of the creation was false, it means that there is a duplicate
@@ -73,10 +72,9 @@ public class AlbumController {
             res.body("Title can't be null");
             return null;
         }
-        session= SessionManager.getInstance();
-        session.openCurrentSession();
+        sessionManager.openCurrentSession();
         List<Album> albums = dao.findByName(req.queryParams("title"));
-        session.closeCurrentSession();
+        sessionManager.closeCurrentSession();
         int http_status = albums.size() > 0 ? 200 : 204;
         res.status(http_status);
         return albums;
@@ -88,13 +86,12 @@ public class AlbumController {
             res.body("Release date can't be null");
             return null;
         }
-        DateFormat df = DateFormat.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
         try {
             Date release_date = df.parse(req.queryParams("release_date"));
-            session= SessionManager.getInstance();
-            session.openCurrentSession();
+            sessionManager.openCurrentSession();
             List<Album> albums = dao.findByReleaseDate(release_date);
-            session.closeCurrentSession();
+            sessionManager.closeCurrentSession();
             int http_status = albums.size() > 0 ? 200 : 204;
             res.status(http_status);
             return albums;
