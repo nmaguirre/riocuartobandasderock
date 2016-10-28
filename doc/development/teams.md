@@ -4,16 +4,16 @@
 - Leader : Daniel Sanchez
 - minions :
   - Fernando Bentolila
-  - Daniel Ortolano
+  - Daniel Jorge Ortolano
   - Federico Mollea
   - Lucas Palacios
   - Emiliano Gutlein
 
 ##Artist
-- Leader : Adrián Galfioni
+- Leader : Elisa Boselli
 - minions :
   - Leandro Etcharren.
-  - Elisa Boselli.
+  - Adrián Galfioni
   - Diana Gonzalez.
   - Ezequiel Zenzich
   - Fernando Muñoz
@@ -29,6 +29,12 @@
 ##Album
 - Leader : Joaquin Heredia
 - minions :
+  - Mauricio Delle Vedove
+  - Matias Rondeau
+  - Alan Gonzalez
+  - Rocha Luciano
+  - Gabriela Bertorello
+  - Mariano Ontivero
 
 **Session Manager : Daniel Sanchez**
 **Admin login : Leandro Buttignol**

@@ -5,8 +5,6 @@ import java.util.List;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandMemberDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Role;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.BandMember;
 
 public class BandMemberDAOImpl implements BandMemberDAO{

@@ -2,35 +2,54 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
 import java.util.List;
 
+
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandDAO;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.*;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 import spark.Request;
 import spark.Response;
 
-public class BandController {
-	/***
-	 * This class implements the communication layer between the persistence and frontend.
-	 */
+/***
+ *
+ * @author DOSE
+ * This class implements the communication layer between the persistence and frontend
+ * following the singleton patter.
+ */
 
+public class BandController {
+	/*
+	 * check that have only one instance of class
+	 */
+	private static BandController instance = null;
 	private BandDAO bandDAO;
+	private SessionManager session;
+
 	/***
 	 * Constructor of class BandController
-	 * @param bandPersistence
+	 * Implement the singleton pattern.
 	 */
-	public BandController(BandDAO bandPersistence){
-		this.bandDAO = bandPersistence;
-	}
+	public static BandController getInstance() {
+      if(instance == null) {
+         instance = new BandController();
+      }
+      return instance;
+  }
+
+  private BandController(){
+  	bandDAO = new BandDaoImpl();
+  }
 
 	/***
-	 * This method returns all bands 
+	 * This method returns all bands
 	 * @param req
 	 * @param res
 	 * @return A list of all bands
 	 */
 	public List<Band> getBands(Request req ,Response res){
-		bandDAO.openCurrentSession();
+		session= SessionManager.getInstance();
+		session.openCurrentSession();
 		List<Band> bands= bandDAO.getAllBands();
-		bandDAO.closeCurrentSession();
+		session.closeCurrentSession();
 		int status = (bands.size()>0)? 200:204;
 		res.status(status);
 		return bands;
@@ -40,16 +59,17 @@ public class BandController {
 	 * This method takes a band name, and returns a list of bands with this name
 	 * @param req
 	 * @param res
-	 * @return a list of bands with the name of the request 
+	 * @return a list of bands with the name of the request
 	 */
 	public List<Band> getBandByName(Request req,Response res){
 		if (req.params(":name")==""){
 			res.status(400);
 			return null;
 		}
-		bandDAO.openCurrentSession();
+		session= SessionManager.getInstance();
+		session.openCurrentSession();
 		List<Band> bands = bandDAO.findBandByName(req.params(":name"));
-		bandDAO.closeCurrentSession();
+		session.closeCurrentSession();
 		int status = (bands.size()!=0)? 200:204;
 		res.status(status);
 		return bands;
@@ -65,14 +85,15 @@ public class BandController {
 		if (req.params(":genre")==""){
 			res.status(400);
 		}
-		bandDAO.openCurrentSession();
+		session= SessionManager.getInstance();
+		session.openCurrentSession();
 		List<Band> bands = bandDAO.findBandByName(req.params(":genre"));
-		bandDAO.closeCurrentSession();
+		session.closeCurrentSession();
 		int status = (bands.size()!=0)? 200:204;
 		res.status(status);
 		return bands;
 	}
-	
+
 	/***
 	 * This method takes the data of a band from the frontend, and creates a band in database
 	 * @param req
@@ -84,9 +105,10 @@ public class BandController {
 			res.status(400);
 			return "Request invalid";
 		}
-		bandDAO.openCurrentSessionwithTransaction();
+		session= SessionManager.getInstance();
+		session.openCurrentSessionwithTransaction();
 		boolean status = bandDAO.createBand(req.queryParams("name"),req.queryParams("genre"));
-		bandDAO.closeCurrentSessionwithTransaction();
+		session.closeCurrentSessionwithTransaction();
 		if (status){
 			res.status(201);
 			return "Success";
@@ -137,9 +159,10 @@ public class BandController {
 			res.status();
 			return "Request invalid";
 		}
-		bandDAO.openCurrentSessionwithTransaction();
+		session= SessionManager.getInstance();
+		session.openCurrentSessionwithTransaction();
 	 	boolean status = bandDAO.deleteBand(req.params(":id"));
-		bandDAO.closeCurrentSessionwithTransaction();
+	 	session.closeCurrentSessionwithTransaction();
 		if (status){
 			res.status(200);
 			return "Success";
