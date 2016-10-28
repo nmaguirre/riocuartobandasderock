@@ -2,8 +2,9 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
 import java.util.List;
 
+
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandDAO;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandDaoImpl;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.*;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 import spark.Request;
 import spark.Response;
@@ -21,8 +22,9 @@ public class BandController {
 	 */
 	private static BandController instance = null;
 	private BandDAO bandDAO;
+	private SessionManager session;
 
-	/*
+	/***
 	 * Constructor of class BandController
 	 * Implement the singleton pattern.
 	 */
@@ -44,9 +46,10 @@ public class BandController {
 	 * @return A list of all bands
 	 */
 	public List<Band> getBands(Request req ,Response res){
-		bandDAO.openCurrentSession();
+		session= SessionManager.getInstance();
+		session.openCurrentSession();
 		List<Band> bands= bandDAO.getAllBands();
-		bandDAO.closeCurrentSession();
+		session.closeCurrentSession();
 		int status = (bands.size()>0)? 200:204;
 		res.status(status);
 		return bands;
@@ -63,9 +66,10 @@ public class BandController {
 			res.status(400);
 			return null;
 		}
-		bandDAO.openCurrentSession();
+		session= SessionManager.getInstance();
+		session.openCurrentSession();
 		List<Band> bands = bandDAO.findBandByName(req.params(":name"));
-		bandDAO.closeCurrentSession();
+		session.closeCurrentSession();
 		int status = (bands.size()!=0)? 200:204;
 		res.status(status);
 		return bands;
@@ -81,9 +85,10 @@ public class BandController {
 		if (req.params(":genre")==""){
 			res.status(400);
 		}
-		bandDAO.openCurrentSession();
+		session= SessionManager.getInstance();
+		session.openCurrentSession();
 		List<Band> bands = bandDAO.findBandByName(req.params(":genre"));
-		bandDAO.closeCurrentSession();
+		session.closeCurrentSession();
 		int status = (bands.size()!=0)? 200:204;
 		res.status(status);
 		return bands;
@@ -100,9 +105,10 @@ public class BandController {
 			res.status(400);
 			return "Request invalid";
 		}
-		bandDAO.openCurrentSessionwithTransaction();
+		session= SessionManager.getInstance();
+		session.openCurrentSessionwithTransaction();
 		boolean status = bandDAO.createBand(req.queryParams("name"),req.queryParams("genre"));
-		bandDAO.closeCurrentSessionwithTransaction();
+		session.closeCurrentSessionwithTransaction();
 		if (status){
 			res.status(201);
 			return "Success";
@@ -153,9 +159,10 @@ public class BandController {
 			res.status();
 			return "Request invalid";
 		}
-		bandDAO.openCurrentSessionwithTransaction();
+		session= SessionManager.getInstance();
+		session.openCurrentSessionwithTransaction();
 	 	boolean status = bandDAO.deleteBand(req.params(":id"));
-		bandDAO.closeCurrentSessionwithTransaction();
+	 	session.closeCurrentSessionwithTransaction();
 		if (status){
 			res.status(200);
 			return "Success";
