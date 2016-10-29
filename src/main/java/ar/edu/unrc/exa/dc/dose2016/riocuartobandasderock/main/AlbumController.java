@@ -88,7 +88,7 @@ public class AlbumController {
         }
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
         try {
-            Date release_date = df.parse(req.queryParams("release_date"));
+            Date release_date = sdf.parse(req.queryParams("release_date"));
             sessionManager.openCurrentSession();
             List<Album> albums = dao.findByReleaseDate(release_date);
             sessionManager.closeCurrentSession();

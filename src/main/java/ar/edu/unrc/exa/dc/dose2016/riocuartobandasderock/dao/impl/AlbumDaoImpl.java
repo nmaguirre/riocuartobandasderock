@@ -68,7 +68,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 	
 	/**
 	 * @param releaseDate
-	 * @return Albums list found by release date.
+	 * @return List Albums list found by release date.
 	 */
 	public List<Album> findByReleaseDate(Date releaseDate){
 		List<Album> byReleaseDateList = new LinkedList<Album>();
@@ -81,7 +81,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 	}
 	
 	/**
-	 * @param album
+	 * @param title, releaseDate
 	 * @return true iff album was inserted into data base correctly
 	 */
 	public boolean createAlbum(String title, Date releaseDate){
@@ -92,7 +92,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 			//case title=some and releaseDate=(?)
 			List<Album> lt = this.findByName(title);
 			for(int i=0;i<lt.size();i++){
-				if(lt.get(i).getReleaseDate().equals(releaseDate)){
+				if(lt.get(i).getReleaseDate().compareTo(releaseDate)==0){
 					return false;
 				}
 			}
