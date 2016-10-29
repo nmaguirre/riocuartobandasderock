@@ -9,10 +9,6 @@ import org.junit.rules.ExpectedException;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.BandMember;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Role;
-
-import java.util.LinkedList;
-import java.util.List;
 
 public class BandMemberTest {
 	
@@ -30,11 +26,17 @@ public class BandMemberTest {
 	public ExpectedException expected = ExpectedException.none();
 	
 	@Test
-	public void constructorTest(){
+	public void constructorTestArtist(){
 		band1.setName("Miranda");
 		BandMember bm = new BandMember(artist1ID,band1ID);
 		assertTrue(artist1ID.equals(bm.getArtistID()));
-		assertTrue(band1ID.equals(bm.getBandID()));
+	}
+	
+	@Test
+	public void constructorTestBand(){
+		band1.setName("Miranda");
+		BandMember bm = new BandMember(artist1ID,band1ID);
+		assertEquals(band1ID, bm.getBandID());
 	}
 
 	@Test
@@ -62,7 +64,7 @@ public class BandMemberTest {
 		BandMember bm = new BandMember(artist1ID,band1ID);
 		band2.setName("TS's Band");
 		bm.setBandID(band2ID);
-		assertTrue(band2ID.equals(bm.getBandID()));
+		assertEquals(band2ID, bm.getBandID());
 	}
 	
 	/**
