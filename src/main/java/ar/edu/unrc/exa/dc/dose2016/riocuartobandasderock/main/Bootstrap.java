@@ -71,7 +71,7 @@ public class Bootstrap {
 
         
         artistController = new ArtistController();
-        bands = new BandController(new BandDaoImpl());
+        bands = BandController.getInstance();
         songController = new SongController();
         port(Integer.parseInt(ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().getAppPort()));
 

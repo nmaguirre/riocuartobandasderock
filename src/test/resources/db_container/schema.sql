@@ -12,9 +12,11 @@ CREATE TABLE artistDB (
 );
 
 CREATE TABLE SongDB (
-    idSong int primary key, 
+    idSong int primary key,
+    id text not null,
     name text not null, 
-    duration int
+    duration int,
+    CONSTRAINT fkidAlbum foreign key (id) references Album
 );
 
 CREATE TABLE BandDB (

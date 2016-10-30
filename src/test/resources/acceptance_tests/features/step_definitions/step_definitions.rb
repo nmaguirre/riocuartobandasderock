@@ -53,6 +53,35 @@ Given(/^that the artist's database have one artist with name "([^"]*)" and surna
   expect(response.code).to eq(201)
 end
 
+
+Given(/^that the database contains an album named "([^"]*)" and release date "([^"]*)"$/) do |title,release_date|
+  response = RestClient.post 'http://localhost:4567/albums/', { :title => title, :release_date => release_date }, :content_type => 'text/plain'
+  expect(response.code).to eq(201)
+end
+
+When(/^I try to add an album named "([^"]*)" and release date "([^"]*)"$/) do |title,release_date|
+  begin
+  response = RestClient.post 'http://localhost:4567/albums/', { :title => title, :release_date => release_date}, :content_type => 'text/plain'
+  expect(response.code).to eq(201) 
+  rescue RestClient::Conflict => e
+  end
+end
+
+Then(/^the system informs that album named "([^"]*)" and release date "([^"]*)" already exists in the database$/) do |title,release_date|
+  resultingTitle = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select title from Album;\" -t`
+  resultingTitle = resultingTitle.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+  expect(resultingTitle == title)
+  resultingReleaseDate = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select releaseDate from Album;\" -t`
+  resultingReleaseDate = resultingReleaseDate.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+  expect(resultingReleaseDate == release_date)
+end
+
+And(/^the album's database does not change and maintain (\d+) entry$/) do |entry|
+  queryResult = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select count(*) from Album;\" -t`
+  queryResult = queryResult.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+  expect(queryResult == entry)
+end
+
 When(/^I add an artist with name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)"$/) do |name,surname,nickname|
   begin
   response = RestClient.post 'http://localhost:4567/artist/', { :name => name, :surname => surname, :nickname => nickname }, :content_type => 'text/plain' 
@@ -189,35 +218,12 @@ And(/^the entry should have name "([^"]*)" and genre "([^"]*)"$/) do |name, genr
 end
 
 Given(/^that the bands' database have (\d+) entries$/) do |cant|
-    name = "Band 0"
-    genre = 'Rock'
-    response = RestClient.post 'http://localhost:4567/bands/', { :name => name, :genre => genre }, :content_type => 'text/plain'
-    expect(response.code).to eq(201)
-    name = "Band 1"
-    genre = 'Rock'
-    response = RestClient.post 'http://localhost:4567/bands/', { :name => name, :genre => genre }, :content_type => 'text/plain'
-    expect(response.code).to eq(201)
-    name = "Band 2"
-    genre = 'Rock'
-    response = RestClient.post 'http://localhost:4567/bands/', { :name => name, :genre => genre }, :content_type => 'text/plain'
-    expect(response.code).to eq(201)
-    name = "Band 3"
-    genre = 'Rock'
-    response = RestClient.post 'http://localhost:4567/bands/', { :name => name, :genre => genre }, :content_type => 'text/plain'
-    expect(response.code).to eq(201)
-    name = "Carajo"
-    genre = 'New Metal'
-    response = RestClient.post 'http://localhost:4567/bands/', { :name => name, :genre => genre }, :content_type => 'text/plain'
-    expect(response.code).to eq(201)
-
-#    counter = 0
-#    while counter < cant do
-#        name = "Band #{counter}"
-#        genre = "Rock"
-#        response = RestClient.post 'http://localhost:4567/bands/', { :name => name, :genre => genre }, :content_type => 'text/plain'
-#        expect(response.code).to eq(201)
-#        counter +=1
-#    end
+    1..cant.to_i.times do |n|
+        name = "Band #{n}"
+        genre = "Nu Metal"
+        response = RestClient.post 'http://localhost:4567/bands/', { :name => name, :genre => genre }, :content_type => 'text/plain'
+        expect(response.code).to eq(201)
+    end
     result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from bandDB;\" -t`
     result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
     expect("5").to eq(result)

@@ -17,76 +17,14 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 
 public class SongDaoImpl implements SongDAO{
 	
-	private Session currentSession;
+	private SessionManager SessionManager;
 	
-	private Transaction currentTransaction;
-
-	/**
-	 * Build a session factory
-	 * 
-	 * @return SessionFactory
-	 */
-	private SessionFactory getSessionFactory() {
-		String dbHost = ServerOptions.getInstance().getDbHost();
-		String dbPort = ServerOptions.getInstance().getDbPort();
-		Configuration configuration = new Configuration().addPackage("models");
-		configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
-		configuration.setProperty("hibernate.connection.driver_class", "org.postgresql.Driver");
-		configuration.setProperty("hibernate.connection.username", "rock_db_owner");
-		configuration.setProperty("hibernate.connection.password", "rockenrio4");
-		configuration.setProperty("hibernate.connection.url", "jdbc:postgresql://"+dbHost+":"+dbPort+"/rcrockbands");
-		configuration.setProperty("connection_pool_size", "1");
-		configuration.setProperty("hibernate.hbm2ddl.auto", "update");
-		configuration.setProperty("show_sql", "false");
-		configuration.setProperty("hibernate.current_session_context_class", "thread");
-		configuration.addAnnotatedClass(Song.class);
-		StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
-				.applySettings(configuration.getProperties());
-		SessionFactory sf = configuration.buildSessionFactory(builder.build());
-		return sf;
-	}
-	@Override
-	public Session openCurrentSession() {
-		currentSession = getSessionFactory().openSession();
-		return currentSession;
-	}
-	@Override
-	public Session openCurrentSessionwithTransaction() {
-		currentSession = getSessionFactory().openSession();
-		currentTransaction = currentSession.beginTransaction();
-		return currentSession;
-	}
-	@Override
-	public void closeCurrentSession() {
-		currentSession.close();
-	}
-	@Override
-	public void closeCurrentSessionwithTransaction() {
-		currentTransaction.commit();
-		currentSession.close();
-	}
-	@Override
-	public Session getCurrentSession() {
-		return currentSession;
-	}
-	@Override
-	public void setCurrentSession(Session currentSession) {
-		this.currentSession = currentSession;
-	}
-	@Override
-	public Transaction getCurrentTransaction() {
-		return currentTransaction;
-	}
-	@Override
-	public void setCurrentTransaction(Transaction currentTransaction) {
-		this.currentTransaction = currentTransaction;
-	}
-
+	
 	@Override
 	public List<Song> getAllSongs() {
 		List<Song> songList = new LinkedList<>();
 		Query<Song> query;
-		query = currentSession.createQuery("from Song", Song.class);
+		query = SessionManager.getInstance().getCurrentSession().createQuery("from Song", Song.class);
 		songList.addAll(query.getResultList());
 		return songList;
 	}
@@ -94,7 +32,7 @@ public class SongDaoImpl implements SongDAO{
 	@Override
 	public Boolean updateSong(Song song){
 		if (song != null) {
-			currentSession.update(song);
+			SessionManager.getInstance().getCurrentSession().update(song);
 			return true;
 		} else {
 			return false;
@@ -103,7 +41,7 @@ public class SongDaoImpl implements SongDAO{
 	@Override   
 	public Boolean removeSong(Song song){
 		if (song != null) {
-			currentSession.delete(song);
+			SessionManager.getInstance().getCurrentSession().delete(song);
 			return true;
 		} else {
 			return false;
@@ -115,7 +53,7 @@ public class SongDaoImpl implements SongDAO{
 		boolean result = false;
 		if ((name != null && !name.equals("")) || duration != null){
 			Song song = new Song(name,duration);
-			currentSession.save(song);
+			SessionManager.getInstance().getCurrentSession().save(song);
 			result = true;
 		}
 		else {
@@ -127,7 +65,7 @@ public class SongDaoImpl implements SongDAO{
 	@Override
 	public Song findById(String id){
 		if (id != null && id != "") {
-			Song song = currentSession.find(Song.class, id);
+			Song song = SessionManager.getInstance().getCurrentSession().find(Song.class, id);
 			return song;
 		} else {
 			return null;
@@ -142,7 +80,7 @@ public class SongDaoImpl implements SongDAO{
 	@Override
 	public List<Song> findByName(String name){
 		if (name != null && name != "") {
-			Query<Song> query = currentSession.createQuery("from Song where name=:n", Song.class);
+			Query<Song> query = SessionManager.getInstance().getCurrentSession().createQuery("from Song where name=:n", Song.class);
 			query.setParameter("n", name);
 			return query.getResultList();
 		} else {
@@ -153,7 +91,7 @@ public class SongDaoImpl implements SongDAO{
 	@Override
 	public List<Song> findByDuration(Integer duration){
 		if (duration != null && duration.equals("")) {
-			Query<Song> query = currentSession.createQuery("from Song where duration=:n", Song.class);
+			Query<Song> query = SessionManager.getInstance().getCurrentSession().createQuery("from Song where duration=:n", Song.class);
 			query.setParameter("n", duration);
 			return query.getResultList();
 		} else {

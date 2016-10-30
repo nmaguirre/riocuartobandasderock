@@ -21,45 +21,6 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
  */
 
 public interface AlbumDAO {
-	/**
-	 * @return a Session
-	 */
-	public Session openCurrentSession();
-
-	/**
-	 * @return new Session with Transaction.
-	 */
-	public Session openCurrentSessionwithTransaction();
-	
-	/**
-	 * closeCurrentSession close a current Session.
-	 */
-	public void closeCurrentSession();
-	
-	/**
-	 * closeCurrentSessionWithTransaction close a current Session with Transaction.
-	 */
-	public void closeCurrentSessionwithTransaction();
-	
-	/**
-	 * @return a Session 
-	 */
-	public Session getCurrentSession();
-	
-	/**
-	 * setCurrentSession, set attribute currentSession.
-	 */
-	public void setCurrentSession(Session currentSession);
-	
-	/**
-	 * @return currentTransaction
-	 */
-	public Transaction getCurrentTransaction();
-	
-	/**
-	 * setCurrentTransaction, set attribute currentTransaction.
-	 */
-	public void setCurrentTransaction(Transaction currentTransaction);
 	
 	/**
 	 * @param id

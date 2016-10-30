@@ -11,10 +11,10 @@ Feature: The application responds appropriately to all events that correspond to
 	And the entry should have name "Perdido" and release date "2000-12-27" 
 
     Scenario: Add an existing album
-	Given that the database contains an album named "Perdido en un sueno" and release date "2002"
-	When I try to add an album named "Perdido en un sueno" and release date "2002" 
-	Then the system informs that the album already exists in the database
-	And the database does not change
+	Given that the database contains an album named "Perdido" and release date "27/12/2000"
+	When I try to add an album named "Perdido" and release date "27/12/2000" 
+	Then the system informs that album named "Perdido" and release date "27/12/2000" already exists in the database
+	And the album's database does not change and maintain 1 entry
 
     Scenario: Add an album with the same title but distinct release date 
 	Given that the database contains an album named "Perdido en un sueno" with a null release date
