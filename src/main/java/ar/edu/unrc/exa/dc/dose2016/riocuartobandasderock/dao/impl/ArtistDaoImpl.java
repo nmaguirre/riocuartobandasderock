@@ -151,4 +151,22 @@ public class ArtistDaoImpl implements ArtistDAO {
 		}
 	}
 
+	@Override
+	public Artist findById(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean updateArtist(String id, String name, String surname, String nickname) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean deleteArtist(String id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
