@@ -226,7 +226,7 @@ Given(/^that the bands' database have (\d+) entries$/) do |cant|
     end
     result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from bandDB;\" -t`
     result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
-    expect("5").to eq(result)
+    expect("#{cant}").to eq(result)
 end
 
 And(/^the band with name "([^"]*)" and genre "([^"]*)" is not in bands' datebase$/) do |name,genre|
@@ -250,5 +250,21 @@ Then(/^the band with name "([^"]*)" and genre "([^"]*)" should be on bands' data
     response = RestClient.get "http://localhost:4567/bands/:#{name}"
     rescue RestClient::Conflict => e
     expect(e.response).to eq(201)
+  end
+end
+
+When(/^I remove a band with name "([^"]*)" and genre "([^"]*)"$/)do |name,genre|
+  begin
+    response = RestClient.delete "http://localhost:4567/bands/:#{name}"
+  rescue RestClient::Conflict => e
+    expect(e.response).to eq(201)
+  end
+end
+
+And(/^the database shouldn't have a band with  name "([^"]*)" and genre "([^"]*)"$/)do |name,genre|
+  begin
+    response = RestClient.get "http://localhost:4567/bands/:#{name}"
+    rescue RestClient::Conflict => e
+    expect(e.response).to eq(204)
   end
 end
