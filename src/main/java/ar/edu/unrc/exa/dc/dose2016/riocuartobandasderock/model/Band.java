@@ -20,7 +20,7 @@ import javax.persistence.Table;
 public class Band {
 
   @Id
-  @Column(name = "id")
+  @Column(name = "bandID")
   private String id;
 
   @Column(name = "name")

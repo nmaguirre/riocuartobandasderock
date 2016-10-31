@@ -99,7 +99,7 @@ public class BandDaoImpl implements BandDAO {
 		if(areNull || areEmpty){
 			throw new IllegalArgumentException("the params for create band can't be null or empty.");
 		} else {
-			if(existBand(name, genre)){
+			if(this.existBand(name, genre)){
 				result = false;
 			} else { 
 				Band band = new Band(name, genre);
@@ -133,7 +133,9 @@ public class BandDaoImpl implements BandDAO {
 			query.setParameter("paramName", name);
 			query.setParameter("paramGenre", genre);
 			List<Band> bandList = query.getResultList();
-			if(!bandList.isEmpty()){
+			if(bandList.isEmpty()){
+				result = false;
+			}else{
 				result = true;
 			}
 		}
@@ -155,8 +157,39 @@ public class BandDaoImpl implements BandDAO {
 				return query.getResultList();
 			}
 		}
+	public List<Band> FindByGenre(String BandGenre){
+		if ((BandGenre == null) || (BandGenre.equals("")) ){
+			throw new IllegalArgumentException("the 'Genero' param for search a band can not be null or empty.");
+		}else{
+			Query<Band> query = SessionManager.getInstance().getCurrentSession().createQuery("from Band where genre=:paramgenre", Band.class);
+			query.setParameter("paramgenre", BandGenre);
+			return query.getResultList();
+		}
+	}	
+	
+	public List<Band> FindByNameAndGenre(String BandName,String BandGenre ){
+		boolean areEmpty = false;
+		boolean areNull = false;
+		areNull = BandName == null || BandGenre == null;
+		if(!areNull){
+			areEmpty = BandName.equals("") && BandGenre.equals("");
+		}
+		if(areNull || areEmpty){ 
+			throw new IllegalArgumentException("the params for search band can't be null or empty.");
+		} else {
 			
-	}  
+			String hq1 = "FROM Band A WHERE A.name = :paramName and A.genre = :paramGenre";
+			Query<Band> query = SessionManager.getInstance().getCurrentSession().createQuery(hq1, Band.class);
+			query.setParameter("paramName", BandName);
+			query.setParameter("paramGenre", BandGenre);
+			return query.getResultList();
+			
+		}
+		
+	}
+}
+
+	
 
 	
 
