@@ -606,4 +606,40 @@ public class ArtistDAOTest {
 		assertTrue(!artistExistsinBd);
 	}
 	
+	
+	@Test
+	public void deleteArtistTest_Artist_not_in_db() {
+		
+		String id = "-1";
+			
+		session.openCurrentSessionwithTransaction();
+		boolean successfulOperation = artistDAO.deleteArtist(id);
+		session.closeCurrentSessionwithTransaction();
+				
+		// Check that an update fail with not artist id in DB		
+		assertTrue(!successfulOperation);
+	}
+	
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deleteArtistTest_null_id() {
+		
+		String id = null;
+			
+		session.openCurrentSessionwithTransaction();
+		boolean successfulOperation = artistDAO.deleteArtist(id);
+		session.closeCurrentSessionwithTransaction();
+	}
+	
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deleteArtistTest_empty_id() {
+		
+		String id = "";
+			
+		session.openCurrentSessionwithTransaction();
+		boolean successfulOperation = artistDAO.deleteArtist(id);
+		session.closeCurrentSessionwithTransaction();
+	}
+	
 }
