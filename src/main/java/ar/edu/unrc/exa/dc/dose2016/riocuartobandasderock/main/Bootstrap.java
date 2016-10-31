@@ -92,7 +92,7 @@ public class Bootstrap {
 
         delete("/band/:name",(req, res) -> bands.deleteBand(req, res));
         
-        /* ArtistController BEGIN: List of Rutes */
+        /* ArtistController BEGIN List of Routes */
         
         get ("/artist", (req,res)->artistController.getAllArtists(req,res));
 
@@ -102,7 +102,7 @@ public class Bootstrap {
 
         get("/artist/findbysurname/:surname",(req,res)->artistController.getArtistBySurname(req,res));
 
-        /* ArtistController END List of  Rutes */
+        /* ArtistController END List of  Routes */
         
         
         post("/artist/",(req,res)->artistController.createArtist(req,res));
