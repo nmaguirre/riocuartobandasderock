@@ -5,7 +5,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
- 
 
 /* This class represents one person that is artist of a band. */
 @Entity
@@ -143,4 +142,18 @@ public class Artist {
 	  }
 	  return false;
   }
+  
+  /**
+   * @return true if the fields are not empty at the same time.
+   */
+  public boolean repOk(){
+		boolean result = true;
+		if (name == null) name = "";
+		if (nickname == null) nickname = "";
+		if (surname == null) surname = "";
+		if ((name == "") && (nickname == "") && (surname == "")){
+			result = false;
+		}
+		return result;
+	}
 }
