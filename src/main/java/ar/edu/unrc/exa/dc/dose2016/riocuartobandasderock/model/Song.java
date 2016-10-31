@@ -5,6 +5,8 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -25,6 +27,10 @@ public class Song {
 	* album represents the album where the song belongs
 	*/
 	
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "id")
+
+
 	@Id
 	@Column(name = "idSong")
 	private String id;
