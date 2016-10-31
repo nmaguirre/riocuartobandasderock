@@ -14,8 +14,8 @@ Feature: The application responds appropriately to all events that correspond to
 
     Scenario: Search album on an empty album's database by release date
         Given that the album's database is empty
-        When I search an album with "release date" "2000-12-27" , the result of the search should have 0 entry
+        When I search an album with "releaseDate" "2000-12-27" , the result of the search should have 0 entry
         
     Scenario: Search album on an not empty album's database by title, and the result is No content
         Given that the album's database have one album with title "Perdidos" and release date "2000-12-27"
-        When I search an album with "release date" "2000-12-27" , the result of the search should have 1 entry
+        When I search an album with "releaseDate" "2000-12-27" , the result of the search should have 1 entry

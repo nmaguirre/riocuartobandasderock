@@ -27,6 +27,10 @@ public class Song {
 	* album represents the album where the song belongs
 	*/
 	
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "id")
+
+
 	@Id
 	@Column(name = "idSong")
 	private String id;
