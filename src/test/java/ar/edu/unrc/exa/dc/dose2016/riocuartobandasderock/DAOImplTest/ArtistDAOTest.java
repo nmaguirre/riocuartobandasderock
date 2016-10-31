@@ -395,4 +395,113 @@ public class ArtistDAOTest {
 		session.closeCurrentSession();
 	}
 	
+	
+	/*
+	 * UPDATE ARTIST METHOD TESTS
+	 */
+	
+	@Test
+	public void updateArtistTest_Artist_in_db() {
+		
+		List<Artist> artistList = new LinkedList<>();
+		
+		String name = "a";
+		String surname = "b";
+		String nickname = "";
+		
+		session.openCurrentSession();
+		while(artistDAO.existArtist(name,surname,nickname)){
+			name+="a";
+		}
+		session.closeCurrentSession();
+		
+		// Create the artist to add in db
+		Artist artistToAdd = new Artist(name, surname, nickname);
+		
+		// Add artistToAdd in db
+		session.openCurrentSessionwithTransaction();
+		artistDAO.createArtist(name,surname,nickname);
+		session.closeCurrentSessionwithTransaction();
+		
+		
+		session.openCurrentSession();
+		String obtainedId = artistDAO.getArtistId(name, surname, nickname);
+		session.closeCurrentSession();
+		
+		// If obtained id is -1 then the artist isnt created in DB
+		assertTrue(obtainedId != "-1");
+		
+		// Obtain a new name to update the artist that isnt in BD already
+		session.openCurrentSession();
+		String updatedName = name;
+		String updatedSurname = "updatedSurname";
+		String updatedNickname = "updatedNickname";
+		while(artistDAO.existArtist(name,surname,nickname)){
+			updatedName+="a";
+		}
+		session.closeCurrentSession();
+		
+		session.openCurrentSessionwithTransaction();
+		artistDAO.updateArtist(obtainedId, updatedName, updatedSurname, updatedNickname);
+		session.closeCurrentSessionwithTransaction();
+		
+		session.openCurrentSession();
+		Artist artistUpdated = artistDAO.findById(obtainedId); 
+		session.closeCurrentSession();	
+		
+		// Check that in db the artist with id obtainedId was updated
+		assertTrue(artistUpdated.getName().equals(updatedName));
+		assertTrue(artistUpdated.getSurname().equals(updatedSurname));
+		assertTrue(artistUpdated.getNickname().equals(updatedNickname));
+	}
+	
+	
+	/*
+	 * DELETE ARTIST METHOD TESTS
+	 */
+	
+	@Test
+	public void deleteArtistTest_Artist_in_db() {
+		
+		List<Artist> artistList = new LinkedList<>();
+		
+		String name = "a";
+		String surname = "b";
+		String nickname = "";
+		
+		session.openCurrentSession();
+		while(artistDAO.existArtist(name,surname,nickname)){
+			name+="a";
+		}
+		session.closeCurrentSession();
+		
+		// Create the artist to add in db
+		Artist artistToAdd = new Artist(name, surname, nickname);
+		
+		// Add artistToAdd in db
+		session.openCurrentSessionwithTransaction();
+		artistDAO.createArtist(name,surname,nickname);
+		session.closeCurrentSessionwithTransaction();
+		
+		
+		session.openCurrentSession();
+		String obtainedId = artistDAO.getArtistId(name, surname, nickname);
+		session.closeCurrentSession();
+		
+		// If obtained id is -1 then the artist isnt created in DB
+		assertTrue(obtainedId != "-1");
+		
+		session.openCurrentSessionwithTransaction();
+		boolean successfulOperation = artistDAO.deleteArtist(obtainedId);
+		session.closeCurrentSessionwithTransaction();
+		
+		session.openCurrentSession();
+		boolean artistExistsinBd = artistDAO.existArtist(name, surname, nickname); 
+		session.closeCurrentSession();	
+		
+		// Check that in db the artist with id obtainedId was deleted
+		assertTrue(successfulOperation);
+		assertTrue(!artistExistsinBd);
+	}
+	
 }
