@@ -109,13 +109,25 @@ public class ArtistController {
 	 * @return a string that describes the result of createArtist
 	 */
 	public String createArtist(Request req,Response res){
+		String name = req.queryParams("name");
+		if (name==null){
+			name="";
+		}
+		String surname = req.queryParams("surname");
+		if (surname==null){
+			surname="";
+		}
+		String nickname = req.queryParams("nickname");
+		if (nickname==null){
+			nickname="";
+		}
 		if((req.queryParams("name")=="") && (req.queryParams("surname")=="") && (req.queryParams("nickname")=="")){
 			res.status(400);
 			return "Request invalid";
 		}
 		session= SessionManager.getInstance();
 		session.openCurrentSessionwithTransaction();
-		boolean status = artistDAO.createArtist(req.queryParams("name"),req.queryParams("surname"),req.queryParams("nickname"));
+		boolean status = artistDAO.createArtist(name,surname,nickname);
 		session.closeCurrentSessionwithTransaction();
 		if (status){
 			res.status(201);
