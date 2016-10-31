@@ -96,11 +96,12 @@ public interface ArtistDAO {
 	public boolean deleteArtist(String id);
 	
 	/**
+	 * Search for an artist by its parameters
 	 * 
 	 * @param name
 	 * @param surname
 	 * @param nickname
-	 * @return id from artist wanted
+	 * @return artist wanted, null if artist not found
 	 */
-	public String getArtistId(String name, String surname, String nickname);
+	public Artist getArtist(String name, String surname, String nickname);
 }

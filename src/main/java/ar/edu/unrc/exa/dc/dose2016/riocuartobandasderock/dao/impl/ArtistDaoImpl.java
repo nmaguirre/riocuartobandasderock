@@ -161,7 +161,8 @@ public class ArtistDaoImpl implements ArtistDAO {
 		if(id == null || id.equals("")){
 			throw new IllegalArgumentException("the 'id' param for search an artist can not be null or empty.");
 		} else {
-			Query<Artist> query = SessionManager.getInstance().getCurrentSession().createQuery("from Artist where artistID=:id", Artist.class);
+			Query<Artist> query = SessionManager.getInstance().getCurrentSession().
+					createQuery("from Artist where artistID=:id", Artist.class);
 			query.setParameter("id", id);
 			return query.getSingleResult();
 		}
@@ -177,8 +178,30 @@ public class ArtistDaoImpl implements ArtistDAO {
 	 */
 	@Override
 	public boolean updateArtist(String id, String name, String surname, String nickname) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean result = true;
+		boolean areEmpty = false;
+		boolean areNull = false;
+		areNull = id == null || name == null || nickname == null || surname == null;
+		if(!areNull){
+			areEmpty = name.equals("") && nickname.equals("") && surname.equals("");
+			areEmpty = areEmpty || id.equals("");//if all params are empty or id is empty
+		}
+		if(areNull || areEmpty){ //I see that the arguments are valid
+			throw new IllegalArgumentException("the params for update artist can't be null or empty.");
+		} else {
+			Query<Artist> query = SessionManager.getInstance().
+					getCurrentSession().createQuery("update Artist set name = :name,"
+					+ " nickname = :nickname, surname = :surname where artistID=:id", Artist.class);
+			query.setParameter("name", name);
+			query.setParameter("nickname", nickname);
+			query.setParameter("surname", surname);
+			query.setParameter("id", id);
+			int afectedRows = query.executeUpdate();
+			if(afectedRows == 0){
+				result = false;
+			}
+			return result;
+		}
 	}
 
 	/**
@@ -188,21 +211,52 @@ public class ArtistDaoImpl implements ArtistDAO {
 	 */
 	@Override
 	public boolean deleteArtist(String id) {
-		// TODO Auto-generated method stub
-		return false;
+		if(id == null || id.equals("")){
+			throw new IllegalArgumentException("the 'id' param for delete an artist can not be null or empty.");
+		} else {
+			boolean result = true;
+			Query<Artist> query = SessionManager.getInstance().getCurrentSession()
+					.createQuery("delete Artist where artistID=:id", Artist.class);
+			query.setParameter("id", id);
+			int afectedRows = query.executeUpdate();
+			if(afectedRows == 0){
+				result = false;
+			}
+			return result;
+		}
 	}
 
 	/**
+	 * Search for an artist by its parameters
 	 * 
 	 * @param name
 	 * @param surname
 	 * @param nickname
-	 * @return id from artist wanted
+	 * @return artist wanted, null if artist not found
 	 */
 	@Override
-	public String getArtistId(String name, String surname, String nickname) {
-		// TODO Auto-generated method stub
-		return null;
+	public Artist getArtist(String name, String surname, String nickname) {
+		Artist result = null;
+		boolean areEmpty = false;
+		boolean areNull = false;
+		areNull = name == null || nickname == null || surname == null;
+		if(!areNull){
+			areEmpty = name.equals("") && nickname.equals("") && surname.equals("");
+		}
+		if(areNull || areEmpty){ //I see that the arguments are valid
+			throw new IllegalArgumentException("the params for get artist id can't be null or empty.");
+		} else {
+			if(existArtist(name, surname, nickname)){
+				Query<Artist> query = SessionManager.getInstance().
+						getCurrentSession().createQuery("from Artist where name = :name and"
+						+ " nickname = :nickname and surname = :surname", Artist.class);
+				query.setParameter("name", name);
+				query.setParameter("nickname", nickname);
+				query.setParameter("surname", surname);
+				result = query.getSingleResult();
+			}
+			return result;
+		}
 	}
 
 }
