@@ -27,33 +27,11 @@ public class ArtistControllerTest {
 	
 	@Before
 	 public void beforetest() {
-		artistcon = new ArtistController();
-	
-	 }
-	
-	@Test(expected=IllegalArgumentException.class)
-	 public void testArtistControllernull() {
-	  artistdao=null;
-	  ArtistController artistcon = new ArtistController();
-	 }
-	
-	
+		artistcon = ArtistController.getInstance();
+	 }	
+
 	@Test
-	 public void testgetAllArtists() {
-		 ArtistController artistcon = new ArtistController();
-		 Request req=null;
-		 Response res=null;
-		 
-		 new Expectations() {
-			    // variables declared here are mocked by default
-			   {
-				artistdao.getAllArtists();
-			    returns(new LinkedList<Artist>());
-			   }
-			  };
-		
-		assertTrue(artistcon.getAllArtists(req,res).size()==0);
-	 }
-
-
+	public void notnullgetinstance() {
+		assertTrue(ArtistController.getInstance()!=null);
+	}
 }

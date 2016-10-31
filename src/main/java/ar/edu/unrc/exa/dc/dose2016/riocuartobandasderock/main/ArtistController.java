@@ -14,13 +14,30 @@ public class ArtistController {
 	/**
 	 * one implementation ArtistDao to connect to db
 	 */
-	private ArtistDAO artistDAO;
+	//Instance Private
+	private static ArtistController myinstance;
+	private static ArtistDAO artistDAO;
+
+	/* Singleton  
+	 * return: One Unique Instance of ArtistController
+	 * */
+    public static ArtistController getInstance() {
+		
+		if (myinstance==null) {
+			myinstance = new ArtistController();
+			artistDAO = new ArtistDaoImpl();
+		}
+		
+		return myinstance;
+		
+	}
+
 	
     /**
      * Constructor
      */
-	public ArtistController(){
-		artistDAO = new ArtistDaoImpl();
+	private  ArtistController(){
+		
 	}
 
 	/**

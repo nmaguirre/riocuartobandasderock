@@ -70,7 +70,7 @@ public class Bootstrap {
         // List of controller
 
         
-        artistController = new ArtistController();
+        artistController = ArtistController.getInstance();
 
         songController = new SongController();
         port(Integer.parseInt(ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().getAppPort()));
