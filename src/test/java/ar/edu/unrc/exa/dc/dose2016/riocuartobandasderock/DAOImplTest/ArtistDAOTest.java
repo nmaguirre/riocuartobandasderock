@@ -457,6 +457,23 @@ public class ArtistDAOTest {
 	}
 	
 	
+	@Test
+	public void updateArtistTest_Artist_not_in_db() {
+		
+		String id = "-1";
+		String name = "a";
+		String surname = "b";
+		String nickname = "";
+			
+		session.openCurrentSessionwithTransaction();
+		boolean successfulOperation = artistDAO.updateArtist(id, name, surname, nickname);
+		session.closeCurrentSessionwithTransaction();
+				
+		// Check that an update fail with not artist id in DB		
+		assertTrue(!successfulOperation);
+	}
+	
+	
 	/*
 	 * DELETE ARTIST METHOD TESTS
 	 */
