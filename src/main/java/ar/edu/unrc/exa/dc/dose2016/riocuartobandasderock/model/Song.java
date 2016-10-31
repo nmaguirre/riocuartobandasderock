@@ -1,6 +1,5 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model;
 
-import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Column;

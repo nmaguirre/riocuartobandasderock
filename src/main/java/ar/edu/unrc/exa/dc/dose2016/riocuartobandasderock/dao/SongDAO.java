@@ -2,9 +2,6 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao;
 
 import java.util.List;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 
 public interface SongDAO {
