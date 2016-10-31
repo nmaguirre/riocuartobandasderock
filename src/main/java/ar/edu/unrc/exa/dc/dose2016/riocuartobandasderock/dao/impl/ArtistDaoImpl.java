@@ -151,22 +151,58 @@ public class ArtistDaoImpl implements ArtistDAO {
 		}
 	}
 
+	/**
+	 * 
+	 * @param String id
+	 * @return Artist that have a particular id	
+	 */
 	@Override
 	public Artist findById(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		if(id == null || id.equals("")){
+			throw new IllegalArgumentException("the 'id' param for search an artist can not be null or empty.");
+		} else {
+			Query<Artist> query = SessionManager.getInstance().getCurrentSession().createQuery("from Artist where artistID=:id", Artist.class);
+			query.setParameter("id", id);
+			return query.getSingleResult();
+		}
 	}
 
+	/**
+	 * 
+	 * @param id
+	 * @param name
+	 * @param surname
+	 * @param nickname
+	 * @return true if the update was successful
+	 */
 	@Override
 	public boolean updateArtist(String id, String name, String surname, String nickname) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	/**
+	 * 
+	 * @param String id
+	 * @return true if the delete was successful
+	 */
 	@Override
 	public boolean deleteArtist(String id) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	/**
+	 * 
+	 * @param name
+	 * @param surname
+	 * @param nickname
+	 * @return id from artist wanted
+	 */
+	@Override
+	public String getArtistId(String name, String surname, String nickname) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

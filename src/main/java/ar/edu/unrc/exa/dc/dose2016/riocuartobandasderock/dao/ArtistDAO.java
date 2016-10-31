@@ -94,4 +94,13 @@ public interface ArtistDAO {
 	 * @return true if the delete was successful
 	 */
 	public boolean deleteArtist(String id);
+	
+	/**
+	 * 
+	 * @param name
+	 * @param surname
+	 * @param nickname
+	 * @return id from artist wanted
+	 */
+	public String getArtistId(String name, String surname, String nickname);
 }
