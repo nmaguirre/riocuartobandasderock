@@ -425,7 +425,7 @@ public class ArtistDAOTest {
 		
 		
 		session.openCurrentSession();
-		String obtainedId = artistDAO.getArtistId(name, surname, nickname);
+		String obtainedId = artistDAO.getArtist(name, surname, nickname).getId();
 		session.closeCurrentSession();
 		
 		// If obtained id is -1 then the artist isnt created in DB
@@ -485,7 +485,7 @@ public class ArtistDAOTest {
 		
 		
 		session.openCurrentSession();
-		String obtainedId = artistDAO.getArtistId(name, surname, nickname);
+		String obtainedId = artistDAO.getArtist(name, surname, nickname).getId();
 		session.closeCurrentSession();
 		
 		// If obtained id is -1 then the artist isnt created in DB
