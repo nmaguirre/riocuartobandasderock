@@ -91,7 +91,9 @@ public class Bootstrap {
         put("/band",(req, res) -> bands.updateBand(req, res));
 
         delete("/band/:name",(req, res) -> bands.deleteBand(req, res));
-
+        
+        /* ArtistController BEGIN: List of Rutes */
+        
         get ("/artist", (req,res)->artistController.getAllArtists(req,res));
 
         get("/artist/findbyname/:name",(req,res)->artistController.getArtistByName(req,res));
@@ -100,6 +102,9 @@ public class Bootstrap {
 
         get("/artist/findbysurname/:surname",(req,res)->artistController.getArtistBySurname(req,res));
 
+        /* ArtistController END List of  Rutes */
+        
+        
         post("/artist/",(req,res)->artistController.createArtist(req,res));
         
         post("/song/",(req,res)->songController.addSong(req, res));
