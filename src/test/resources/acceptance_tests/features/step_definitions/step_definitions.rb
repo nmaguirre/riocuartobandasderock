@@ -302,6 +302,32 @@ When(/^I search a band with name "([^"]*)", the application must return (\d+) re
   end
 end
 
+When(/^I search a band with genre "([^"]*)", the application must return (\d+) results"$/) do |genre, entries|
+  begin  
+    response = RestClient.get "http://localhost:4567/bands/findbygenre/#{genre}"
+    if entries != "0"
+      expect(response.code).to eq(200)
+    else
+      expect(response.code).to eq(204)
+    end
+    rescue RestClient::NotFound => e
+      expect(valor).to eq("")
+  end
+end
+
+When(/^I search a band with genre "([^"]*)", the application must return (\d+) results"$/) do |genre, entries|
+  begin  
+    response = RestClient.get "http://localhost:4567/bands/findbygenre/#{genre}"
+    if entries != "0"
+      expect(response.code).to eq(200)
+    else
+      expect(response.code).to eq(204)
+    end
+    rescue RestClient::NotFound => e
+      expect(valor).to eq("")
+  end
+end
+
 # When(/^I search a band with name "([^"]*)", and genre "([^"]*)", the application must return (\d+) results"$/) do |name, genre, entries|
 #   begin  
 #     response = RestClient.get "http://localhost:4567/bands/:#{name}"
