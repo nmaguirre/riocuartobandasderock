@@ -47,6 +47,15 @@ Given(/^that the song's database have one song with name "([^"]*)" and duration 
   expect(response.code).to eq(201)
 end
 
+Given(/^that the song's database have one song with name "([^"]*)" and duration "([^"]*)" and belong to the album "([^"]*)"$/) do |arg1, arg2, arg3|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Given(/^that the album's database contains an album named "([^"]*)" with the song "([^"]*)"$/) do |albumName, songName|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+
 
 Given(/^that the artist's database have one artist with name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)"$/) do |name,surname,nickname|
   response = RestClient.post 'http://localhost:4567/artist/', { :name => name, :surname => surname, :nickname => nickname }, :content_type => 'text/plain' 
@@ -173,6 +182,10 @@ When(/^I search a song with duration "([^"]*)" , the result of the search should
     rescue RestClient::NotFound => e
         expect(e.response.code).to eq(400)
     end
+end
+
+When(/^the entry should have name "([^"]*)", duration "([^"]*)" and belongs to the album "([^"]*)"$/) do |arg1, arg2, arg3|
+  pending # Write code here that turns the phrase above into concrete actions
 end
 
 
