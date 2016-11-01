@@ -53,7 +53,7 @@ public class BandDaoImpl implements BandDAO {
 	 */
 	@Override
 	public boolean updateBand(Band band){
-			if (band != null) {
+			if (band.repOK()) {
 				SessionManager.getInstance().getCurrentSession().update(band);
 				return true;
 			} else {
@@ -71,7 +71,7 @@ public class BandDaoImpl implements BandDAO {
 	@Override
 	public boolean deleteBand(String id){
 		Band band = this.getBand(id);
-		if (band != null) {
+		if (band.repOK()) {
 			SessionManager.getInstance().getCurrentSession().delete(band);
 			return true;
 		} else {
@@ -201,35 +201,5 @@ public class BandDaoImpl implements BandDAO {
 				return bandList;
 				}
 		}
-
-	public List<Band> FindByGenre(String BandGenre){
-		if ((BandGenre == null) || (BandGenre.equals("")) ){
-			throw new IllegalArgumentException("the 'Genero' param for search a band can not be null or empty.");
-		}else{
-			Query<Band> query = SessionManager.getInstance().getCurrentSession().createQuery("from Band where genre=:paramgenre", Band.class);
-			query.setParameter("paramgenre", BandGenre);
-			return query.getResultList();
-		}
-	}
-
-	public List<Band> FindByNameAndGenre(String BandName,String BandGenre ){
-		boolean areEmpty = false;
-		boolean areNull = false;
-		areNull = BandName == null || BandGenre == null;
-		if(!areNull){
-			areEmpty = BandName.equals("") && BandGenre.equals("");
-		}
-		if(areNull || areEmpty){
-			throw new IllegalArgumentException("the params for search band can't be null or empty.");
-		} else {
-
-			String hq1 = "FROM Band A WHERE A.name = :paramName and A.genre = :paramGenre";
-			Query<Band> query = SessionManager.getInstance().getCurrentSession().createQuery(hq1, Band.class);
-			query.setParameter("paramName", BandName);
-			query.setParameter("paramGenre", BandGenre);
-			return query.getResultList();
-
-		}
-
-	}
+	
 }
