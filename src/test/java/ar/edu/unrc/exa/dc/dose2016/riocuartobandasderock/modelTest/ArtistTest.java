@@ -56,7 +56,7 @@ public class ArtistTest {
 	@Test
 	public void setSurnameTest(){
 	    String a_name = "Gustavo";
-	    String a_surname = "González";
+	    String a_surname = "Gonzalez";
 	    Artist artist = new Artist(a_name, a_surname);
 	    String new_surname = "Cerati";
 	    artist.setSurname(new_surname);
@@ -74,8 +74,8 @@ public class ArtistTest {
 	
 	@Test
 	public void setNicknameTest(){
-	    String a_name = "Juan Sebastián";
-	    String a_surname = "Gutiérrez";
+	    String a_name = "Juan Sebastian";
+	    String a_surname = "Gutierrez";
 	    Artist artist = new Artist(a_name, a_surname);
 	    String nickname = "Juanse";
 	    artist.setNickname(nickname);
@@ -84,8 +84,8 @@ public class ArtistTest {
 	
 	@Test
 	public void setNullNicknameTest(){
-      String a_name = "Juan Sebastián";
-      String a_surname = "Gutiérrez";
+      String a_name = "Juan Sebastian";
+      String a_surname = "Gutierrez";
       String a_nickname = "Juanse";
       Artist artist = new Artist(a_name, a_surname, a_nickname);
       expected.expect(IllegalArgumentException.class);
@@ -108,8 +108,8 @@ public class ArtistTest {
 		String a_surname1 = "Solari";
 		String a_nick1 = "Indio";
 		Artist artist1 = new Artist(a_name1, a_surname1, a_nick1);
-		String a_name2 = "Juan Sebastián";
-	    String a_surname2 = "Gutiérrez";
+		String a_name2 = "Juan Sebastian";
+	    String a_surname2 = "Gutierrez";
 	    String a_nick2 = "Juanse";
 		Artist artist2 = new Artist(a_name2, a_surname2, a_nick2);
 		assertFalse(artist1.equals(artist2));
@@ -135,7 +135,7 @@ public class ArtistTest {
 		String a_nick1 = "Indio";
 		Artist artist1 = new Artist(a_name1, a_surname1, a_nick1);
 		String a_name2 = "Carlos Alberto";
-	    String a_surname2 = "Gutiérrez";
+	    String a_surname2 = "Gutierrez";
 	    String a_nick2 = "Indio";
 		Artist artist2 = new Artist(a_name2, a_surname2, a_nick2);
 		assertFalse(artist1.equals(artist2));
@@ -147,7 +147,7 @@ public class ArtistTest {
 		String a_surname1 = "Solari";
 		String a_nick1 = "Indio";
 		Artist artist1 = new Artist(a_name1, a_surname1, a_nick1);
-		String a_name2 = "Juan Sebastián";
+		String a_name2 = "Juan Sebastian";
 	    String a_surname2 = "Solari";
 	    String a_nick2 = "Juanse";
 		Artist artist2 = new Artist(a_name2, a_surname2, a_nick2);
@@ -162,6 +162,68 @@ public class ArtistTest {
 		Artist artist1 = new Artist(a_name, a_surname, a_nick);
 		expected.expect(IllegalArgumentException.class);
 		assertTrue(artist1.equals(null));
+	}
+	
+	/*
+	 * Artist with name and surname not empty, surname empty, should return true.
+	 */
+	@Test
+	public void repOkTest(){
+		String name = "Carlos";
+		String surname = "Garcia";
+		Artist artist = new Artist(name, surname);
+		assertTrue(artist.repOk());	
+	}
+	
+	/*
+	 * Artist with name, surname and nickname not empty, should return true.
+	 */
+	@Test
+	public void repOkTest2(){
+		String name = "Carlos";
+		String surname = "Garcia";
+		String nickname = "Charly";
+		Artist artist = new Artist(name, surname, nickname);
+		assertTrue(artist.repOk());	
+	}
+	
+	/*
+	 * Artist with name not empty, surname and nickname empty, should return true.
+	 */
+	@Test
+	public void repOkTest3(){
+		String name = "Luis";
+		Artist artist = new Artist(name, "");
+		assertTrue(artist.repOk());	
+	}
+	
+	/*
+	 * Artist with name and surname empty, nickname not empty, should return true.
+	 */
+	@Test
+	public void repOkTest4(){
+		String nickname = "Flaco";
+		Artist artist = new Artist("", nickname);
+		assertTrue(artist.repOk());	
+	}
+	
+	/*
+	 * Artist with surname not empty, name and nickname empty, should return true.
+	 */
+	@Test
+	public void repOkTest5(){
+		String surname = "Spinetta";
+		Artist artist = new Artist("", surname, "");
+		assertTrue(artist.repOk());	
+	}
+	
+	/*
+	 * Artist without params, should return false.
+	 */
+	@Test
+	public void repOkTest6(){
+		Artist artist = new Artist();
+		assertFalse(artist.repOk());	
 	}
 }
 
