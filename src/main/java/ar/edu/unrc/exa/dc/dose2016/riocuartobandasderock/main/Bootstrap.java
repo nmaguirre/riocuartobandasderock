@@ -92,6 +92,13 @@ public class Bootstrap {
 
         delete("/bands/:name",(req, res) -> bands.deleteBand(req, res));
         
+        /* ArtistController  Begin Routes*/
+        
+        /** returns an artist whose id = :id the output is json format
+         * example:   Request: GET /artist/10
+         *            Output : {name: Matias, surname: Cerra, nickname: }
+         * 
+         * **/    
         get("/artist/:id",(req,res)->artistController.getArtistById(req,res));
         
         get ("artist/:name/:surname/:nickname" ,(req,res)->artistController.getOneArtist(req, res),json()); 
@@ -109,6 +116,8 @@ public class Bootstrap {
         put("/artist/:id",(req,res)->artistController.updateArtist(req,res));
 
         delete("/artist/:id",(req,res)->artistController.deleteArtist(req,res));
+        /* ArtistController End Routes */
+        
         
         post("/song/",(req,res)->songController.addSong(req, res));
 

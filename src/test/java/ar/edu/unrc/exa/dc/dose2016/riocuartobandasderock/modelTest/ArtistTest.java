@@ -206,7 +206,7 @@ public class ArtistTest {
 		Artist artist = new Artist("", nickname);
 		assertTrue(artist.repOk());	
 	}
-	
+
 	/*
 	 * Artist with surname not empty, name and nickname empty, should return true.
 	 */
@@ -226,4 +226,3 @@ public class ArtistTest {
 		assertFalse(artist.repOk());	
 	}
 }
-
