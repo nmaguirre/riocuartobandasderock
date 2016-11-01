@@ -77,4 +77,40 @@ public class BandMemberTest {
 		expected.expect(IllegalArgumentException.class);
 		bm.setBandID("");
 	}
+	
+	/*
+	 * BandMember with artistID and bandID not empty, should return true.
+	 */
+	@Test
+	public void repOkTest(){
+		BandMember bm = new BandMember(artist1ID,band1ID);
+		assertTrue(bm.repOk());
+	}
+	
+	/*
+	 * BandMember with artistID not empty and bandID empty, should return false.
+	 */
+	@Test
+	public void repOkTest2(){
+		BandMember bm = new BandMember(artist1ID,"");
+		assertFalse(bm.repOk());
+	}
+	
+	/*
+	 * BandMember with artistID empty and bandID not empty, should return false.
+	 */
+	@Test
+	public void repOkTest4(){
+		BandMember bm = new BandMember("", band1ID);
+		assertFalse(bm.repOk());
+	}
+	
+	/*
+	 * BandMember with artistID and bandID empty, should return false.
+	 */
+	@Test
+	public void repOkTest5(){
+		BandMember bm = new BandMember("", "");
+		assertFalse(bm.repOk());
+	}
 }

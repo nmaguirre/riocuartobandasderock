@@ -65,4 +65,19 @@ public class BandMember {
 	  if (bm_bandID == "") throw new IllegalArgumentException();
 	  bandID = bm_bandID;
   }
+  
+  /**
+   * @return true if some id is empty.
+   */
+  public boolean repOk(){
+		boolean result = true;
+		boolean artistEmpty = false;
+		boolean bandEmpty = false;
+		if (artistID == "") artistEmpty = true;
+		if (bandID == "") bandEmpty = true;
+		if (artistEmpty || bandEmpty){
+			result = false;
+		}
+		return result;
+  }
 }
