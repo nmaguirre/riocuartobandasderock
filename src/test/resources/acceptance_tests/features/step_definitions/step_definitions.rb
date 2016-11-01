@@ -6,7 +6,7 @@ require "rspec"
 include RSpec::Matchers
 
 HOST = "localhost"
-PORT = "5432"
+PORT = "7500"
 
 
 
@@ -219,15 +219,16 @@ And(/^the entry should have name "([^"]*)" and genre "([^"]*)"$/) do |name, genr
 end
 
 Given(/^that the bands' database have (\d+) entries$/) do |cant|
-    1..cant.to_i.times do |n|
-        name = "Band #{n}"
-        genre = "Nu Metal"
-        response = RestClient.post 'http://localhost:4567/bands/', { :name => name, :genre => genre }, :content_type => 'text/plain'
-        expect(response.code).to eq(201)
-    end
-    result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from bandDB;\" -t`
-    result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
-    expect("#{cant}").to eq(result)
+  1..cant.to_i.times do |n|
+    name = "Band #{n}"
+    genre = "Rock"
+    response = RestClient.post 'http://localhost:4567/bands/', { :name => name, :genre => genre }, :content_type => 'text/plain'
+    expect(response.code).to eq(201)
+  end
+
+  result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from bandDB;\" -t`
+  result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+  expect(cant).to eq(result)
 end
 
 And(/^the band with name "([^"]*)" and genre "([^"]*)" is not in bands' datebase$/) do |name,genre|
@@ -285,3 +286,27 @@ end
 Given(/^the bands' database havn't a band with name "([^"]*)" and genre "([^"]*)"$/) do |arg1, arg2|
   pending
 end
+
+# Find Band feature
+
+When(/^I search a band with name "([^"]*)", the application must return (\d+) results"$/) do |name, entries|
+  begin  
+    response = RestClient.get "http://localhost:4567/bands/findbyname/#{name}"
+    if entries != "0"
+      expect(response.code).to eq(200)
+    else
+      expect(response.code).to eq(204)
+    end
+    rescue RestClient::NotFound => e
+      expect(valor).to eq("")
+  end
+end
+
+# When(/^I search a band with name "([^"]*)", and genre "([^"]*)", the application must return (\d+) results"$/) do |name, genre, entries|
+#   begin  
+#     response = RestClient.get "http://localhost:4567/bands/:#{name}"
+#     entries.to_i == "0" ? expect(response.code).to eq(204) : expect(response.code).to eq(200)
+#   rescue RestClient::NotFound => e
+#     expect(entries).to eq("")
+#   end
+# end
