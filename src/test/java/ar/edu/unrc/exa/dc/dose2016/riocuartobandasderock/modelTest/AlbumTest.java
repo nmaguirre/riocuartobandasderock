@@ -84,5 +84,40 @@ public class AlbumTest {
 		albumTest.setSongs(songs);
 		assertFalse(albumTest.repOk());
 	}
-		
+	
+	/**
+	 * Check is an Album without title neither songs but with release date is valid.
+	 */
+	@Test
+	public void checkRepOk4(){
+		Album albumTest = new Album();
+		Date releaseDate = new Date(1967,11,2);
+		albumTest.setReleaseDate(releaseDate);
+		assertFalse(albumTest.repOk());
+	}
+	
+	/**
+	 * Check is an album with title and songs is valid.
+	 */
+	@Test
+	public void checkRepOk5(){
+		Album albumTest = new Album("Disraeli Gears");
+		List<Song> songs = new LinkedList<Song>();
+		songs.add(new Song("Stranbe Brew", 188));
+		albumTest.setSongs(songs);
+		assertTrue(albumTest.repOk());
+	}
+	
+	/**
+	 * Check is an album with an empty title and song is valid.
+	 */
+	@Test
+	public void checkRepOk6(){
+		Album albumTest = new Album("");
+		List<Song> songs = new LinkedList<Song>();
+		songs.add(new Song("Stranbe Brew", 188));
+		albumTest.setSongs(songs);
+		assertFalse(albumTest.repOk());
+	}
+	
 }
