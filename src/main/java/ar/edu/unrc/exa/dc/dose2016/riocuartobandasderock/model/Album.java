@@ -149,11 +149,7 @@ public class Album {
 	 * @return true if the Album's representation is correct, otherwise false
 	 */
 	public boolean repOk(){
-		boolean output = true;
-		if((this.getTitle() == null) || (this.getSongs().size()<1)){
-			output = false;
-		}
-		return output;
+		return (this.title != null) && (! this.title.isEmpty()) &&  (! this.getSongs().isEmpty());
 	}
 	
 }
