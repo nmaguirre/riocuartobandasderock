@@ -45,7 +45,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 	/**
 	 * @return Albums list contained
 	 */
-	public List<Album> getAllAlbums(){
+	public List<Album> getAll(){
 		List<Album> l = new LinkedList<Album>();
 		l.addAll(SessionManager.getInstance().getCurrentSession().createQuery("from Album", Album.class).list());
 		return l;
@@ -53,15 +53,16 @@ public class AlbumDaoImpl implements AlbumDAO{
 	
 	
 	/**
-	 * @param name
-	 * @return Albums list found by title name.
+	 * @param title
+	 * @return Albums list found by title
 	 */
-	public List<Album> findByName(String name){
+	public List<Album> findByTitle(String title){
 		List<Album> byNameList = new LinkedList<Album>();
-		Query<Album> query = SessionManager.getInstance().getCurrentSession().createQuery("from Album where title = :name ");
-		query.setParameter("name", name);
-		byNameList.addAll(query.list());
-		
+		if (title!=null){
+			Query<Album> query = SessionManager.getInstance().getCurrentSession().createQuery("from Album where title = :title ");
+			query.setParameter("title", title);
+			byNameList.addAll(query.list());
+		}
 		return byNameList;
 	}
 	
@@ -81,22 +82,24 @@ public class AlbumDaoImpl implements AlbumDAO{
 	}
 	
 	/**
-	 * @param title, releaseDate
+	 * @param title
+	 * @param releaseDate
 	 * @return true iff album was inserted into data base correctly
 	 */
-	public boolean createAlbum(String title, Date releaseDate){
+	public boolean create(String title, Date releaseDate){
 		if(title==null ) throw new IllegalArgumentException("Error: AlbumDaoImpl.createAlbum() : Database doesnt support null title");
 		if(title.equals("") && releaseDate==null) throw new IllegalArgumentException("Error: AlbumDaoImpl.createAlbum() : incorrect parameters");
 		boolean isCreated=false;
 		if(!title.equals("")){
 			//case title=some and releaseDate=(?)
-			List<Album> lt = this.findByName(title);
+			List<Album> lt = this.findByTitle(title);
 			for(int i=0;i<lt.size();i++){
 				if(lt.get(i).getReleaseDate().compareTo(releaseDate)==0){
 					return false;
 				}
 			}
 			Album album = new Album(title,releaseDate);
+			if (!album.repOk()) throw new IllegalArgumentException ("Bad representation of album");
 			SessionManager.getInstance().getCurrentSession().save(album);
 			isCreated=true;
 		}else if(releaseDate!=null){
@@ -108,6 +111,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 				}
 			}
 			Album album = new Album(title,releaseDate);
+			if (!album.repOk()) throw new IllegalArgumentException ("Bad representation of album");
 			SessionManager.getInstance().getCurrentSession().save(album);
 			isCreated=true;
 		}		
