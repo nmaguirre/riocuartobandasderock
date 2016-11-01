@@ -106,7 +106,7 @@ public class Bootstrap {
 
         get("/song/findbyname/:name",(req,res)->songController.getSongByName(req,res));
         
-        get("/song/findbyduration/:name",(req,res)->songController.getSongByDuration(req,res));
+        get("/song/findbyduration/:duration",(req,res)->songController.getSongByDuration(req,res));
         
         after((req, res) -> {res.type("application/json");});
         

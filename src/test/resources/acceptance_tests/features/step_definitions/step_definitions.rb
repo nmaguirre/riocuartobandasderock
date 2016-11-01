@@ -6,7 +6,7 @@ require "rspec"
 include RSpec::Matchers
 
 HOST = "localhost"
-PORT = "5432"
+PORT = "7500"
 
 
 
@@ -147,9 +147,9 @@ When(/^I add a song with name "([^"]*)" and duration "([^"]*)"$/) do |name, dura
 	 expect(response.code).to eq(201)
 end
 
-When(/^I search a song with "([^"]*)" "([^"]*)" , the result of the search should have (\d+) entry$/) do |atributo, valor, entradas|
+When(/^I search a song with name "([^"]*)" , the result of the search should have (\d+) entry$/) do |value, entries|
   begin
-      String s = 'http://localhost:4567/song/findby' + atributo + '/' + valor
+      String s = 'http://localhost:4567/song/findbyname/'+ value
       response = RestClient.get s
       if entradas != "0"
         expect(response.code).to eq(200)
@@ -157,7 +157,21 @@ When(/^I search a song with "([^"]*)" "([^"]*)" , the result of the search shoul
         expect(response.code).to eq(204)
       end
     rescue RestClient::NotFound => e
-        expect(valor).to eq("")
+        expect(e.response.code).to eq(400)
+    end
+end
+
+When(/^I search a song with duration "([^"]*)" , the result of the search should have (\d+) entry$/) do |value, entries|
+  begin
+      String s = 'http://localhost:4567/song/findbyduration/'+ value
+      response = RestClient.get s
+      if entradas != "0"
+        expect(response.code).to eq(200)
+      else
+        expect(response.code).to eq(204)
+      end
+    rescue RestClient::NotFound => e
+        expect(e.response.code).to eq(400)
     end
 end
 
