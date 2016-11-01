@@ -1,7 +1,7 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
 import static spark.Spark.*;
-
+import static ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.JsonUtil.json;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -92,13 +92,13 @@ public class Bootstrap {
 
         delete("/bands/:name",(req, res) -> bands.deleteBand(req, res));
 
-        get ("/artist", (req,res)->artistController.getAllArtists(req,res));
+        get ("/artist", (req,res)->artistController.getAllArtists(req,res),json());
 
-        get("/artist/findbyname/:name",(req,res)->artistController.getArtistByName(req,res));
+        get("/artist/findbyname/:name",(req,res)->artistController.getArtistByName(req,res),json());
         
-        get("/artist/findbynickname/:nickname",(req,res)->artistController.getArtistByNickname(req,res));
+        get("/artist/findbynickname/:nickname",(req,res)->artistController.getArtistByNickname(req,res),json());
 
-        get("/artist/findbysurname/:surname",(req,res)->artistController.getArtistBySurname(req,res));
+        get("/artist/findbysurname/:surname",(req,res)->artistController.getArtistBySurname(req,res),json());
 
         post("/artist/",(req,res)->artistController.createArtist(req,res));
         
@@ -108,6 +108,7 @@ public class Bootstrap {
         
         get("/song/findbyduration/:name",(req,res)->songController.getSongByDuration(req,res));
         
+        after((req, res) -> {res.type("application/json");});
         
     }
 }

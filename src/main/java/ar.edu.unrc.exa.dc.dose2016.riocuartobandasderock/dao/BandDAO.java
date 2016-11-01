@@ -59,6 +59,26 @@ public interface BandDAO {
 	    */
 	   public List<Band> findBandByName(String name);
 	   
+	   /**
+	    * This method find a band by genre
+	    * 
+	    * @param String genre
+	    * 
+	    * @return list of bands with particular genre
+	    */
+	   public List<Band> findBandByGenre(String genre);
+	   
+	   /**
+	    * This method find a band by genre and name
+	    * 
+	    * @param String name
+	    * @param String genre
+	    * 
+	    * @return list of bands with particular name and particular genre
+	    */
+	   
+	   public List<Band> findBandByNameAndGenre(String name,String genre);
+	   
 
 	   /**
 	    * This method find a band

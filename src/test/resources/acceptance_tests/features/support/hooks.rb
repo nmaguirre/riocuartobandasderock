@@ -56,6 +56,7 @@ Before do |scenario|
 
     create_clean_db
     start_application
+    sleep(3)
 end
 
 After do |scenario|
