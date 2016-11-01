@@ -201,31 +201,5 @@ public class BandDaoImpl implements BandDAO {
 				return bandList;
 				}
 		}
-	public List<Band> FindByGenre(String genre){
-		if ((genre == null) || (genre.equals("")) ){
-			throw new IllegalArgumentException("the 'Genero' param for search a band can not be null or empty.");
-		}else{
-			Query<Band> query = SessionManager.getInstance().getCurrentSession().createQuery("from Band where genre=:paramgenre", Band.class);
-			query.setParameter("paramgenre", genre);
-			return query.getResultList();
-		}
-	}
-
-	public List<Band> FindByNameAndGenre(String name,String genre ){
-		boolean areEmpty = false;
-		boolean areNull = false;
-		areNull = name == null || genre == null;
-		if(!areNull){
-			areEmpty = name.equals("") && genre.equals("");
-		}
-		if(areNull || areEmpty){
-			throw new IllegalArgumentException("the params for search band can't be null or empty.");
-		} else {
-			String hq1 = "FROM Band A WHERE A.name = :paramName and A.genre = :paramGenre";
-			Query<Band> query = SessionManager.getInstance().getCurrentSession().createQuery(hq1, Band.class);
-			query.setParameter("paramName", name);
-			query.setParameter("paramGenre", genre);
-			return query.getResultList();
-		}
-	}
+	
 }
