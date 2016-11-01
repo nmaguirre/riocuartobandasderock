@@ -8,8 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "bandDB")
 
 /**
  * Title:   riocuartobandasderock.model.Band<p>
@@ -17,6 +15,8 @@ import javax.persistence.Table;
  *              that are required for a band like a genre and artist.<p>
  * @author Ezequiel Depetris&Gaston Massimino
  */
+@Entity
+@Table(name = "bandDB")
 public class Band {
 
   @Id

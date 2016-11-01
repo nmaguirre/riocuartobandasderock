@@ -25,6 +25,11 @@ CREATE TABLE BandDB (
     genre text not null
 );
 
+CREATE TABLE BandMemberDB (
+	artistID text REFERENCES artistDB (artistID),
+	bandID text REFERENCES BandDB (bandID)	
+);
+
 
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO rock_db_owner;

@@ -156,6 +156,50 @@ public class BandDaoImpl implements BandDAO {
 				query.setParameter("n", name);
 				return query.getResultList();
 			}
+	}
+
+	/**
+	    * Search a band in database
+	    *
+	    * @param band genre to search
+	    *
+	    * @return list of bands wanted
+	    */
+	   public List<Band> findBandByGenre(String genre){
+		   if (genre == null || genre.equals("")){
+			   throw new IllegalArgumentException("the 'genre' param for search a band can not be null or empty.");
+		   } else {
+			   Query<Band> query = SessionManager.getInstance().getCurrentSession().createQuery("from Band where genre=:g", Band.class);
+			   query.setParameter("g", genre);
+			   return query.getResultList();
+		 }
+	   }
+	   /**
+	    * Search a band in database
+	    *
+	    * @param band genre to search
+	    * @param band name to search
+	    *
+	    * @return list of bands wanted
+	    */
+
+	   public List<Band> findBandByNameAndGenre(String name,String genre){
+			boolean areEmpty = false;
+			boolean areNull = false;
+			areNull = name == null || genre == null;
+			if(!areNull){
+				areEmpty = name.equals("") && genre.equals("");
+			}
+			if(areNull || areEmpty){
+				throw new IllegalArgumentException("the params for search band can't be null or empty.");
+			} else {
+				String hq1 = "FROM Band A WHERE A.name = :paramName and A.genre = :paramGenre";
+				Query<Band> query = SessionManager.getInstance().getCurrentSession().createQuery(hq1, Band.class);
+				query.setParameter("paramName", name);
+				query.setParameter("paramGenre", genre);
+				List<Band> bandList = query.getResultList();
+				return bandList;
+				}
 		}
 	public List<Band> FindByGenre(String genre){
 		if ((genre == null) || (genre.equals("")) ){
@@ -177,19 +221,11 @@ public class BandDaoImpl implements BandDAO {
 		if(areNull || areEmpty){
 			throw new IllegalArgumentException("the params for search band can't be null or empty.");
 		} else {
-
 			String hq1 = "FROM Band A WHERE A.name = :paramName and A.genre = :paramGenre";
 			Query<Band> query = SessionManager.getInstance().getCurrentSession().createQuery(hq1, Band.class);
 			query.setParameter("paramName", name);
 			query.setParameter("paramGenre", genre);
 			return query.getResultList();
-
 		}
-
 	}
 }
-
-
-
-
-

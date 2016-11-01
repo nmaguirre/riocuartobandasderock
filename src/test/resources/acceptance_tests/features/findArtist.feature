@@ -1,4 +1,4 @@
-Feature: The application responds appropriately to all events that correspond to the various forms of Find new songs to the system. 
+Feature: The application responds appropriately to all events that correspond to the various forms of Find new artist's to the system. 
 
     Background:
         Given that the application has been started

@@ -7,12 +7,10 @@ import static org.junit.Assert.assertTrue;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.ArtistDAO;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.SessionManager;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.ArtistDaoImpl;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SessionManager;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
@@ -22,6 +20,7 @@ public class ArtistDAOTest {
 
 	private ArtistDAO artistDAO;
 	private SessionManager session;
+	
 	@Before
 	public void setUp(){
 		artistDAO = new ArtistDaoImpl();
@@ -395,6 +394,115 @@ public class ArtistDAOTest {
 		session.openCurrentSession();
 		List<Artist> obtained = artistDAO.findByNickname(nickname);
 		session.closeCurrentSession();
+	}
+	
+	
+	/*
+	 * UPDATE ARTIST METHOD TESTS
+	 */
+	
+	@Test
+	public void updateArtistTest_Artist_in_db() {
+		
+		List<Artist> artistList = new LinkedList<>();
+		
+		String name = "a";
+		String surname = "b";
+		String nickname = "";
+		
+		session.openCurrentSession();
+		while(artistDAO.existArtist(name,surname,nickname)){
+			name+="a";
+		}
+		session.closeCurrentSession();
+		
+		// Create the artist to add in db
+		Artist artistToAdd = new Artist(name, surname, nickname);
+		
+		// Add artistToAdd in db
+		session.openCurrentSessionwithTransaction();
+		artistDAO.createArtist(name,surname,nickname);
+		session.closeCurrentSessionwithTransaction();
+		
+		
+		session.openCurrentSession();
+		String obtainedId = artistDAO.getArtist(name, surname, nickname).getId();
+		session.closeCurrentSession();
+		
+		// If obtained id is -1 then the artist isnt created in DB
+		assertTrue(obtainedId != "-1");
+		
+		// Obtain a new name to update the artist that isnt in BD already
+		session.openCurrentSession();
+		String updatedName = name;
+		String updatedSurname = "updatedSurname";
+		String updatedNickname = "updatedNickname";
+		while(artistDAO.existArtist(updatedName,updatedSurname,updatedNickname)){
+			updatedName+="a";
+		}
+		session.closeCurrentSession();
+		
+		session.openCurrentSessionwithTransaction();
+		artistDAO.updateArtist(obtainedId, updatedName, updatedSurname, updatedNickname);
+		session.closeCurrentSessionwithTransaction();
+		
+		session.openCurrentSession();
+		Artist artistUpdated = artistDAO.findById(obtainedId); 
+		session.closeCurrentSession();	
+		
+		// Check that in db the artist with id obtainedId was updated
+		assertTrue(artistUpdated.getName().equals(updatedName));
+		assertTrue(artistUpdated.getSurname().equals(updatedSurname));
+		assertTrue(artistUpdated.getNickname().equals(updatedNickname));
+	}
+	
+	
+	/*
+	 * DELETE ARTIST METHOD TESTS
+	 */
+	
+	@Test
+	public void deleteArtistTest_Artist_in_db() {
+		
+		List<Artist> artistList = new LinkedList<>();
+		
+		String name = "a";
+		String surname = "b";
+		String nickname = "";
+		
+		session.openCurrentSession();
+		while(artistDAO.existArtist(name,surname,nickname)){
+			name+="a";
+		}
+		session.closeCurrentSession();
+		
+		// Create the artist to add in db
+		Artist artistToAdd = new Artist(name, surname, nickname);
+		
+		// Add artistToAdd in db
+		session.openCurrentSessionwithTransaction();
+		artistDAO.createArtist(name,surname,nickname);
+		session.closeCurrentSessionwithTransaction();
+		
+		
+		session.openCurrentSession();
+		String obtainedId = artistDAO.getArtist(name, surname, nickname).getId();
+		session.closeCurrentSession();
+		
+		// If obtained id is -1 then the artist isnt created in DB
+		assertTrue(obtainedId != "-1");
+		
+		session.openCurrentSessionwithTransaction();
+		boolean successfulOperation = artistDAO.deleteArtist(obtainedId);
+		session.closeCurrentSessionwithTransaction();
+		
+		session.openCurrentSession();
+		boolean artistExistsinBd = artistDAO.existArtist(name, surname, nickname); 
+		session.closeCurrentSession();	
+		
+		// Check that in db the artist with id obtainedId was deleted
+		assertTrue(successfulOperation);
+		assertTrue(!artistExistsinBd);
 	}
 	
 }
