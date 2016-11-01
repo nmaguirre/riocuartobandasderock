@@ -143,4 +143,17 @@ public class Album {
 		this.songs = songs;
 	}
 
+	/**
+	 * This method return if the Album's representation is correct
+	 *
+	 * @return true if the Album's representation is correct, otherwise false
+	 */
+	public boolean repOk(){
+		boolean output = true;
+		if((this.getTitle() == null) || (this.getSongs().size()<1)){
+			output = false;
+		}
+		return output;
+	}
+	
 }
