@@ -91,6 +91,10 @@ public class Bootstrap {
         put("/bands",(req, res) -> bands.updateBand(req, res));
 
         delete("/bands/:name",(req, res) -> bands.deleteBand(req, res));
+        
+        get("/artist/:id",(req,res)->artistController.getArtistById(req,res));
+        
+        get ("artist/:name/:surname/:nickname" ,(req,res)->artistController.getOneArtist(req, res),json()); 
 
         get ("/artist", (req,res)->artistController.getAllArtists(req,res),json());
 
@@ -101,6 +105,10 @@ public class Bootstrap {
         get("/artist/findbysurname/:surname",(req,res)->artistController.getArtistBySurname(req,res),json());
 
         post("/artist/",(req,res)->artistController.createArtist(req,res));
+        
+        put("/artist/:id",(req,res)->artistController.updateArtist(req,res));
+
+        delete("/artist/:id",(req,res)->artistController.deleteArtist(req,res));
         
         post("/song/",(req,res)->songController.addSong(req, res));
 

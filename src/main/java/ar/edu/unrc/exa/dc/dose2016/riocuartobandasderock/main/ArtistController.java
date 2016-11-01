@@ -23,7 +23,52 @@ public class ArtistController {
 	public ArtistController(){
 		artistDAO = new ArtistDaoImpl();
 	}
-
+	
+	/**
+	* search artist by his Id
+	* @param req it contain id of the artist to search
+	* @param res
+	* @return one Artist with id parameters
+	*/
+		
+	public Artist getArtistById (Request req, Response res){
+		if (req.params(":id")==""){
+			res.status(400);
+		}
+		session = SessionManager.getInstance();
+		session.openCurrentSession();
+		Artist artist = artistDAO.findById(req.params(":id"));
+		session.closeCurrentSession();
+		int status = (artist==null)? 200:204;
+		res.status(status);
+		return artist;
+		}
+	
+	public Artist getOneArtist (Request req, Response res){
+		String name = req.params(":name");
+		if (name==null){
+			name="";
+		}
+		String surname = req.params(":surname");
+		if (surname==null){
+			surname="";
+		}
+		String nickname = req.params(":nickname");
+		if (nickname==null){
+			nickname="";
+		}
+		if((name=="") && (surname=="") && (nickname=="")){
+			res.status(400);
+			return null;
+		}
+		session= SessionManager.getInstance();
+		session.openCurrentSession();
+		Artist artist = artistDAO.getArtist(name,surname,nickname);
+		session.closeCurrentSession();
+		int status = (artist!=null)? 200:204;
+		res.status(status);
+		return artist;
+	}
 	
 	/**
 	 * get all Artist 
@@ -121,7 +166,7 @@ public class ArtistController {
 		if (nickname==null){
 			nickname="";
 		}
-		if((req.queryParams("name")=="") && (req.queryParams("surname")=="") && (req.queryParams("nickname")=="")){
+		if((name=="") && (surname=="") && (nickname=="")){
 			res.status(400);
 			return "Request invalid";
 		}
@@ -136,5 +181,67 @@ public class ArtistController {
 		res.status(409);
 		return "Fail";
 	}
+	
+	 /*@param res
+	 * @return a string that describes the result of updateBandMember
+	 */
+	public String updateArtist(Request req, Response res){
+		 session.openCurrentSession();
+		 Artist artist = artistDAO.findById(req.params(":id"));
+		 session.closeCurrentSession();
+		 if (artist==null){
+			 res.status(400);
+			 return "Request invalid";
+		 }
+		String name = req.queryParams("name");
+		if (name==null){
+			name=artist.getName();
+		}
+		String surname = req.queryParams("surname");
+		if (surname==null){
+			surname=artist.getSurname();
+		}
+		String nickname = req.queryParams("nickname");
+		if (nickname==null){
+			nickname=artist.getNickname();
+		}
+		if((name=="") && (surname=="") && (nickname=="")){
+			res.status(400);
+			return "Request invalid";
+		}
+		 session= SessionManager.getInstance();
+		 session.openCurrentSessionwithTransaction();
+		 boolean status = artistDAO.updateArtist(artist.getId(),name,surname,nickname);
+		 session.closeCurrentSessionwithTransaction();
+		 if (status){
+			 res.status(200);
+			 return "Success";
+		 }
+		 res.status(409);
+		 return "Fail";
+	 }
+	 	
+	 /**
+	 * delete an artist by his Id
+	 * @param req it contain id of the artist to delete
+	 * @param res
+	 * @return a string that describes the result of deleteBandMember
+	 */
+	 public String deleteArtist(Request req, Response res){
+		 if ((req.params(":id"))==""){
+			 res.status(400);
+			 return "Request invalid";
+		 }
+		 session= SessionManager.getInstance();
+		 session.openCurrentSessionwithTransaction();
+		 boolean status = artistDAO.deleteArtist(req.params(":id"));
+		 session.closeCurrentSessionwithTransaction();
+		 if (status){
+			 res.status(200);
+			 return "Success";
+		 }
+		 res.status(409);
+		 return "Fail";
+	 }
 
 }
