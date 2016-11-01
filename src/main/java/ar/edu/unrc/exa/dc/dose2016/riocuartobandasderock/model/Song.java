@@ -27,9 +27,6 @@ public class Song {
 	* album represents the album where the song belongs
 	*/
 	
-	@ManyToOne(optional = false)
-	@JoinColumn(name = "id")
-
 
 	@Id
 	@Column(name = "idSong")
@@ -41,8 +38,10 @@ public class Song {
 	@Column(name = "duration")
 	private int duration;
 	
-	@ManyToOne
-    @JoinColumn(name="id")
+
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "id")
+
 	private Album album;
 	
 	/**
