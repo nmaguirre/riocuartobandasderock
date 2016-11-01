@@ -191,7 +191,7 @@ public class ArtistDaoImpl implements ArtistDAO {
 		} else {
 			Query<Artist> query = SessionManager.getInstance().
 					getCurrentSession().createQuery("update Artist set name = :name,"
-					+ " nickname = :nickname, surname = :surname where artistID=:id", Artist.class);
+					+ " nickname = :nickname, surname = :surname where artistID=:id");
 			query.setParameter("name", name);
 			query.setParameter("nickname", nickname);
 			query.setParameter("surname", surname);
@@ -216,7 +216,7 @@ public class ArtistDaoImpl implements ArtistDAO {
 		} else {
 			boolean result = true;
 			Query<Artist> query = SessionManager.getInstance().getCurrentSession()
-					.createQuery("delete Artist where artistID=:id", Artist.class);
+					.createQuery("delete Artist where artistID=:id");
 			query.setParameter("id", id);
 			int afectedRows = query.executeUpdate();
 			if(afectedRows == 0){

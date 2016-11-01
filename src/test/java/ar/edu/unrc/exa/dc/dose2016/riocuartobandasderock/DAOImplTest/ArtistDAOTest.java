@@ -20,6 +20,7 @@ public class ArtistDAOTest {
 
 	private ArtistDAO artistDAO;
 	private SessionManager session;
+	
 	@Before
 	public void setUp(){
 		artistDAO = new ArtistDaoImpl();
@@ -436,7 +437,7 @@ public class ArtistDAOTest {
 		String updatedName = name;
 		String updatedSurname = "updatedSurname";
 		String updatedNickname = "updatedNickname";
-		while(artistDAO.existArtist(name,surname,nickname)){
+		while(artistDAO.existArtist(updatedName,updatedSurname,updatedNickname)){
 			updatedName+="a";
 		}
 		session.closeCurrentSession();
@@ -453,6 +454,107 @@ public class ArtistDAOTest {
 		assertTrue(artistUpdated.getName().equals(updatedName));
 		assertTrue(artistUpdated.getSurname().equals(updatedSurname));
 		assertTrue(artistUpdated.getNickname().equals(updatedNickname));
+	}
+	
+	
+	@Test
+	public void updateArtistTest_Artist_not_in_db() {
+		
+		String id = "-1";
+		String name = "a";
+		String surname = "b";
+		String nickname = "";
+			
+		session.openCurrentSessionwithTransaction();
+		boolean successfulOperation = artistDAO.updateArtist(id, name, surname, nickname);
+		session.closeCurrentSessionwithTransaction();
+				
+		// Check that an update fail with not artist id in DB		
+		assertTrue(!successfulOperation);
+	}
+	
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void updateArtistTest_null_id() {
+		
+		String id = null;
+		String name = "a";
+		String surname = "b";
+		String nickname = "";
+			
+		session.openCurrentSessionwithTransaction();
+		boolean successfulOperation = artistDAO.updateArtist(id, name, surname, nickname);
+		session.closeCurrentSessionwithTransaction();
+	}
+	
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void updateArtistTest_null_name() {
+		
+		String id = "-1";
+		String name = null;
+		String surname = "b";
+		String nickname = "";
+			
+		session.openCurrentSessionwithTransaction();
+		boolean successfulOperation = artistDAO.updateArtist(id, name, surname, nickname);
+		session.closeCurrentSessionwithTransaction();
+	}
+	
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void updateArtistTest_null_surname() {
+		
+		String id = "1";
+		String name = "a";
+		String surname = null;
+		String nickname = "";
+			
+		session.openCurrentSessionwithTransaction();
+		boolean successfulOperation = artistDAO.updateArtist(id, name, surname, nickname);
+		session.closeCurrentSessionwithTransaction();
+	}
+	
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void updateArtistTest_null_nickname() {
+		
+		String id = "1";
+		String name = "a";
+		String surname = "b";
+		String nickname = null;
+			
+		session.openCurrentSessionwithTransaction();
+		boolean successfulOperation = artistDAO.updateArtist(id, name, surname, nickname);
+		session.closeCurrentSessionwithTransaction();
+	}
+	
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void updateArtistTest_empty_id() {
+		
+		String id = "";
+		String name = "a";
+		String surname = "b";
+		String nickname = "";
+			
+		session.openCurrentSessionwithTransaction();
+		boolean successfulOperation = artistDAO.updateArtist(id, name, surname, nickname);
+		session.closeCurrentSessionwithTransaction();
+	}
+	
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void updateArtistTest_empty_fields() {
+		
+		String id = "2";
+		String name = "";
+		String surname = "";
+		String nickname = "";
+			
+		session.openCurrentSessionwithTransaction();
+		boolean successfulOperation = artistDAO.updateArtist(id, name, surname, nickname);
+		session.closeCurrentSessionwithTransaction();
 	}
 	
 	
@@ -502,6 +604,42 @@ public class ArtistDAOTest {
 		// Check that in db the artist with id obtainedId was deleted
 		assertTrue(successfulOperation);
 		assertTrue(!artistExistsinBd);
+	}
+	
+	
+	@Test
+	public void deleteArtistTest_Artist_not_in_db() {
+		
+		String id = "-1";
+			
+		session.openCurrentSessionwithTransaction();
+		boolean successfulOperation = artistDAO.deleteArtist(id);
+		session.closeCurrentSessionwithTransaction();
+				
+		// Check that an update fail with not artist id in DB		
+		assertTrue(!successfulOperation);
+	}
+	
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deleteArtistTest_null_id() {
+		
+		String id = null;
+			
+		session.openCurrentSessionwithTransaction();
+		boolean successfulOperation = artistDAO.deleteArtist(id);
+		session.closeCurrentSessionwithTransaction();
+	}
+	
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deleteArtistTest_empty_id() {
+		
+		String id = "";
+			
+		session.openCurrentSessionwithTransaction();
+		boolean successfulOperation = artistDAO.deleteArtist(id);
+		session.closeCurrentSessionwithTransaction();
 	}
 	
 }
