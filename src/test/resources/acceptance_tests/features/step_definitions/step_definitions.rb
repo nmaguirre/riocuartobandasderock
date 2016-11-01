@@ -9,7 +9,6 @@ HOST = "localhost"
 PORT = "5432"
 
 
-
 def execute_sql(sql_code)
         done = system "sh db_execute.sh \"#{sql_code}\""
             raise Exception.new("Issue executing sql code: #{sql_code}") unless done
@@ -252,3 +251,26 @@ Then(/^the band with name "([^"]*)" and genre "([^"]*)" should be on bands' data
     expect(e.response).to eq(201)
   end
 end
+
+# updateArtist Definitions
+ #feaure 1
+Given(/^that the artist's database has "([^"]*)" entry$/) do |arg1|
+  response = RestClient.post 'http://localhost:4567/artist/', { :name => 'Matias', :surname => 'Serra', :nickname => '' }, :content_type => 'text/plain' 
+  expect(response.code).to eq(201)
+
+end
+
+Given(/^the artist entry has name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)"$/) do |arg1, arg2, arg3|
+  #pending # Write code here that turns the phrase above into concrete actions
+end
+
+Given(/^that the artist's database one entry has name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)"$/) do |arg1, arg2, arg3|
+  #pending # Write code here that turns the phrase above into concrete actions
+end
+
+When(/^I modify this artist and set name "([^"]*)"$/) do |arg1|
+  #pending # Write code here that turns the phrase above into concrete actions
+end
+# end updaeArtist Definitions
+
+
