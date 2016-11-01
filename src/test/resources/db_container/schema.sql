@@ -1,5 +1,5 @@
 CREATE TABLE Album (
-	id text primary key,
+	albumID text primary key,
 	title text not null,
 	releaseDate date
 );
