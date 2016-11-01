@@ -35,7 +35,7 @@ public class AlbumDAOTest {
 		session.openCurrentSessionwithTransaction();
 		
 			
-		boolean a = albumDao.createAlbum("AlbumTest1",new Date(2010,04,10));
+		boolean a = albumDao.create("AlbumTest1",new Date(2010,04,10));
 		
 		session.closeCurrentSessionwithTransaction();
 		
@@ -45,11 +45,11 @@ public class AlbumDAOTest {
 	@Test
 	public void createAlbumIfExistInDBwithOtherSession(){
 		session.openCurrentSessionwithTransaction();
-		boolean a = albumDao.createAlbum("AlbumTest2",new Date(2010,04,10));
+		boolean a = albumDao.create("AlbumTest2",new Date(2010,04,10));
 		session.closeCurrentSessionwithTransaction();
 		
 		session.openCurrentSessionwithTransaction();
-		boolean b = albumDao.createAlbum("AlbumTest2",new Date(2010,04,10));
+		boolean b = albumDao.create("AlbumTest2",new Date(2010,04,10));
 		session.closeCurrentSessionwithTransaction();
 	
 		
@@ -59,8 +59,8 @@ public class AlbumDAOTest {
 	@Test
 	public void createAlbumIfInDB(){
 		session.openCurrentSessionwithTransaction();
-		boolean a = albumDao.createAlbum("AlbumTest2",new Date(2010,04,10));
-		boolean b = albumDao.createAlbum("AlbumTest2",new Date(2010,04,10));
+		boolean a = albumDao.create("AlbumTest2",new Date(2010,04,10));
+		boolean b = albumDao.create("AlbumTest2",new Date(2010,04,10));
 	
 		session.closeCurrentSessionwithTransaction();
 		
@@ -98,8 +98,8 @@ public class AlbumDAOTest {
 	@Test
 	public void findById() {
 		session.openCurrentSessionwithTransaction();
-		boolean a = albumDao.createAlbum("AlbumTest3",new Date(2010,04,10));
-		List<Album> lista = albumDao.getAllAlbums();
+		boolean a = albumDao.create("AlbumTest3",new Date(2010,04,10));
+		List<Album> lista = albumDao.getAll();
 		Album aux = lista.get(0);
 		Album aux1 = albumDao.findById(aux.getId());
 		session.closeCurrentSessionwithTransaction();
@@ -109,7 +109,7 @@ public class AlbumDAOTest {
 	@Test
 	public void findByIdNotInDB() {
 		session.openCurrentSessionwithTransaction();
-		boolean a = albumDao.createAlbum("AlbumTest4",new Date(2010,04,10));
+		boolean a = albumDao.create("AlbumTest4",new Date(2010,04,10));
 		Album aux1 = albumDao.findById("9893948593845");
 		session.closeCurrentSessionwithTransaction();
 		assertNull(aux1);
@@ -119,10 +119,10 @@ public class AlbumDAOTest {
 	public void getAllAlbumWhenDBIsEmpty(){
 		
 		session.openCurrentSessionwithTransaction();
-		albumDao.createAlbum("AlbumTest5",new Date(2010,04,10));
-		albumDao.createAlbum("AlbumTest6",new Date(2010,04,10));
+		albumDao.create("AlbumTest5",new Date(2010,04,10));
+		albumDao.create("AlbumTest6",new Date(2010,04,10));
 		List<Album> lista = new LinkedList<Album>();
-		lista.addAll(albumDao.getAllAlbums());
+		lista.addAll(albumDao.getAll());
 		session.closeCurrentSessionwithTransaction();
 		assertEquals(3,lista.size());
 	}
