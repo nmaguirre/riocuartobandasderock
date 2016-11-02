@@ -1,4 +1,4 @@
-CREATE TABLE Album (
+CREATE TABLE AlbumDB (
 	albumID text primary key,
 	title text not null,
 	releaseDate date
