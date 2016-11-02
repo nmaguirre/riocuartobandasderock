@@ -80,15 +80,6 @@ public class Album {
 	}
 
 	/**
-	 * Sets the Album field id with the parameter id.
-	 *
-	 * @param id The new album id.
-	 */
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	/**
 	 * Returns the Album title.
 	 *
 	 * @return title
@@ -144,11 +135,11 @@ public class Album {
 	}
 
 	/**
-	 * This method return if the Album's representation is correct
+	 * This method return if the Album's representation is correct 
 	 *
 	 * @return true if the Album's representation is correct, otherwise false
 	 */
-	public boolean repOk(){
+	public boolean repOk() {
 		return (this.title != null) && (! this.title.isEmpty()) &&  (! this.getSongs().isEmpty());
 	}
 	
