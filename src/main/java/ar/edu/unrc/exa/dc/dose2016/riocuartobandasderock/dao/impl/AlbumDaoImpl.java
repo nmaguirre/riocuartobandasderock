@@ -69,7 +69,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 	
 	/**
 	 * @param releaseDate
-	 * @return List Albums list found by release date.
+	 * @return List Albums found by release date.
 	 */
 	public List<Album> findByReleaseDate(Date releaseDate){
 		List<Album> byReleaseDateList = new LinkedList<Album>();
@@ -87,34 +87,40 @@ public class AlbumDaoImpl implements AlbumDAO{
 	 * @return true iff album was inserted into data base correctly
 	 */
 	public boolean create(String title, Date releaseDate){
-		if(title==null ) throw new IllegalArgumentException("Error: AlbumDaoImpl.createAlbum() : Database doesnt support null title");
-		if(title.equals("") && releaseDate==null) throw new IllegalArgumentException("Error: AlbumDaoImpl.createAlbum() : incorrect parameters");
+		if(title==null || title.isEmpty()) throw new IllegalArgumentException("Error: AlbumDaoImpl.createAlbum() : Database doesnt support null or empty title");
 		boolean isCreated=false;
-		if(!title.equals("")){
-			//case title=some and releaseDate=(?)
-			List<Album> lt = this.findByTitle(title);
-			for(int i=0;i<lt.size();i++){
-				if(lt.get(i).getReleaseDate().compareTo(releaseDate)==0){
-					return false;
-				}
-			}
-			Album album = new Album(title,releaseDate);
-			if (!album.repOk()) throw new IllegalArgumentException ("Bad representation of album");
-			SessionManager.getInstance().getCurrentSession().save(album);
-			isCreated=true;
-		}else if(releaseDate!=null){
-			//case title=(?) and releaseDate= some
+		if(releaseDate!=null){
+			//then the title and the day should not be in db. 
+			List<Album> byTitle = this.findByTitle(title);
 			List<Album> byReleaseDate = this.findByReleaseDate(releaseDate);
-			for(int i=0; i<byReleaseDate.size();i++){
-				if( byReleaseDate.get(i).getTitle().equals(title) ){
+			
+			if(byTitle.contains(title) ){
+				//then releaseDate not be in db
+				for(int i=0;i<byReleaseDate.size();i++){
+					if(byReleaseDate.get(i).getReleaseDate().compareTo(releaseDate)==0){
+						return false;
+					}
+				}
+				isCreated=true;				
+			}
+			else{				
+				isCreated=true;
+			}
+		}else if(releaseDate==null){
+			//then the title not be in db.
+			List<Album> byTitle = this.findByTitle(title);
+			for(int i=0;i<byTitle.size();i++){
+				if(byTitle.get(i).getReleaseDate().compareTo(releaseDate)==0){
 					return false;
 				}
 			}
+			isCreated=true;
+		}
+		if (isCreated){
 			Album album = new Album(title,releaseDate);
 			if (!album.repOk()) throw new IllegalArgumentException ("Bad representation of album");
 			SessionManager.getInstance().getCurrentSession().save(album);
-			isCreated=true;
-		}		
+		}
 		return isCreated;
 	} 
 	
