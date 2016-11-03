@@ -66,7 +66,7 @@ public class AlbumController {
             //If an exception was thrown, then there was a problem with the parameters.
             e.printStackTrace();
             res.status(400);
-            res.body("Bad parameters.");
+            res.body("Bad parameters. "+e.getMessage()+" \n" );
             return res.body();
         } catch (Exception e){
             e.printStackTrace();
