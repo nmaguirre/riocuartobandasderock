@@ -31,7 +31,7 @@ Given(/^that the artist's database is empty$/) do
 end
 
 Given(/^that the album's database is empty$/) do
-    result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from Album;\" -t`
+    result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from AlbumDB;\" -t`
     result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars 
     expect(result=="0")
 end
@@ -83,16 +83,16 @@ When(/^I try to add an album named "([^"]*)" and release date "([^"]*)"$/) do |t
 end
 
 Then(/^the system informs that album named "([^"]*)" and release date "([^"]*)" already exists in the database$/) do |title,release_date|
-  resultingTitle = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select title from Album;\" -t`
+  resultingTitle = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select title from AlbumDB;\" -t`
   resultingTitle = resultingTitle.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
   expect(resultingTitle == title)
-  resultingReleaseDate = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select releaseDate from Album;\" -t`
+  resultingReleaseDate = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select releaseDate from AlbumDB;\" -t`
   resultingReleaseDate = resultingReleaseDate.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
   expect(resultingReleaseDate == release_date)
 end
 
 And(/^the album's database does not change and maintain (\d+) entry$/) do |entry|
-  queryResult = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select count(*) from Album;\" -t`
+  queryResult = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select count(*) from AlbumDB;\" -t`
   queryResult = queryResult.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
   expect(queryResult == entry)
 end
@@ -196,7 +196,7 @@ Then(/^the artist's database should have (\d+) entry$/) do |arg1|
 end
 
 Then(/^the album's database should have (\d+) entry$/) do |arg1|
-    result = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select count(*) from Album;\" -t`
+    result = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select count(*) from AlbumDB;\" -t`
     result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
     expect(result).to eq(arg1)  
 end
@@ -217,10 +217,10 @@ Then(/^the entry should have name "([^"]*)" and surname "([^"]*)"$/) do |name, s
 end
 
 Then(/^the entry should have name "([^"]*)" and release date "([^"]*)"$/) do |title,release_date|
-    resultingTitle = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select title from Album;\" -t`
+    resultingTitle = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select title from AlbumDB;\" -t`
     resultingTitle = resultingTitle.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
     expect(resultingTitle).to eq(title)
-    resultingReleaseDate = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select releaseDate from Album;\" -t`
+    resultingReleaseDate = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select releaseDate from AlbumDB;\" -t`
     resultingReleaseDate = resultingReleaseDate.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
     expect(resultingReleaseDate).to eq(release_date)
 end
