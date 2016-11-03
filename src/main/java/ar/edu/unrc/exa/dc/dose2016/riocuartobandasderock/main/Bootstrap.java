@@ -21,7 +21,7 @@ public class Bootstrap {
 
 	private static BandController bands ;
 	private static ArtistController artistController;
-	private static AlbumController albumController; 
+	private static AlbumController albumController = AlbumController.getInstance();
 	private static SongController songController;
 
     public static void main(String[] args) {
@@ -70,7 +70,6 @@ public class Bootstrap {
         // List of controller
 
         
-        albumController =  AlbumController.getInstance();
         artistController = new ArtistController();
         bands = BandController.getInstance();
         songController = new SongController();
@@ -79,13 +78,7 @@ public class Bootstrap {
 
         // List of route and verbs API REST
         
-        post("/albums", (req, res) -> albumController.create(req, res));
-        
-        get("/albums", (req, res) -> albumController.getAll(req, res));
-        
-        get("/albums/findByTitle/:title", (req, res) -> albumController.findByTitle(req, res));
-        
-        get("/albums/findByReleaseDate/:release_date", (req, res) -> albumController.findByReleaseDate(req, res));
+        post("/albums/", (req, res) -> albumController.create(req, res));
 
         get("/hello", (req, res) -> "Hello World");
 
@@ -113,9 +106,7 @@ public class Bootstrap {
 
         get("/song/findbyname/:name",(req,res)->songController.getSongByName(req,res));
         
-        get("/song/findbyduration/:duration",(req,res)->songController.getSongByDuration(req,res));
-        
-        delete("/song/:id",(req, res) -> songController.removeSong(req, res));
+        get("/song/findbyduration/:name",(req,res)->songController.getSongByDuration(req,res));
         
         after((req, res) -> {res.type("application/json");});
         
