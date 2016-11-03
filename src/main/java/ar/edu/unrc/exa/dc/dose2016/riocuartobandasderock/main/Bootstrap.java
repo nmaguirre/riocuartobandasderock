@@ -21,7 +21,7 @@ public class Bootstrap {
 
 	private static BandController bands ;
 	private static ArtistController artistController;
-	private static AlbumController albumController = AlbumController.getInstance();
+	private static AlbumController albumController;
 	private static SongController songController;
 
     public static void main(String[] args) {
@@ -69,7 +69,7 @@ public class Bootstrap {
         
         // List of controller
 
-        
+        albumController =  AlbumController.getInstance();
         artistController = new ArtistController();
         bands = BandController.getInstance();
         songController = new SongController();
