@@ -1,14 +1,21 @@
 #encoding: utf-8
 
+include RSpec::Matchers
 require 'rest-client'
 require 'json'
 require "rspec"
-include RSpec::Matchers
+require './users_steps.rb'
 
 HOST = "localhost"
 PORT = "5432"
 
+def cookies
+  @cookies
+end
 
+def cookies=(c)
+  @cookies = c
+end
 
 def execute_sql(sql_code)
         done = system "sh db_execute.sh \"#{sql_code}\""
@@ -21,7 +28,9 @@ Given(/^that the application has been started$/) do
 end
 
 Given(/^I have successfully logged in as admin$/) do
-    # Nothing to do here...
+    response = RestClient.post 'http://localhost:4567/login', name: 'admin', password: 'admin'
+    self.cookies = response.cookies
+    expect(response.code).to eq(200)
 end
 
 Given(/^that the artist's database is empty$/) do
