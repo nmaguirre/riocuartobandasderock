@@ -85,7 +85,8 @@ public class UserController {
         User user = dao.find(name);
         if (user != null && user.password().equals(User.encodePassword(password))) {
             session.attribute("name", user.name());
-            session.maxInactiveInterval(60);
+            session.attribute("password", user.password());
+            session.maxInactiveInterval(120);
             res.status(200);
             return "Logged in successfully\n";
         } else {
@@ -104,5 +105,12 @@ public class UserController {
             res.status(200);
             return "Logged out successfully\n";
         }
+    }
+
+    public boolean authenticated(Request req, Response res) {
+        Session session = req.session();
+        return session.attribute("name") != null &&
+               session.attribute("password") != null &&
+               dao.find(session.attribute("name")).password().equals(session.attribute("password"));
     }
 }

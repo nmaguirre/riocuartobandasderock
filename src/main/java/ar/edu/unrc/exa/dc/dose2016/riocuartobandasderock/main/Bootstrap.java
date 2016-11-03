@@ -77,6 +77,11 @@ public class Bootstrap {
         userController = UserController.getInstance();
         port(Integer.parseInt(ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().getAppPort()));
 
+        before("/bands", (req, res) -> {
+            if (!userController.authenticated(req, res)) {
+                halt(401, "Access forbidden\n");
+            }
+        });
 
         // List of route and verbs API REST
 
