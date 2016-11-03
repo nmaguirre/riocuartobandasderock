@@ -81,7 +81,7 @@ public class SongController {
     
     public List<Song> getSongByName (Request req, Response res){
     	
-    	String songName = req.queryParams("name");
+    	String songName = req.params("name");
     	
     	if (songName == null || songName == ""){
     		res.status(400);
@@ -103,7 +103,7 @@ public class SongController {
      */
     
     public List<Song> getSongByDuration (Request req, Response res){
-    	String duration = req.queryParams("duration");
+    	String duration = req.params("duration");
     	
     	if (duration == null || duration == ""){
     		res.status(400);
@@ -136,9 +136,9 @@ public class SongController {
 			return res.body();
 		}
     	session= SessionManager.getInstance();
-    	session.openCurrentSession();
-    	boolean result = songDao.addSong(songName, Integer.parseInt(dur));
-    	session.closeCurrentSession();
+    	session.openCurrentSessionwithTransaction();
+    	boolean result = songDao.addSong(songName,Integer.parseInt(dur));
+    	session.closeCurrentSessionwithTransaction();
     	if(result){
     	res.body("Song created");
     	res.status(201);

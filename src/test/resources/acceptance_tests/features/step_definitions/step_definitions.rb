@@ -1,4 +1,4 @@
-#encoding: utf-8
+  #encoding: utf-8
 
 require 'rest-client'
 require 'json'
@@ -18,7 +18,7 @@ end
 Given(/^that the application has been started$/) do
       # Application is started by the setUp routines
       # Nothing to do here...
-end
+end 
 
 Given(/^I have successfully logged in as admin$/) do
     # Nothing to do here...
@@ -37,9 +37,9 @@ Given(/^that the album's database is empty$/) do
 end
 
 Given(/^that the song's database is empty$/) do
-   result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from SongDB;\" -t`
+    result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from songDB;\" -t`
     result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars 
-    expect(result).to eq("0")
+    expect(result=="0")
 end
 
 Given(/^that the song's database have one song with name "([^"]*)" and duration "([^"]*)"$/) do |name, duration|
@@ -153,14 +153,14 @@ end
 
 When(/^I add a song with name "([^"]*)" and duration "([^"]*)"$/) do |name, duration|
      response = RestClient.post 'http://localhost:4567/song/', { :name => name, :duration => duration }, :content_type => 'text/plain' 
-	 expect(response.code).to eq(201)
+     expect(response.code).to eq(201)
 end
 
 When(/^I search a song with name "([^"]*)" , the result of the search should have (\d+) entry$/) do |value, entries|
   begin
-      String s = 'http://localhost:4567/song/findbyname/'+ value
+      String s = 'http://localhost:4567/song/findbyname/'+ value.gsub(/[^[:print:]]|\s/,'')
       response = RestClient.get s
-      if entradas != "0"
+      if entries != "0"
         expect(response.code).to eq(200)
       else
         expect(response.code).to eq(204)
