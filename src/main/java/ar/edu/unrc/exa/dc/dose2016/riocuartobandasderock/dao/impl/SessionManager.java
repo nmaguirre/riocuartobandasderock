@@ -21,7 +21,8 @@ public class SessionManager{
 	/**
 	 * Empty, private default constructor.
 	 */
-	private SessionManager() { }
+	public SessionManager() {
+	}
 	
 	/**
 	 * Singleton, on demand instance of ServerOptions.
