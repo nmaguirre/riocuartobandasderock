@@ -1,25 +1,24 @@
 #encoding: utf-8
 
-include RSpec::Matchers
 require 'rest-client'
 require 'json'
 require "rspec"
-require './users_steps.rb'
+include RSpec::Matchers
 
 HOST = "localhost"
 PORT = "5432"
 
 def cookies
-  @cookies
+    @cookies
 end
 
 def cookies=(c)
-  @cookies = c
+    @cookies = c
 end
 
 def execute_sql(sql_code)
-        done = system "sh db_execute.sh \"#{sql_code}\""
-            raise Exception.new("Issue executing sql code: #{sql_code}") unless done
+    done = system "sh db_execute.sh \"#{sql_code}\""
+    raise Exception.new("Issue executing sql code: #{sql_code}") unless done
 end
 
 Given(/^that the application has been started$/) do
