@@ -222,7 +222,7 @@ Then(/^the entry should have name "([^"]*)" and release date "([^"]*)"$/) do |ti
     expect(resultingTitle).to eq(title)
     resultingReleaseDate = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select releaseDate from AlbumDB;\" -t`
     resultingReleaseDate = resultingReleaseDate.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
-    expect(resultingReleaseDate).to eq(release_date)
+    expect(resultingReleaseDate) == (release_date)
 end
 
 
@@ -297,5 +297,18 @@ Then(/^the band with name "([^"]*)" and genre "([^"]*)" should be on bands' data
     response = RestClient.get "http://localhost:4567/bands/:#{name}"
     rescue RestClient::Conflict => e
     expect(e.response).to eq(201)
+  end
+end
+
+
+When(/^I list all the albums the result of the search should have (\d+) entries$/) do |arg1|
+  begin
+    response = RestClient.get "http://localhost:4567/albums"
+    puts("Response: "+response)
+    if (arg1 == "0")
+      expect(response.code).to eq(204)
+    else 
+      expect(response.code).to eq(200)
+    end
   end
 end
