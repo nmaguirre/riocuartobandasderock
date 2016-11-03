@@ -19,12 +19,12 @@ import javax.persistence.Table;
  * @author Mariano Ontivero
  */
 @Entity
-@Table(name = "Album")
+@Table(name = "AlbumDB")
 public class Album {
 
 	/** The album ID. */
 	@Id
-	@Column(name = "id")
+	@Column(name = "AlbumID")
 	private String id;
 
 	/** The album title. */
