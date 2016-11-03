@@ -41,7 +41,6 @@ public class Song {
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "albumID")
-
 	private Album album;
 	
 	/**
@@ -76,14 +75,17 @@ public class Song {
 // Seters and geters of the method song............
 	
 	/**
-	 * @return the id of the song
+	 * fn getId
+	 * Description: This method allows obtain on request the id of the song
+	 * @return the id of the song in format String
 	 */
 	public String getId(){
 		return id;
 	}
 	
 	/**
-	 * Sets the id of the song
+	 * proc setId
+	 * Description: Sets the id of the song
 	 * @param i represents the id of the song to assign
 	 */
 	public void setId(String i){
@@ -91,14 +93,17 @@ public class Song {
 	}
 	
 	/**
-	 * @return the name of the song
+	 * fn getName
+	 * Description: This method allows obtain on request the name of the song
+	 * @return the name of the song in format String
 	 */
 	public String getName(){
 		return nameSong;
 	}
 	
 	/**
-	 * Sets the name of the song
+	 * proc setName
+	 * Description: Sets the name of the song
 	 * @param nsong represents the name to assign
 	 */
 	public void setName(String nsong){
@@ -106,14 +111,17 @@ public class Song {
 	}
 	
 	/**
-	 * @return the duration of the song
+	 * fn getDuration
+	 * Description: This method allows obtain on request the duration of the song
+	 * @return the duration of the song in format int
 	 */
 	public int getDuration(){
 		return duration;
 	}
 	
 	/**
-	 * Sets a duration for the song
+	 * proc setDuration
+	 * Description: Sets a duration for the song
 	 * @param dur represents the duration to assign
 	 */
 	public void setDuration(int dur){
@@ -121,6 +129,8 @@ public class Song {
 	}
 	
 	/**
+	 * fn getDurationAsString
+	 * Description: This method allows obtain on request the duration of the song in format of conventional time
 	 * @return the duration in format of conventional time
 	 **/
 	public String getDurationAsString(){
