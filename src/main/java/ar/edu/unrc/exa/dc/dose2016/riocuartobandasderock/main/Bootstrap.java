@@ -114,6 +114,8 @@ public class Bootstrap {
         
         get("/song/findbyduration/:duration",(req,res)->songController.getSongByDuration(req,res));
         
+        delete("/song/:id",(req, res) -> songController.removeSong(req, res));
+        
         after((req, res) -> {res.type("application/json");});
         
     }

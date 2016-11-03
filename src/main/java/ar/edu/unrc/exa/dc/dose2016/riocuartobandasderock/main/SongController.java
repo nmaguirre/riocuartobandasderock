@@ -146,6 +146,33 @@ public class SongController {
     	return res.body();    		
     }
     
+    
+    
+    /***
+	 * This method takes a song from the frontend, and delete this song in database
+	 * @param req
+	 * @param res
+	 * @return true if the song was deleted. Otherwise, false.
+	 */
+	public String removeSong(Request req,Response res){	
+		String id = req.params(":id");
+		if ((id == "") ||(id == null)) {
+			res.status();
+			return "Request invalid";
+		}
+		session= SessionManager.getInstance();
+		session.openCurrentSessionwithTransaction();
+	 	boolean status = songDao.removeSong(id);
+	 	session.closeCurrentSessionwithTransaction();
+		if (status){
+			res.status(200);
+			return "Success";
+		}
+		res.status(409);
+		return "Fail";
+
+	}
+    
    
     
 
