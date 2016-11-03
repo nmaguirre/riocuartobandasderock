@@ -11,7 +11,7 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 
 public class BandDaoImpl implements BandDAO {
 
-	private SessionManager SessionManager;
+	// private SessionManager SessionManager;
 
 
 	/**
@@ -99,7 +99,7 @@ public class BandDaoImpl implements BandDAO {
 		if(areNull || areEmpty){
 			throw new IllegalArgumentException("the params for create band can't be null or empty.");
 		} else {
-			if(this.existBand(name, genre)){
+			if(existBand(name, genre)){
 				result = false;
 			} else {
 				Band band = new Band(name, genre);
