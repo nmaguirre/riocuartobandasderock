@@ -40,7 +40,7 @@ public class Song {
 	
 
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "albumID")
 
 	private Album album;
 	
