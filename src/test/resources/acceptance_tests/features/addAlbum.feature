@@ -17,13 +17,13 @@ Feature: The application responds appropriately to all events that correspond to
 	And the album's database does not change and maintain 1 entry
 
     Scenario: Add an album with the same title but distinct release date 
-	Given that the database contains an album named "Perdido en un sueno" with a null release date
-	When I try to add an album named "Perdido en un sueno" and release date "2002" 
+	Given that the database contains an album named "Perdido" with a null release date
+	When I try to add an album named "Perdido" and release date "2000-12-27" 
 	Then the database should have a new entry
-	And the entry should correspond to an album named "Perdido en un sueno" and release date "2002"
+	And the entry should correspond to an album named "Perdido" and release date "2000-12-27"
 
     Scenario: Add an album with the same tittle but distinct release date
-	Given that the database contains an album named "Perdido en un sueno" and release date "2002"
-	When I try to add an album named "Perdido en un sueno" and release date "2004"
+	Given that the database contains an album named "Perdido en un sueno" and release date "2000-12-27"
+	When I try to add an album named "Perdido" and release date "2001-12-27"
 	Then the database should have a new entry
-	And the entry should correspond to an album named "Perdido en un sueno" and release date "2004"
+	And the entry should correspond to an album named "Perdido" and release date "2001-12-27"
