@@ -117,7 +117,7 @@ public class Bootstrap {
         put("/users/:name", (req, res) -> userController.update(req, res));
         delete("/users/:name", (req, res) -> userController.delete(req, res));
         post("/login", (req, res) -> userController.login(req, res));
-        get("/login/status", (req, res) -> userController.loginStatus(req, res));
+        post("/logout", (req, res) -> userController.logout(req, res));
 
         after((req, res) -> {res.type("application/json");});
 

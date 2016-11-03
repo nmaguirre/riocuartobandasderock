@@ -75,11 +75,15 @@ public class UserController {
     }
 
     public String login(Request req, Response res) {
+        Session session = req.session();
+        if (session.attribute("name") != null) {
+            res.status(200);
+            return "Already logged in as:\n" + session.attribute("name") + "\n";
+        }
         String name = req.queryParams("name");
         String password = req.queryParams("password");
         User user = dao.find(name);
         if (user != null && user.password().equals(User.encodePassword(password))) {
-            Session session = req.session(true);
             session.attribute("name", user.name());
             session.maxInactiveInterval(60);
             res.status(200);
@@ -90,16 +94,15 @@ public class UserController {
         }
     }
 
-    public String loginStatus(Request req, Response res) {
+    public String logout(Request req, Response res) {
         Session session = req.session();
-        String name = session.attribute("name");
-        if (name != null) {
-            User user = dao.find(name);
-            res.status(200);
-            return "Logged in successfully as:\n" + user.name() + "\n";
+        if (session.attribute("name") == null) {
+            res.status(403);
+            return "You're not logged in\n";
         } else {
+            session.invalidate();
             res.status(200);
-            return "Not logged in\n";
+            return "Logged out successfully\n";
         }
     }
 }
