@@ -12,7 +12,7 @@ CREATE TABLE artistDB (
 );
 
 CREATE TABLE SongDB (
-    songID text primary key,
+    idSong text primary key,
     name text not null, 
     duration int,
     albumID text REFERENCES AlbumDB (albumID)
