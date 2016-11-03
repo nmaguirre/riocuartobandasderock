@@ -8,14 +8,6 @@ include RSpec::Matchers
 HOST = "localhost"
 PORT = "5432"
 
-def cookies
-    @cookies
-end
-
-def cookies=(c)
-    @cookies = c
-end
-
 def execute_sql(sql_code)
     done = system "sh db_execute.sh \"#{sql_code}\""
     raise Exception.new("Issue executing sql code: #{sql_code}") unless done
@@ -24,12 +16,6 @@ end
 Given(/^that the application has been started$/) do
       # Application is started by the setUp routines
       # Nothing to do here...
-end
-
-Given(/^I have successfully logged in as admin$/) do
-    response = RestClient.post 'http://localhost:4567/login', name: 'admin', password: 'admin'
-    self.cookies = response.cookies
-    expect(response.code).to eq(200)
 end
 
 Given(/^that the artist's database is empty$/) do
