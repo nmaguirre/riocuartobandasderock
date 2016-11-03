@@ -63,20 +63,20 @@ Given(/^that the artist's database have one artist with name "([^"]*)" and surna
 end
 
 Given(/^that the album's database have one album with title "([^"]*)" and release date "([^"]*)"$/) do |title, release_date|
-  response = RestClient.post 'http://localhost:4567/albums/', { :title => title, :release_date => release_date}, :content_type => 'text/plain' 
+  response = RestClient.post 'http://localhost:4567/albums', { :title => title, :release_date => release_date}, :content_type => 'text/plain' 
   expect(response.code).to eq(201)
 end
 
 
 Given(/^that the database contains an album named "([^"]*)" and release date "([^"]*)"$/) do |title,release_date|
-  response = RestClient.post 'http://localhost:4567/albums/', { :title => title, :release_date => release_date }, :content_type => 'text/plain'
+  response = RestClient.post 'http://localhost:4567/albums', { :title => title, :release_date => release_date }, :content_type => 'text/plain'
   expect(response.code).to eq(201)
 end
 
 
 When(/^I try to add an album named "([^"]*)" and release date "([^"]*)"$/) do |title,release_date|
   begin
-  response = RestClient.post 'http://localhost:4567/albums/', { :title => title, :release_date => release_date}, :content_type => 'text/plain'
+  response = RestClient.post 'http://localhost:4567/albums', { :title => title, :release_date => release_date}, :content_type => 'text/plain'
   expect(response.code).to eq(201) 
   rescue RestClient::Conflict => e
   end
@@ -107,7 +107,7 @@ When(/^I add an artist with name "([^"]*)" and surname "([^"]*)" and nickname "(
 end
 
 When(/^I add an album with name "([^"]*)" and release date "([^"]*)"$/) do |title,release_date|
-  response = RestClient.post 'http://localhost:4567/albums/', { :title => title, :release_date => release_date }, :content_type => 'text/plain' 
+  response = RestClient.post 'http://localhost:4567/albums', { :title => title, :release_date => release_date }, :content_type => 'text/plain' 
   expect(response.code).to eq(201)  
 end
 
@@ -127,7 +127,7 @@ end
 
 When(/^I search an album with "([^"]*)" "([^"]*)" , the result of the search should have (\d+) entry$/) do |atributo, valor, entradas|
   begin  
-    String s = 'http://localhost:4567/album/findby' + atributo + '/' + valor
+    String s = 'http://localhost:4567/albums/findby' + atributo + '/' + valor
     response = RestClient.get s
     if entradas != "0"
       expect(response.code).to eq(200)
