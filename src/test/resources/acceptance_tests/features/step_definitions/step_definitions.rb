@@ -186,6 +186,8 @@ end
 
 Given(/^that the bands' database is empty$/) do
     sleep (2)
+
+
     result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from bandDB;\" -t`
     result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
     expect(result).to eq("0")
@@ -220,15 +222,12 @@ end
 
 Given(/^that the bands' database have (\d+) entries$/) do |cant|
   1..cant.to_i.times do |n|
-    name = "Band #{n}"
-    genre = "Rock"
-    response = RestClient.post 'http://localhost:4567/bands/', { :name => name, :genre => genre }, :content_type => 'text/plain'
-    expect(response.code).to eq(201)
+    response = RestClient.post 'http://localhost:4567/bands/', { :name => "name#{n}", :genre => "genre#{1}" }, :content_type => 'text/plain'
   end
 
   result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from bandDB;\" -t`
   result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
-  expect(cant).to eq(result)
+  expect(cant.to_s).to eq(result)
 end
 
 And(/^the band with name "([^"]*)" and genre "([^"]*)" is not in bands' datebase$/) do |name,genre|
@@ -289,50 +288,77 @@ end
 
 # Find Band feature
 
-When(/^I search a band with name "([^"]*)", the application must return (\d+) results"$/) do |name, entries|
-  begin  
-    response = RestClient.get "http://localhost:4567/bands/findbyname/#{name}"
-    if entries != "0"
-      expect(response.code).to eq(200)
-    else
-      expect(response.code).to eq(204)
-    end
-    rescue RestClient::NotFound => e
-      expect(valor).to eq("")
-  end
+# Find Band by name
+When(/^I search a band with name "([^"]*)", the application must return (\d+) results$/) do |name, entries|
+  result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from bandDB where name = '#{name}';\" -t`
+  result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+  expect(result).to eq(entries)
 end
 
-When(/^I search a band with genre "([^"]*)", the application must return (\d+) results"$/) do |genre, entries|
-  begin  
-    response = RestClient.get "http://localhost:4567/bands/findbygenre/#{genre}"
-    if entries != "0"
-      expect(response.code).to eq(200)
-    else
-      expect(response.code).to eq(204)
-    end
-    rescue RestClient::NotFound => e
-      expect(valor).to eq("")
-  end
+When(/^I search a band with name "([^"]*)", the band exist in the database, then the application must return (\d+) results$/) do |name, entries|
+  result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from bandDB where name = '#{name}';\" -t`
+  result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+  expect(result).to eq(entries)
 end
 
-When(/^I search a band with genre "([^"]*)", the application must return (\d+) results"$/) do |genre, entries|
-  begin  
-    response = RestClient.get "http://localhost:4567/bands/findbygenre/#{genre}"
-    if entries != "0"
-      expect(response.code).to eq(200)
-    else
-      expect(response.code).to eq(204)
-    end
-    rescue RestClient::NotFound => e
-      expect(valor).to eq("")
-  end
+When(/^I search a band with name "([^"]*)", the band doesn't exist in the database, then the application must return (\d+) results$/) do |name, entries|
+  result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from bandDB where name = '#{name}';\" -t`
+  result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+  expect(result).to eq(entries)
 end
 
-# When(/^I search a band with name "([^"]*)", and genre "([^"]*)", the application must return (\d+) results"$/) do |name, genre, entries|
-#   begin  
-#     response = RestClient.get "http://localhost:4567/bands/:#{name}"
-#     entries.to_i == "0" ? expect(response.code).to eq(204) : expect(response.code).to eq(200)
-#   rescue RestClient::NotFound => e
-#     expect(entries).to eq("")
-#   end
-# end
+# Find Band by genre
+When(/^I search a band with genre "([^"]*)", the application must return (\d+) results$/) do |genre, entries|
+  result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from bandDB where genre = '#{genre}';\" -t`
+  result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+  expect(result).to eq(entries)
+end
+
+When(/^I search a band with genre "([^"]*)", the band exist in the database, then the application must return (\d+) results$/) do |genre, entries|
+  result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from bandDB where genre = '#{genre}';\" -t`
+  result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+  expect(result).to eq(entries)
+end
+
+When(/^I search a band with genre "([^"]*)", the band doesn't exist in the database, then the application must return (\d+) results$/) do |genre, entries|
+  result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from bandDB where genre = '#{genre}';\" -t`
+  result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+  expect(result).to eq(entries)
+end
+
+# Find Band by name and genre
+When(/^I search a band with name "([^"]*)", and genre "([^"]*)", the application must return (\d+) results$/) do |name, genre, entries|
+  2..entries.to_i.times do |n|
+    response = RestClient.post 'http://localhost:4567/bands/', { :name => "name#{n}", :genre => "genre#{1}" }, :content_type => 'text/plain'
+  end
+
+  response = RestClient.post 'http://localhost:4567/bands/', { :name => name, :genre => genre }, :content_type => 'text/plain'
+
+  result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from bandDB where name = '#{name}' AND genre = '#{genre}';\" -t`
+  result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+  expect(result).to eq(entries)
+end
+
+When(/^I search a band with name "([^"]*)", and genre "([^"]*)", the band exist in the database, the application must return (\d+) results$/) do |name, genre, entries|
+  2..entries.to_i.times do |n|
+    response = RestClient.post 'http://localhost:4567/bands/', { :name => "name#{n}", :genre => "genre#{1}" }, :content_type => 'text/plain'
+  end
+
+  response = RestClient.post 'http://localhost:4567/bands/', { :name => name, :genre => genre }, :content_type => 'text/plain'
+
+  result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from bandDB where name = '#{name}' AND genre = '#{genre}';\" -t`
+  result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+  expect(result).to eq(entries)
+end
+
+When(/^I search a band with name "([^"]*)", and genre "([^"]*)", the band doesn't exist in the database, the application must return (\d+) results$/) do |name, genre, entries|
+  2..entries.to_i.times do |n|
+    response = RestClient.post 'http://localhost:4567/bands/', { :name => "name#{n}", :genre => "genre#{1}" }, :content_type => 'text/plain'
+  end
+
+  response = RestClient.post 'http://localhost:4567/bands/', { :name => name, :genre => genre }, :content_type => 'text/plain'
+
+  result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from bandDB where name = '#{name}' AND genre = '#{genre}';\" -t`
+  result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+  expect(result).to eq(entries)
+end
