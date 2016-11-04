@@ -16,14 +16,7 @@ Feature: The application responds appropriately to all events that correspond to
 	Then the system informs that album named "Perdido" and release date "2000-12-27" already exists in the database
 	And the album's database does not change and maintain 1 entry
 
-    Scenario: Add an album with the same title but distinct release date 
-	Given that the database contains an album named "Perdido" with a null release date
-	When I try to add an album named "Perdido" and release date "2000-12-27" 
-	Then the database should have a new entry
-	And the entry should correspond to an album named "Perdido" and release date "2000-12-27"
-
     Scenario: Add an album with the same tittle but distinct release date
-	Given that the database contains an album named "Perdido en un sueno" and release date "2000-12-27"
+	Given that the database contains an album named "Perdido" and release date "2000-12-27"
 	When I try to add an album named "Perdido" and release date "2001-12-27"
-	Then the database should have a new entry
-	And the entry should correspond to an album named "Perdido" and release date "2001-12-27"
+Then the album's database should have 2 entry
