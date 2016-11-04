@@ -20,7 +20,7 @@ import spark.Response;
 public class SongController {
 
     private SongDAO songDao;
-    private SessionManager session;
+    private SessionManager session = SessionManager.getInstance();
  
     
     
@@ -86,8 +86,7 @@ public class SongController {
     	if (songName == null || songName == ""){
     		res.status(400);
     		return null;
-    	}
-    	session= SessionManager.getInstance();   	
+    	};   	
     	session.openCurrentSession();
     	List<Song> songs = songDao.findByName(songName);
     	session.closeCurrentSession();
@@ -109,7 +108,6 @@ public class SongController {
     		res.status(400);
     		return null;
     	}
-    	session= SessionManager.getInstance();
     	session.openCurrentSession();
     	List<Song> songs = songDao.findByDuration(Integer.parseInt(duration));
     	session.closeCurrentSession();
@@ -135,7 +133,6 @@ public class SongController {
 			res.body("Invalid content of parameters");
 			return res.body();
 		}
-    	session= SessionManager.getInstance();
     	session.openCurrentSessionwithTransaction();
     	boolean result = songDao.addSong(songName,Integer.parseInt(dur));
     	session.closeCurrentSessionwithTransaction();
@@ -157,19 +154,21 @@ public class SongController {
 	public String removeSong(Request req,Response res){	
 		String id = req.params(":id");
 		if ((id == "") ||(id == null)) {
-			res.status();
-			return "Request invalid";
+			res.status(400);
+			res.body("Invalid request");
+			return res.body();
 		}
-		session= SessionManager.getInstance();
 		session.openCurrentSessionwithTransaction();
 	 	boolean status = songDao.removeSong(id);
 	 	session.closeCurrentSessionwithTransaction();
 		if (status){
 			res.status(200);
-			return "Success";
+			res.body("Success");
+			res.body();
 		}
 		res.status(409);
-		return "Fail";
+		res.body("Fail");
+		return res.body();
 
 	}
     
