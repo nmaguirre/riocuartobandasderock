@@ -25,7 +25,7 @@ public class SessionManagerTest {
 	}
 	
 	@Test
-	/* */
+	/* If the current session is closed, then it remains closed until it´s become open again. */
 	public void closeAndOpenCheckSessionTest(){
 		SessionManager session =SessionManager.getInstance();
 		session.closeCurrentSession();
