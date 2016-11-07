@@ -79,7 +79,13 @@ public class Bootstrap {
 
         // List of route and verbs API REST
         
-        post("/albums/", (req, res) -> albumController.create(req, res));
+        post("/albums", (req, res) -> albumController.create(req, res));
+               
+        get("/albums", (req, res) -> albumController.getAll(req, res));
+              
+        get("/albums/findByTitle/:title", (req, res) -> albumController.findByTitle(req, res));
+                
+        get("/albums/findByReleaseDate/:release_date", (req, res) -> albumController.findByReleaseDate(req, res));
 
         get("/hello", (req, res) -> "Hello World");
 
