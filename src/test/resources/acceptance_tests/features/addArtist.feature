@@ -8,7 +8,7 @@ Feature: The application responds appropriately to all events that correspond to
         Given that the artist's database is empty
         When I add an artist with name "Matias" and surname "Serra" and nickname ""
         Then the artist's database should have 1 entry
-        And the entry should have name "Matias" and surname "Serra"
+        And the entry should have name "Matias" and surname "Serra" and nickname ""
         
 	
     Scenario: Add a new artist with the same name that an artist that stores in the database but diferent surname
@@ -20,6 +20,6 @@ Feature: The application responds appropriately to all events that correspond to
 		Given that the artist's database have one artist with name "Matias" and surname "Serra" and nickname ""
         When I add an artist with name "Matias" and surname "Serra" and nickname ""
         Then the artist's database should have 1 entry
-        And the entry should have name "Matias" and surname "Serra"
+        And the entry should have name "Matias" and surname "Serra" and nickname ""
         
         

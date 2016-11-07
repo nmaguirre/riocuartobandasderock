@@ -101,7 +101,7 @@ public class Bootstrap {
          * **/    
         get("/artist/:id",(req,res)->artistController.getArtistById(req,res));
         
-        get ("artist/:name/:surname/:nickname" ,(req,res)->artistController.getOneArtist(req, res),json()); 
+        get ("/artist/:name/:surname/:nickname" ,(req,res)->artistController.getOneArtist(req, res),json()); 
 
         get ("/artist", (req,res)->artistController.getAllArtists(req,res),json());
 

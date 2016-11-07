@@ -159,13 +159,17 @@ Then(/^the song's database should have (\d+) entry$/) do |arg1|
     expect(result).to eq("1")  
 end
 
-Then(/^the entry should have name "([^"]*)" and surname "([^"]*)"$/) do |name, surname|
+Then(/^the entry should have name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)"$/) do |name, surname, nickname|
     resultingName = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select name from artistDB;\" -t`
     resultingName = resultingName.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
     expect(resultingName).to eq(name)
     resultingSurname = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select surname from artistDB;\" -t`
     resultingSurname = resultingSurname.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
     expect(resultingSurname).to eq(surname)
+    resultingNickName = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select nickname from artistDB;\" -t`
+    resultingNickName = resultingNickName.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+    expect(resultingNickName).to eq(nickname)
+ 
 end
 
 Then(/^the entry should have name "([^"]*)" and release date "([^"]*)"$/) do |title,release_date|
@@ -252,25 +256,27 @@ Then(/^the band with name "([^"]*)" and genre "([^"]*)" should be on bands' data
   end
 end
 
-# updateArtist Definitions
- #feaure 1
-Given(/^that the artist's database has "([^"]*)" entry$/) do |arg1|
-  response = RestClient.post 'http://localhost:4567/artist/', { :name => 'Matias', :surname => 'Serra', :nickname => '' }, :content_type => 'text/plain' 
-  expect(response.code).to eq(201)
+#
+# BEGIN updateArtist.feature 
+#
+# Given(/^that the artist's database has "([^"]*)" entry$/) do |arg1|
+#   response = RestClient.post 'http://localhost:4567/artist/', { :name => 'Matias', :surname => 'Serra', :nickname => '' }, :content_type => 'text/plain' 
+#   expect(response.code).to eq(201)
 
+# end
+
+
+When(/^modify this artist with name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)" with new name "([^"]*)"$/) do |name, surname, nickname, newname|
+    String s = 'http://localhost:4567/artist/'
+    response = RestClient.get s + name + '/' + surname + '/'+nickname
+    # register match
+    expect(response.code).to eq(200)
+    artistID = JSON.load(response.to_str)
+    artistID = artistID["artistID"]
+
+      
 end
-
-Given(/^the artist entry has name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)"$/) do |arg1, arg2, arg3|
-  #pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^that the artist's database one entry has name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)"$/) do |arg1, arg2, arg3|
-  #pending # Write code here that turns the phrase above into concrete actions
-end
-
-When(/^I modify this artist and set name "([^"]*)"$/) do |arg1|
-  #pending # Write code here that turns the phrase above into concrete actions
-end
-# end updaeArtist Definitions
-
+#
+# END updateArtist.feature 
+#
 

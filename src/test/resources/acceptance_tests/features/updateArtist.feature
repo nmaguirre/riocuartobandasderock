@@ -5,7 +5,8 @@ Feature: The application responds appropriately to all events that correspond to
         And I have successfully logged in as admin
 
     Scenario: Update one artist on artist's database with one entry
-        Given that the artist's database one entry has name "Matias" and surname "Serra" and nickname ""
-        When I modify this artist and set name "Jacinto"
-        Then the artist's database should have 0 entry
-        And the artist entry has name "Jacinto" and surname "Serra" and nickname ""
+        Given that the artist's database have one artist with name "Matias" and surname "Serra" and nickname "matu"
+        When modify this artist with name "Matias" and surname "Serra" and nickname "matu" with new name "Jacinto"
+        Then the artist's database should have 1 entry
+        And the entry should have name "Jacinto" and surname "Serra" and nickname "matu"
+
