@@ -20,6 +20,7 @@ public class ArtistDAOTest {
 
 	private ArtistDAO artistDAO;
 	private SessionManager session;
+	
 	@Before
 	public void setUp(){
 		artistDAO = new ArtistDaoImpl();
@@ -436,7 +437,7 @@ public class ArtistDAOTest {
 		String updatedName = name;
 		String updatedSurname = "updatedSurname";
 		String updatedNickname = "updatedNickname";
-		while(artistDAO.existArtist(name,surname,nickname)){
+		while(artistDAO.existArtist(updatedName,updatedSurname,updatedNickname)){
 			updatedName+="a";
 		}
 		session.closeCurrentSession();

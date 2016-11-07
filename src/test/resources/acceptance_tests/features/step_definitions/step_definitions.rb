@@ -204,7 +204,8 @@ end
 Then(/^the song's database should have (\d+) entry$/) do |arg1|
     result = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select count(*) from SongDB;\" -t`
     result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
-    expect(result == 1)  
+	 HEAD
+    expect(result).to eq("1")   
 end
 
 Then(/^the entry should have name "([^"]*)" and surname "([^"]*)"$/) do |name, surname|
@@ -226,7 +227,8 @@ Then(/^the entry should have name "([^"]*)" and release date "([^"]*)"$/) do |ti
 end
 
 
-Then(/^the entry should have name "([^"]*)" and duration "([^"]*)"$/) do |arg1, arg2|
+Then(/^the entry should have name "([^"]*)" and duration "([^"]*)"$/) do |name, duration|
+	
     pending
 end
 

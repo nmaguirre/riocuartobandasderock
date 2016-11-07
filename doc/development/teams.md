@@ -25,6 +25,7 @@
   - Depetriz Ezequiel
   - Calcagno Camila
   - Martinez Agustín
+  - Rocha Luciano
 
 ##Album
 - Leader : Joaquin Heredia
@@ -32,7 +33,6 @@
   - Mauricio Delle Vedove
   - Matias Rondeau
   - Alan Gonzalez
-  - Rocha Luciano
   - Gabriela Bertorello
   - Mariano Ontivero
 
