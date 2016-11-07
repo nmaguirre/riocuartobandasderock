@@ -17,17 +17,20 @@ public class SessionManager{
 	private Session currentSession;
 
 	private Transaction currentTransaction;
-	
+
 	/**
 	 * Empty, private default constructor.
 	 */
-	private SessionManager() { }
-	
+	private SessionManager() {
+		currentSession = getSessionFactory().openSession();
+		currentTransaction = currentSession.beginTransaction();
+	}
+
 	/**
 	 * Singleton, on demand instance of ServerOptions.
 	 */
 	private static SessionManager instance = null;
-	
+
 	public Session openCurrentSession() {
 		currentSession = getSessionFactory().openSession();
 		return currentSession;
@@ -88,7 +91,7 @@ public class SessionManager{
 	public void setCurrentTransaction(Transaction currentTransaction) {
 		this.currentTransaction = currentTransaction;
 	}
-	
+
 	/**
 	 * Returns the (sole) instance of ServerOptions, on demand.
 	 * It is created the first time it is accessed, and from that
@@ -100,7 +103,7 @@ public class SessionManager{
 		if (instance==null) instance = new SessionManager();
 		return instance;
 	}
-	
-	
+
+
 
 }

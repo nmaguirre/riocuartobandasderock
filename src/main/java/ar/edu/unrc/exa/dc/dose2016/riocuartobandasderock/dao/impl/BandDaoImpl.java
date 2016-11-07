@@ -99,7 +99,7 @@ public class BandDaoImpl implements BandDAO {
 		if(areNull || areEmpty){
 			throw new IllegalArgumentException("the params for create band can't be null or empty.");
 		} else {
-			if(existBand(name, genre)){
+			if(existBand(name)){
 				result = false;
 			} else {
 				Band band = new Band(name, genre);
