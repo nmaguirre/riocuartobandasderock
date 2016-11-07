@@ -99,8 +99,107 @@ public class BandMemberDAOTest {
 		//boolean bandMemberInBd = bandMemberDAO.exists(artistId,bandId);
 		session.closeCurrentSession();
 		
-		// Check that in db there is only 1 artist with artistToAdd information
+		// Check that the operation was successful and bandMember is in db
 		//assertTrue(successfulOPeration);
 		//assertTrue(bandMemberInBd);
 	}
+	
+	@Test
+	public void bandMember_not_in_db_but_artist_neither() {				
+		
+		/*
+		 * CREATE BAND IN DB
+		*/
+		
+		String bandName = "a";
+		String genre = "b";		
+		
+		session.openCurrentSession();
+		while(bandDAO.existBand(bandName, genre)){
+			bandName+="a";
+		}
+		session.closeCurrentSession();		
+		
+		// Add band in db
+		session.openCurrentSessionwithTransaction();
+		bandDAO.createBand(bandName, genre);
+		session.closeCurrentSessionwithTransaction();
+		
+		/*
+		 * CREATE BANDMEMBER IN DB
+		 * The operation must fail because
+		 * the artist is not in db
+		*/			
+		
+		String artistId = "-1";
+		
+		session.openCurrentSession();
+		//String bandId = bandDAO.findBandByNameAndGenre(bandName).getId;
+		session.closeCurrentSession();
+		
+		// Add bandMember in db
+		session.openCurrentSessionwithTransaction();
+		//boolean successfulOPeration = bandMemberDAO.createBandMember(artistId,bandId);
+		session.closeCurrentSessionwithTransaction();
+		
+		session.openCurrentSession();
+		//boolean bandMemberInBd = bandMemberDAO.exists(artistId,bandId);
+		session.closeCurrentSession();
+		
+		// Check that the operation was successful and bandMember is in db
+		//assertTrue(!successfulOPeration);
+		//assertTrue(!bandMemberInBd);
+	}
+	
+	
+	@Test
+	public void bandMember_not_in_db_but_band_neither() {				
+		
+		/*
+		 * CREATE ARTIST IN DB
+		*/
+		
+		String name = "a";
+		String surname = "b";
+		String nickname = "";
+		
+		session.openCurrentSession();
+		while(artistDAO.existArtist(name,surname,nickname)){
+			name+="a";
+		}
+		session.closeCurrentSession();		
+		
+		// Add artistToAdd in db
+		session.openCurrentSessionwithTransaction();
+		artistDAO.createArtist(name,surname,nickname);
+		session.closeCurrentSessionwithTransaction();
+		
+		/*
+		 * CREATE BANDMEMBER IN DB
+		 * The operation must fail because
+		 * the band is not in db
+		*/			
+		
+		String bandId = "-1";
+		
+		session.openCurrentSession();
+		String artistId = artistDAO.getArtist(name, surname, nickname).getId();
+		session.closeCurrentSession();
+		
+		// Add bandMember in db
+		session.openCurrentSessionwithTransaction();
+		//boolean successfulOPeration = bandMemberDAO.createBandMember(artistId,bandId);
+		session.closeCurrentSessionwithTransaction();
+		
+		session.openCurrentSession();
+		//boolean bandMemberInBd = bandMemberDAO.exists(artistId,bandId);
+		session.closeCurrentSession();
+		
+		// Check that the operation was successful and bandMember is in db
+		//assertTrue(!successfulOPeration);
+		//assertTrue(!bandMemberInBd);
+	}
+	
+	
+	
 }
