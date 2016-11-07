@@ -274,6 +274,9 @@ When(/^modify this artist with name "([^"]*)" and surname "([^"]*)" and nickname
     artistID = JSON.load(response.to_str)
     artistID = artistID["artistID"]
 
+    response = RestClient.put 'http://localhost:4567/artist/'+artistID, { :name => newname, :surname => surname, :nickname => nickname }, :content_type => 'text/plain' 
+    expect(response.code).to eq(200)
+
       
 end
 #
