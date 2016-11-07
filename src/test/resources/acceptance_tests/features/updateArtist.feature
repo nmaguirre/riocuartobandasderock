@@ -6,7 +6,7 @@ Feature: The application responds appropriately to all events that correspond to
 
     Scenario: Update one artist on artist's database with one entry
         Given that the artist's database have one artist with name "Matias" and surname "Serra" and nickname "matu"
-        When modify this artist with name "Matias" and surname "Serra" and nickname "matu" with new name "Jacinto"
+        When modify this artist with name "Matias" and surname "Serra" and nickname "matu" with new name "Jacinto" and new surname "Serra" and new nickname "matu"
         Then the artist's database should have 1 entry
         And the entry should have name "Jacinto" and surname "Serra" and nickname "matu"
 

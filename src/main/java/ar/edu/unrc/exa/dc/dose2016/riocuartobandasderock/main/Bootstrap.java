@@ -70,7 +70,7 @@ public class Bootstrap {
         // List of controller
 
         
-        artistController = new ArtistController();
+        artistController = ArtistController.getInstance();
         bands = BandController.getInstance();
         songController = new SongController();
         port(Integer.parseInt(ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().getAppPort()));
@@ -105,9 +105,9 @@ public class Bootstrap {
 
         get ("/artist", (req,res)->artistController.getAllArtists(req,res),json());
 
-        get("/artist/findbyname/:name",(req,res)->artistController.getArtistByName(req,res),json());
+        get("/artists/findbyname/:name",(req,res)->artistController.getArtistByName(req,res),json());
         
-        get("/artist/findbynickname/:nickname",(req,res)->artistController.getArtistByNickname(req,res),json());
+        get("/artists/findbynickname/:nickname",(req,res)->artistController.getArtistByNickname(req,res),json());
 
         get("/artist/findbysurname/:surname",(req,res)->artistController.getArtistBySurname(req,res),json());
 
