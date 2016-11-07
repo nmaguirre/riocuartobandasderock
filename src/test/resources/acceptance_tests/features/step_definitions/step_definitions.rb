@@ -265,8 +265,7 @@ end
 
 # end
 
-
-When(/^modify this artist with name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)" with new name "([^"]*)"$/) do |name, surname, nickname, newname|
+When(/^modify this artist with name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)" with new name "([^"]*)" and new surname "([^"]*)" and new nickname "([^"]*)"$/) do |name, surname, nickname, newname, newsurname, newnickname|
     String s = 'http://localhost:4567/artist/'
     response = RestClient.get s + name + '/' + surname + '/'+nickname
     # register match
@@ -274,7 +273,7 @@ When(/^modify this artist with name "([^"]*)" and surname "([^"]*)" and nickname
     artistID = JSON.load(response.to_str)
     artistID = artistID["artistID"]
 
-    response = RestClient.put 'http://localhost:4567/artist/'+artistID, { :name => newname, :surname => surname, :nickname => nickname }, :content_type => 'text/plain' 
+    response = RestClient.put s+artistID, { :name => newname, :surname => newsurname, :nickname => newnickname }, :content_type => 'text/plain' 
     expect(response.code).to eq(200)
 
       

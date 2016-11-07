@@ -15,13 +15,22 @@ public class ArtistController {
 	/**
 	 * one implementation ArtistDao to connect to db
 	 */
-	private ArtistDAO artistDAO;
+	private static ArtistDAO artistDAO;
 	private SessionManager session;
+	private static ArtistController instance;
     /**
      * Constructor
      */
-	public ArtistController(){
+	private static void ArtistController(){
 		artistDAO = new ArtistDaoImpl();
+		instance = new ArtistController();
+	}
+	
+	/* Method return SingletonInstance of ArtistController */
+	
+	public static ArtistController getInstance() {
+		if (instance==null)  ArtistController();
+		return instance;
 	}
 	
 	/**
