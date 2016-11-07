@@ -99,7 +99,7 @@ public class BandDaoImpl implements BandDAO {
 		if(areNull || areEmpty){
 			throw new IllegalArgumentException("the params for create band can't be null or empty.");
 		} else {
-			if(this.existBand(name, genre)){
+			if(this.existBand(name)){
 				result = false;
 			} else {
 				Band band = new Band(name, genre);
@@ -116,22 +116,21 @@ public class BandDaoImpl implements BandDAO {
 	 * @return true if exists a band
 	 */
 	@Override
-	public boolean existBand(String name, String genre){
+	public boolean existBand(String name){
 		boolean result = false;
 		boolean areEmpty = false;
 		boolean areNull = false;
-		areNull = name == null || genre == null;
+		areNull = name == null;
 		if(!areNull){
-			areEmpty = name.equals("") && genre.equals("");
+			areEmpty = name.equals("");
 		}
 		if(areNull || areEmpty){
 			throw new IllegalArgumentException("the params for search band can't be null or empty.");
 		} else {
 
-			String hq1 = "FROM Band A WHERE A.name = :paramName and A.genre = :paramGenre";
+			String hq1 = "FROM Band A WHERE A.name = :paramName";
 			Query<Band> query = SessionManager.getInstance().getCurrentSession().createQuery(hq1, Band.class);
 			query.setParameter("paramName", name);
-			query.setParameter("paramGenre", genre);
 			List<Band> bandList = query.getResultList();
 			if(bandList.isEmpty()){
 				result = false;

@@ -86,6 +86,6 @@ public interface BandDAO {
 	    * @param genre
 	    * @return true if a band exist
 	    */
-	   public boolean existBand(String name, String genre);
+	   public boolean existBand(String name);
 }
 
