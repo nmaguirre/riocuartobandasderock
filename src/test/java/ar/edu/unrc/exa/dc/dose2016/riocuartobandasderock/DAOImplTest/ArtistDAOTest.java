@@ -245,6 +245,76 @@ public class ArtistDAOTest {
 	}
 	
 	
+	
+	/*
+	 * FIND BY ID METHOD TESTS
+	 */
+	
+	
+	@Test
+	public void findId_Artist_in_db() {
+		List<Artist> artistList = new LinkedList<>();
+		
+		String name = "a";
+		String surname = "b";
+		String nickname = "";
+		
+		session.openCurrentSession();
+		while(artistDAO.existArtist(name,surname,nickname)){
+			name+="a";
+		}
+		session.closeCurrentSession();
+		
+		// Create the artist to add in db
+		Artist artistToAdd = new Artist(name, surname, nickname);
+		
+		// Add artistToAdd in db
+		session.openCurrentSessionwithTransaction();
+		artistDAO.createArtist(name,surname,nickname);
+		session.closeCurrentSessionwithTransaction();
+		
+		String artistId = artistToAdd.getId();
+		
+		session.openCurrentSession();
+		Artist obtainedArtist = artistDAO.findById(artistId);
+		session.closeCurrentSession();
+		
+		assertTrue(obtainedArtist != null);
+		assertEquals(obtainedArtist.getName(), artistToAdd.getName());
+		assertEquals(obtainedArtist.getSurname(), artistToAdd.getSurname());
+		assertEquals(obtainedArtist.getNickname(), artistToAdd.getNickname());
+	}
+	
+	@Test
+	public void findById_Artist_not_in_db() {
+						
+		session.openCurrentSession();
+		Artist obtainedArtist = artistDAO.findById("-1");
+		session.closeCurrentSession();
+		
+		assertTrue(obtainedArtist == null);
+	}
+	
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void findById_null_id() {
+
+		session.openCurrentSession();
+		Artist obtainedArtist = artistDAO.findById(null);
+		session.closeCurrentSession();
+		
+	}
+	
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void findById_empty_Id() {
+		
+		session.openCurrentSession();
+		Artist obtainedArtist = artistDAO.findById("");
+		session.closeCurrentSession();
+	}
+	
+	
 	/*
 	 * FIND BY SURNAME METHOD TESTS
 	 */
