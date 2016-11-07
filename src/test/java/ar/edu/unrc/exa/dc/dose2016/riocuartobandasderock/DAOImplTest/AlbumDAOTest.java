@@ -23,10 +23,12 @@ public class AlbumDAOTest {
 	
 	private AlbumDAO albumDao;
 	private SessionManager session;
+	private Date exampleDate1;
 	@Before
 	public void setUp(){
 		albumDao = new AlbumDaoImpl();
 		session= SessionManager.getInstance();
+		exampleDate1 = new Date(2010,04,10);
 	}
 	
 	@Test
@@ -127,10 +129,42 @@ public class AlbumDAOTest {
 		assertEquals(3,lista.size());
 	}
 	
+	@Test
+	public void deleteAlbum(){
+		
+		session.openCurrentSessionwithTransaction();
+		albumDao.create("AlbumTestToDelete", new Date(2016,01,01));
+		session.closeCurrentSessionwithTransaction();
+		
+		session.openCurrentSession();
+		List<Album> query = albumDao.findByTitle("AlbumTestToDelete");
+		session.openCurrentSession();
+		
+		session.openCurrentSessionwithTransaction();
+		boolean isDelete = albumDao.delete(query.get(0).getId());		
+		session.closeCurrentSessionwithTransaction();
+		assertTrue(isDelete);
+	}
+	
+	@Test
+	public void deleteAlbumIfNotExistInDB(){
+		session.openCurrentSessionwithTransaction();
+		boolean isDelete = albumDao.delete("OneIDThatNotExist");		
+		session.closeCurrentSessionwithTransaction();
+		assertFalse(isDelete);
+	}
 	
 	@Test
 	public void findByNameTest(){
-		assertTrue(true);
+		session.openCurrentSessionwithTransaction();
+		albumDao.create("AlbumTestToFind", exampleDate1);
+		session.closeCurrentSessionwithTransaction();
+		
+		session.openCurrentSession();
+		List<Album> queryAlbum = albumDao.findByTitle("AlbumTestToFind");
+		session.closeCurrentSession();
+		
+		assertEquals("AlbumTestToFind", queryAlbum.get(0).getTitle() );
 	}
 		
 }
