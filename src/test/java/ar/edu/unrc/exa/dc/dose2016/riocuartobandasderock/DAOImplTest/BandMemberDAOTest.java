@@ -146,7 +146,7 @@ public class BandMemberDAOTest {
 		//boolean bandMemberInBd = bandMemberDAO.exists(artistId,bandId);
 		session.closeCurrentSession();
 		
-		// Check that the operation was successful and bandMember is in db
+		// Check that the operation wasnt successful and bandMember is in db
 		//assertTrue(!successfulOPeration);
 		//assertTrue(!bandMemberInBd);
 	}
@@ -195,11 +195,31 @@ public class BandMemberDAOTest {
 		//boolean bandMemberInBd = bandMemberDAO.exists(artistId,bandId);
 		session.closeCurrentSession();
 		
-		// Check that the operation was successful and bandMember is in db
+		// Check that the operation wasnt successful and bandMember is in db
 		//assertTrue(!successfulOPeration);
 		//assertTrue(!bandMemberInBd);
 	}
 	
-	
+	@Test
+	public void bandMember_not_in_db_but_band_and_artist_neither() {				
+		
+				
+		/*
+		 * CREATE BANDMEMBER IN DB
+		 * The operation must fail because
+		 * the band and arsits are not in db
+		*/			
+		
+		String bandId = "-1";
+		String artistId = "-1";
+		
+		session.openCurrentSession();
+		//boolean bandMemberInBd = bandMemberDAO.exists(artistId,bandId);
+		session.closeCurrentSession();
+		
+		// Check that the operation wasnt successful and bandMember is in db
+		//assertTrue(!successfulOPeration);
+		//assertTrue(!bandMemberInBd);
+	}
 	
 }
