@@ -103,11 +103,11 @@ public class Bootstrap {
 
         post("/artist/",(req,res)->artistController.createArtist(req,res));
         
-        post("/song/",(req,res)->songController.addSong(req, res));
+        post("/song",(req,res)->songController.create(req, res));
 
-        get("/song/findbyname/:name",(req,res)->songController.getSongByName(req,res));
+        get("/songs/findbyname/:name",(req,res)->songController.getSongByName(req,res));
         
-        get("/song/findbyduration/:duration",(req,res)->songController.getSongByDuration(req,res));
+        get("/songs/findbyduration/:duration",(req,res)->songController.getSongByDuration(req,res));
         
         delete("/song/:id",(req, res) -> songController.removeSong(req, res));
         
