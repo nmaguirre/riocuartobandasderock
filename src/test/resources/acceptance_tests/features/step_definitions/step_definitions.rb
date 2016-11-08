@@ -259,11 +259,6 @@ end
 #
 # BEGIN updateArtist.feature 
 #
-# Given(/^that the artist's database has "([^"]*)" entry$/) do |arg1|
-#   response = RestClient.post 'http://localhost:4567/artist/', { :name => 'Matias', :surname => 'Serra', :nickname => '' }, :content_type => 'text/plain' 
-#   expect(response.code).to eq(201)
-
-# end
 
 When(/^modify this artist with name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)" with new name "([^"]*)" and new surname "([^"]*)" and new nickname "([^"]*)"$/) do |name, surname, nickname, newname, newsurname, newnickname|
 
@@ -276,12 +271,10 @@ When(/^modify this artist with name "([^"]*)" and surname "([^"]*)" and nickname
     end
 
     artistID = "idnovalido"
-    if ismatch > 0 
-    	artistID = JSON.load(response.to_str)
-    	artistID = artistID["artistID"]
-    end
 
     if ismatch==1
+    	artistID = JSON.load(response.to_str)
+    	artistID = artistID["artistID"]
         response = RestClient.put s+artistID, { :name => newname, :surname => newsurname, :nickname => newnickname }, :content_type => 'text/plain' 
     	expect(response.code).to eq(200)
     else
@@ -293,10 +286,7 @@ When(/^modify this artist with name "([^"]*)" and surname "([^"]*)" and nickname
             end
 
       end   	
-    end
-}
-
-      
+    end  
 end
 #
 # END updateArtist.feature 
