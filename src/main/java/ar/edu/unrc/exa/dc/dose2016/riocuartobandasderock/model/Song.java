@@ -38,7 +38,6 @@ public class Song {
 	@Column(name = "duration")
 	private int duration;
 	
-
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "albumID")
 	private Album album;
@@ -138,5 +137,24 @@ public class Song {
 		int resto = duration%60;
 		return cociente + ":" + resto;
 	} 
+	
+	
+	/**
+	 * fn getAlbum
+	 * Description: This method allows obtain on request the album where the song belongs
+	 * @return the album where the song belongs
+	 */
+	public Album getAlbum(){
+		 return album;
+	}
+		  	
+	/**
+	* proc setAlbum
+    * Description: Sets an album for the song
+	* @param alb represents the album to assign
+	*/
+	public void setAlbum(Album alb){
+		 album = alb;
+}
 	
 }
