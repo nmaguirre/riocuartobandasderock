@@ -3,6 +3,7 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.SongDAO;
@@ -10,14 +11,17 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 
 public class SongDaoImpl implements SongDAO{
 	
-	private SessionManager SessionManager;
+	private Session currentSession=null;
 	
 	
+	public SongDaoImpl(Session session) {
+		this.currentSession = session;
+	}
 	@Override
 	public List<Song> getAllSongs() {
 		List<Song> songList = new LinkedList<>();
 		Query<Song> query;
-		query = SessionManager.getInstance().getCurrentSession().createQuery("from Song", Song.class);
+		query = this.currentSession.createQuery("from Song", Song.class);
 		songList.addAll(query.getResultList());
 		return songList;
 	}
@@ -25,7 +29,7 @@ public class SongDaoImpl implements SongDAO{
 	@Override
 	public Boolean updateSong(Song song){
 		if (song != null) {
-			SessionManager.getInstance().getCurrentSession().update(song);
+			this.currentSession.update(song);
 			return true;
 		} else {
 			return false;
@@ -34,7 +38,7 @@ public class SongDaoImpl implements SongDAO{
 	@Override   
 	public Boolean removeSong(String id){
 		if (id != null) {
-			SessionManager.getInstance().getCurrentSession().delete(id);
+			this.currentSession.delete(id);
 			return true;
 		} else {
 			return false;
@@ -46,7 +50,7 @@ public class SongDaoImpl implements SongDAO{
 		boolean result = false;
 		if ((name != null && !name.equals("")) || duration != null){
 			Song song = new Song(name,duration);
-			SessionManager.getInstance().getCurrentSession().save(song);
+			this.currentSession.save(song);
 			result = true;
 		}
 		else {
@@ -58,7 +62,7 @@ public class SongDaoImpl implements SongDAO{
 	@Override
 	public Song findById(String id){
 		if (id != null && id != "") {
-			Song song = SessionManager.getInstance().getCurrentSession().find(Song.class, id);
+			Song song = this.currentSession.find(Song.class, id);
 			return song;
 		} else {
 			return null;
@@ -73,7 +77,7 @@ public class SongDaoImpl implements SongDAO{
 	@Override
 	public List<Song> findByName(String name){
 		if (name != null && name != "") {
-			Query<Song> query = SessionManager.getInstance().getCurrentSession().createQuery("from Song where name=:n", Song.class);
+			Query<Song> query = this.currentSession.createQuery("from Song where name=:n", Song.class);
 			query.setParameter("n", name);
 			return query.getResultList();
 		} else {
@@ -84,7 +88,7 @@ public class SongDaoImpl implements SongDAO{
 	@Override
 	public List<Song> findByDuration(Integer duration){
 		if (duration != null && duration.equals("")) {
-			Query<Song> query = SessionManager.getInstance().getCurrentSession().createQuery("from Song where duration=:n", Song.class);
+			Query<Song> query = this.currentSession.createQuery("from Song where duration=:n", Song.class);
 			query.setParameter("n", duration);
 			return query.getResultList();
 		} else {

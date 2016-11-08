@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.hibernate.Session;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,12 +20,12 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 public class ArtistDAOTest {
 
 	private ArtistDAO artistDAO;
-	private SessionManager session;
+	private Session session;
 	
 	@Before
 	public void setUp(){
-		artistDAO = new ArtistDaoImpl();
-		session = SessionManager.getInstance();
+		session = SessionManager.getInstance().openSession();
+		artistDAO = new ArtistDaoImpl(session);
 	}
 	
 	/*
@@ -40,24 +41,26 @@ public class ArtistDAOTest {
 		String surname = "b";
 		String nickname = "";
 		
-		session.openCurrentSession();
+//		session.openCurrentSession();
 		while(artistDAO.existArtist(name,surname,nickname)){
 			name+="a";
 		}
-		session.closeCurrentSession();
+//		session.closeCurrentSession();
 		
 		// Create the artist to add in db
 		Artist artistToAdd = new Artist(name, surname, nickname);
 		
 		// Add artistToAdd in db
-		session.openCurrentSessionwithTransaction();
+//		session.openCurrentSessionwithTransaction();
+		session.beginTransaction();
 		artistDAO.createArtist(name,surname,nickname);
-		session.closeCurrentSessionwithTransaction();
+//		session.closeCurrentSessionwithTransaction();
+		session.getTransaction().commit();
 		
 		
-		session.openCurrentSession();
+//		session.openCurrentSession();
 		artistList.addAll(artistDAO.findByName(artistToAdd.getName()));
-		session.closeCurrentSession();
+//		session.closeCurrentSession();
 		
 		
 		List<Artist> result = new LinkedList<>();

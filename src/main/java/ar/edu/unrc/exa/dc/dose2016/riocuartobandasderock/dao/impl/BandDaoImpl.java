@@ -3,7 +3,7 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl;
 import java.util.LinkedList;
 import java.util.List;
 
-
+import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandDAO;
@@ -11,9 +11,11 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 
 public class BandDaoImpl implements BandDAO {
 
-	private SessionManager SessionManager;
+	private Session currentSession=null;
 
-	
+	public BandDaoImpl(Session session) {
+		this.currentSession = session;
+	}
 	/**
 	 * Get all bands from the database
 	 * 
@@ -23,7 +25,7 @@ public class BandDaoImpl implements BandDAO {
 	public List<Band> getAllBands() {
 		List<Band> bandList = new LinkedList<>();
 		Query<Band> query;
-		query = SessionManager.getInstance().getCurrentSession().createQuery("from Band", Band.class);
+		query = this.currentSession.createQuery("from Band", Band.class);
 		bandList.addAll(query.getResultList());
 		return bandList;
 	}
@@ -37,7 +39,7 @@ public class BandDaoImpl implements BandDAO {
 	@Override
 	public Band getBand(String id){
 		if (id != null && id != "") {
-			Band band = SessionManager.getInstance().getCurrentSession().find(Band.class, id);
+			Band band = this.currentSession.find(Band.class, id);
 			return band;
 		} else {
 			return null;
@@ -54,7 +56,7 @@ public class BandDaoImpl implements BandDAO {
 	@Override
 	public boolean updateBand(Band band){
 			if (band != null) {
-				SessionManager.getInstance().getCurrentSession().update(band);
+				this.currentSession.update(band);
 				return true;
 			} else {
 				return false;
@@ -72,7 +74,7 @@ public class BandDaoImpl implements BandDAO {
 	public boolean deleteBand(String id){
 		Band band = this.getBand(id);
 		if (band != null) {
-			SessionManager.getInstance().getCurrentSession().delete(band);
+			this.currentSession.delete(band);
 			return true;
 		} else {
 			return false;
@@ -103,7 +105,7 @@ public class BandDaoImpl implements BandDAO {
 				result = false;
 			} else { 
 				Band band = new Band(name, genre);
-				SessionManager.getInstance().getCurrentSession().save(band);
+				this.currentSession.save(band);
 				result = true;
 			}
 			return result;
@@ -129,7 +131,7 @@ public class BandDaoImpl implements BandDAO {
 		} else {
 			
 			String hq1 = "FROM Band A WHERE A.name = :paramName and A.genre = :paramGenre";
-			Query<Band> query = SessionManager.getInstance().getCurrentSession().createQuery(hq1, Band.class);
+			Query<Band> query = this.currentSession.createQuery(hq1, Band.class);
 			query.setParameter("paramName", name);
 			query.setParameter("paramGenre", genre);
 			List<Band> bandList = query.getResultList();
@@ -150,7 +152,7 @@ public class BandDaoImpl implements BandDAO {
 		if(name == null || name.equals("")){
 				throw new IllegalArgumentException("the 'name' param for search a band can not be null or empty.");
 			} else {
-				Query<Band> query = SessionManager.getInstance().getCurrentSession().createQuery("from Band where name=:n", Band.class);
+				Query<Band> query = this.currentSession.createQuery("from Band where name=:n", Band.class);
 				query.setParameter("n", name);
 				return query.getResultList();
 			}
@@ -167,7 +169,7 @@ public class BandDaoImpl implements BandDAO {
 		   if (genre == null || genre.equals("")){
 			   throw new IllegalArgumentException("the 'genre' param for search a band can not be null or empty.");
 		   } else {
-			   Query<Band> query = SessionManager.getInstance().getCurrentSession().createQuery("from Band where genre=:g", Band.class);
+			   Query<Band> query = this.currentSession.createQuery("from Band where genre=:g", Band.class);
 			   query.setParameter("g", genre);
 			   return query.getResultList();
 		 }
@@ -192,7 +194,7 @@ public class BandDaoImpl implements BandDAO {
 				throw new IllegalArgumentException("the params for search band can't be null or empty.");
 			} else {
 				String hq1 = "FROM Band A WHERE A.name = :paramName and A.genre = :paramGenre";
-				Query<Band> query = SessionManager.getInstance().getCurrentSession().createQuery(hq1, Band.class);
+				Query<Band> query = this.currentSession.createQuery(hq1, Band.class);
 				query.setParameter("paramName", name);
 				query.setParameter("paramGenre", genre);
 				List<Band> bandList = query.getResultList();

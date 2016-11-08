@@ -2,6 +2,8 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.*;
@@ -21,8 +23,6 @@ public class BandController {
 	 * check that have only one instance of class
 	 */
 	private static BandController instance = null;
-	private BandDAO bandDAO;
-	private SessionManager session;
 
 	/***
 	 * Constructor of class BandController
@@ -35,10 +35,6 @@ public class BandController {
       return instance;
   }
 
-  private BandController(){
-  	bandDAO = new BandDaoImpl();
-  }
-
 	/***
 	 * This method returns all bands
 	 * @param req
@@ -46,10 +42,10 @@ public class BandController {
 	 * @return A list of all bands
 	 */
 	public List<Band> getBands(Request req ,Response res){
-		session= SessionManager.getInstance();
-		session.openCurrentSession();
-		List<Band> bands= bandDAO.getAllBands();
-		session.closeCurrentSession();
+		Session session = SessionManager.getInstance().openSession();
+		BandDAO bdao = new BandDaoImpl(session);
+		List<Band> bands= bdao.getAllBands();
+		session.close();
 		int status = (bands.size()>0)? 200:204;
 		res.status(status);
 		return bands;
@@ -66,10 +62,10 @@ public class BandController {
 			res.status(400);
 			return null;
 		}
-		session= SessionManager.getInstance();
-		session.openCurrentSession();
-		List<Band> bands = bandDAO.findBandByName(req.params(":name"));
-		session.closeCurrentSession();
+		Session session = SessionManager.getInstance().openSession();
+		BandDAO bdao = new BandDaoImpl(session);
+		List<Band> bands = bdao.findBandByName(req.params(":name"));
+		session.close();
 		int status = (bands.size()!=0)? 200:204;
 		res.status(status);
 		return bands;
@@ -85,10 +81,10 @@ public class BandController {
 		if (req.params(":genre")==""){
 			res.status(400);
 		}
-		session= SessionManager.getInstance();
-		session.openCurrentSession();
-		List<Band> bands = bandDAO.findBandByName(req.params(":genre"));
-		session.closeCurrentSession();
+		Session session = SessionManager.getInstance().openSession();
+		BandDAO bdao = new BandDaoImpl(session);
+		List<Band> bands = bdao.findBandByName(req.params(":genre"));
+		session.close();
 		int status = (bands.size()!=0)? 200:204;
 		res.status(status);
 		return bands;
@@ -105,10 +101,12 @@ public class BandController {
 			res.status(400);
 			return "Request invalid";
 		}
-		session= SessionManager.getInstance();
-		session.openCurrentSessionwithTransaction();
-		boolean status = bandDAO.createBand(req.queryParams("name"),req.queryParams("genre"));
-		session.closeCurrentSessionwithTransaction();
+		Session session = SessionManager.getInstance().openSession();
+		BandDAO bdao = new BandDaoImpl(session);
+		Transaction transaction = session.beginTransaction();
+		boolean status = bdao.createBand(req.queryParams("name"),req.queryParams("genre"));
+		transaction.commit();
+		session.close();
 		if (status){
 			res.status(201);
 			return "Success";
@@ -124,26 +122,28 @@ public class BandController {
 	 * @return a String that describes the result of update a band.
 	 */
 	public String updateBand(Request req,Response res){
-		/*if((req.queryParams("name")=="") && (req.queryParams("genre")=="")){
+		/*
+		if((req.queryParams("name")=="") && (req.queryParams("genre")=="")){
 			res.status(400);
 			return "Request invalid";
 		}
-		bandDAO.openCurrentSession();
-		Band band = bandDAO.findById(req.params(":id"));
-		bandDAO.closeCurrentSession();
+		Session session = SessionManager.getInstance().openSession();
+		BandDAO bdao = new BandDaoImpl(session);
+		Band band = bdao.findById(req.params(":id"));
 		if (band==null){
 			res.status(400);
 			return "Request invalid";
 		}
 		band.setName(req.queryParams("name"));
 		band.setGenre(req.queryParams("genre"));
-		bandDAO.openCurrentSessionwithTransaction();
-		boolean status = bandDAO.updateBand(band);
-		bandDAO.closeCurrentSessionwithTransaction();
+		Transaction transaction = session.beginTransaction();
+		boolean status = bdao.updateBand(band);
+		transaction.commit();
+		session.close();
 		if (status){
 			res.status(200);
 			return "Success";
-		}*/
+		} */
 		res.status(409);
 		return "Fail";
 	}
@@ -159,10 +159,12 @@ public class BandController {
 			res.status();
 			return "Request invalid";
 		}
-		session= SessionManager.getInstance();
-		session.openCurrentSessionwithTransaction();
-	 	boolean status = bandDAO.deleteBand(req.params(":id"));
-	 	session.closeCurrentSessionwithTransaction();
+		Session session = SessionManager.getInstance().openSession();
+		BandDAO bdao = new BandDaoImpl(session);
+		Transaction transaction = session.beginTransaction();		
+	 	boolean status = bdao.deleteBand(req.params(":id"));
+	 	transaction.commit();
+	 	session.close();
 		if (status){
 			res.status(200);
 			return "Success";
