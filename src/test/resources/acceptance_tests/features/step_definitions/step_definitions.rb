@@ -6,7 +6,7 @@ require "rspec"
 include RSpec::Matchers
 
 HOST = "localhost"
-PORT = "7500"
+PORT = "5432"
 
 
 def execute_sql(sql_code)
@@ -266,122 +266,38 @@ end
 # end
 
 When(/^modify this artist with name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)" with new name "([^"]*)" and new surname "([^"]*)" and new nickname "([^"]*)"$/) do |name, surname, nickname, newname, newsurname, newnickname|
+
     String s = 'http://localhost:4567/artist/'
     response = RestClient.get s + name + '/' + surname + '/'+nickname
     # register match
-    expect(response.code).to eq(200)
-    artistID = JSON.load(response.to_str)
-    artistID = artistID["artistID"]
+    ismatch = 0
+    if response.code == 200 
+    	ismatch = 1
+    end
 
-    response = RestClient.put s+artistID, { :name => newname, :surname => newsurname, :nickname => newnickname }, :content_type => 'text/plain' 
-    expect(response.code).to eq(200)
+    artistID = "idnovalido"
+    if ismatch > 0 
+    	artistID = JSON.load(response.to_str)
+    	artistID = artistID["artistID"]
+    end
+
+    if ismatch==1
+        response = RestClient.put s+artistID, { :name => newname, :surname => newsurname, :nickname => newnickname }, :content_type => 'text/plain' 
+    	expect(response.code).to eq(200)
+    else
+      begin
+        response = RestClient.put s+artistID, { :name => newname, :surname => newsurname, :nickname => newnickname }, :content_type => 'text/plain' 
+    	rescue RestClient::InternalServerError => e
+    		begin
+        		expect(response.code).to eq(204)
+            end
+
+      end   	
+    end
+}
 
       
 end
 #
 # END updateArtist.feature 
 #
-
-
-# Add new scenarios for bandMember ADDBANDMEMBER
-
-
-Given(/^that the application has been started$/) do
-  #pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^I have successfully logged in as admin$/) do
-  #pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^that the artist's database have one artist with name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)"$/) do |arg1, arg2, arg3|
-  #pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^that the band's database is empty$/) do
-  #pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^that the bandMember's database is empty$/) do
-  #pending # Write code here that turns the phrase above into concrete actions
-end
-
-When(/^I add an bandMember with artist name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)" and band name "([^"]*)"$/) do |arg1, arg2, arg3, arg4|
-  #pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^the bandMember's database should have (\d+) entry$/) do |arg1|
-  #pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^that the artist's database is empty$/) do
-  #pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^that the band's database have (\d+) entry$/) do |arg1|
-  #pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^that the bands' database have (\d+) entries$/) do |arg1|
-  #pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^the entry should have artist name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)" and band name "([^"]*)"$/) do |arg1, arg2, arg3, arg4|
-  #pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^that the bandMember's have (\d+) entry with artist name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)" and band name "([^"]*)"$/) do |arg1, arg2, arg3, arg4, arg5|
-  #pending # Write code here that turns the phrase above into concrete actions
-end
-
-# Add new scenarios for bandMember FINDBANDMEMBER
-
-Given(/^that the application has been started$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^I have successfully logged in as admin$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^that the artist's database is empty$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^that the band's database have (\d+) entries$/) do |arg1|
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^that the bandMember's database is empty$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-When(/^I search the artist bands by artist with name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)", the result should have (\d+) entry$/) do |arg1, arg2, arg3, arg4|
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^that the artist's database have one artist with name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)"$/) do |arg1, arg2, arg3|
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^that the band's database is empty$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^that the bandMember's database have one bandMember with artist name "([^"]*)" and artist surname "([^"]*)" and artist nickname "([^"]*)" and band name "([^"]*)"$/) do |arg1, arg2, arg3, arg4|
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-When(/^I search the artist bands by artist with name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)", the result should have (\d+) entry, and the entry is the band whit name "([^"]*)"$/) do |arg1, arg2, arg3, arg4, arg5|
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-When(/^I search the artist of a band by band with name "([^"]*)", the result should have (\d+) entry$/) do |arg1, arg2|
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-When(/^I search the artist of bands by band with name "([^"]*)", the result should have (\d+) entry, and the entry is the artist whit name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)"$/) do |arg1, arg2, arg3, arg4, arg5|
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-
