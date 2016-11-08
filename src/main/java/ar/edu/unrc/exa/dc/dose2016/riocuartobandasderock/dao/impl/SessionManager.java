@@ -20,9 +20,12 @@ public class SessionManager{
 	private Transaction currentTransaction;
 	
 	/**
-	 * Empty, private default constructor.
+	 * Constructor of the class
 	 */
-	private SessionManager() { }
+	public SessionManager() {
+		currentSession = getSessionFactory().openSession();
+		currentTransaction = currentSession.beginTransaction();
+	}
 	
 	/**
 	 * Singleton, on demand instance of ServerOptions.

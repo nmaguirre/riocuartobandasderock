@@ -70,11 +70,8 @@ public class Bootstrap {
 
         // List of controller
 
-<<<<<<< HEAD
-        albumController =  AlbumController.getInstance();
-=======
 
->>>>>>> e66d491c1c5b994a570ce076751956c1ef8f1ba8
+        albumController =  AlbumController.getInstance();
         artistController = new ArtistController();
         bands = BandController.getInstance();
         songController = new SongController();
@@ -128,6 +125,11 @@ public class Bootstrap {
         post("/login", (req, res) -> userController.login(req, res));
         post("/logout", (req, res) -> userController.logout(req, res));
 
+        
+        get("/song/findbyduration/:duration",(req,res)->songController.getSongByDuration(req,res));
+        
+        delete("/song/:id",(req, res) -> songController.removeSong(req, res));
+        
         after((req, res) -> {res.type("application/json");});
 
     }
