@@ -9,6 +9,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandMemberDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.ArtistDaoImpl;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandDaoImpl;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandMemberDAOImpl;
@@ -586,6 +587,147 @@ public class BandMemberDAOTest {
 		session.openCurrentSession();
 		List<BandMember> bandMs = bandMemberDAO.findByBand(bandId);
 		session.closeCurrentSession();
+	}
+	
+	/*
+	 * DELETE BANDMEMBER METHOD TESTS
+	 */
+	
+	@Test
+	public void deleteBandMemberTest_bandMember_in_db() {
+		
+		/*
+		 * CREATE ARTIST IN DB
+		*/
+		
+		String name = "a";
+		String surname = "b";
+		String nickname = "";
+		
+		session.openCurrentSession();
+		while(artistDAO.existArtist(name,surname,nickname)){
+			name+="a";
+		}
+		session.closeCurrentSession();		
+		
+		// Add artistToAdd in db
+		session.openCurrentSessionwithTransaction();
+		artistDAO.createArtist(name,surname,nickname);
+		session.closeCurrentSessionwithTransaction();
+		
+		
+		/*
+		 * CREATE BAND IN DB
+		*/
+		
+		String bandName = "a";
+		String genre = "b";		
+		
+		session.openCurrentSession();
+		while(bandDAO.existBand(bandName, genre)){
+			bandName+="a";
+		}
+		session.closeCurrentSession();		
+		
+		// Add band in db
+		session.openCurrentSessionwithTransaction();
+		bandDAO.createBand(bandName, genre);
+		session.closeCurrentSessionwithTransaction();
+		
+		/*
+		 * CREATE BANDMEMBER IN DB
+		 * (Artist and Band is recent created, then
+		 * the bandmember with their ids isnt in bd)
+		*/			
+		
+		session.openCurrentSession();
+		String artistId = artistDAO.getArtist(name, surname, nickname).getId();
+		session.closeCurrentSession();
+		
+		session.openCurrentSession();
+		//String bandId = bandDAO.findBandByNameAndGenre(bandName).getId;
+		session.closeCurrentSession();
+		
+		
+		// Add bandMember in db
+		session.openCurrentSessionwithTransaction();
+		//bandMemberDAO.createBandMember(artistId,bandId);
+		session.closeCurrentSessionwithTransaction();
+		
+				
+		session.openCurrentSessionwithTransaction();
+		//boolean successfulOperation = bandMemberDAO.deleteBandMember(bandId, artistId);
+		session.closeCurrentSessionwithTransaction();
+		
+		session.openCurrentSession();
+		//boolean bandMemberExistsinBd = bandMemberDAO.existBandMember(bandId, artistId); 
+		session.closeCurrentSession();	
+		
+		// Check that in db the bandMember was deleted
+		//assertTrue(successfulOperation);
+		//assertTrue(!bandMemberExistsinBd);
+	}
+	
+	
+	@Test
+	public void deleteBandMemberTest_bandMember_not_in_db() {
+		
+		String bandId = "-1";
+		String artistId = "-1";
+			
+		session.openCurrentSessionwithTransaction();
+		boolean successfulOperation = bandMemberDAO.deleteBandMember(bandId, artistId);
+		session.closeCurrentSessionwithTransaction();
+				
+		// Check that an update fail with not artist id in DB		
+		assertTrue(!successfulOperation);
+	}
+	
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deleteBandMemberTest_null_artistId() {
+		
+		String bandId = "1";
+		String artistId = null;
+			
+		session.openCurrentSessionwithTransaction();
+		boolean successfulOperation = bandMemberDAO.deleteBandMember(bandId, artistId);
+		session.closeCurrentSessionwithTransaction();
+	}
+	
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deleteBandMemberTest_empty_artistId() {
+		
+		String bandId = "1";
+		String artistId = "";
+			
+		session.openCurrentSessionwithTransaction();
+		boolean successfulOperation = bandMemberDAO.deleteBandMember(bandId, artistId);
+		session.closeCurrentSessionwithTransaction();
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deleteBandMemberTest_null_bandId() {
+		
+		String bandId = null;
+		String artistId = "1";
+			
+		session.openCurrentSessionwithTransaction();
+		boolean successfulOperation = bandMemberDAO.deleteBandMember(bandId, artistId);
+		session.closeCurrentSessionwithTransaction();
+	}
+	
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deleteBandMemberTest_empty_bandId() {
+		
+		String bandId = "";
+		String artistId = "1";
+			
+		session.openCurrentSessionwithTransaction();
+		boolean successfulOperation = bandMemberDAO.deleteBandMember(bandId, artistId);
+		session.closeCurrentSessionwithTransaction();
 	}
 	
 }
