@@ -1,4 +1,4 @@
-package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.modelTest;
+package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.DAOImplTest;
 
 
 import static org.junit.Assert.*;
