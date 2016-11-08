@@ -266,19 +266,42 @@ end
 # end
 
 When(/^modify this artist with name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)" with new name "([^"]*)" and new surname "([^"]*)" and new nickname "([^"]*)"$/) do |name, surname, nickname, newname, newsurname, newnickname|
+
     String s = 'http://localhost:4567/artist/'
     response = RestClient.get s + name + '/' + surname + '/'+nickname
     # register match
-    expect(response.code).to eq(200)
-    artistID = JSON.load(response.to_str)
-    artistID = artistID["artistID"]
+    ismatch = 0
+    if response.code == 200 
+    	ismatch = 1
+    end
 
-    response = RestClient.put s+artistID, { :name => newname, :surname => newsurname, :nickname => newnickname }, :content_type => 'text/plain' 
-    expect(response.code).to eq(200)
+    artistID = "idnovalido"
+    if ismatch > 0 
+    	artistID = JSON.load(response.to_str)
+    	artistID = artistID["artistID"]
+    end
+
+    if ismatch==1
+        response = RestClient.put s+artistID, { :name => newname, :surname => newsurname, :nickname => newnickname }, :content_type => 'text/plain' 
+    	expect(response.code).to eq(200)
+    else
+      begin
+        response = RestClient.put s+artistID, { :name => newname, :surname => newsurname, :nickname => newnickname }, :content_type => 'text/plain' 
+    	rescue RestClient::InternalServerError => e
+    		begin
+        		expect(response.code).to eq(204)
+            end
+
+      end   	
+    end
 
       
 end
 #
 # END updateArtist.feature 
 #
+
+Given(/^that the band's database is empty$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
 
