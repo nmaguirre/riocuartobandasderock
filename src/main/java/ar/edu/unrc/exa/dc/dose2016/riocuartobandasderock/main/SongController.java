@@ -117,7 +117,7 @@ public class SongController {
      * @return
      */
   
-    public String addSong (Request req, Response res){
+    public String create (Request req, Response res){
     	
     	String songName = req.queryParams("name");    	
     	String dur = req.queryParams("duration");    	
