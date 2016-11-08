@@ -82,19 +82,31 @@ And(/^the database shouldn't have a band with  name "([^"]*)" and genre "([^"]*)
 end
 
 When(/^I update the band with name "([^"]*)" and genre "([^"]*)" to name "([^"]*)" and genre "([^"]*)"$/)do |oldName,oldGenre,newName,newGenre|
-  pending
+  begin
+    response = RestClient.put "http://localhost:4567/bands/", { :oldName => oldName, :oldGenre => oldGenre, :newName => newName, :newGenre => newGenre}, :content_type => 'text/plain'
+    rescue RestClient::Conflict => e
+    expect(e.response).to eq(202)
+  end
 end
 
 Then(/^the band with name "([^"]*)" and genre "([^"]*)" shouldn't be on bands' database$/)do |name, genre|
-  pending
+  begin
+    response = RestClient.get "http://localhost:4567/bands/", { :name => name, :genre => genre}, :content_type => 'text/plain'
+    rescue RestClient::Conflict => e
+    expect(e.response).to eq(304)
+  end
 end
 
-When(/^I update a band with name "([^"]*)" and genre "([^"]*)"$/) do |arg1, arg2|
-  pending
-end
+# When(/^I update a band with name "([^"]*)" and genre "([^"]*)"$/) do |arg1, arg2|
+#   pending
+# end
 
 Given(/^the bands' database havn't a band with name "([^"]*)" and genre "([^"]*)"$/) do |arg1, arg2|
-  pending
+  begin
+    response = RestClient.get "http://localhost:4567/bands/", { :name => name, :genre => genre}, :content_type => 'text/plain'
+    rescue RestClient::Conflict => e
+    expect(e.response).to eq(304)
+  end
 end
 
 # Find Band feature
