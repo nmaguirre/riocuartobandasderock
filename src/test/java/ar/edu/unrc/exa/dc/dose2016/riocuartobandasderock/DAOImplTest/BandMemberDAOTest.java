@@ -305,8 +305,6 @@ public class BandMemberDAOTest {
 	}
 	
 	@Test
-	
-	
 	public void findById_BandMember_not_in_db() {
 		
 		String artistId = "-1";
@@ -363,5 +361,119 @@ public class BandMemberDAOTest {
 		BandMember obtained = bandMemberDAO.findById(artistId,bandId);
 		session.closeCurrentSession();
 	}
+	
+	
+	/*
+	 * FIND BY ARTIST METHOD TESTS
+	 */
+	
+	@Test
+	public void findByArtist_BandMember_with_the_artist_in_db() {
+		
+		/*
+		 * CREATE ARTIST IN DB
+		*/
+		
+		String name = "a";
+		String surname = "b";
+		String nickname = "";
+		
+		session.openCurrentSession();
+		while(artistDAO.existArtist(name,surname,nickname)){
+			name+="a";
+		}
+		session.closeCurrentSession();		
+		
+		// Add artistToAdd in db
+		session.openCurrentSessionwithTransaction();
+		artistDAO.createArtist(name,surname,nickname);
+		session.closeCurrentSessionwithTransaction();
+		
+		
+		/*
+		 * CREATE BAND IN DB
+		*/
+		
+		String bandName = "a";
+		String genre = "b";		
+		
+		session.openCurrentSession();
+		while(bandDAO.existBand(bandName, genre)){
+			bandName+="a";
+		}
+		session.closeCurrentSession();		
+		
+		// Add band in db
+		session.openCurrentSessionwithTransaction();
+		bandDAO.createBand(bandName, genre);
+		session.closeCurrentSessionwithTransaction();
+		
+		/*
+		 * CREATE BANDMEMBER IN DB
+		 * (Artist and Band is recent created, then
+		 * the bandmember with their ids isnt in bd)
+		*/			
+		
+		session.openCurrentSession();
+		String artistId = artistDAO.getArtist(name, surname, nickname).getId();
+		session.closeCurrentSession();
+		
+		session.openCurrentSession();
+		//String bandId = bandDAO.findBandByNameAndGenre(bandName).getId;
+		session.closeCurrentSession();
+		
+		
+		// Add bandMember in db
+		session.openCurrentSessionwithTransaction();
+		//boolean successfulOPeration = bandMemberDAO.createBandMember(artistId,bandId);
+		session.closeCurrentSessionwithTransaction();
+		
+		session.openCurrentSession();
+		//boolean bandMemberInBd = bandMemberDAO.exists(artistId,bandId);
+		session.closeCurrentSession();
+		
+		/*if(successfulOPeration && bandMemberInBd){
+			session.openCurrentSession();
+			List<BandMember> bandMs = bandMemberDAO.findByArtist(artistId);
+			session.closeCurrentSession();
+			
+			assertTrue(!bandMs.isEmpty());
+			assertEquals(bandMs.get(0).getArtistID(), artistId);
+		}*/
+	}
+	
+	@Test
+	public void findByArtist_BandMember_with_the_artist_not_in_db() {
+		
+		String artistId = "-1";
+				
+		session.openCurrentSession();
+		List<BandMember> bandMs = bandMemberDAO.findByArtist(artistId);
+		session.closeCurrentSession();
+		
+		assertTrue(bandMs.isEmpty());
+	}
+	
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void findByArtist_null_artistId() {
+		
+		String artistId = null;
+		
+		session.openCurrentSession();
+		List<BandMember> bandMs = bandMemberDAO.findByArtist(artistId);
+		session.closeCurrentSession();
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void findByArtist_empty_artistId() {
+		
+		String artistId = "";
+		
+		session.openCurrentSession();
+		List<BandMember> bandMs = bandMemberDAO.findByArtist(artistId);
+		session.closeCurrentSession();
+	}
+	
 	
 }
