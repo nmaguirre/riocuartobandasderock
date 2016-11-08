@@ -22,6 +22,7 @@ public class Bootstrap {
 	private static BandController bands ;
 	private static ArtistController artistController;
 	private static AlbumController albumController;
+    private static UserController userController;
 	private static SongController songController;
 
     public static void main(String[] args) {
@@ -73,8 +74,14 @@ public class Bootstrap {
         artistController = new ArtistController();
         bands = BandController.getInstance();
         songController = new SongController();
+        userController = UserController.getInstance();
         port(Integer.parseInt(ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().getAppPort()));
 
+        before("/bands", (req, res) -> {
+            if (!userController.authenticated(req, res)) {
+                halt(401, "Access forbidden\n");
+            }
+        });
 
         // List of route and verbs API REST
 
@@ -107,6 +114,15 @@ public class Bootstrap {
         get("/song/findbyname/:name",(req,res)->songController.getSongByName(req,res));
 
         get("/song/findbyduration/:name",(req,res)->songController.getSongByDuration(req,res));
+
+        /**
+         * Users routes
+         */
+        post("/users", (req, res) -> userController.create(req, res));
+        put("/users/:name", (req, res) -> userController.update(req, res));
+        delete("/users/:name", (req, res) -> userController.delete(req, res));
+        post("/login", (req, res) -> userController.login(req, res));
+        post("/logout", (req, res) -> userController.logout(req, res));
 
         after((req, res) -> {res.type("application/json");});
 

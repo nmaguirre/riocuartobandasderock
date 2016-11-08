@@ -147,7 +147,7 @@ public class BandDaoImpl implements BandDAO {
 	 * @return band wanted
 	 */
 	@Override
-	public List<Band> findBandByName(String name){
+	public List<Band> findByName(String name){
 		if(name == null || name.equals("")){
 				throw new IllegalArgumentException("the 'name' param for search a band can not be null or empty.");
 			} else {
@@ -164,7 +164,7 @@ public class BandDaoImpl implements BandDAO {
 	    *
 	    * @return list of bands wanted
 	    */
-	   public List<Band> findBandByGenre(String genre){
+	   public List<Band> findByGenre(String genre){
 		   if (genre == null || genre.equals("")){
 			   throw new IllegalArgumentException("the 'genre' param for search a band can not be null or empty.");
 		   } else {
@@ -182,7 +182,7 @@ public class BandDaoImpl implements BandDAO {
 	    * @return list of bands wanted
 	    */
 
-	   public List<Band> findBandByNameAndGenre(String name,String genre){
+	   public List<Band> findByNameAndGenre(String name,String genre){
 			boolean areEmpty = false;
 			boolean areNull = false;
 			areNull = name == null || genre == null;
