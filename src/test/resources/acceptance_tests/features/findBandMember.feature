@@ -2,7 +2,6 @@ Feature: The application responds appropriately to all events that correspond to
 
     Background:
         Given that the application has been started
-        And I have successfully logged in as admin
       
 	Scenario: Search the artist bands on an empty bandMember's database by artist name, surname and nickname
         Given that the artist's database is empty

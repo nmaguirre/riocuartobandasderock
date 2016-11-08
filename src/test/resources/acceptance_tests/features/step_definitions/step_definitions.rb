@@ -283,7 +283,9 @@ end
 #
 
 
-# Add new scenarios for bandMember 
+# Add new scenarios for bandMember ADDBANDMEMBER
+
+
 Given(/^that the application has been started$/) do
   #pending # Write code here that turns the phrase above into concrete actions
 end
@@ -330,6 +332,56 @@ end
 
 Given(/^that the bandMember's have (\d+) entry with artist name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)" and band name "([^"]*)"$/) do |arg1, arg2, arg3, arg4, arg5|
   #pending # Write code here that turns the phrase above into concrete actions
+end
+
+# Add new scenarios for bandMember FINDBANDMEMBER
+
+Given(/^that the application has been started$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Given(/^I have successfully logged in as admin$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Given(/^that the artist's database is empty$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Given(/^that the band's database have (\d+) entries$/) do |arg1|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Given(/^that the bandMember's database is empty$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+When(/^I search the artist bands by artist with name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)", the result should have (\d+) entry$/) do |arg1, arg2, arg3, arg4|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Given(/^that the artist's database have one artist with name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)"$/) do |arg1, arg2, arg3|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Given(/^that the band's database is empty$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Given(/^that the bandMember's database have one bandMember with artist name "([^"]*)" and artist surname "([^"]*)" and artist nickname "([^"]*)" and band name "([^"]*)"$/) do |arg1, arg2, arg3, arg4|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+When(/^I search the artist bands by artist with name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)", the result should have (\d+) entry, and the entry is the band whit name "([^"]*)"$/) do |arg1, arg2, arg3, arg4, arg5|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+When(/^I search the artist of a band by band with name "([^"]*)", the result should have (\d+) entry$/) do |arg1, arg2|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+When(/^I search the artist of bands by band with name "([^"]*)", the result should have (\d+) entry, and the entry is the artist whit name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)"$/) do |arg1, arg2, arg3, arg4, arg5|
+  pending # Write code here that turns the phrase above into concrete actions
 end
 
 
