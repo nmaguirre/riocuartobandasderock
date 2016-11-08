@@ -6,7 +6,7 @@ require "rspec"
 include RSpec::Matchers
 
 HOST = "localhost"
-PORT = "5432"
+PORT = "7500"
 
 
 def execute_sql(sql_code)
@@ -281,4 +281,55 @@ end
 #
 # END updateArtist.feature 
 #
+
+
+# Add new scenarios for bandMember 
+Given(/^that the application has been started$/) do
+  #pending # Write code here that turns the phrase above into concrete actions
+end
+
+Given(/^I have successfully logged in as admin$/) do
+  #pending # Write code here that turns the phrase above into concrete actions
+end
+
+Given(/^that the artist's database have one artist with name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)"$/) do |arg1, arg2, arg3|
+  #pending # Write code here that turns the phrase above into concrete actions
+end
+
+Given(/^that the band's database is empty$/) do
+  #pending # Write code here that turns the phrase above into concrete actions
+end
+
+Given(/^that the bandMember's database is empty$/) do
+  #pending # Write code here that turns the phrase above into concrete actions
+end
+
+When(/^I add an bandMember with artist name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)" and band name "([^"]*)"$/) do |arg1, arg2, arg3, arg4|
+  #pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^the bandMember's database should have (\d+) entry$/) do |arg1|
+  #pending # Write code here that turns the phrase above into concrete actions
+end
+
+Given(/^that the artist's database is empty$/) do
+  #pending # Write code here that turns the phrase above into concrete actions
+end
+
+Given(/^that the band's database have (\d+) entry$/) do |arg1|
+  #pending # Write code here that turns the phrase above into concrete actions
+end
+
+Given(/^that the bands' database have (\d+) entries$/) do |arg1|
+  #pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^the entry should have artist name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)" and band name "([^"]*)"$/) do |arg1, arg2, arg3, arg4|
+  #pending # Write code here that turns the phrase above into concrete actions
+end
+
+Given(/^that the bandMember's have (\d+) entry with artist name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)" and band name "([^"]*)"$/) do |arg1, arg2, arg3, arg4, arg5|
+  #pending # Write code here that turns the phrase above into concrete actions
+end
+
 
