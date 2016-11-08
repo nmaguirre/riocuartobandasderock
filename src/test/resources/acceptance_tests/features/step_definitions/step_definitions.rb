@@ -294,14 +294,10 @@ When(/^modify this artist with name "([^"]*)" and surname "([^"]*)" and nickname
 
       end   	
     end
+}
 
       
 end
 #
 # END updateArtist.feature 
 #
-
-Given(/^that the band's database is empty$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
