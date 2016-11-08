@@ -94,9 +94,16 @@ public class AlbumDaoImpl implements AlbumDAO{
 			List<Album> byTitle = this.findByTitle(title);
 			List<Album> byReleaseDate = this.findByReleaseDate(releaseDate);
 			
-			if(byTitle.contains(title) ){
+			boolean exist=false;
+			for (int i = 0; i < byTitle.size(); i++) {
+				if (byTitle.get(i).getTitle().equals(title)  ){
+					exist=true;
+				}
+			}			
+			if(exist){//Aca esta el errorrr!!!
 				//then releaseDate not be in db
 				for(int i=0;i<byReleaseDate.size();i++){
+					
 					if(byReleaseDate.get(i).getReleaseDate().compareTo(releaseDate)==0){
 						return false;
 					}
@@ -110,7 +117,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 			//then the title not be in db.
 			List<Album> byTitle = this.findByTitle(title);
 			for(int i=0;i<byTitle.size();i++){
-				if(byTitle.get(i).getReleaseDate().compareTo(releaseDate)==0){
+				if(byTitle.get(i).getTitle().equals(releaseDate)){
 					return false;
 				}
 			}
@@ -123,5 +130,17 @@ public class AlbumDaoImpl implements AlbumDAO{
 		}
 		return isCreated;
 	} 
-	
+	/**
+	 * This method deletes an album found by id
+	 * @param id
+	 * @return true iff album was delete
+	 */
+	public boolean delete(String id){
+		Album toDelete = this.findById(id);
+		if (toDelete!= null) {
+			SessionManager.getInstance().getCurrentSession().delete(toDelete);
+			return true;
+		}
+		return false;
+	}
 }

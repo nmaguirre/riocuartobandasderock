@@ -55,4 +55,10 @@ public interface AlbumDAO {
 	 */
 	public boolean create(String title, Date releaseDate);
 	
+	/**
+	 * This method deletes an album found by id
+	 * @param id
+	 * @return true iff album was delete
+	 */
+	public boolean delete(String id);
 }
