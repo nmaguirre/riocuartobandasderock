@@ -20,7 +20,7 @@ import spark.Response;
 public class SongController {
 
     private SongDAO songDao;
-    private SessionManager session;
+    private SessionManager session = SessionManager.getInstance();
  
     
     
@@ -81,13 +81,12 @@ public class SongController {
     
     public List<Song> getSongByName (Request req, Response res){
     	
-    	String songName = req.queryParams("name");
+    	String songName = req.params("name");
     	
     	if (songName == null || songName == ""){
     		res.status(400);
     		return null;
-    	}
-    	session= SessionManager.getInstance();   	
+    	};   	
     	session.openCurrentSession();
     	List<Song> songs = songDao.findByName(songName);
     	session.closeCurrentSession();
@@ -103,13 +102,12 @@ public class SongController {
      */
     
     public List<Song> getSongByDuration (Request req, Response res){
-    	String duration = req.queryParams("duration");
+    	String duration = req.params("duration");
     	
     	if (duration == null || duration == ""){
     		res.status(400);
     		return null;
     	}
-    	session= SessionManager.getInstance();
     	session.openCurrentSession();
     	List<Song> songs = songDao.findByDuration(Integer.parseInt(duration));
     	session.closeCurrentSession();
@@ -135,16 +133,44 @@ public class SongController {
 			res.body("Invalid content of parameters");
 			return res.body();
 		}
-    	session= SessionManager.getInstance();
-    	session.openCurrentSession();
-    	boolean result = songDao.addSong(songName, Integer.parseInt(dur));
-    	session.closeCurrentSession();
+    	session.openCurrentSessionwithTransaction();
+    	boolean result = songDao.addSong(songName,Integer.parseInt(dur));
+    	session.closeCurrentSessionwithTransaction();
     	if(result){
     	res.body("Song created");
     	res.status(201);
     	}
     	return res.body();    		
     }
+    
+    
+    
+    /***
+	 * This method takes a song from the frontend, and delete this song in database
+	 * @param req
+	 * @param res
+	 * @return true if the song was deleted. Otherwise, false.
+	 */
+	public String removeSong(Request req,Response res){	
+		String id = req.params(":id");
+		if ((id == "") ||(id == null)) {
+			res.status(400);
+			res.body("Invalid request");
+			return res.body();
+		}
+		session.openCurrentSessionwithTransaction();
+	 	boolean status = songDao.removeSong(id);
+	 	session.closeCurrentSessionwithTransaction();
+		if (status){
+			res.status(200);
+			res.body("Success");
+			res.body();
+		}
+		res.status(409);
+		res.body("Fail");
+		return res.body();
+
+	}
     
    
     

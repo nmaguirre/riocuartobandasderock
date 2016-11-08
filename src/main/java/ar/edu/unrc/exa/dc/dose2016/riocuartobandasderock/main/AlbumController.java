@@ -27,24 +27,35 @@ public class AlbumController {
         return unique_instance;
     }
 
+    public List<Album> getAll(Request req, Response res){
+    	try {
+    		sessionManager.openCurrentSession();
+    		List<Album> albums = dao.getAll();
+    		sessionManager.closeCurrentSession();
+    		int status = albums.size() > 0 ? 200 : 204;
+    		res.status(status);
+    		res.body(albums.toString());
+    		return albums;
+    	} catch (Exception e) {
+			e.printStackTrace();
+			res.status(500);
+			res.body("Internal server error");
+			return null;
+    	}
+    }
+    
     public String create(Request req, Response res) {
-        if (req.queryParams("title") == null){
+        if (req.queryParams("title") == null || req.queryParams("title") == ""){
             res.status(400);
-            res.body("Album title can't be null");
-            return res.body();
-        }
-        if (req.queryParams("title") == null && req.queryParams("release_date") == null){
-            //If both parameters are non existent, return false and a bad request.
-            res.status(400);
-            res.body("Both params can't be null");
+            res.body("Album title can't be null nor empty");
             return res.body();
         }
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
         try {
             //Date should be in the next pattern: yyyy-mm-dd
-            Date release_date = sdf.parse(req.queryParams("release_date"));
+        	Date release_date = req.queryParams("release_date") != null ? sdf.parse(req.queryParams("release_date")) : null;
         	sessionManager.openCurrentSessionwithTransaction();
-            boolean result = dao.createAlbum(req.queryParams("title"), release_date);
+            boolean result = dao.create(req.queryParams("title"), release_date);
             sessionManager.closeCurrentSessionwithTransaction();
             int http_status = result ? 201 : 409;
             res.status(http_status);
@@ -55,7 +66,7 @@ public class AlbumController {
             //If an exception was thrown, then there was a problem with the parameters.
             e.printStackTrace();
             res.status(400);
-            res.body("Bad parameters.");
+            res.body("Bad parameters. "+e.getMessage()+" \n" );
             return res.body();
         } catch (Exception e){
             e.printStackTrace();
@@ -73,7 +84,7 @@ public class AlbumController {
             return null;
         }
         sessionManager.openCurrentSession();
-        List<Album> albums = dao.findByName(req.queryParams("title"));
+        List<Album> albums = dao.findByTitle(req.queryParams("title"));
         sessionManager.closeCurrentSession();
         int http_status = albums.size() > 0 ? 200 : 204;
         res.status(http_status);

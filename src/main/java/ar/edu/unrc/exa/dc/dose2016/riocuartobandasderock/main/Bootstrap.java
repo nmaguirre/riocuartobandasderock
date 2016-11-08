@@ -70,6 +70,7 @@ public class Bootstrap {
 
         // List of controller
 
+
         albumController  = AlbumController.getInstance();
         artistController = new ArtistController();
         bands = BandController.getInstance();
@@ -124,6 +125,11 @@ public class Bootstrap {
         post("/login", (req, res) -> userController.login(req, res));
         post("/logout", (req, res) -> userController.logout(req, res));
 
+        
+        get("/song/findbyduration/:duration",(req,res)->songController.getSongByDuration(req,res));
+        
+        delete("/song/:id",(req, res) -> songController.removeSong(req, res));
+        
         after((req, res) -> {res.type("application/json");});
 
     }
