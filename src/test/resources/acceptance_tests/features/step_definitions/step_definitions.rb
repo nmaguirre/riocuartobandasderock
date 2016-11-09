@@ -275,8 +275,11 @@ When(/^modify this artist with name "([^"]*)" and surname "([^"]*)" and nickname
     if ismatch==1
     	artistID = JSON.load(response.to_str)
     	artistID = artistID["artistID"]
+      begin
         response = RestClient.put s+artistID, { :name => newname, :surname => newsurname, :nickname => newnickname }, :content_type => 'text/plain' 
-    	expect(response.code).to eq(200)
+      rescue RestClient::Conflict => e
+    	   expect(response.code).to eq(200)
+      end
     else
       begin
         response = RestClient.put s+artistID, { :name => newname, :surname => newsurname, :nickname => newnickname }, :content_type => 'text/plain' 
