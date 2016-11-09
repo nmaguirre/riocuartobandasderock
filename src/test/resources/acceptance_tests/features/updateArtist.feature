@@ -14,3 +14,10 @@ Feature: The application responds appropriately to all events that correspond to
     	Given that the artist's database is empty
         When modify this artist with name "Matias" and surname "Serra" and nickname "matu" with new name "Jacinto" and new surname "Serra" and new nickname "matu"
         Then  the artist's database should have 0 entry
+        
+    Scenario: Update one artist on artist's database with two o more entry
+        Given that the artist's database have one artist with name "Matias" and surname "Serra" and nickname "matu"
+        And that the artist's database have one artist with name "Pablo" and surname "Serra" and nickname "matu"
+        When modify this artist with name "Matias" and surname "Serra" and nickname "matu" with new name "Pablo" and new surname "Serra" and new nickname "matu"
+        Then the artist's database should have 1 entries with name "Pablo" and surname "Serra" and nickname "matu"
+        
