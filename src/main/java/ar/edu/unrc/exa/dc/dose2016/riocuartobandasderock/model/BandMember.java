@@ -67,7 +67,7 @@ public class BandMember {
   }
   
   /**
-   * @return true if some id is empty.
+   * @return true if both are non empty.
    */
   public boolean repOk(){
 		boolean result = true;
