@@ -189,16 +189,21 @@ public class ArtistDaoImpl implements ArtistDAO {
 		if(areNull || areEmpty){ //I see that the arguments are valid
 			throw new IllegalArgumentException("the params for update artist can't be null or empty.");
 		} else {
-			Query<Artist> query = SessionManager.getInstance().
-					getCurrentSession().createQuery("update Artist set name = :name,"
-					+ " nickname = :nickname, surname = :surname where artistID=:id");
-			query.setParameter("name", name);
-			query.setParameter("nickname", nickname);
-			query.setParameter("surname", surname);
-			query.setParameter("id", id);
-			int afectedRows = query.executeUpdate();
-			if(afectedRows == 0){
+			//if the artist is already in database
+			if(existArtist(name, surname, nickname)){
 				result = false;
+			}else{
+				Query<Artist> query = SessionManager.getInstance().
+						getCurrentSession().createQuery("update Artist set name = :name,"
+						+ " nickname = :nickname, surname = :surname where artistID=:id");
+				query.setParameter("name", name);
+				query.setParameter("nickname", nickname);
+				query.setParameter("surname", surname);
+				query.setParameter("id", id);
+				int afectedRows = query.executeUpdate();
+				if(afectedRows == 0){
+					result = false;
+				}
 			}
 			return result;
 		}
