@@ -288,6 +288,12 @@ When(/^modify this artist with name "([^"]*)" and surname "([^"]*)" and nickname
       end   	
     end  
 end
+Then(/^the artist's database should have (\d+) entries with name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)"$/) do |entries, name, surname, nickname|
+    result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from artistDB where name='#{name}' and surname='#{surname}' and nickname='#{nickname}';\" -t`
+    result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+    expect(result).to eq(entries)
+end
+
 #
 # END updateArtist.feature 
 #
