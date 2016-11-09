@@ -528,6 +528,43 @@ public class ArtistDAOTest {
 	
 	
 	@Test
+	public void updateArtistTest_Artist_already_in_db() {
+		
+		List<Artist> artistList = new LinkedList<>();
+		
+		String name = "a";
+		String surname = "b";
+		String nickname = "";
+		
+		session.openCurrentSession();
+		while(artistDAO.existArtist(name,surname,nickname)){
+			name+="a";
+		}
+		session.closeCurrentSession();
+		
+		// Add artistToAdd in db
+		session.openCurrentSessionwithTransaction();
+		artistDAO.createArtist(name,surname,nickname);
+		session.closeCurrentSessionwithTransaction();
+		
+		
+		session.openCurrentSession();
+		String obtainedId = artistDAO.getArtist(name, surname, nickname).getId();
+		session.closeCurrentSession();
+		
+		// If obtained id is -1 then the artist isnt created in DB
+		assertTrue(obtainedId != "-1");
+		
+		session.openCurrentSessionwithTransaction();
+		boolean successfulOperation = artistDAO.updateArtist(obtainedId,name,surname,nickname);
+		session.closeCurrentSessionwithTransaction();
+		
+		// Check that update fail because already exists artist with the info to update		
+		assertTrue(!successfulOperation);
+	}
+	
+	
+	@Test
 	public void updateArtistTest_Artist_not_in_db() {
 		
 		String id = "-1";
