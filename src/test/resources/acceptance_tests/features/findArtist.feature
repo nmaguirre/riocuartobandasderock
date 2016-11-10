@@ -2,7 +2,22 @@ Feature: The application responds appropriately to all events that correspond to
 
     Background:
         Given that the application has been started
-        And I have successfully logged in as admin
+    
+    Scenario: Search artists on an artist's database with one artist
+		Given that the artist's database have one artist with name "Matias" and surname "Serra" and nickname "locato"
+        When I search an artist with name "" and surname "" and nickname "" , the result is "BAD REQUEST"
+        
+   	Scenario: Search artists on an artist's database with one artist
+		Given that the artist's database have one artist with name "Matias" and surname "Serra" and nickname "locato"
+        When I search an artist with name "Matias" and surname "Serra" and nickname "locato" , the result is "OK"
+        
+	Scenario: Search artists on an artist's database with one artist
+		Given that the artist's database have one artist with name "Matias" and surname "Serra" and nickname "locato"
+        When I search an artist with name "Mati" and surname "Serra" and nickname "locato" , the result is "NO CONTENT"
+        
+        Scenario: Search artists on an artist's database with one artist
+		Given that the artist's database have one artist with name "" and surname "Serra" and nickname "locato"
+        When I search an artist with name "" and surname "Serra" and nickname "locato" , the result is "OK"
         
 	Scenario: Search artists on an empty artist's database by name
         Given that the artist's database is empty
@@ -52,4 +67,7 @@ Feature: The application responds appropriately to all events that correspond to
 	Scenario: Search artists on an artist's database with one artist
 		Given that the artist's database have one artist with name "Matias" and surname "Serra" and nickname "locato"
         When I list the artists from the database , the result of the search should have 1 entry
+        
+        
+	
          

@@ -21,6 +21,7 @@ public class Bootstrap {
 
 	private static BandController bands ;
 	private static ArtistController artistController;
+	private static BandMemberController bandMemberController;
 	private static AlbumController albumController = AlbumController.getInstance();
 	private static SongController songController;
 
@@ -71,6 +72,7 @@ public class Bootstrap {
 
         
         artistController = ArtistController.getInstance();
+        bandMemberController = BandMemberController.getInstance();
         bands = BandController.getInstance();
         songController = new SongController();
         port(Integer.parseInt(ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().getAppPort()));
@@ -99,23 +101,23 @@ public class Bootstrap {
          *            Output : {name: Matias, surname: Cerra, nickname: }
          * 
          * **/    
-        get("/artist/:id",(req,res)->artistController.getArtistById(req,res));
-        
-        get ("/artist/:name/:surname/:nickname" ,(req,res)->artistController.getOneArtist(req, res),json()); 
-
-        get ("/artist", (req,res)->artistController.getAllArtists(req,res),json());
+        get("/artists/:id",(req,res)->artistController.getArtistById(req,res));
+                                
+        get("/artists/findbyallattributes/",(req,res)->artistController.getOneArtist(req,res),json());
+                
+        get("/artists",(req,res)->artistController.getAllArtists(req,res),json());
 
         get("/artists/findbyname/:name",(req,res)->artistController.getArtistByName(req,res),json());
         
         get("/artists/findbynickname/:nickname",(req,res)->artistController.getArtistByNickname(req,res),json());
 
-        get("/artist/findbysurname/:surname",(req,res)->artistController.getArtistBySurname(req,res),json());
+        get("/artists/findbysurname/:surname",(req,res)->artistController.getArtistBySurname(req,res),json());
 
-        post("/artist/",(req,res)->artistController.createArtist(req,res));
+        post("/artists",(req,res)->artistController.createArtist(req,res));
         
-        put("/artist/:id",(req,res)->artistController.updateArtist(req,res));
+        put("/artists/:id",(req,res)->artistController.updateArtist(req,res));
 
-        delete("/artist/:id",(req,res)->artistController.deleteArtist(req,res));
+        delete("/artists/:id",(req,res)->artistController.deleteArtist(req,res));
         /* ArtistController End Routes */
         
         
