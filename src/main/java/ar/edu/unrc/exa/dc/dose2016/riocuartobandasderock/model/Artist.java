@@ -137,7 +137,9 @@ public class Artist {
    */
   public boolean equals(Artist art){
 	if(art==null) throw new IllegalArgumentException("Artist can't be null");
-	if(this.name.equals(art.name) && this.nickname.equals(art.nickname) && this.surname.equals(art.surname)){
+	if(this.name.toLowerCase().equals(art.name.toLowerCase()) &&
+			this.nickname.toLowerCase().equals(art.nickname.toLowerCase()) &&
+			this.surname.toLowerCase().equals(art.surname.toLowerCase())){
 		return true;
 	}
 	return false;

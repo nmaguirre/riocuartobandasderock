@@ -21,7 +21,6 @@ public class Bootstrap {
 
 	private static BandController bands ;
 	private static ArtistController artistController;
-	private static BandMemberController bandMemberController;
 	private static AlbumController albumController = AlbumController.getInstance();
 	private static SongController songController;
 
@@ -72,7 +71,6 @@ public class Bootstrap {
 
         
         artistController = ArtistController.getInstance();
-        bandMemberController = BandMemberController.getInstance();
         bands = BandController.getInstance();
         songController = new SongController();
         port(Integer.parseInt(ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().getAppPort()));

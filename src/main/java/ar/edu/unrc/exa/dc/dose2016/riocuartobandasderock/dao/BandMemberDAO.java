@@ -32,14 +32,6 @@ public interface BandMemberDAO {
 	* @return BandMembers that have a particular Band and any Artist
 	*/
 	public List<BandMember> findByBand(String bandId);
-	
-	/**
-	* 
-	* @param Role role
-	* 
-	* @return BandMembers that have artist with a particular role and any Band
-	*/
-	public List<BandMember> findByRole(Role role);
 
 	/**
 	* 
@@ -55,16 +47,7 @@ public interface BandMemberDAO {
 	* 
 	* @return true if the create was successful
 	*/
-	public boolean createBandMember(BandMember bandMember);
-	
-	/**
-	* 
-	* @param BandMember bandMember
-	* 
-	* @return true if the update was successful
-	*/
-	public boolean updateBandMember(BandMember bandMember);
-	
+	public boolean createBandMember(String idBand, String idArtist);
 	
 	/**
 	* 

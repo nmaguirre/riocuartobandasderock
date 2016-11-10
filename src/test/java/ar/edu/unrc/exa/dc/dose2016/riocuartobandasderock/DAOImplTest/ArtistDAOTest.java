@@ -273,7 +273,9 @@ public class ArtistDAOTest {
 		artistDAO.createArtist(name,surname,nickname);
 		session.closeCurrentSessionwithTransaction();
 		
-		String artistId = artistToAdd.getId();
+		session.openCurrentSession();
+		String artistId = artistDAO.getArtist(name, surname, nickname).get(0).getId();
+		session.closeCurrentSession();
 		
 		session.openCurrentSession();
 		Artist obtainedArtist = artistDAO.findById(artistId);
@@ -496,8 +498,13 @@ public class ArtistDAOTest {
 		
 		
 		session.openCurrentSession();
-		String obtainedId = artistDAO.getArtist(name, surname, nickname).getId();
+		List<Artist> obtainedListArtist = artistDAO.getArtist(name, surname, nickname);
 		session.closeCurrentSession();
+		
+		//check if the result list has only artist
+		assertTrue(obtainedListArtist.size() == 1); 
+		String obtainedId = obtainedListArtist.get(0).getId();
+
 		
 		// If obtained id is -1 then the artist isnt created in DB
 		assertTrue(obtainedId != "-1");
@@ -518,12 +525,12 @@ public class ArtistDAOTest {
 		
 		session.openCurrentSession();
 		Artist artistUpdated = artistDAO.findById(obtainedId); 
-		session.closeCurrentSession();	
+		session.closeCurrentSession();
 		
 		// Check that in db the artist with id obtainedId was updated
-		assertTrue(artistUpdated.getName().equals(updatedName));
-		assertTrue(artistUpdated.getSurname().equals(updatedSurname));
-		assertTrue(artistUpdated.getNickname().equals(updatedNickname));
+		assertTrue(artistUpdated.getName().equals(updatedName.toLowerCase()));
+		assertTrue(artistUpdated.getSurname().equals(updatedSurname.toLowerCase()));
+		assertTrue(artistUpdated.getNickname().equals(updatedNickname.toLowerCase()));
 	}
 	
 	
@@ -549,8 +556,12 @@ public class ArtistDAOTest {
 		
 		
 		session.openCurrentSession();
-		String obtainedId = artistDAO.getArtist(name, surname, nickname).getId();
+		List<Artist> obtainedListArtist = artistDAO.getArtist(name, surname, nickname);
 		session.closeCurrentSession();
+		
+		//check if the result list has only artist
+		assertTrue(obtainedListArtist.size() == 1); 
+		String obtainedId = obtainedListArtist.get(0).getId();
 		
 		// If obtained id is -1 then the artist isnt created in DB
 		assertTrue(obtainedId != "-1");
@@ -694,8 +705,12 @@ public class ArtistDAOTest {
 		
 		
 		session.openCurrentSession();
-		String obtainedId = artistDAO.getArtist(name, surname, nickname).getId();
+		List<Artist> obtainedListArtist = artistDAO.getArtist(name, surname, nickname);
 		session.closeCurrentSession();
+		
+		//check if the result list has only artist
+		assertTrue(obtainedListArtist.size() == 1); 
+		String obtainedId = obtainedListArtist.get(0).getId();
 		
 		// If obtained id is -1 then the artist isnt created in DB
 		assertTrue(obtainedId != "-1");

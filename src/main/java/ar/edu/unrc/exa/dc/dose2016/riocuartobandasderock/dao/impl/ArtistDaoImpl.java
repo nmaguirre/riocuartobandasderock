@@ -44,7 +44,7 @@ public class ArtistDaoImpl implements ArtistDAO {
 			throw new IllegalArgumentException("the 'surname' param for search an artist can not be null or empty.");
 		} else {
 			Query<Artist> query = SessionManager.getInstance().getCurrentSession().createQuery("from Artist where surname=:n", Artist.class);
-			query.setParameter("n", surname);
+			query.setParameter("n", surname.toLowerCase());
 			return query.getResultList();
 		}
 	}
@@ -61,7 +61,7 @@ public class ArtistDaoImpl implements ArtistDAO {
 			throw new IllegalArgumentException("the 'nickname' param for search an artist can not be null or empty.");
 		} else {
 			Query<Artist> query = SessionManager.getInstance().getCurrentSession().createQuery("from Artist where nickname=:n", Artist.class);
-			query.setParameter("n", nickname);
+			query.setParameter("n", nickname.toLowerCase());
 			return query.getResultList();
 		}
 	}
@@ -78,7 +78,7 @@ public class ArtistDaoImpl implements ArtistDAO {
 			throw new IllegalArgumentException("the 'name' param for search an artist can not be null or empty.");
 		} else {
 			Query<Artist> query = SessionManager.getInstance().getCurrentSession().createQuery("from Artist where name=:n", Artist.class);
-			query.setParameter("n", name);
+			query.setParameter("n", name.toLowerCase());
 			return query.getResultList();
 		}
 	}
@@ -106,9 +106,9 @@ public class ArtistDaoImpl implements ArtistDAO {
 			//look for the artist in the database
 			String hq1 = "FROM Artist A WHERE A.name = :paramName and A.nickname = :paramNickname and A.surname = :paramSurname";
 			Query<Artist> query = SessionManager.getInstance().getCurrentSession().createQuery(hq1, Artist.class);
-			query.setParameter("paramName", name);
-			query.setParameter("paramNickname", nickname);
-			query.setParameter("paramSurname", surname);
+			query.setParameter("paramName", name.toLowerCase());
+			query.setParameter("paramNickname", nickname.toLowerCase());
+			query.setParameter("paramSurname", surname.toLowerCase());
 			List<Artist> artistList = query.getResultList();
 			//if the artist is already in database
 			if(!artistList.isEmpty()){
@@ -120,6 +120,7 @@ public class ArtistDaoImpl implements ArtistDAO {
 
 	/**
 	 * Create an artist in the database
+	 * Data is stored in lowercase
 	 * 
 	 * @param name from an artist
 	 * @param nickname from an artist
@@ -143,7 +144,7 @@ public class ArtistDaoImpl implements ArtistDAO {
 			if(existArtist(name, surname, nickname)){
 				result = false;
 			} else { //if not exist, register the new artist in database
-				Artist artist = new Artist(name, surname, nickname);
+				Artist artist = new Artist(name.toLowerCase(), surname.toLowerCase(), nickname.toLowerCase());
 				SessionManager.getInstance().getCurrentSession().save(artist);
 				result = true;
 			}
@@ -164,11 +165,14 @@ public class ArtistDaoImpl implements ArtistDAO {
 			Query<Artist> query = SessionManager.getInstance().getCurrentSession().
 					createQuery("from Artist where artistID=:id", Artist.class);
 			query.setParameter("id", id);
-			return query.getSingleResult();
+			List<Artist> resultList = query.getResultList();
+			return resultList.isEmpty() ? null : resultList.get(0);
 		}
 	}
 
 	/**
+	 * Update an artist in database
+	 * Data is updated in lowercase
 	 * 
 	 * @param id
 	 * @param name
@@ -196,9 +200,9 @@ public class ArtistDaoImpl implements ArtistDAO {
 				Query<Artist> query = SessionManager.getInstance().
 						getCurrentSession().createQuery("update Artist set name = :name,"
 						+ " nickname = :nickname, surname = :surname where artistID=:id");
-				query.setParameter("name", name);
-				query.setParameter("nickname", nickname);
-				query.setParameter("surname", surname);
+				query.setParameter("name", name.toLowerCase());
+				query.setParameter("nickname", nickname.toLowerCase());
+				query.setParameter("surname", surname.toLowerCase());
 				query.setParameter("id", id);
 				int afectedRows = query.executeUpdate();
 				if(afectedRows == 0){
@@ -230,18 +234,18 @@ public class ArtistDaoImpl implements ArtistDAO {
 			return result;
 		}
 	}
-
+	
 	/**
 	 * Search for an artist by its parameters
 	 * 
 	 * @param name
 	 * @param surname
 	 * @param nickname
-	 * @return artist wanted, null if artist not found
+	 * @return list with the artist wanted, null if artist not found
 	 */
 	@Override
-	public Artist getArtist(String name, String surname, String nickname) {
-		Artist result = null;
+	public List<Artist> getArtist(String name, String surname, String nickname) {
+		List<Artist> result = null;
 		boolean areEmpty = false;
 		boolean areNull = false;
 		areNull = name == null || nickname == null || surname == null;
@@ -255,13 +259,15 @@ public class ArtistDaoImpl implements ArtistDAO {
 				Query<Artist> query = SessionManager.getInstance().
 						getCurrentSession().createQuery("from Artist where name = :name and"
 						+ " nickname = :nickname and surname = :surname", Artist.class);
-				query.setParameter("name", name);
-				query.setParameter("nickname", nickname);
-				query.setParameter("surname", surname);
-				result = query.getSingleResult();
+				query.setParameter("name", name.toLowerCase());
+				query.setParameter("nickname", nickname.toLowerCase());
+				query.setParameter("surname", surname.toLowerCase());
+				result = query.getResultList();
 			}
 			return result;
 		}
 	}
+	
+	
 
 }

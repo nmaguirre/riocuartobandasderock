@@ -85,7 +85,7 @@ public class BandMemberDAOTest {
 		*/			
 		
 		session.openCurrentSession();
-		String artistId = artistDAO.getArtist(name, surname, nickname).getId();
+		String artistId = artistDAO.getArtist(name, surname, nickname).get(0).getId();
 		session.closeCurrentSession();
 		
 		session.openCurrentSession();
@@ -186,7 +186,7 @@ public class BandMemberDAOTest {
 		String bandId = "-1";
 		
 		session.openCurrentSession();
-		String artistId = artistDAO.getArtist(name, surname, nickname).getId();
+		String artistId = artistDAO.getArtist(name, surname, nickname).get(0).getId();
 		session.closeCurrentSession();
 		
 		// Add bandMember in db
@@ -277,7 +277,7 @@ public class BandMemberDAOTest {
 		*/			
 		
 		session.openCurrentSession();
-		String artistId = artistDAO.getArtist(name, surname, nickname).getId();
+		String artistId = artistDAO.getArtist(name, surname, nickname).get(0).getId();
 		session.closeCurrentSession();
 		
 		session.openCurrentSession();
@@ -416,7 +416,7 @@ public class BandMemberDAOTest {
 		*/			
 		
 		session.openCurrentSession();
-		String artistId = artistDAO.getArtist(name, surname, nickname).getId();
+		String artistId = artistDAO.getArtist(name, surname, nickname).get(0).getId();
 		session.closeCurrentSession();
 		
 		session.openCurrentSession();
@@ -529,7 +529,7 @@ public class BandMemberDAOTest {
 		*/			
 		
 		session.openCurrentSession();
-		String artistId = artistDAO.getArtist(name, surname, nickname).getId();
+		String artistId = artistDAO.getArtist(name, surname, nickname).get(0).getId();
 		session.closeCurrentSession();
 		
 		session.openCurrentSession();
@@ -641,7 +641,7 @@ public class BandMemberDAOTest {
 		*/			
 		
 		session.openCurrentSession();
-		String artistId = artistDAO.getArtist(name, surname, nickname).getId();
+		String artistId = artistDAO.getArtist(name, surname, nickname).get(0).getId();
 		session.closeCurrentSession();
 		
 		session.openCurrentSession();

@@ -69,6 +69,8 @@ public interface ArtistDAO {
 	public boolean existArtist(String name, String surname, String nickname);
 	
 	/**
+	* Create an artist in the database
+	* Data is stored in lowercase
 	* 
 	* @param name
 	* @param nickname
@@ -79,6 +81,8 @@ public interface ArtistDAO {
 	public boolean createArtist(String name, String surname, String nickname);
 	
 	/**
+	 * Update an artist in database
+	 * Data is updated in lowercase
 	 * 
 	 * @param id
 	 * @param name
@@ -101,7 +105,7 @@ public interface ArtistDAO {
 	 * @param name
 	 * @param surname
 	 * @param nickname
-	 * @return artist wanted, null if artist not found
+	 * @return list with the artist wanted, null if artist not found
 	 */
-	public Artist getArtist(String name, String surname, String nickname);
+	public List<Artist> getArtist(String name, String surname, String nickname);
 }
