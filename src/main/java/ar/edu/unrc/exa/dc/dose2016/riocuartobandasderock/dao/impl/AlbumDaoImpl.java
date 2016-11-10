@@ -143,4 +143,44 @@ public class AlbumDaoImpl implements AlbumDAO{
 		}
 		return false;
 	}
+	
+	/**
+	 * This method receives the fields to be updated 
+	 * and also the id of the album to be updated. 
+	 * If any of the fields are null, 
+	 * then you do not want to update that field. 
+	 * In case of some field, which receives, not null 
+	 * then it is updated with the new field.
+	 * @param id
+	 * @param title
+	 * @param releaseDate
+	 * @return true iff update was successful
+	 */
+	public boolean update(String id, String title, Date releaseDate){
+		if (id==null) throw new IllegalArgumentException("Error : AlbumDaoImpl.update() null Id");
+		Album toUpdate = this.findById(id);
+		if (toUpdate==null) return false;
+		//skip representation
+		if (title==null && releaseDate==null) return true;
+		if (title!=null && title!=""){
+			System.out.println("Entre porque title !=null o title!='' ");
+			if (releaseDate!=null){
+				System.out.println("Entre porque el title!= and releaseDate !=null");
+				toUpdate.setTitle(title);
+				toUpdate.setReleaseDate(releaseDate);
+				SessionManager.getInstance().getCurrentSession().saveOrUpdate(toUpdate);
+				return true;
+			}
+			toUpdate.setTitle(title);
+			SessionManager.getInstance().getCurrentSession().saveOrUpdate(toUpdate);
+			return true;
+		}
+		if (title==null && releaseDate!=null){
+			System.out.println("Entre por aqui");
+			toUpdate.setReleaseDate(releaseDate);
+			SessionManager.getInstance().getCurrentSession().saveOrUpdate(toUpdate);
+			return true;
+		}
+		return false;
+}
 }

@@ -61,4 +61,18 @@ public interface AlbumDAO {
 	 * @return true iff album was delete
 	 */
 	public boolean delete(String id);
+	
+	/**
+	 * This method receives the fields to be updated 
+	 * and also the id of the album to be updated. 
+	 * If any of the fields are null, 
+	 * then you do not want to update that field. 
+	 * In case of some field, which receives, not null 
+	 * then it is updated with the new field.
+	 * @param id
+	 * @param title
+	 * @param releaseDate
+	 * @return true iff update was successful
+	 */
+	public boolean update(String id, String title, Date releaseDate);
 }

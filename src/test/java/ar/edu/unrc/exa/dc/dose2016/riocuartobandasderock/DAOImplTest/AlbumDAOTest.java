@@ -69,17 +69,17 @@ public class AlbumDAOTest {
 		assertTrue(!b);
 	}
 	
-//	@Test(expected=IllegalArgumentException.class)
-//	public void createAlbumIfTitleIsNull(){
-//		albumDao.openCurrentSessionwithTransaction();
-//		boolean a = albumDao.createAlbum(null,null);		
-//	}
-//	
-//	@Test(expected=IllegalArgumentException.class)
-//	public void createAlbumIfTitleIsEmptyAndReleaseDateIsNull(){
-//		albumDao.openCurrentSessionwithTransaction();
-//		boolean a = albumDao.createAlbum("",null);		
-//	}
+	@Test(expected=IllegalArgumentException.class)
+	public void createAlbumIfTitleIsNull(){
+		session.openCurrentSessionwithTransaction();
+		boolean a = albumDao.create(null,null);		
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void createAlbumIfTitleIsEmptyAndReleaseDateIsNull(){
+		session.openCurrentSessionwithTransaction();
+		boolean a = albumDao.create("",null);		
+	}
 	
 	@Test
 	public void findByIdWhenIdIsNull() {
@@ -166,5 +166,123 @@ public class AlbumDAOTest {
 		
 		assertEquals("AlbumTestToFind", queryAlbum.get(0).getTitle() );
 	}
+	
+	@Test
+	public void updateAlbumWithTitleAndReleaseDate(){
+		session.openCurrentSessionwithTransaction();
+		albumDao.create("AlbumTestToUpdate", exampleDate1);
+		session.closeCurrentSessionwithTransaction();
+		
+		session.openCurrentSession();
+		List<Album> toChange = albumDao.findByTitle("AlbumTestToUpdate");
+		session.closeCurrentSession();
+		
+		session.openCurrentSessionwithTransaction();
+		boolean res = albumDao.update(toChange.get(0).getId(), "AlbumTestSuccChange", new Date(2016,15,15));
+		session.closeCurrentSessionwithTransaction();
+		
+		assertTrue(res);
+	}
+	
+	@Test
+	public void updateAlbumWithNullTitleAndReleaseDate(){
+		session.openCurrentSessionwithTransaction();
+		albumDao.create("AlbumTestUpdate2",exampleDate1);
+		session.closeCurrentSessionwithTransaction();
+		
+		session.openCurrentSession();
+		List<Album> toChange1 = albumDao.findByTitle("AlbumTestUpdate2");
+		session.closeCurrentSession();
+		
+		session.openCurrentSessionwithTransaction();
+		boolean res = albumDao.update(toChange1.get(0).getId(),null,new Date(2016,15,15));
+		session.closeCurrentSessionwithTransaction();
+		
+		assertTrue(res);
+	}
+	
+	@Test
+	public void updateAlbumWithNullTitleAndNullReleaseDate(){
+		session.openCurrentSessionwithTransaction();
+		albumDao.create("AlbumTestUpdate3",exampleDate1);
+		session.closeCurrentSessionwithTransaction();
+		
+		session.openCurrentSession();
+		List<Album> toChange1 = albumDao.findByTitle("AlbumTestUpdate3");
+		session.closeCurrentSession();
+		
+		session.openCurrentSessionwithTransaction();
+		boolean res = albumDao.update(toChange1.get(0).getId(),null,null);
+		session.closeCurrentSessionwithTransaction();	
+		
+		assertTrue(res);
+	}
+	
+	@Test
+	public void updateAlbumWithEmptyTitleAndNullReleaseDate(){
+		session.openCurrentSessionwithTransaction();
+		albumDao.create("AlbumTestUpdate4",exampleDate1);
+		session.closeCurrentSessionwithTransaction();
+		
+		session.openCurrentSession();
+		List<Album> toChange1 = albumDao.findByTitle("AlbumTestUpdate4");
+		session.closeCurrentSession();
+		
+		session.openCurrentSessionwithTransaction();
+		boolean res = albumDao.update(toChange1.get(0).getId(),"",null);
+		session.closeCurrentSessionwithTransaction();	
+		
+		assertTrue(!res);
+	}
+	
+	@Test
+	public void updateAlbumWithTitleAndNullReleaseDate(){
+		session.openCurrentSessionwithTransaction();
+		albumDao.create("AlbumTestUpdate5",exampleDate1);
+		session.closeCurrentSessionwithTransaction();
+		
+		session.openCurrentSession();
+		List<Album> toChange1 = albumDao.findByTitle("AlbumTestUpdate5");
+		session.closeCurrentSession();
+		
+		session.openCurrentSessionwithTransaction();
+		boolean res = albumDao.update(toChange1.get(0).getId(),"AlbumTestUpdate6",null);
+		session.closeCurrentSessionwithTransaction();	
+		
+		assertTrue(res);
+	}
+	
+	@Test
+	public void updateNotExistAlbum(){
+		
+		session.openCurrentSessionwithTransaction();
+		boolean res = albumDao.update("1","AlbumTestUpdate6",null);
+		session.closeCurrentSessionwithTransaction();	
+		
+		assertTrue(!res);
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void updateAlbumWithNullId(){
+		session.openCurrentSessionwithTransaction();
+		boolean res = albumDao.update(null,"AlbumTestUpdate6",null);
+		session.closeCurrentSessionwithTransaction();
+	}
 		
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
