@@ -75,7 +75,7 @@ public class BandController {
 	 * This method takes a band genre and return a list of bands with this genre
 	 * @param req
 	 * @param res
-	 * @return the data of a band, encapsulated in an object.
+	 * @return a list of bands with the genre of the request
 	 */
 	public List<Band> getBandByGenre(Request req,Response res){
 		if (req.params(":genre")==""){
@@ -84,6 +84,25 @@ public class BandController {
 		Session session = SessionManager.getInstance().openSession();
 		BandDAO bdao = new BandDaoImpl(session);
 		List<Band> bands = bdao.findByName(req.params(":genre"));
+		session.close();
+		int status = (bands.size()!=0)? 200:204;
+		res.status(status);
+		return bands;
+	}
+	
+	/**
+	 * This method take a name and a genre and return a list of bands with this attributes
+	 * @param req
+	 * @param res
+	 * @return a list of bands with the genre and name of the request.
+	 */
+	public List<Band> getBandByNameAndGenre(Request req,Response res){
+		if (req.params("genre")==""||req.params("name")==""){
+			res.status(400);
+		}
+		Session session = SessionManager.getInstance().openSession();
+		BandDAO bdao = new BandDaoImpl(session);
+		List<Band> bands = bdao.findByNameAndGenre(req.params("genre"),req.params("name"));
 		session.close();
 		int status = (bands.size()!=0)? 200:204;
 		res.status(status);
