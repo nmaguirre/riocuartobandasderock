@@ -1,5 +1,5 @@
-CREATE TABLE Album (
-	id text primary key,
+CREATE TABLE AlbumDB (
+	albumID text primary key,
 	title text not null,
 	releaseDate date
 );
@@ -12,11 +12,10 @@ CREATE TABLE artistDB (
 );
 
 CREATE TABLE SongDB (
-    idSong int primary key,
-    id text not null,
+    idSong text primary key,
     name text not null, 
     duration int,
-    CONSTRAINT fkidAlbum foreign key (id) references Album
+    albumID text REFERENCES AlbumDB (albumID)
 );
 
 CREATE TABLE BandDB (
@@ -26,10 +25,15 @@ CREATE TABLE BandDB (
 );
 
 CREATE TABLE BandMemberDB (
-	artistID text REFERENCES artistDB (artistID),
-	bandID text REFERENCES BandDB (bandID)	
+    artistID text REFERENCES artistDB (artistID),
+    bandID text REFERENCES BandDB (bandID)
 );
 
+CREATE TABLE Users (
+    name text primary key,
+    password text not null
+);
 
+INSERT INTO Users VALUES('admin', '8C6976E5B5410415BDE908BD4DEE15DFB167A9C873FC4BB8A81F6F2AB448A918');
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO rock_db_owner;

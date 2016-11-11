@@ -3,6 +3,7 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.ArtistDAO;
@@ -17,7 +18,11 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
  */
 public class ArtistDaoImpl implements ArtistDAO {
 
+	private Session currentSession=null;
 	
+	public ArtistDaoImpl(Session session) {
+		this.currentSession = session;
+	}
 	/**
 	 * Get all artists from the database
 	 * 
@@ -27,7 +32,7 @@ public class ArtistDaoImpl implements ArtistDAO {
 	public List<Artist> getAllArtists() {
 		List<Artist> artistList = new LinkedList<>();
 		Query<Artist> query;
-		query = SessionManager.getInstance().getCurrentSession().createQuery("from Artist", Artist.class);
+		query = this.currentSession.createQuery("from Artist", Artist.class);
 		artistList.addAll(query.getResultList());
 		return artistList;
 	}
@@ -162,7 +167,7 @@ public class ArtistDaoImpl implements ArtistDAO {
 		if(id == null || id.equals("")){
 			throw new IllegalArgumentException("the 'id' param for search an artist can not be null or empty.");
 		} else {
-			Query<Artist> query = SessionManager.getInstance().getCurrentSession().
+			Query<Artist> query = this.currentSession.
 					createQuery("from Artist where artistID=:id", Artist.class);
 			query.setParameter("id", id);
 			List<Artist> resultList = query.getResultList();
@@ -256,8 +261,7 @@ public class ArtistDaoImpl implements ArtistDAO {
 			throw new IllegalArgumentException("the params for get artist id can't be null or empty.");
 		} else {
 			if(existArtist(name, surname, nickname)){
-				Query<Artist> query = SessionManager.getInstance().
-						getCurrentSession().createQuery("from Artist where name = :name and"
+				Query<Artist> query = this.currentSession.createQuery("from Artist where name = :name and"
 						+ " nickname = :nickname and surname = :surname", Artist.class);
 				query.setParameter("name", name.toLowerCase());
 				query.setParameter("nickname", nickname.toLowerCase());

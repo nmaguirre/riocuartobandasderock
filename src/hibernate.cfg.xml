@@ -14,6 +14,7 @@
         <property name="show_sql">false</property>
 		<property name="hibernate.current_session_context_class">thread</property>
         <mapping class="ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist"/>
+        <mapping class="ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song"/>
            
     </session-factory>
 </hibernate-configuration>

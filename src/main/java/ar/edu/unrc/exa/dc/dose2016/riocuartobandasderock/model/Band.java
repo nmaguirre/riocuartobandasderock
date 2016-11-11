@@ -67,7 +67,7 @@ public class Band {
 
   /**
    * return the genre of the band
-   * @return String (Genre) 
+   * @return String (Genre)
    */
   public String getGenre(){
     return genre;
@@ -96,5 +96,13 @@ public class Band {
    */
   public void setGenre(String a_genre){
     genre = a_genre;
+  }
+
+  /**
+   * this method check that the instance was create with valid
+   * atributes (name != null and genre != null)
+   */
+  public boolean repOK(){
+    return (name != null && genre != null);
   }
 }

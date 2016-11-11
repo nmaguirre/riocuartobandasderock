@@ -9,6 +9,9 @@ import spark.Request;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import java.util.List;
+
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 /**
  *the ArtistController class treats http requests referred to the Artist model 
  */

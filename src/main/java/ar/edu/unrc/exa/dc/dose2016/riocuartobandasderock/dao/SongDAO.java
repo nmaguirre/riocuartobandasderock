@@ -10,7 +10,7 @@ public interface SongDAO {
 	   
 	public Boolean updateSong(Song song);
 	   
-	public Boolean removeSong(Song song);
+	public Boolean removeSong(String id);
 	   
 	public Boolean addSong(String name, Integer duration);
 	

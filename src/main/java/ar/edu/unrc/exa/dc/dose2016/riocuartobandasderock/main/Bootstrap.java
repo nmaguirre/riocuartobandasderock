@@ -12,8 +12,8 @@ import org.apache.commons.cli.ParseException;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandDaoImpl;
 
 /**
- * 
- * @author Dose 
+ *
+ * @author Dose
  *
  */
 public class Bootstrap {
@@ -21,18 +21,19 @@ public class Bootstrap {
 
 	private static BandController bands ;
 	private static ArtistController artistController;
-	private static AlbumController albumController = AlbumController.getInstance();
+	private static AlbumController albumController;
+    private static UserController userController;
 	private static SongController songController;
 
     public static void main(String[] args) {
 
     	CommandLineParser parser = new DefaultParser();
-    	
+
     	Option dbHost = new Option("dbh","dbHost",true,"use given host as database host");
     	Option dbPort = new Option("dbp","dbPort",true,"use given port as database port");
     	Option appPort =  new Option("ap","appPort",true,"use given port as application port");
     	appPort.setRequired(false);
-    	
+
     	Options options = new Options();
     	options.addOption(dbHost);
     	options.addOption(dbPort);
@@ -46,9 +47,9 @@ public class Bootstrap {
             if (line.hasOption("dbPort")) {
             	ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().setDbPort(line.getOptionValue("dbPort"));
             }
-            
-            if (line.hasOption("appPort")) { 
-            	ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().setAppPort(line.getOptionValue("appPort"));            
+
+            if (line.hasOption("appPort")) {
+            	ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().setAppPort(line.getOptionValue("appPort"));
             }
         }
         catch( ParseException exp ) {
@@ -56,28 +57,34 @@ public class Bootstrap {
             System.err.println( "Parsing failed.  Reason: " + exp.getMessage() );
         }
 
-        /* TABLE CODE  RESPONSE HTTP 
+        /* TABLE CODE  RESPONSE HTTP
          * ===============================================================
          * WHEN ACTION PASS INVALID ARGUMENT RETURN                      CODE 400
          * INSERT ONE NEW REGISTER IS OK                                 CODE 201
          * INSERT ONE NEW REGISTER IS DATABASE ERROR                     CODE 409
-         * 
+         *
          * SEARCH REGISTER ALL OR FOR ATRIBUTTE AND RETURN NO EMPTY LIST CODE 200
          * SEARCH REGISTER ALL OR FOR ATRIBUTTE AND RETURN EMPTY  LIST   CODE 204
          *
          */
-        
+
         // List of controller
 
-        
-        artistController = ArtistController.getInstance();
+        albumController  = AlbumController.getInstance();
+        artistController = new ArtistController();
         bands = BandController.getInstance();
         songController = new SongController();
+        userController = UserController.getInstance();
         port(Integer.parseInt(ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().getAppPort()));
 
+        before("/bands", (req, res) -> {
+            if (!userController.authenticated(req, res)) {
+                halt(401, "Access forbidden\n");
+            }
+        });
 
         // List of route and verbs API REST
-        
+
         post("/albums/", (req, res) -> albumController.create(req, res));
 
         get("/hello", (req, res) -> "Hello World");
@@ -111,21 +118,33 @@ public class Bootstrap {
 
         get("/artists/findbysurname/:surname",(req,res)->artistController.getArtistBySurname(req,res),json());
 
-        post("/artists",(req,res)->artistController.createArtist(req,res));
-        
-        put("/artists/:id",(req,res)->artistController.updateArtist(req,res));
+        get("/artist/findbyname/:name",(req,res)->artistController.getArtistByName(req,res),json());
 
-        delete("/artists/:id",(req,res)->artistController.deleteArtist(req,res));
-        /* ArtistController End Routes */
-        
-        
-        post("/song/",(req,res)->songController.addSong(req, res));
+        get("/artist/findbynickname/:nickname",(req,res)->artistController.getArtistByNickname(req,res),json());
 
-        get("/song/findbyname/:name",(req,res)->songController.getSongByName(req,res));
+        get("/artist/findbysurname/:surname",(req,res)->artistController.getArtistBySurname(req,res),json());
+
+        post("/artist/",(req,res)->artistController.createArtist(req,res));
+
+
+        /**
+         * Users routes
+         */
+        post("/users", (req, res) -> userController.create(req, res));
+        put("/users/:name", (req, res) -> userController.update(req, res));
+        delete("/users/:name", (req, res) -> userController.delete(req, res));
+        post("/login", (req, res) -> userController.login(req, res));
+        post("/logout", (req, res) -> userController.logout(req, res));
+
+        post("/song",(req,res)->songController.create(req, res));
+
+        get("/songs/findbyname/:name",(req,res)->songController.getSongByName(req,res));
         
-        get("/song/findbyduration/:name",(req,res)->songController.getSongByDuration(req,res));
+        get("/songs/findbyduration/:duration",(req,res)->songController.getSongByDuration(req,res));
+        
+        delete("/song/:id",(req, res) -> songController.removeSong(req, res));
         
         after((req, res) -> {res.type("application/json");});
-        
+
     }
 }

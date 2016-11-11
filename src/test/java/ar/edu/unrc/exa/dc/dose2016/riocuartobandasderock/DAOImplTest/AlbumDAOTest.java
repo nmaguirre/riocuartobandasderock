@@ -9,11 +9,13 @@ import java.util.List;
 import mockit.Expectations;
 import mockit.Mocked;
 
+import org.hibernate.Session;
 import org.junit.Before;
 import org.junit.Test;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.AlbumDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.AlbumDaoImpl;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.ArtistDaoImpl;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SessionManager;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
@@ -22,49 +24,51 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 public class AlbumDAOTest {
 	
 	private AlbumDAO albumDao;
-	private SessionManager session;
+	private Session session;
 	@Before
 	public void setUp(){
-		albumDao = new AlbumDaoImpl();
-		session= SessionManager.getInstance();
+		session = SessionManager.getInstance().openSession();
+		albumDao = new AlbumDaoImpl(session);
 	}
 	
 	@Test
 	public void createAlbumIfNotInDB(){
 		
-		session.openCurrentSessionwithTransaction();
+		session.beginTransaction();
 		
 			
-		boolean a = albumDao.createAlbum("AlbumTest1",new Date(2010,04,10));
+		boolean a = albumDao.create("AlbumTest1",new Date(2010,04,10));
 		
-		session.closeCurrentSessionwithTransaction();
+		session.getTransaction().commit();
 		
 		assertTrue(a);
-		
+		session.close();
 	}
 	@Test
 	public void createAlbumIfExistInDBwithOtherSession(){
-		session.openCurrentSessionwithTransaction();
-		boolean a = albumDao.createAlbum("AlbumTest2",new Date(2010,04,10));
-		session.closeCurrentSessionwithTransaction();
+		session.beginTransaction();
+		boolean a = albumDao.create("AlbumTest2",new Date(2010,04,10));
+		session.getTransaction().commit();
 		
-		session.openCurrentSessionwithTransaction();
-		boolean b = albumDao.createAlbum("AlbumTest2",new Date(2010,04,10));
-		session.closeCurrentSessionwithTransaction();
+		session.beginTransaction();
+		boolean b = albumDao.create("AlbumTest2",new Date(2010,04,10));
+		session.getTransaction().commit();
 	
 		
 		assertTrue(!b);
+		session.close();
 	}
 	
 	@Test
 	public void createAlbumIfInDB(){
-		session.openCurrentSessionwithTransaction();
-		boolean a = albumDao.createAlbum("AlbumTest2",new Date(2010,04,10));
-		boolean b = albumDao.createAlbum("AlbumTest2",new Date(2010,04,10));
+		session.beginTransaction();
+		boolean a = albumDao.create("AlbumTest2",new Date(2010,04,10));
+		boolean b = albumDao.create("AlbumTest2",new Date(2010,04,10));
 	
-		session.closeCurrentSessionwithTransaction();
+		session.getTransaction().commit();
 		
 		assertTrue(!b);
+		session.close();
 	}
 	
 //	@Test(expected=IllegalArgumentException.class)
@@ -81,50 +85,49 @@ public class AlbumDAOTest {
 	
 	@Test
 	public void findByIdWhenIdIsNull() {
-		session.openCurrentSession();
 		Album a = albumDao.findById(null);
-		session.closeCurrentSession();
 		assertNull(a);
 	}
 	
 	@Test
 	public void findByIdWhenIdIsEmpty() {
-		session.openCurrentSession();
 		Album a = albumDao.findById("");
-		session.closeCurrentSession();
 		assertNull(a);
 	}
 	
 	@Test
 	public void findById() {
-		session.openCurrentSessionwithTransaction();
-		boolean a = albumDao.createAlbum("AlbumTest3",new Date(2010,04,10));
-		List<Album> lista = albumDao.getAllAlbums();
+		session.beginTransaction();
+		boolean a = albumDao.create("AlbumTest3",new Date(2010,04,10));
+		List<Album> lista = albumDao.getAll();
 		Album aux = lista.get(0);
 		Album aux1 = albumDao.findById(aux.getId());
-		session.closeCurrentSessionwithTransaction();
+		session.getTransaction().commit();
 		assertTrue(aux.getId().equals(aux1.getId()));
+		session.close();
 	}
 	
 	@Test
 	public void findByIdNotInDB() {
-		session.openCurrentSessionwithTransaction();
-		boolean a = albumDao.createAlbum("AlbumTest4",new Date(2010,04,10));
+		session.beginTransaction();
+		boolean a = albumDao.create("AlbumTest4",new Date(2010,04,10));
 		Album aux1 = albumDao.findById("9893948593845");
-		session.closeCurrentSessionwithTransaction();
+		session.getTransaction().commit();
 		assertNull(aux1);
+		session.close();
 	}
 	
 	@Test
 	public void getAllAlbumWhenDBIsEmpty(){
 		
-		session.openCurrentSessionwithTransaction();
-		albumDao.createAlbum("AlbumTest5",new Date(2010,04,10));
-		albumDao.createAlbum("AlbumTest6",new Date(2010,04,10));
+		session.beginTransaction();
+		albumDao.create("AlbumTest5",new Date(2010,04,10));
+		albumDao.create("AlbumTest6",new Date(2010,04,10));
 		List<Album> lista = new LinkedList<Album>();
-		lista.addAll(albumDao.getAllAlbums());
-		session.closeCurrentSessionwithTransaction();
+		lista.addAll(albumDao.getAll());
+		session.getTransaction().commit();
 		assertEquals(3,lista.size());
+		session.close();
 	}
 	
 	

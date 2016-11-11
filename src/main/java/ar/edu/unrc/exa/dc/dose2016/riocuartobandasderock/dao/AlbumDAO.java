@@ -24,34 +24,35 @@ public interface AlbumDAO {
 	
 	/**
 	 * @param id
-	 * @return 
+	 * @return Album iff was found 
 	 */
 	public Album findById(String id);
 	
 	/**
 	 * @return All albums 
 	 */
-	public List<Album> getAllAlbums();	
+	public List<Album> getAll();	
 	
 	
 	/**
-	 * @param name
-	 * @return  
+	 * @param title
+	 * @return Albums list founds by title
 	 */ 
-	public List<Album> findByName(String name);
+	public List<Album> findByTitle(String title);
 	
 	
 	/**
 	 * @param releaseDate
-	 * @return
+	 * @return Albums list founds by release date
 	 */
 	public List<Album> findByReleaseDate(Date releaseDate);
 	
 	
 	/**
-	 * @param title, releaseDate
-	 * @return 
+	 * @param title 
+	 * @param releaseDate
+	 * @return true iff creation is successful 
 	 */
-	public boolean createAlbum(String title, Date releaseDate);
+	public boolean create(String title, Date releaseDate);
 	
 }
