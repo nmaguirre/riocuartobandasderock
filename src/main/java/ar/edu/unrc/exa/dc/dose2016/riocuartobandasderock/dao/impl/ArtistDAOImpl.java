@@ -16,11 +16,11 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
  * Artist DAO Implementation.
  *
  */
-public class ArtistDAOImpl implements ArtistDAO {
+public class ArtistDaoImpl implements ArtistDAO {
 
 	private Session currentSession=null;
 	
-	public ArtistDAOImpl(Session session) {
+	public ArtistDaoImpl(Session session) {
 		this.currentSession = session;
 	}
 	/**

@@ -118,13 +118,17 @@ public class Bootstrap {
 
         get("/artists/findbysurname/:surname",(req,res)->artistController.getArtistBySurname(req,res),json());
 
-        get("/artist/findbyname/:name",(req,res)->artistController.getArtistByName(req,res),json());
+        get("/artists/findbyname/:name",(req,res)->artistController.getArtistByName(req,res),json());
 
-        get("/artist/findbynickname/:nickname",(req,res)->artistController.getArtistByNickname(req,res),json());
+        get("/artists/findbynickname/:nickname",(req,res)->artistController.getArtistByNickname(req,res),json());
 
-        get("/artist/findbysurname/:surname",(req,res)->artistController.getArtistBySurname(req,res),json());
+        get("/artists/findbysurname/:surname",(req,res)->artistController.getArtistBySurname(req,res),json());
 
-        post("/artist/",(req,res)->artistController.createArtist(req,res));
+        post("/artists",(req,res)->artistController.createArtist(req,res));
+        
+        put("/artists/:id",(req,res)->artistController.updateArtist(req,res));
+
+        delete("/artists/:id",(req,res)->artistController.deleteArtist(req,res));
 
 
         /**

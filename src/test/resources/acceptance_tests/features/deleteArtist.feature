@@ -2,7 +2,7 @@ Feature: The application responds appropriately to all events that correspond to
 
     Background:
         Given that the application has been started
-        And I have successfully logged in as admin
+        #And I have successfully logged in as admin
 
     Scenario: delete one artist on artist's database with one entry
         Given that the artist's database have one artist with name "Matias" and surname "Serra" and nickname "locato"
