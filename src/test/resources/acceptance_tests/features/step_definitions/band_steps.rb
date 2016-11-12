@@ -66,44 +66,49 @@ end
 
 When(/^I search a band with name "([^"]*)" and the band exist in the database$/) do |name|
   begin
-   response = RestClient.get "http://localhost:4567/bands/:#{name}"
+   response = RestClient.get "http://localhost:4567/bands/findbyname/:#{name}"
    rescue RestClient::Conflict => e
    expect(e.response.code).to eq(201)
   end
 end
 
 When(/^I search a band with name "([^"]*)" and the band doesn't exist in the database$/) do |name|
-
-end
-
-When(/^I search a band with genre "([^"]*)" and the band doesn't exist in the database$/) do |genre|
-
-end
-
-# Find Band by genre
-When(/^I search a band with name "([^"]*)" and genre "([^"]*)" and the band doesn't exist in the database$/) do |name, genre|
-
+  begin
+   response = RestClient.get "http://localhost:4567/bands/findbyname/:#{name}"
+   rescue RestClient::Conflict => e
+   expect(e.response.code).to eq(204)
+  end
 end
 
 When(/^I search a band with genre "([^"]*)" and the band exist in the database$/) do |genre|
   begin
-   response = RestClient.post 'http://localhost:4567/bands/', { :name => "The locos", :genre => genre }, :content_type => 'text/plain'
+   response = RestClient.get "http://localhost:4567/bands/findbygenre/:#{genre}"
    rescue RestClient::Conflict => e
-   expect(e.response.code).to eq(409)
+   expect(e.response.code).to eq(201)
   end
-  
 end
 
-When(/^I search a band with genre "([^"]*)", the band doesn't exist in the database$/) do |genre|
- 
+When(/^I search a band with genre "([^"]*)" and the band doesn't exist in the database$/) do |genre|
+  begin
+   response = RestClient.get "http://localhost:4567/bands/findbygenre/:#{genre}"
+   rescue RestClient::Conflict => e
+   expect(e.response.code).to eq(204)
+  end
 end
 
-# Find Band by name and genre
 When(/^I search a band with name "([^"]*)" and genre "([^"]*)" and the band exist in the database$/) do |name, genre|
   begin
-   response = RestClient.post 'http://localhost:4567/bands/', { :name => name, :genre => genre }, :content_type => 'text/plain'
+   response = RestClient.get 'http://localhost:4567/bands/find/', { :name => name, :genre => genre }, :content_type => 'text/plain'
    rescue RestClient::Conflict => e
-   expect(e.response.code).to eq(409)
+   expect(e.response.code).to eq(201)
+  end
+end
+
+When(/^I search a band with name "([^"]*)" and genre "([^"]*)" and the band doesn't exist in the database$/) do |name, genre|
+  begin
+   response = RestClient.get "http://localhost:4567/bands/find/", { :name => name, :genre => genre }, :content_type => 'text/plain'
+   rescue RestClient::Conflict => e
+   expect(e.response.code).to eq(204)
   end
 end
 

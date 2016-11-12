@@ -110,7 +110,7 @@ public class BandController {
 	}
 
 	/***
-	 * This method takes the data of a band from the frontend, and creates a band in database
+	 * This method takes the data of a band from the front-end, and creates a band in database
 	 * @param req
 	 * @param res
 	 * @return the object of the band created.
@@ -135,7 +135,7 @@ public class BandController {
 	}
 
 	/***
-	 * This method takes the data of a band from the frontend, and updates a band in database
+	 * This method takes the data of a band from the front-end, and updates a band in database
 	 * @param req
 	 * @param res
 	 * @return a String that describes the result of update a band.
@@ -168,7 +168,7 @@ public class BandController {
 	}
 
 	/***
-	 * This method takes the id of a band from the frontend, and delete this band in database
+	 * This method takes the id of a band from the front-end, and delete this band in database
 	 * @param req
 	 * @param res
 	 * @return true if the the band was created. Otherwise, false.
