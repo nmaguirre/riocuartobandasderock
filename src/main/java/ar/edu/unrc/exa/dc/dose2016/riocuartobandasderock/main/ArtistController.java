@@ -1,15 +1,17 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.ArtistDAO;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandMemberDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.ArtistDaoImpl;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandMemberDAOImpl;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SessionManager;
 import spark.Response;
 import spark.Request;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 /**
@@ -76,11 +78,11 @@ public class ArtistController {
 			return null;
 		}
 		else{
-			Session session = SessionManager.getInstance().openSession();//.openSession();
-			ArtistDAO artistDAO=new ArtistDaoImpl(session);//new ArtistDaoImpl(session);
+			Session session = SessionManager.getInstance().openSession();
+			ArtistDAO artistDAO=new ArtistDaoImpl(session);
 			List <Artist> artist = artistDAO.getArtist(name,surname,nickname);
 			session.close();
-			int status = (artist!=null)? 200:204; //=(artist.size()>0)? 200:204;
+			int status =(artist.size()>0)? 200:204;
 			res.status(status);
 			return artist;
 		}
@@ -93,8 +95,8 @@ public class ArtistController {
 	 * @return  List of Artist
 	 */
 	public List<Artist> getAllArtists(Request req, Response res){
-		Session session = SessionManager.getInstance().openSession();//.openSession();
-		ArtistDAO artistDAO = new ArtistDaoImpl(session);//new ArtistDaoImpl(session);
+		Session session = SessionManager.getInstance().openSession();
+		ArtistDAO artistDAO = new ArtistDaoImpl(session);
 		List<Artist> artists = artistDAO.getAllArtists();
 		session.close();
 		int status = (artists.size()>0)? 200:204;
@@ -114,8 +116,8 @@ public class ArtistController {
 			res.status(400);
 			return null;
 		}
-		Session session = SessionManager.getInstance().openSession();//.openSession();
-		ArtistDAO artistDAO=new ArtistDaoImpl(session);//new ArtistDaoImpl(session);
+		Session session = SessionManager.getInstance().openSession();
+		ArtistDAO artistDAO = new ArtistDaoImpl(session);
 		List<Artist> artists = artistDAO.findByName(req.params(":name"));
 		session.close();
 		int status = (artists.size()!=0)? 200:204;
@@ -134,8 +136,8 @@ public class ArtistController {
 			res.status(400);
 			return null;
 		}
-		Session session = SessionManager.getInstance().openSession();//.openSession();
-		ArtistDAO artistDAO=new ArtistDaoImpl(session);//new ArtistDaoImpl(session);
+		Session session = SessionManager.getInstance().openSession();
+		ArtistDAO artistDAO=new ArtistDaoImpl(session);
 		List<Artist> artists = artistDAO.findBySurname(req.params(":surname"));
 		session.close();
 		int status = (artists.size()!=0)? 200:204;
@@ -154,8 +156,8 @@ public class ArtistController {
 			res.status(400);
 			return null;
 		}
-		Session session = SessionManager.getInstance().openSession();//.openSession();
-		ArtistDAO artistDAO=new ArtistDaoImpl(session);//new ArtistDaoImpl(session);
+		Session session = SessionManager.getInstance().openSession();
+		ArtistDAO artistDAO=new ArtistDaoImpl(session);
 		List<Artist> artists = artistDAO.findByNickname(req.params(":nickname"));
 		session.close();
 		int status = (artists.size()!=0)? 200:204;
@@ -186,8 +188,8 @@ public class ArtistController {
 			res.status(400);
 			return "Request invalid";
 		}
-		Session session = SessionManager.getInstance().openSession();//.openSession();//o .getNewSession() segun mail
-		ArtistDAO artistDAO=new ArtistDaoImpl(session);//new ArtistDaoImpl(session);
+		Session session = SessionManager.getInstance().openSession();
+		ArtistDAO artistDAO=new ArtistDaoImpl(session);
 		Transaction transaction = session.beginTransaction();
 		boolean status = artistDAO.createArtist(name,surname,nickname);
 		transaction.commit();
@@ -205,8 +207,8 @@ public class ArtistController {
 	 * @return a string that describes the result of updateBandMember
 	 */
 	public String updateArtist(Request req, Response res){
-		Session session = SessionManager.getInstance().openSession();//.openSession();
-		ArtistDAO artistDAO=new ArtistDaoImpl(session);//new ArtistDaoImpl(session);
+		Session session = SessionManager.getInstance().openSession();
+		ArtistDAO artistDAO=new ArtistDaoImpl(session);
 		Artist artist = artistDAO.findById(req.params(":id"));
 		session.close();
 		if (artist==null){
@@ -229,8 +231,8 @@ public class ArtistController {
 			res.status(400);
 			return "Request invalid";
 		}
-		session = SessionManager.getInstance().openSession();//.openSession();
-		artistDAO=new ArtistDaoImpl(session);//new ArtistDaoImpl(session);
+		session = SessionManager.getInstance().openSession();
+		artistDAO=new ArtistDaoImpl(session);
 		Transaction transaction = session.beginTransaction();
 		boolean status = artistDAO.updateArtist(artist.getId(),name,surname,nickname);
 		transaction.commit();
@@ -254,8 +256,8 @@ public class ArtistController {
 			res.status(400);
 			return "Request invalid";
 		}
-		Session session = SessionManager.getInstance().openSession();//.openSession();
-		ArtistDAO artistDAO=new ArtistDaoImpl(session);//new ArtistDaoImpl(session);
+		Session session = SessionManager.getInstance().openSession();
+		ArtistDAO artistDAO=new ArtistDaoImpl(session);
 		Transaction transaction = session.beginTransaction();
 		boolean status = artistDAO.deleteArtist(req.params(":id"));
 		transaction.commit();
@@ -267,5 +269,59 @@ public class ArtistController {
 		res.status(409);
 		return "Fail";
 	}
+	
+	/**
+	 * search Artists of a Band by his name
+	 * @param req it contain name of the Band to search Artist
+	 * @param res
+	 * @return List of BandMembers
+	 */
+	public List<Band> getBandMembersByArtistId(Request req, Response res){
+		String artistID = req.params(":idArtist");
+		if((artistID=="")||(artistID==null)){
+			res.status(400);
+			return null;
+		}
+		Session session = SessionManager.getInstance().openSession();
+		BandMemberDAO bmDAO=new BandMemberDAOImpl(session);
+		List<Band> bandMembers = bmDAO.findByArtist(req.params(artistID));
+		session.close();
+		int status = (bandMembers.size()>0)? 200:204;
+		res.status(status);
+		return bandMembers;
+	}
+	
+	/**
+	 * search BandMembers of a Artist by his name, surname and nickname
+	 * @param req it contain idArtist to search
+	 * @param res
+	 * @return List of BandMembers
+	 */
+	public List<Band> getBandMembersByArtist(Request req, Response res){
+		String aName = req.queryParams("artistName");
+		if (aName==null){
+			aName="";
+		}
+		String aSurname = req.queryParams("artistSurname");
+		if (aSurname==null){
+			aSurname="";
+		}
+		String aNickname = req.queryParams("artistNickname");
+		if (aNickname==null){
+			aNickname="";
+		}
+		if((aName=="") && (aSurname=="") && (aNickname=="")){
+			res.status(400);
+			return null;
+		}
+		Session session = SessionManager.getInstance().openSession();
+		BandMemberDAO bmDAO=new BandMemberDAOImpl(session);
+		List<Band> bandMembers = bmDAO.findByArtistByAttributes(aName,aSurname,aNickname);
+		session.close();
+		int status = (bandMembers.size()>0)? 200:204;
+		res.status(status);
+		return bandMembers;
+	}
+	
 
 }
