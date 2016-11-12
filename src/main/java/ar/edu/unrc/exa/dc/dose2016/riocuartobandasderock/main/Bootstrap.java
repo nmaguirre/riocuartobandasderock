@@ -123,14 +123,22 @@ public class Bootstrap {
         get("/artists/findbynickname/:nickname",(req,res)->artistController.getArtistByNickname(req,res),json());
 
         get("/artists/findbysurname/:surname",(req,res)->artistController.getArtistBySurname(req,res),json());
+        
+        get("/artists/findbysurname/",(req,res)->artistController.getBandMembersByArtist(req, res),json());
+        
+        get("/artists/findbysurname/:idArtist",(req,res)->artistController.getBandMembersByArtistId(req, res),json());
 
         post("/artists",(req,res)->artistController.createArtist(req,res));
         
         put("/artists/:id",(req,res)->artistController.updateArtist(req,res));
 
         delete("/artists/:id",(req,res)->artistController.deleteArtist(req,res));
-
-
+        
+        /**
+         * BandMember routes
+         */
+        
+        
         /**
          * Users routes
          */
