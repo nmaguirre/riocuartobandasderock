@@ -3,43 +3,29 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandMemberDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.BandMember;
 
 public class BandMemberDAOImpl implements BandMemberDAO{
 
+	private Session currentSession=null;
+	
+	public BandMemberDAOImpl(Session session) {
+		this.currentSession = session;
+	}
+	
 	@Override
 	public List<BandMember> getAllBandMembers() {
 		List<BandMember> bandMemberList = new LinkedList<>();
 		Query<BandMember> query;
-		query = SessionManager.getInstance().getCurrentSession().createQuery("from BandMember", BandMember.class);
+		query = this.currentSession.createQuery("from BandMember", BandMember.class);
 		bandMemberList.addAll(query.getResultList());
 		return bandMemberList;
-	}
-
-	@Override
-	public List<BandMember> findByArtist(String artistId) {
-		if(artistId == null || artistId.equals("")){
-			throw new IllegalArgumentException("the 'artistId' param for search a BandMember List by Artist can not be null or empty.");
-		} else {
-			Query<BandMember> query = SessionManager.getInstance().getCurrentSession().createQuery("from BandMember where artistID=:aID", BandMember.class);
-			query.setParameter("aID", artistId);
-			return query.getResultList();
-		}
-	}
-
-	@Override
-	public List<BandMember> findByBand(String bandId) {
-		if(bandId == null || bandId.equals("")){
-			throw new IllegalArgumentException("the 'bandId' param for search a BandMember List by Band can not be null or empty.");
-		} else {
-			Query<BandMember> query = SessionManager.getInstance().getCurrentSession().createQuery("from BandMember where bandID=:bID", BandMember.class);
-			query.setParameter("bID", bandId);
-			return query.getResultList();
-		}
 	}
 
 	@Override
@@ -47,7 +33,7 @@ public class BandMemberDAOImpl implements BandMemberDAO{
 		if(idBand == null || idArtist == null || idBand.equals("") || idArtist.equals("")){
 			throw new IllegalArgumentException("the 'idBand','idArtist' params for search a bandmember relation can not be null or empty.");
 		} else {
-			Query<BandMember> query = SessionManager.getInstance().getCurrentSession().
+			Query<BandMember> query = this.currentSession.
 					createQuery("from BandMember where artistID=:aID and bandID=:bID",BandMember.class);
 			query.setParameter("aID", idArtist);
 			query.setParameter("bID", idBand);
@@ -68,7 +54,7 @@ public class BandMemberDAOImpl implements BandMemberDAO{
 			throw new IllegalArgumentException("the params for create a bandmember relation can't be null or empty.");
 		} else {
 			BandMember bm = new BandMember(idArtist, idBand);
-			SessionManager.getInstance().getCurrentSession().save(bm);
+			this.currentSession.save(bm);
 			return true;
 		}
 	}
@@ -79,8 +65,7 @@ public class BandMemberDAOImpl implements BandMemberDAO{
 			throw new IllegalArgumentException("the 'idBand','idArtist' params for delete a bandmember relation can not be null or empty.");
 		} else {
 			boolean result = true;
-			Query<BandMember> query = SessionManager.getInstance().getCurrentSession()
-					.createQuery("delete BandMember where artistID=:aID and bandID=:bID",BandMember.class);
+			Query<BandMember> query = this.currentSession.createQuery("delete BandMember where artistID=:aID and bandID=:bID",BandMember.class);
 			query.setParameter("aID", idArtist);
 			query.setParameter("bID", idBand);
 			int afectedRows = query.executeUpdate();
@@ -89,6 +74,30 @@ public class BandMemberDAOImpl implements BandMemberDAO{
 			}
 			return result;
 		}
+	}
+
+	@Override
+	public List<Band> findByArtistByAttributes(String artistName, String artistSurname, String artistNickname) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Artist> findByBandByAttributes(String bandName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Band> findByArtist(String artistId) {
+		// TODO Auto-generated method stub
+				return null;
+	}
+
+	@Override
+	public List<Artist> findByBand(String bandId) {
+		// TODO Auto-generated method stub
+				return null;
 	}
 
 }

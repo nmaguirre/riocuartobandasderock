@@ -23,7 +23,9 @@ public interface BandMemberDAO {
 	* 
 	* @return BandMembers that have a particular Artist and any Band
 	*/
-	public List<BandMember> findByArtist(String artistId);
+	public List<Band> findByArtist(String artistId);
+	
+	public List<Band> findByArtistByAttributes(String artistName,String artistSurname, String artistNickname);
 	
 	/**
 	* 
@@ -31,8 +33,10 @@ public interface BandMemberDAO {
 	* 
 	* @return BandMembers that have a particular Band and any Artist
 	*/
-	public List<BandMember> findByBand(String bandId);
+	public List<Artist> findByBand(String bandId);
 
+	public List<Artist> findByBandByAttributes(String bandName);
+	
 	/**
 	* 
 	* @param String idBand, String idArtist. ID of an Artist and a Band

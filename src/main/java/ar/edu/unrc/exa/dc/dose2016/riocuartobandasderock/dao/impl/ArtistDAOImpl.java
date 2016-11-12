@@ -16,11 +16,11 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
  * Artist DAO Implementation.
  *
  */
-public class ArtistDaoImpl implements ArtistDAO {
+public class ArtistDAOImpl implements ArtistDAO {
 
 	private Session currentSession=null;
 	
-	public ArtistDaoImpl(Session session) {
+	public ArtistDAOImpl(Session session) {
 		this.currentSession = session;
 	}
 	/**
@@ -48,8 +48,8 @@ public class ArtistDaoImpl implements ArtistDAO {
 		if(surname == null || surname.equals("")){
 			throw new IllegalArgumentException("the 'surname' param for search an artist can not be null or empty.");
 		} else {
-			Query<Artist> query = SessionManager.getInstance().getCurrentSession().createQuery("from Artist where surname=:n", Artist.class);
-			query.setParameter("n", surname.toLowerCase());
+			Query<Artist> query = this.currentSession.createQuery("from Artist where surname=:n", Artist.class);
+			query.setParameter("n", surname );
 			return query.getResultList();
 		}
 	}
@@ -65,8 +65,8 @@ public class ArtistDaoImpl implements ArtistDAO {
 		if(nickname == null || nickname.equals("")){
 			throw new IllegalArgumentException("the 'nickname' param for search an artist can not be null or empty.");
 		} else {
-			Query<Artist> query = SessionManager.getInstance().getCurrentSession().createQuery("from Artist where nickname=:n", Artist.class);
-			query.setParameter("n", nickname.toLowerCase());
+			Query<Artist> query = this.currentSession.createQuery("from Artist where nickname=:n", Artist.class);
+			query.setParameter("n", nickname );
 			return query.getResultList();
 		}
 	}
@@ -82,8 +82,8 @@ public class ArtistDaoImpl implements ArtistDAO {
 		if(name == null || name.equals("")){
 			throw new IllegalArgumentException("the 'name' param for search an artist can not be null or empty.");
 		} else {
-			Query<Artist> query = SessionManager.getInstance().getCurrentSession().createQuery("from Artist where name=:n", Artist.class);
-			query.setParameter("n", name.toLowerCase());
+			Query<Artist> query = this.currentSession.createQuery("from Artist where name=:n", Artist.class);
+			query.setParameter("n", name );
 			return query.getResultList();
 		}
 	}
@@ -110,10 +110,10 @@ public class ArtistDaoImpl implements ArtistDAO {
 		} else {
 			//look for the artist in the database
 			String hq1 = "FROM Artist A WHERE A.name = :paramName and A.nickname = :paramNickname and A.surname = :paramSurname";
-			Query<Artist> query = SessionManager.getInstance().getCurrentSession().createQuery(hq1, Artist.class);
-			query.setParameter("paramName", name.toLowerCase());
-			query.setParameter("paramNickname", nickname.toLowerCase());
-			query.setParameter("paramSurname", surname.toLowerCase());
+			Query<Artist> query = this.currentSession.createQuery(hq1, Artist.class);
+			query.setParameter("paramName", name );
+			query.setParameter("paramNickname", nickname );
+			query.setParameter("paramSurname", surname );
 			List<Artist> artistList = query.getResultList();
 			//if the artist is already in database
 			if(!artistList.isEmpty()){
@@ -149,8 +149,8 @@ public class ArtistDaoImpl implements ArtistDAO {
 			if(existArtist(name, surname, nickname)){
 				result = false;
 			} else { //if not exist, register the new artist in database
-				Artist artist = new Artist(name.toLowerCase(), surname.toLowerCase(), nickname.toLowerCase());
-				SessionManager.getInstance().getCurrentSession().save(artist);
+				Artist artist = new Artist(name , surname , nickname );
+				this.currentSession.save(artist);
 				result = true;
 			}
 			return result;
@@ -202,12 +202,11 @@ public class ArtistDaoImpl implements ArtistDAO {
 			if(existArtist(name, surname, nickname)){
 				result = false;
 			}else{
-				Query<Artist> query = SessionManager.getInstance().
-						getCurrentSession().createQuery("update Artist set name = :name,"
+				Query<Artist> query = this.currentSession.createQuery("update Artist set name = :name,"
 						+ " nickname = :nickname, surname = :surname where artistID=:id");
-				query.setParameter("name", name.toLowerCase());
-				query.setParameter("nickname", nickname.toLowerCase());
-				query.setParameter("surname", surname.toLowerCase());
+				query.setParameter("name", name );
+				query.setParameter("nickname", nickname );
+				query.setParameter("surname", surname );
 				query.setParameter("id", id);
 				int afectedRows = query.executeUpdate();
 				if(afectedRows == 0){
@@ -229,7 +228,7 @@ public class ArtistDaoImpl implements ArtistDAO {
 			throw new IllegalArgumentException("the 'id' param for delete an artist can not be null or empty.");
 		} else {
 			boolean result = true;
-			Query<Artist> query = SessionManager.getInstance().getCurrentSession()
+			Query<Artist> query = this.currentSession
 					.createQuery("delete Artist where artistID=:id");
 			query.setParameter("id", id);
 			int afectedRows = query.executeUpdate();
@@ -263,9 +262,9 @@ public class ArtistDaoImpl implements ArtistDAO {
 			if(existArtist(name, surname, nickname)){
 				Query<Artist> query = this.currentSession.createQuery("from Artist where name = :name and"
 						+ " nickname = :nickname and surname = :surname", Artist.class);
-				query.setParameter("name", name.toLowerCase());
-				query.setParameter("nickname", nickname.toLowerCase());
-				query.setParameter("surname", surname.toLowerCase());
+				query.setParameter("name", name );
+				query.setParameter("nickname", nickname );
+				query.setParameter("surname", surname );
 				result = query.getResultList();
 			}
 			return result;
