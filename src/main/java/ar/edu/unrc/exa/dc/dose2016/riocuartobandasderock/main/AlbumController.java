@@ -132,7 +132,7 @@ public class AlbumController {
             //Date should be in the next pattern: yyyy-mm-dd
         	Date release_date = req.queryParams("release_date") != null ? sdf.parse(req.queryParams("release_date")) : null;
         	sessionManager.openCurrentSessionwithTransaction();
-            boolean result = true;// = dao.update(req.queryParams("id"), req.queryParams("title"), release_date, req.queryParams("songs"));
+            boolean result = dao.update(req.queryParams("id"), req.queryParams("title"), release_date);
             sessionManager.closeCurrentSessionwithTransaction();
             int http_status = result ? 201 : 409;
             res.status(http_status);
@@ -163,7 +163,7 @@ public class AlbumController {
         }
         
         sessionManager.openCurrentSessionwithTransaction();
-        boolean result = true;// = dao.delete(req.queryParams("id"));
+        boolean result = dao.delete(req.queryParams("id"));
         sessionManager.closeCurrentSessionwithTransaction();
         int http_status = result ? 201 : 409;
         res.status(http_status);
