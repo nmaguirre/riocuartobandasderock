@@ -21,13 +21,12 @@ public class BandMemberController {
 	/**
 	 * Constructor;
 	 */
-	private static void BandMemberController(){
-		instance = new BandMemberController();
+	private BandMemberController(){
 	}
 	
 	public static BandMemberController getInstance() {
 		if (instance==null){  
-			BandMemberController();
+			instance = new BandMemberController();
 		}
 		return instance;
 	}
@@ -39,14 +38,14 @@ public class BandMemberController {
 	 * @return a string that describes the result of createBandMember
 	 */
 	public String createBandMember (Request req,Response res){
-		if ((req.params(":idBand")==null)||(req.params(":idArtist")=="")||(req.params(":idArtist")=="")||(req.params(":idBand")==null)){
+		if ((req.queryParams("idBand")=="")||(req.queryParams("idArtist")=="")||(req.queryParams("idArtist")==null)||(req.queryParams("idBand")==null)){
 			res.status(400);
 			return "Request invalid";
 		}
-		Session session = SessionManager.getInstance().openSession();//.openSession();
+		Session session = SessionManager.getInstance().openSession();
 		Transaction transaction = session.beginTransaction();
 		BandMemberDAO bmDAO = new BandMemberDAOImpl(session);
-		boolean status = (bmDAO.createBandMember(req.queryParams("idArtist"),req.queryParams("idBand")));
+		boolean status = (bmDAO.createBandMember(req.queryParams("idBand"),req.queryParams("idArtist")));
 		transaction.commit();
 		session.close();
 		if (status){

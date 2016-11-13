@@ -7,7 +7,7 @@ Feature: The application responds appropriately to all events that correspond to
 	Scenario: Remove a bandMember on a not empty bandMember's database 
         Given that the artist's database have one artist with name "Matias" and surname "Serra" and nickname ""
         And that the bands' database have 1 entries
-        And the bandMember's database have one bandMember with artist name "Matias" and artist surname "Serra" and artist nickname "" and band name "Band1" 
+        And that the bandMember's database have one bandMember with artist name "Matias" and artist surname "Serra" and artist nickname "" and band name "Band1" 
         When I remove a bandMember with artist name "Matias" and artist surname "Serra" and artist nickname "" and band name "Band1" , the result is "CONFLICT"
         Then the bandMember's database should have 0 entries
 
@@ -21,5 +21,5 @@ Feature: The application responds appropriately to all events that correspond to
     Scenario: Remove a bandMember that is not in the bandMember's database
         Given that the artist's database have one artist with name "Matias" and surname "Serra" and nickname ""
         And that the bands' database have 2 entries
-        And the bandMember's database have one bandMember with artist name "Matias" and artist surname "Serra" and artist nickname "" and band name "Band1"
+        And that the bandMember's database have one bandMember with artist name "Matias" and artist surname "Serra" and artist nickname "" and band name "Band1"
     	When I remove a bandMember with artist name "Matias" and artist surname "Serra" and artist nickname "" and band name "Band2" , the result is "CONFLICT"

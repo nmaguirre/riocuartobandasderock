@@ -19,11 +19,12 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandDaoImpl;
 public class Bootstrap {
 
 
-	private static BandController bands ;
+	private static BandController bands;
 	private static ArtistController artistController;
 	private static AlbumController albumController;
     private static UserController userController;
 	private static SongController songController;
+	private static BandMemberController bandMemberController;
 
     public static void main(String[] args) {
 
@@ -71,7 +72,8 @@ public class Bootstrap {
         // List of controller
 
         albumController  = AlbumController.getInstance();
-        artistController = new ArtistController();
+        artistController = ArtistController.getInstance();
+        bandMemberController = BandMemberController.getInstance();
         bands = BandController.getInstance();
         songController = new SongController();
         userController = UserController.getInstance();
@@ -127,6 +129,10 @@ public class Bootstrap {
         get("/artists/findbysurname/",(req,res)->artistController.getBandMembersByArtist(req, res),json());
         
         get("/artists/findbysurname/:idArtist",(req,res)->artistController.getBandMembersByArtistId(req, res),json());
+        
+        get("/artists/getbands",(req,res)->artistController.getBandMembersByArtist(req, res),json());
+        
+        get("/artists/getbandsbyId/:idArtist",(req,res)->artistController.getBandMembersByArtist(req, res),json());
 
         post("/artists",(req,res)->artistController.createArtist(req,res));
         
@@ -137,7 +143,9 @@ public class Bootstrap {
         /**
          * BandMember routes
          */
+        post("/bandmembers/",(req,res)->bandMemberController.createBandMember(req, res));
         
+        delete("/bandmembers/:idArtist/:idBand",(req,res)->bandMemberController.deleteBandMember(req, res));
         
         /**
          * Users routes

@@ -1,6 +1,7 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
+
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.ArtistDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandMemberDAO;
@@ -12,8 +13,6 @@ import spark.Request;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import java.util.List;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 /**
  *the ArtistController class treats http requests referred to the Artist model 
  */
@@ -27,15 +26,17 @@ public class ArtistController {
 	/**
      * Constructor
      */
-	private static void ArtistController(){
-		instance = new ArtistController();
+	private  ArtistController(){
 	}
 	
 	/**
 	 *  Method return SingletonInstance of ArtistController 
 	 */
 	public static ArtistController getInstance() {
-		if (instance==null)  ArtistController();
+		if (instance==null)
+		{ 
+			instance=new ArtistController();
+		}
 		return instance;
 	}
 	
@@ -51,8 +52,8 @@ public class ArtistController {
 		if (req.params(":id")==""){
 			res.status(400);
 		}
-		Session session = SessionManager.getInstance().openSession();//.openSession();
-		ArtistDAO artistDAO=new ArtistDaoImpl(session);//new ArtistDaoImpl(session);
+		Session session = SessionManager.getInstance().openSession();
+		ArtistDAO artistDAO=new ArtistDaoImpl(session);
 		List <Artist> artist = artistDAO.findById(req.params(":id"));
 		session.close();
 		int status = (artist.size()>0)? 200:204;
