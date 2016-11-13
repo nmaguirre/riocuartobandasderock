@@ -2,25 +2,31 @@ Feature: The application responds appropriately to all events that correspond to
 
     Background:
         Given that the application has been started
-      
+    	Scenario: Search the artist bands on an empty bandMember's database by artist name, surname and nickname
+        Given that the artist's database have one artist with name "Matias" and surname "Serra" and nickname "leo" 
+        And that the bands' database have 1 entries
+        And that the bandMember's database have one bandMember with artist name "Matias" and artist surname "Serra" and artist nickname "leo" and band name "Band1"
+        When I search the artist bands by ID artist with name "Matias" and surname "Serra" and nickname "leo" , the result is "OK"
+          
+	Scenario: Search the artist bands on an empty bandMember's database by artist name, surname and nickname
+        Given that the artist's database have one artist with name "Matias" and surname "Serra" and nickname "leo" 
+        And that the bands' database have 1 entries
+        And that the bandMember's database have one bandMember with artist name "Matias" and artist surname "Serra" and artist nickname "leo" and band name "Band1"
+        When I search the artist bands by artist with name "Matias" and surname "Serra" and nickname "leo" , the result is "OK"
+        
 	Scenario: Search the artist bands on an empty bandMember's database by artist name, surname and nickname
         Given that the artist's database is empty
         And that the bands' database have 1 entries
         And that the bandMember's database is empty
-        When I search the artist bands by artist with name "Matias" and surname "Serra" and nickname "", the result should have 0 entry
+        When I search the artist bands by artist with name "Matias" and surname "Serra" and nickname "" , the result is "NO CONTENT"
        
 	Scenario: Search the artist bands on an empty bandMember's database by artist name, surname and nickname
         Given that the artist's database have one artist with name "Matias" and surname "Serra" and nickname "" 
         And that the bands' database is empty
         And that the bandMember's database is empty
-        When I search the artist bands by artist with name "Matias" and surname "Serra" and nickname "", the result should have 0 entry
+        When I search the artist bands by artist with name "Matias" and surname "Serra" and nickname "" , the result is "NO CONTENT"
         
-	Scenario: Search the artist bands on an empty bandMember's database by artist name, surname and nickname
-        Given that the artist's database have one artist with name "Matias" and surname "Serra" and nickname "" 
-        And that the bands' database have 1 entries
-        And that the bandMember's database have one bandMember with artist name "Matias" and artist surname "Serra" and artist nickname "" and band name "Band 1"
-        When I search the artist bands by artist with name "Matias" and surname "Serra" and nickname "", the result should have 1 entry, and the entry is the band whit name "Band 1"
-        
+
 #	Scenario: Search the artist of a band on an empty bandMember's database by band name
 #        Given that the artist's database is empty
 #        And that the band's database is empty

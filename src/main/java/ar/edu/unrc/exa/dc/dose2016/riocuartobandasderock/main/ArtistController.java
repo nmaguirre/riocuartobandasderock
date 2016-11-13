@@ -279,14 +279,14 @@ public class ArtistController {
 	 * @return List of BandMembers
 	 */
 	public List<Band> getBandMembersByArtistId(Request req, Response res){
-		String artistID = req.params(":idArtist");
+		String artistID = req.params(":artistID");
 		if((artistID=="")||(artistID==null)){
 			res.status(400);
 			return null;
 		}
 		Session session = SessionManager.getInstance().openSession();
 		BandMemberDAO bmDAO=new BandMemberDAOImpl(session);
-		List<Band> bandMembers = bmDAO.findByArtist(req.params(artistID));
+		List<Band> bandMembers = bmDAO.findByArtist(artistID);
 		session.close();
 		int status = (bandMembers.size()>0)? 200:204;
 		res.status(status);

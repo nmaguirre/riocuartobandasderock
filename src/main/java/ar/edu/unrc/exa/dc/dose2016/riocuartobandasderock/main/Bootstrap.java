@@ -119,20 +119,10 @@ public class Bootstrap {
         get("/artists/findbynickname/:nickname",(req,res)->artistController.getArtistByNickname(req,res),json());
 
         get("/artists/findbysurname/:surname",(req,res)->artistController.getArtistBySurname(req,res),json());
-
-        get("/artists/findbyname/:name",(req,res)->artistController.getArtistByName(req,res),json());
-
-        get("/artists/findbynickname/:nickname",(req,res)->artistController.getArtistByNickname(req,res),json());
-
-        get("/artists/findbysurname/:surname",(req,res)->artistController.getArtistBySurname(req,res),json());
+                        
+        get("/artists/getbands/",(req,res)->artistController.getBandMembersByArtist(req, res),json());
         
-        get("/artists/findbysurname/",(req,res)->artistController.getBandMembersByArtist(req, res),json());
-        
-        get("/artists/findbysurname/:idArtist",(req,res)->artistController.getBandMembersByArtistId(req, res),json());
-        
-        get("/artists/getbands",(req,res)->artistController.getBandMembersByArtist(req, res),json());
-        
-        get("/artists/getbandsbyId/:idArtist",(req,res)->artistController.getBandMembersByArtist(req, res),json());
+        get("/artists/getbandsbyId/:artistID",(req,res)->artistController.getBandMembersByArtistId(req, res),json());
 
         post("/artists",(req,res)->artistController.createArtist(req,res));
         
@@ -145,7 +135,7 @@ public class Bootstrap {
          */
         post("/bandmembers/",(req,res)->bandMemberController.createBandMember(req, res));
         
-        delete("/bandmembers/:idArtist/:idBand",(req,res)->bandMemberController.deleteBandMember(req, res));
+        delete("/bandmembers/:artistID/:BandID",(req,res)->bandMemberController.deleteBandMember(req, res));
         
         /**
          * Users routes

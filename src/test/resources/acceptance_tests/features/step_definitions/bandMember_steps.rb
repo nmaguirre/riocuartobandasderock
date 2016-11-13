@@ -11,16 +11,19 @@ Given(/^that the bandMember's database have one bandMember with artist name "([^
     body = JSON.load(response.to_str)
     artistID = body[0]["artistID"]
   end
-  response2 = RestClient.get 'http://localhost:4567/bands/' + bandName
-  bandID = "idnovalido"
-  if response2.code == 200
-    body = JSON.load(response2.to_str)
-    bandID = body[0]["bandID"]
-  end
+  #response2 = RestClient.get 'http://localhost:4567/bands/' + bandName
+  #bandExist = 0
+  #bandID = "idnovalido"
+  #if response2.code == 200
+  #  body = JSON.load(response2.to_str)
+  #  bandID = body[0]["bandID"]
+  #  bandExist = 1
+  #end
+  bandID = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select bandID from bandDB;\" -t`
+  bandID = bandID.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
   begin
-    response3 = RestClient.post 'http://localhost:4567/bandmembers/', { :idArtist => artistID, :idBand => bandID }, :content_type => 'text/plain' 
+    response3 = RestClient.post 'http://localhost:4567/bandmembers/', { :artistID => artistID, :bandID => bandID }, :content_type => 'text/plain' 
       expect(response3.code).to eq(201)
-    rescue RestClient::Conflict => e
     end
 end
 
@@ -33,16 +36,18 @@ When(/^I add an bandMember with artist name "([^"]*)" and surname "([^"]*)" and 
     artistID = body[0]["artistID"]
     artistExist = 1
   end
-  response2 = RestClient.get 'http://localhost:4567/bands/' + bandName
-  bandExist = 0
-  bandID = "idnovalido"
-  if response2.code == 200
-    body = JSON.load(response2.to_str)
-    bandID = body[0]["bandID"]
-    bandExist = 1
-  end
+  #response2 = RestClient.get 'http://localhost:4567/bands/' + bandName
+  #bandExist = 0
+  #bandID = "idnovalido"
+  #if response2.code == 200
+  #  body = JSON.load(response2.to_str)
+  #  bandID = body[0]["bandID"]
+  #  bandExist = 1
+  #end
+  bandID = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select bandID from bandDB where name=#{bandName};\" -t`
+  bandID = bandID.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
   begin
-    response3 = RestClient.post 'http://localhost:4567/bandmembers/', { :idArtist => artistID, :idBand => bandID }, :content_type => 'text/plain' 
+    response3 = RestClient.post 'http://localhost:4567/bandmembers/', { :artistID => artistID, :bandID => bandID }, :content_type => 'text/plain' 
     if response3.code == 201
       expect(result).to eq("OK")
     end
@@ -60,14 +65,16 @@ When(/^I remove a bandMember with artist name "([^"]*)" and artist surname "([^"
     artistID = body[0]["artistID"]
     artistExist = 1
   end
-  response2 = RestClient.get 'http://localhost:4567/bands/' + bandName
-  bandExist = 0
-  bandID = "idnovalido"
-  if response2.code == 200
-    body = JSON.load(response2.to_str)
-    bandID = body[0]["bandID"]
-    bandExist = 1
-  end
+  #response2 = RestClient.get 'http://localhost:4567/bands/' + bandName
+  #bandExist = 0
+  #bandID = "idnovalido"
+  #if response2.code == 200
+  #  body = JSON.load(response2.to_str)
+  #  bandID = body[0]["bandID"]
+  #  bandExist = 1
+  #end
+  bandID = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select bandID from bandDB;\" -t`
+  bandID = bandID.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
   begin
     response3 = RestClient.delete 'http://localhost:4567/bandmembers/' + artistID + '/' + bandID
     if response3.code == 200
@@ -87,8 +94,18 @@ When(/^I search the artist bands by artist with name "([^"]*)" and surname "([^"
   end
 end
 
-When(/^I search the artist bands by artist with name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)", the result should have (\d+) entry$/) do |artistName, artistSurname, artistNickname, result|
-  pending # Write code here that turns the phrase above into concrete actions
+When(/^I search the artist bands by artist with name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)" , the result is "([^"]*)"$/) do |artistName, artistSurname, artistNickname, result|
+  begin
+    response = RestClient.get 'http://localhost:4567/artists/getbands/' , {params: {:name=>artistName,:surname=>artistSurname,:nickname=>artistNickname}} 
+    if result == "NO CONTENT"
+      expect(response.code).to eq(204)
+    end
+    if result == "OK"
+      expect(response.code).to eq(200)
+    end
+    rescue RestClient::BadRequest => e
+    expect(result).to eq("BAD REQUEST")
+  end
 end
 
 Then(/^the bandMember's database should have (\d+) entries$/) do |entries|
@@ -100,4 +117,24 @@ Then(/^the entry should have artist name "([^"]*)" and surname "([^"]*)" and nic
   pending # Write code here that turns the phrase above into concrete actions
 end
 
-
+When(/^I search the artist bands by ID artist with name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)" , the result is "([^"]*)"$/) do |artistName, artistSurname, artistNickname, result|
+  response = RestClient.get 'http://localhost:4567/artists/findbyallattributes/' , {params: {:name=>artistName,:surname=>artistSurname,:nickname=>artistNickname}} 
+  artistExist = 0
+  artistID = "idnovalido"
+  if response.code == 200
+    body = JSON.load(response.to_str)
+    artistID = body[0]["artistID"]
+    artistExist = 1
+  end
+  begin
+    response = RestClient.get 'http://localhost:4567/artists/getbandsbyId/' + artistID 
+    if result == "NO CONTENT"
+      expect(response.code).to eq(204)
+    end
+    if result == "OK"
+      expect(response.code).to eq(200)
+    end
+    rescue RestClient::BadRequest => e
+    expect(result).to eq("BAD REQUEST")
+  end
+end

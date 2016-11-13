@@ -38,14 +38,14 @@ public class BandMemberController {
 	 * @return a string that describes the result of createBandMember
 	 */
 	public String createBandMember (Request req,Response res){
-		if ((req.queryParams("idBand")=="")||(req.queryParams("idArtist")=="")||(req.queryParams("idArtist")==null)||(req.queryParams("idBand")==null)){
+		if ((req.queryParams("artistID")=="")||(req.queryParams("bandID")=="")||(req.queryParams("artistID")==null)||(req.queryParams("bandID")==null)){
 			res.status(400);
 			return "Request invalid";
 		}
 		Session session = SessionManager.getInstance().openSession();
 		Transaction transaction = session.beginTransaction();
 		BandMemberDAO bmDAO = new BandMemberDAOImpl(session);
-		boolean status = (bmDAO.createBandMember(req.queryParams("idBand"),req.queryParams("idArtist")));
+		boolean status = (bmDAO.createBandMember(req.queryParams("bandID"),req.queryParams("artistID")));
 		transaction.commit();
 		session.close();
 		if (status){
@@ -63,14 +63,14 @@ public class BandMemberController {
 	 * @return a string that describes the result of deleteBandMember
 	 */
 	public String deleteBandMember(Request req, Response res){
-		if ((req.params(":idBand")==null)||(req.params(":idArtist")=="")||(req.params(":idArtist")=="")||(req.params(":idBand")==null)){
+		if ((req.params(":bandID")==null)||(req.params(":artistID")=="")||(req.params(":artistID")=="")||(req.params(":bandID")==null)){
 			res.status(400);
 			return "Request invalid";
 		}
 		Session session = SessionManager.getInstance().openSession();
 		BandMemberDAO bmDAO = new BandMemberDAOImpl(session);
 		Transaction transaction = session.beginTransaction();
-	 	boolean status = bmDAO.deleteBandMember(req.params(":idBand"),req.params(":idArtist"));
+	 	boolean status = bmDAO.deleteBandMember(req.params(":bandID"),req.params(":artistID"));
 	 	transaction.commit();
 		session.close();
 	 	if (status){
