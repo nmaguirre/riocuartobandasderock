@@ -47,15 +47,15 @@ public class ArtistController {
 	* @return one Artist with id parameters
 	*/
 		
-	public /*List<Artist>*/Artist getArtistById (Request req, Response res){
+	public List<Artist> getArtistById (Request req, Response res){
 		if (req.params(":id")==""){
 			res.status(400);
 		}
 		Session session = SessionManager.getInstance().openSession();//.openSession();
 		ArtistDAO artistDAO=new ArtistDaoImpl(session);//new ArtistDaoImpl(session);
-		/*List <Artist>*/Artist artist = artistDAO.findById(req.params(":id"));
+		List <Artist> artist = artistDAO.findById(req.params(":id"));
 		session.close();
-		int status = (artist==null)? 200:204; //=(artist.size()>0)? 200:204;
+		int status = (artist.size()>0)? 200:204;
 		res.status(status);
 		return artist;
 		}
@@ -209,12 +209,13 @@ public class ArtistController {
 	public String updateArtist(Request req, Response res){
 		Session session = SessionManager.getInstance().openSession();
 		ArtistDAO artistDAO=new ArtistDaoImpl(session);
-		Artist artist = artistDAO.findById(req.params(":id"));
+		List <Artist> artists = artistDAO.findById(req.params(":id"));
 		session.close();
-		if (artist==null){
+		if (artists.size()!=0){
 			res.status(400);
 			return "Request invalid";
 		}
+		Artist artist = artists.get(0);
 		String name = req.queryParams("name");
 		if (name==null){
 			name=artist.getName();
