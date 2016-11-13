@@ -57,7 +57,7 @@ public interface BandDAO {
 	    *
 	    * @return bands with particular name
 	    */
-	   public List<Band> findBandByName(String name);
+	   public List<Band> findByName(String name);
 	   
 	   /**
 	    * This method find a band by genre
@@ -66,7 +66,7 @@ public interface BandDAO {
 	    * 
 	    * @return list of bands with particular genre
 	    */
-	   public List<Band> findBandByGenre(String genre);
+	   public List<Band> findByGenre(String genre);
 	   
 	   /**
 	    * This method find a band by genre and name
@@ -77,7 +77,7 @@ public interface BandDAO {
 	    * @return list of bands with particular name and particular genre
 	    */
 	   
-	   public List<Band> findBandByNameAndGenre(String name,String genre);
+	   public List<Band> findByNameAndGenre(String name,String genre);
 	   
 
 	   /**
@@ -86,6 +86,6 @@ public interface BandDAO {
 	    * @param genre
 	    * @return true if a band exist
 	    */
-	   public boolean existBand(String name, String genre);
+	   public boolean existBand(String name);
 }
 

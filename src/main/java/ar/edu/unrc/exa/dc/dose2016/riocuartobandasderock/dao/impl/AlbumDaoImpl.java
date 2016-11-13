@@ -18,15 +18,21 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
  *
  */
 public class AlbumDaoImpl implements AlbumDAO{
-	/**
-	 * SessionManager.getInstance().getCurrentSession() represents a Session.
-	 */
-	private SessionManager SessionManager;
-	/*
-	 * currentTransaction represents a Session with Transaction.
-	 */
-	private Transaction currentTransaction;
+//	/**
+//	 * this.currentSession represents a Session.
+//	 */
+//	private SessionManager SessionManager;
+//	/*
+//	 * currentTransaction represents a Session with Transaction.
+//	 */
+//	private Transaction currentTransaction;
 	
+	private Session currentSession=null;
+	
+	public AlbumDaoImpl(Session session) {
+		this.currentSession = session;
+	}
+
 	/**
 	 * Find one album by id
 	 * @param id
@@ -35,7 +41,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 	public Album findById(String id){
 		if((id!=null)&&(id!="")){
 			Album a = new Album();
-			a = SessionManager.getInstance().getCurrentSession().find(Album.class, id);
+			a = this.currentSession.find(Album.class, id);
 			return a;
 		}else{
 			return null;
@@ -47,7 +53,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 	 */
 	public List<Album> getAll(){
 		List<Album> l = new LinkedList<Album>();
-		l.addAll(SessionManager.getInstance().getCurrentSession().createQuery("from Album", Album.class).list());
+		l.addAll(this.currentSession.createQuery("from Album", Album.class).list());
 		return l;
 	}	
 	
@@ -59,7 +65,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 	public List<Album> findByTitle(String title){
 		List<Album> byNameList = new LinkedList<Album>();
 		if (title!=null){
-			Query<Album> query = SessionManager.getInstance().getCurrentSession().createQuery("from Album where title = :title ");
+			Query<Album> query = this.currentSession.createQuery("from Album where title = :title ");
 			query.setParameter("title", title);
 			byNameList.addAll(query.list());
 		}
@@ -74,7 +80,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 	public List<Album> findByReleaseDate(Date releaseDate){
 		List<Album> byReleaseDateList = new LinkedList<Album>();
 		if (releaseDate!=null){
-			Query<Album> query = SessionManager.getInstance().getCurrentSession().createQuery("from Album where releaseDate =:date ");
+			Query<Album> query = this.currentSession.createQuery("from Album where releaseDate =:date ");
 			query.setParameter("date", releaseDate);
 			byReleaseDateList.addAll(query.list());
 		}		
@@ -126,7 +132,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 		if (isCreated){
 			Album album = new Album(title,releaseDate);
 			if (!album.repOk()) throw new IllegalArgumentException ("Bad representation of album");
-			SessionManager.getInstance().getCurrentSession().save(album);
+			this.currentSession.save(album);
 		}
 		return isCreated;
 	} 
@@ -138,7 +144,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 	public boolean delete(String id){
 		Album toDelete = this.findById(id);
 		if (toDelete!= null) {
-			SessionManager.getInstance().getCurrentSession().delete(toDelete);
+			//SessionManager.getInstance().getCurrentSession().delete(toDelete); 
 			return true;
 		}
 		return false;
@@ -168,17 +174,17 @@ public class AlbumDaoImpl implements AlbumDAO{
 				System.out.println("Entre porque el title!= and releaseDate !=null");
 				toUpdate.setTitle(title);
 				toUpdate.setReleaseDate(releaseDate);
-				SessionManager.getInstance().getCurrentSession().saveOrUpdate(toUpdate);
+				//SessionManager.getInstance().getCurrentSession().saveOrUpdate(toUpdate);
 				return true;
 			}
 			toUpdate.setTitle(title);
-			SessionManager.getInstance().getCurrentSession().saveOrUpdate(toUpdate);
+			//SessionManager.getInstance().getCurrentSession().saveOrUpdate(toUpdate);
 			return true;
 		}
 		if (title==null && releaseDate!=null){
 			System.out.println("Entre por aqui");
 			toUpdate.setReleaseDate(releaseDate);
-			SessionManager.getInstance().getCurrentSession().saveOrUpdate(toUpdate);
+			//SessionManager.getInstance().getCurrentSession().saveOrUpdate(toUpdate);
 			return true;
 		}
 		return false;
