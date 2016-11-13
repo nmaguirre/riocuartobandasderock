@@ -96,7 +96,7 @@ end
 
 When(/^I search the artist bands by artist with name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)" , the result is "([^"]*)"$/) do |artistName, artistSurname, artistNickname, result|
   begin
-    response = RestClient.get 'http://localhost:4567/artists/getbands/' , {params: {:name=>artistName,:surname=>artistSurname,:nickname=>artistNickname}} 
+    response = RestClient.get 'http://localhost:4567/artists/getbands/' , {params: {:artistName=>artistName,:artistSurname=>artistSurname,:artistNickname=>artistNickname}} 
     if result == "NO CONTENT"
       expect(response.code).to eq(204)
     end
