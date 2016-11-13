@@ -26,7 +26,8 @@ CREATE TABLE BandDB (
 
 CREATE TABLE BandMemberDB (
     artistID text REFERENCES artistDB (artistID),
-    bandID text REFERENCES BandDB (bandID)
+    bandID text REFERENCES BandDB (bandID),
+	constraint primary_key primary key (artistID, bandID)
 );
 
 CREATE TABLE Users (
