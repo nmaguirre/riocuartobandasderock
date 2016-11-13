@@ -141,28 +141,28 @@ public class BandController {
 	 * @return a String that describes the result of update a band.
 	 */
 	public String updateBand(Request req,Response res){
-		/*
+
 		if((req.queryParams("name")=="") && (req.queryParams("genre")=="")){
 			res.status(400);
 			return "Request invalid";
 		}
 		Session session = SessionManager.getInstance().openSession();
 		BandDAO bdao = new BandDaoImpl(session);
-		Band band = bdao.findById(req.params(":id"));
+		Band band = bdao.getBand(req.params(":id"));
 		if (band==null){
 			res.status(400);
 			return "Request invalid";
 		}
 		band.setName(req.queryParams("name"));
 		band.setGenre(req.queryParams("genre"));
-		Transaction transaction = session.beginTransaction();
+		//Transaction transaction = session.beginTransaction();
 		boolean status = bdao.updateBand(band);
-		transaction.commit();
+		//transaction.commit();
 		session.close();
 		if (status){
 			res.status(200);
 			return "Success";
-		} */
+		} 
 		res.status(409);
 		return "Fail";
 	}

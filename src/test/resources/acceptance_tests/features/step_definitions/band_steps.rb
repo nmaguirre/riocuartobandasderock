@@ -188,7 +188,7 @@ end
 
 And(/^the bands' database have a band with name "([^"]*)" and genre "([^"]*)"$/) do |name,genre|
   begin
-    response = RestClient.get "http://localhost:4567/bands/:#{name}"
+    response = RestClient.get "http://localhost:4567/bands/findbyname/:#{name}"
     rescue RestClient::Conflict => e
     expect(e.response).to eq(201)
   end
@@ -196,7 +196,7 @@ end
 
 And(/^the database shouldn't have a band with  name "([^"]*)" and genre "([^"]*)"$/)do |name,genre|
   begin
-    response = RestClient.get "http://localhost:4567/bands/:#{name}"
+    response = RestClient.get "http://localhost:4567/bands/findbyname/:#{name}"
     rescue RestClient::Conflict => e
     expect(e.response).to eq(204)
   end
