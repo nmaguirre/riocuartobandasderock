@@ -137,7 +137,7 @@ end
 
 Then(/^the band with name "([^"]*)" should be on bands' database$/)do |name|
   begin
-    response = RestClient.get "http://localhost:4567/bands/:#{name}"
+    response = RestClient.get "http://localhost:4567/bands/findbyname/:#{name}"
     rescue RestClient::Conflict => e
     expect(e.response).to eq(201)
   end
