@@ -17,22 +17,12 @@ public interface BandMemberDAO {
 	*/
 	public List<BandMember> getAllBandMembers();
 	
-	/**
-	* 
-	* @param String artistId, id of an Artist
-	* 
-	* @return BandMembers that have a particular Artist and any Band
-	*/
+	
 	public List<Band> findByArtist(String artistId);
 	
 	public List<Band> findByArtistByAttributes(String artistName,String artistSurname, String artistNickname);
 	
-	/**
-	* 
-	* @param String bandId. Id of an Band
-	* 
-	* @return BandMembers that have a particular Band and any Artist
-	*/
+	
 	public List<Artist> findByBand(String bandId);
 
 	public List<Artist> findByBandByAttributes(String bandName);

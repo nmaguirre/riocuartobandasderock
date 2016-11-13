@@ -6,6 +6,8 @@ import static org.junit.Assert.assertTrue;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.hibernate.Session;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,6 +17,7 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandDaoImpl;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandMemberDAOImpl;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SessionManager;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.BandMember;
 
 public class BandMemberDAOTest {
@@ -23,14 +26,18 @@ public class BandMemberDAOTest {
 	private BandMemberDAOImpl bandMemberDAO;
 	private BandDaoImpl bandDAO;
 	private ArtistDaoImpl artistDAO;
-	private SessionManager session;
+	private Session session;
 	
 	@Before
 	public void setUp(){
-		bandDAO = new BandDaoImpl();
-		artistDAO = new ArtistDaoImpl();
-		bandMemberDAO = new BandMemberDAOImpl();
-		session = SessionManager.getInstance();
+		session = SessionManager.getInstance().openSession();
+		bandDAO = new BandDaoImpl(session);
+		artistDAO = new ArtistDaoImpl(session);
+		bandMemberDAO = new BandMemberDAOImpl(session);
+	}
+	@After
+	public void closeSession(){
+		session.close();
 	}
 	
 	/*
@@ -39,44 +46,34 @@ public class BandMemberDAOTest {
 	
 	@Test
 	public void bandMember_not_in_db_artist_and_band_in_db() {
-		
 		/*
 		 * CREATE ARTIST IN DB
 		*/
-		
 		String name = "a";
 		String surname = "b";
 		String nickname = "";
 		
-		session.openCurrentSession();
 		while(artistDAO.existArtist(name,surname,nickname)){
 			name+="a";
-		}
-		session.closeCurrentSession();		
-		
+		}	
 		// Add artistToAdd in db
-		session.openCurrentSessionwithTransaction();
+		session.beginTransaction();
 		artistDAO.createArtist(name,surname,nickname);
-		session.closeCurrentSessionwithTransaction();
-		
-		
+		session.getTransaction().commit();
 		/*
 		 * CREATE BAND IN DB
 		*/
-		
 		String bandName = "a";
 		String genre = "b";		
 		
-		session.openCurrentSession();
 		while(bandDAO.existBand(bandName, genre)){
 			bandName+="a";
-		}
-		session.closeCurrentSession();		
+		}		
 		
 		// Add band in db
-		session.openCurrentSessionwithTransaction();
+		session.beginTransaction();
 		bandDAO.createBand(bandName, genre);
-		session.closeCurrentSessionwithTransaction();
+		session.getTransaction().commit();
 		
 		/*
 		 * CREATE BANDMEMBER IN DB
@@ -84,23 +81,16 @@ public class BandMemberDAOTest {
 		 * the bandmember with their ids isnt in bd)
 		*/			
 		
-		session.openCurrentSession();
 		String artistId = artistDAO.getArtist(name, surname, nickname).get(0).getId();
-		session.closeCurrentSession();
 		
-		session.openCurrentSession();
 		//String bandId = bandDAO.findBandByNameAndGenre(bandName).getId;
-		session.closeCurrentSession();
-		
 		
 		// Add bandMember in db
-		session.openCurrentSessionwithTransaction();
+		session.beginTransaction();
 		//boolean successfulOPeration = bandMemberDAO.createBandMember(artistId,bandId);
-		session.closeCurrentSessionwithTransaction();
+		session.getTransaction().commit();
 		
-		session.openCurrentSession();
 		//boolean bandMemberInBd = bandMemberDAO.exists(artistId,bandId);
-		session.closeCurrentSession();
 		
 		// Check that the operation was successful and bandMember is in db
 		//assertTrue(successfulOPeration);
@@ -117,16 +107,14 @@ public class BandMemberDAOTest {
 		String bandName = "a";
 		String genre = "b";		
 		
-		session.openCurrentSession();
 		while(bandDAO.existBand(bandName, genre)){
 			bandName+="a";
 		}
-		session.closeCurrentSession();		
 		
 		// Add band in db
-		session.openCurrentSessionwithTransaction();
+		session.beginTransaction();
 		bandDAO.createBand(bandName, genre);
-		session.closeCurrentSessionwithTransaction();
+		session.getTransaction().commit();
 		
 		/*
 		 * CREATE BANDMEMBER IN DB
@@ -136,18 +124,17 @@ public class BandMemberDAOTest {
 		
 		String artistId = "-1";
 		
-		session.openCurrentSession();
 		//String bandId = bandDAO.findBandByNameAndGenre(bandName).getId;
-		session.closeCurrentSession();
+		 
 		
 		// Add bandMember in db
-		session.openCurrentSessionwithTransaction();
+		session.beginTransaction();
 		//boolean successfulOPeration = bandMemberDAO.createBandMember(artistId,bandId);
-		session.closeCurrentSessionwithTransaction();
+		session.getTransaction().commit();
 		
-		session.openCurrentSession();
+		 
 		//boolean bandMemberInBd = bandMemberDAO.exists(artistId,bandId);
-		session.closeCurrentSession();
+		 
 		
 		// Check that the operation wasnt successful and bandMember is in db
 		//assertTrue(!successfulOPeration);
@@ -166,16 +153,16 @@ public class BandMemberDAOTest {
 		String surname = "b";
 		String nickname = "";
 		
-		session.openCurrentSession();
+		 
 		while(artistDAO.existArtist(name,surname,nickname)){
 			name+="a";
 		}
-		session.closeCurrentSession();		
+		 		
 		
 		// Add artistToAdd in db
-		session.openCurrentSessionwithTransaction();
+		session.beginTransaction();
 		artistDAO.createArtist(name,surname,nickname);
-		session.closeCurrentSessionwithTransaction();
+		session.getTransaction().commit();
 		
 		/*
 		 * CREATE BANDMEMBER IN DB
@@ -185,18 +172,18 @@ public class BandMemberDAOTest {
 		
 		String bandId = "-1";
 		
-		session.openCurrentSession();
+		 
 		String artistId = artistDAO.getArtist(name, surname, nickname).get(0).getId();
-		session.closeCurrentSession();
+		 
 		
 		// Add bandMember in db
-		session.openCurrentSessionwithTransaction();
+		session.beginTransaction();
 		//boolean successfulOPeration = bandMemberDAO.createBandMember(artistId,bandId);
-		session.closeCurrentSessionwithTransaction();
+		session.getTransaction().commit();
 		
-		session.openCurrentSession();
+		 
 		//boolean bandMemberInBd = bandMemberDAO.exists(artistId,bandId);
-		session.closeCurrentSession();
+		 
 		
 		// Check that the operation wasnt successful and bandMember is in db
 		//assertTrue(!successfulOPeration);
@@ -216,9 +203,9 @@ public class BandMemberDAOTest {
 		String bandId = "-1";
 		String artistId = "-1";
 		
-		session.openCurrentSession();
+		 
 		//boolean bandMemberInBd = bandMemberDAO.exists(artistId,bandId);
-		session.closeCurrentSession();
+		 
 		
 		// Check that the operation wasnt successful and bandMember is in db
 		//assertTrue(!successfulOPeration);
@@ -240,16 +227,16 @@ public class BandMemberDAOTest {
 		String surname = "b";
 		String nickname = "";
 		
-		session.openCurrentSession();
+		 
 		while(artistDAO.existArtist(name,surname,nickname)){
 			name+="a";
 		}
-		session.closeCurrentSession();		
+		 		
 		
 		// Add artistToAdd in db
-		session.openCurrentSessionwithTransaction();
+		session.beginTransaction();
 		artistDAO.createArtist(name,surname,nickname);
-		session.closeCurrentSessionwithTransaction();
+		session.getTransaction().commit();
 		
 		
 		/*
@@ -259,16 +246,16 @@ public class BandMemberDAOTest {
 		String bandName = "a";
 		String genre = "b";		
 		
-		session.openCurrentSession();
+		 
 		while(bandDAO.existBand(bandName, genre)){
 			bandName+="a";
 		}
-		session.closeCurrentSession();		
+		 		
 		
 		// Add band in db
-		session.openCurrentSessionwithTransaction();
+		session.beginTransaction();
 		bandDAO.createBand(bandName, genre);
-		session.closeCurrentSessionwithTransaction();
+		session.getTransaction().commit();
 		
 		/*
 		 * CREATE BANDMEMBER IN DB
@@ -276,28 +263,28 @@ public class BandMemberDAOTest {
 		 * the bandmember with their ids isnt in bd)
 		*/			
 		
-		session.openCurrentSession();
+		 
 		String artistId = artistDAO.getArtist(name, surname, nickname).get(0).getId();
-		session.closeCurrentSession();
+		 
 		
-		session.openCurrentSession();
+		 
 		//String bandId = bandDAO.findBandByNameAndGenre(bandName).getId;
-		session.closeCurrentSession();
+		 
 		
 		
 		// Add bandMember in db
-		session.openCurrentSessionwithTransaction();
+		session.beginTransaction();
 		//boolean successfulOPeration = bandMemberDAO.createBandMember(artistId,bandId);
-		session.closeCurrentSessionwithTransaction();
+		session.getTransaction().commit();
 		
-		session.openCurrentSession();
+		 
 		//boolean bandMemberInBd = bandMemberDAO.exists(artistId,bandId);
-		session.closeCurrentSession();
+		 
 		
 		/*if(successfulOPeration && bandMemberInBd){
-			session.openCurrentSession();
+			 
 			BandMember bandM = bandMemberDAO.findById(artistId,bandId);
-			session.closeCurrentSession();
+			 
 			
 			assertTrue(bandM != null);
 			assertEquals(bandM.getArtistID(), artistId);
@@ -311,9 +298,9 @@ public class BandMemberDAOTest {
 		String artistId = "-1";
 		String bandId = "-1";
 				
-		session.openCurrentSession();
+		 
 		BandMember bandM = bandMemberDAO.findById(artistId,bandId);
-		session.closeCurrentSession();
+		 
 		
 		assertTrue(bandM == null);
 	}
@@ -325,9 +312,9 @@ public class BandMemberDAOTest {
 		String artistId = null;
 		String bandId = "1";
 		
-		session.openCurrentSession();
+		 
 		BandMember obtained = bandMemberDAO.findById(artistId,bandId);
-		session.closeCurrentSession();
+		 
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -336,9 +323,9 @@ public class BandMemberDAOTest {
 		String artistId = "";
 		String bandId = "1";
 		
-		session.openCurrentSession();
+		 
 		BandMember obtained = bandMemberDAO.findById(artistId,bandId);
-		session.closeCurrentSession();
+		 
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -347,9 +334,9 @@ public class BandMemberDAOTest {
 		String artistId = "1";
 		String bandId = null;
 		
-		session.openCurrentSession();
+		 
 		BandMember obtained = bandMemberDAO.findById(artistId,bandId);
-		session.closeCurrentSession();
+		 
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -358,9 +345,9 @@ public class BandMemberDAOTest {
 		String artistId = "1";
 		String bandId = "";
 		
-		session.openCurrentSession();
+		 
 		BandMember obtained = bandMemberDAO.findById(artistId,bandId);
-		session.closeCurrentSession();
+		 
 	}
 	
 	
@@ -379,16 +366,16 @@ public class BandMemberDAOTest {
 		String surname = "b";
 		String nickname = "";
 		
-		session.openCurrentSession();
+		 
 		while(artistDAO.existArtist(name,surname,nickname)){
 			name+="a";
 		}
-		session.closeCurrentSession();		
+		 		
 		
 		// Add artistToAdd in db
-		session.openCurrentSessionwithTransaction();
+		session.beginTransaction();
 		artistDAO.createArtist(name,surname,nickname);
-		session.closeCurrentSessionwithTransaction();
+		session.getTransaction().commit();
 		
 		
 		/*
@@ -398,16 +385,16 @@ public class BandMemberDAOTest {
 		String bandName = "a";
 		String genre = "b";		
 		
-		session.openCurrentSession();
+		 
 		while(bandDAO.existBand(bandName, genre)){
 			bandName+="a";
 		}
-		session.closeCurrentSession();		
+		 		
 		
 		// Add band in db
-		session.openCurrentSessionwithTransaction();
+		session.beginTransaction();
 		bandDAO.createBand(bandName, genre);
-		session.closeCurrentSessionwithTransaction();
+		session.getTransaction().commit();
 		
 		/*
 		 * CREATE BANDMEMBER IN DB
@@ -415,28 +402,28 @@ public class BandMemberDAOTest {
 		 * the bandmember with their ids isnt in bd)
 		*/			
 		
-		session.openCurrentSession();
+		 
 		String artistId = artistDAO.getArtist(name, surname, nickname).get(0).getId();
-		session.closeCurrentSession();
+		 
 		
-		session.openCurrentSession();
+		 
 		//String bandId = bandDAO.findBandByNameAndGenre(bandName).getId;
-		session.closeCurrentSession();
+		 
 		
 		
 		// Add bandMember in db
-		session.openCurrentSessionwithTransaction();
+		session.beginTransaction();
 		//boolean successfulOPeration = bandMemberDAO.createBandMember(artistId,bandId);
-		session.closeCurrentSessionwithTransaction();
+		session.getTransaction().commit();
 		
-		session.openCurrentSession();
+		 
 		//boolean bandMemberInBd = bandMemberDAO.exists(artistId,bandId);
-		session.closeCurrentSession();
+		 
 		
 		/*if(successfulOPeration && bandMemberInBd){
-			session.openCurrentSession();
+			 
 			List<BandMember> bandMs = bandMemberDAO.findByArtist(artistId);
-			session.closeCurrentSession();
+			 
 			
 			assertTrue(!bandMs.isEmpty());
 			assertEquals(bandMs.get(0).getArtistID(), artistId);
@@ -445,35 +432,24 @@ public class BandMemberDAOTest {
 	
 	@Test
 	public void findByArtist_BandMember_with_the_artist_not_in_db() {
-		
 		String artistId = "-1";
-				
-		session.openCurrentSession();
-		List<BandMember> bandMs = bandMemberDAO.findByArtist(artistId);
-		session.closeCurrentSession();
-		
-		assertTrue(bandMs.isEmpty());
+		List<Band> bandList = bandMemberDAO.findByArtist(artistId);
+		assertTrue(bandList.isEmpty());
 	}
 	
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void findByArtist_null_artistId() {
-		
 		String artistId = null;
-		
-		session.openCurrentSession();
-		List<BandMember> bandMs = bandMemberDAO.findByArtist(artistId);
-		session.closeCurrentSession();
+		bandMemberDAO.findByArtist(artistId);
+		 
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void findByArtist_empty_artistId() {
-		
 		String artistId = "";
-		
-		session.openCurrentSession();
-		List<BandMember> bandMs = bandMemberDAO.findByArtist(artistId);
-		session.closeCurrentSession();
+		bandMemberDAO.findByArtist(artistId);
+		 
 	}
 	
 	
@@ -492,16 +468,16 @@ public class BandMemberDAOTest {
 		String surname = "b";
 		String nickname = "";
 		
-		session.openCurrentSession();
+		 
 		while(artistDAO.existArtist(name,surname,nickname)){
 			name+="a";
 		}
-		session.closeCurrentSession();		
+		 		
 		
 		// Add artistToAdd in db
-		session.openCurrentSessionwithTransaction();
+		session.beginTransaction();
 		artistDAO.createArtist(name,surname,nickname);
-		session.closeCurrentSessionwithTransaction();
+		session.getTransaction().commit();
 		
 		
 		/*
@@ -511,16 +487,16 @@ public class BandMemberDAOTest {
 		String bandName = "a";
 		String genre = "b";		
 		
-		session.openCurrentSession();
+		 
 		while(bandDAO.existBand(bandName, genre)){
 			bandName+="a";
 		}
-		session.closeCurrentSession();		
+		 		
 		
 		// Add band in db
-		session.openCurrentSessionwithTransaction();
+		session.beginTransaction();
 		bandDAO.createBand(bandName, genre);
-		session.closeCurrentSessionwithTransaction();
+		session.getTransaction().commit();
 		
 		/*
 		 * CREATE BANDMEMBER IN DB
@@ -528,28 +504,28 @@ public class BandMemberDAOTest {
 		 * the bandmember with their ids isnt in bd)
 		*/			
 		
-		session.openCurrentSession();
+		 
 		String artistId = artistDAO.getArtist(name, surname, nickname).get(0).getId();
-		session.closeCurrentSession();
+		 
 		
-		session.openCurrentSession();
+		 
 		//String bandId = bandDAO.findBandByNameAndGenre(bandName).getId;
-		session.closeCurrentSession();
+		 
 		
 		
 		// Add bandMember in db
-		session.openCurrentSessionwithTransaction();
+		session.beginTransaction();
 		//boolean successfulOPeration = bandMemberDAO.createBandMember(artistId,bandId);
-		session.closeCurrentSessionwithTransaction();
+		session.getTransaction().commit();
 		
-		session.openCurrentSession();
+		 
 		//boolean bandMemberInBd = bandMemberDAO.exists(artistId,bandId);
-		session.closeCurrentSession();
+		 
 		
 		/*if(successfulOPeration && bandMemberInBd){
-			session.openCurrentSession();
+			 
 			List<BandMember> bandMs = bandMemberDAO.findByBand(bandId);
-			session.closeCurrentSession();
+			 
 			
 			assertTrue(!bandMs.isEmpty());
 			assertEquals(bandMs.get(0).getBandID(), bandId);
@@ -558,35 +534,24 @@ public class BandMemberDAOTest {
 	
 	@Test
 	public void findByBand_BandMember_with_the_band_not_in_db() {
-		
 		String bandId = "-1";
-				
-		session.openCurrentSession();
-		List<BandMember> bandMs = bandMemberDAO.findByBand(bandId);
-		session.closeCurrentSession();
-		
-		assertTrue(bandMs.isEmpty());
+		List<Artist> artistList = bandMemberDAO.findByBand(bandId);
+		assertTrue(artistList.isEmpty());
 	}
 	
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void findByBand_null_bandId() {
-		
 		String bandId = null;
-		
-		session.openCurrentSession();
-		List<BandMember> bandMs = bandMemberDAO.findByBand(bandId);
-		session.closeCurrentSession();
+		bandMemberDAO.findByBand(bandId);
+		 
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void findByBand_empty_bandId() {
-		
 		String bandId = "";
-		
-		session.openCurrentSession();
-		List<BandMember> bandMs = bandMemberDAO.findByBand(bandId);
-		session.closeCurrentSession();
+		bandMemberDAO.findByBand(bandId);
+		 
 	}
 	
 	/*
@@ -604,16 +569,16 @@ public class BandMemberDAOTest {
 		String surname = "b";
 		String nickname = "";
 		
-		session.openCurrentSession();
+		 
 		while(artistDAO.existArtist(name,surname,nickname)){
 			name+="a";
 		}
-		session.closeCurrentSession();		
+		 		
 		
 		// Add artistToAdd in db
-		session.openCurrentSessionwithTransaction();
+		session.beginTransaction();
 		artistDAO.createArtist(name,surname,nickname);
-		session.closeCurrentSessionwithTransaction();
+		session.getTransaction().commit();
 		
 		
 		/*
@@ -623,16 +588,16 @@ public class BandMemberDAOTest {
 		String bandName = "a";
 		String genre = "b";		
 		
-		session.openCurrentSession();
+		 
 		while(bandDAO.existBand(bandName, genre)){
 			bandName+="a";
 		}
-		session.closeCurrentSession();		
+		 		
 		
 		// Add band in db
-		session.openCurrentSessionwithTransaction();
+		session.beginTransaction();
 		bandDAO.createBand(bandName, genre);
-		session.closeCurrentSessionwithTransaction();
+		session.getTransaction().commit();
 		
 		/*
 		 * CREATE BANDMEMBER IN DB
@@ -640,28 +605,28 @@ public class BandMemberDAOTest {
 		 * the bandmember with their ids isnt in bd)
 		*/			
 		
-		session.openCurrentSession();
+		 
 		String artistId = artistDAO.getArtist(name, surname, nickname).get(0).getId();
-		session.closeCurrentSession();
+		 
 		
-		session.openCurrentSession();
+		 
 		//String bandId = bandDAO.findBandByNameAndGenre(bandName).getId;
-		session.closeCurrentSession();
+		 
 		
 		
 		// Add bandMember in db
-		session.openCurrentSessionwithTransaction();
+		session.beginTransaction();
 		//bandMemberDAO.createBandMember(artistId,bandId);
-		session.closeCurrentSessionwithTransaction();
+		session.getTransaction().commit();
 		
 				
-		session.openCurrentSessionwithTransaction();
+		session.beginTransaction();
 		//boolean successfulOperation = bandMemberDAO.deleteBandMember(bandId, artistId);
-		session.closeCurrentSessionwithTransaction();
+		session.getTransaction().commit();
 		
-		session.openCurrentSession();
+		 
 		//boolean bandMemberExistsinBd = bandMemberDAO.existBandMember(bandId, artistId); 
-		session.closeCurrentSession();	
+		 	
 		
 		// Check that in db the bandMember was deleted
 		//assertTrue(successfulOperation);
@@ -675,9 +640,9 @@ public class BandMemberDAOTest {
 		String bandId = "-1";
 		String artistId = "-1";
 			
-		session.openCurrentSessionwithTransaction();
+		session.beginTransaction();
 		boolean successfulOperation = bandMemberDAO.deleteBandMember(bandId, artistId);
-		session.closeCurrentSessionwithTransaction();
+		session.getTransaction().commit();
 				
 		// Check that an update fail with not artist id in DB		
 		assertTrue(!successfulOperation);
@@ -690,9 +655,9 @@ public class BandMemberDAOTest {
 		String bandId = "1";
 		String artistId = null;
 			
-		session.openCurrentSessionwithTransaction();
+		session.beginTransaction();
 		boolean successfulOperation = bandMemberDAO.deleteBandMember(bandId, artistId);
-		session.closeCurrentSessionwithTransaction();
+		session.getTransaction().commit();
 	}
 	
 	
@@ -702,9 +667,9 @@ public class BandMemberDAOTest {
 		String bandId = "1";
 		String artistId = "";
 			
-		session.openCurrentSessionwithTransaction();
+		session.beginTransaction();
 		boolean successfulOperation = bandMemberDAO.deleteBandMember(bandId, artistId);
-		session.closeCurrentSessionwithTransaction();
+		session.getTransaction().commit();
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -713,9 +678,9 @@ public class BandMemberDAOTest {
 		String bandId = null;
 		String artistId = "1";
 			
-		session.openCurrentSessionwithTransaction();
+		session.beginTransaction();
 		boolean successfulOperation = bandMemberDAO.deleteBandMember(bandId, artistId);
-		session.closeCurrentSessionwithTransaction();
+		session.getTransaction().commit();
 	}
 	
 	
@@ -725,9 +690,9 @@ public class BandMemberDAOTest {
 		String bandId = "";
 		String artistId = "1";
 			
-		session.openCurrentSessionwithTransaction();
+		session.beginTransaction();
 		boolean successfulOperation = bandMemberDAO.deleteBandMember(bandId, artistId);
-		session.closeCurrentSessionwithTransaction();
+		session.getTransaction().commit();
 	}
 	
 }

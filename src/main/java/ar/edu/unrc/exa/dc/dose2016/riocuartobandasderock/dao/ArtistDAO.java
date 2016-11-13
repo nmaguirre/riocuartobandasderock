@@ -56,7 +56,7 @@ public interface ArtistDAO {
 	 * @param String id
 	 * @return Artist that have a particular id	
 	 */
-	public Artist findById(String id);
+	public List<Artist> findById(String id);
  
 	/**
 	 * 
@@ -70,7 +70,6 @@ public interface ArtistDAO {
 	
 	/**
 	* Create an artist in the database
-	* Data is stored in lowercase
 	* 
 	* @param name
 	* @param nickname
@@ -82,7 +81,6 @@ public interface ArtistDAO {
 	
 	/**
 	 * Update an artist in database
-	 * Data is updated in lowercase
 	 * 
 	 * @param id
 	 * @param name

@@ -255,7 +255,10 @@ public class ArtistDAOTest {
 		
 		String artistId = artistDAO.getArtist(name, surname, nickname).get(0).getId();
 		
-		Artist obtainedArtist = artistDAO.findById(artistId);
+		List<Artist> obtainedArtistList = artistDAO.findById(artistId);
+		assertTrue(obtainedArtistList.size() == 1);
+		
+		Artist obtainedArtist = obtainedArtistList.get(0);
 		
 		assertTrue(obtainedArtist != null);
 		assertEquals(obtainedArtist.getName(), artistToAdd.getName());
@@ -265,8 +268,8 @@ public class ArtistDAOTest {
 	
 	@Test
 	public void findById_Artist_not_in_db() {
-		Artist obtainedArtist = artistDAO.findById("-1");
-		assertTrue(obtainedArtist == null);
+		List<Artist> obtainedArtist = artistDAO.findById("-1");
+		assertTrue(obtainedArtist.isEmpty());
 	}
 	
 	
@@ -434,7 +437,7 @@ public class ArtistDAOTest {
 		artistDAO.updateArtist(obtainedId, updatedName, updatedSurname, updatedNickname);
 		session.getTransaction().commit();
 		 
-		Artist artistUpdated = artistDAO.findById(obtainedId); 
+		Artist artistUpdated = artistDAO.findById(obtainedId).get(0); 
 		
 		// Check that in db the artist with id obtainedId was updated
 		assertTrue(artistToAdd.equals(artistUpdated));

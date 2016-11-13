@@ -125,7 +125,6 @@ public class ArtistDaoImpl implements ArtistDAO {
 
 	/**
 	 * Create an artist in the database
-	 * Data is stored in lowercase
 	 * 
 	 * @param name from an artist
 	 * @param nickname from an artist
@@ -163,21 +162,19 @@ public class ArtistDaoImpl implements ArtistDAO {
 	 * @return Artist that have a particular id	
 	 */
 	@Override
-	public Artist findById(String id) {
+	public List<Artist> findById(String id) {
 		if(id == null || id.equals("")){
 			throw new IllegalArgumentException("the 'id' param for search an artist can not be null or empty.");
 		} else {
 			Query<Artist> query = this.currentSession.
 					createQuery("from Artist where artistID=:id", Artist.class);
 			query.setParameter("id", id);
-			List<Artist> resultList = query.getResultList();
-			return resultList.isEmpty() ? null : resultList.get(0);
+			return query.getResultList();
 		}
 	}
 
 	/**
 	 * Update an artist in database
-	 * Data is updated in lowercase
 	 * 
 	 * @param id
 	 * @param name
