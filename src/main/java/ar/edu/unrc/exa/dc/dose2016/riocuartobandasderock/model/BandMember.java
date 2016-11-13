@@ -28,6 +28,8 @@ public class BandMember implements Serializable{
   
   /**
    * The constructor of BandMember class sets the new member.
+   * @param String artistID
+   * @param String bandID
   */
   public BandMember(String artistID, String bandID){    
     this.artistID = artistID;
