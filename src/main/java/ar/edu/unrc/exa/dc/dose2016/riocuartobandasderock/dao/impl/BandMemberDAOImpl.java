@@ -7,6 +7,8 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.hibernate.sql.Select;
 
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.ArtistDAO;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandMemberDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
@@ -20,6 +22,7 @@ public class BandMemberDAOImpl implements BandMemberDAO {
 		this.currentSession = session;
 	}
 
+	//working
 	@Override
 	public List<BandMember> getAllBandMembers() {
 		List<BandMember> bandMemberList = new LinkedList<>();
@@ -29,6 +32,7 @@ public class BandMemberDAOImpl implements BandMemberDAO {
 		return bandMemberList;
 	}
 
+	//working
 	@Override
 	public BandMember findById(String idBand, String idArtist) {
 		if (idBand == null || idArtist == null || idBand.equals("") || idArtist.equals("")) {
@@ -44,6 +48,7 @@ public class BandMemberDAOImpl implements BandMemberDAO {
 		}
 	}
 
+	//working
 	@Override
 	public boolean createBandMember(String idBand, String idArtist) {
 		boolean areEmpty = false;
@@ -61,6 +66,7 @@ public class BandMemberDAOImpl implements BandMemberDAO {
 		}
 	}
 
+	//not working
 	@Override
 	public boolean deleteBandMember(String idBand, String idArtist) {
 		if (idBand == null || idArtist == null || idBand.equals("") || idArtist.equals("")) {
@@ -69,7 +75,7 @@ public class BandMemberDAOImpl implements BandMemberDAO {
 		} else {
 			boolean result = true;
 			Query<BandMember> query = this.currentSession
-					.createQuery("delete BandMember where artistID=:aID and bandID=:bID", BandMember.class);
+					.createQuery("delete BandMember where artistID=:aID and bandID=:bID");
 			query.setParameter("aID", idArtist);
 			query.setParameter("bID", idBand);
 			int afectedRows = query.executeUpdate();
@@ -80,6 +86,7 @@ public class BandMemberDAOImpl implements BandMemberDAO {
 		}
 	}
 
+	//not working
 	@Override
 	public List<Band> findByArtistByAttributes(String artistName, String artistSurname, String artistNickname) {
 		List<Band> result = new LinkedList<>();
@@ -104,6 +111,7 @@ public class BandMemberDAOImpl implements BandMemberDAO {
 		return result;
 	}
 
+	//not working
 	@Override
 	public List<Artist> findByBandByAttributes(String bandName) {
 		List<Artist> result = new LinkedList<>();
@@ -127,7 +135,8 @@ public class BandMemberDAOImpl implements BandMemberDAO {
 		}
 		return result;
 	}
-
+	
+	//not working
 	@Override
 	public List<Band> findByArtist(String artistId) {
 		if (artistId == null || artistId.equals("")) {
@@ -135,7 +144,7 @@ public class BandMemberDAOImpl implements BandMemberDAO {
 					"the 'artistId' param for search a Band List by Artist can not be null or empty.");
 		} else {
 			Query<Band> query = this.currentSession.createQuery(
-					"select band.bandID, band.name, band.genre, "
+					"select band.bandID, band.name, band.genre "
 					+ "from BandMember bm join bm.bandID band where bm.artistID = :aID",
 					Band.class);
 			query.setParameter("aID", artistId);
@@ -143,6 +152,7 @@ public class BandMemberDAOImpl implements BandMemberDAO {
 		}
 	}
 
+	//not working
 	@Override
 	public List<Artist> findByBand(String bandId) {
 		if (bandId == null || bandId.equals("")) {
@@ -158,4 +168,5 @@ public class BandMemberDAOImpl implements BandMemberDAO {
 		}
 	}
 
+	
 }

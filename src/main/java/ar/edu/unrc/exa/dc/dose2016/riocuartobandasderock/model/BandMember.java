@@ -1,5 +1,7 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -8,7 +10,7 @@ import javax.persistence.Table;
 /* This class represents the association between a person and a band. */
 @Entity
 @Table(name = "BandMemberDB")
-public class BandMember {
+public class BandMember implements Serializable{
 
   /**
    * artistID represents the person id in the association class.
@@ -31,6 +33,11 @@ public class BandMember {
     this.artistID = artistID;
     this.bandID =  bandID;
   }
+  /**
+   * The default constructor of BandMember class.
+  */
+  public BandMember(){};
+  
  
   /**
    * This method gains artist id in the association class.
