@@ -21,7 +21,7 @@ end
 
 Given(/^that the bands' database have (\d+) entries$/) do |cant|
   1..cant.to_i.times do |n|
-    response = RestClient.post "http://localhost:4567/bands/", { :name => "Band#{n}", :genre => "Nu Metal" }, :content_type => 'text/plain'
+    response = RestClient.post "http://localhost:4567/bands/", { :name => "Band#{n}", :genre => "Nu-Metal" }, :content_type => 'text/plain'
   end
   result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from bandDB;\" -t`
   result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
@@ -123,7 +123,6 @@ Then(/^the bands' database should have (\d+) entries$/) do |arg1|
 end
 
 Then(/^the band with name "([^"]*)" and genre "([^"]*)" should be on bands' database$/)do |name, genre|
-
   result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from bandDB where name = '#{name}' AND genre = '#{genre}';\" -t`
   result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
   expect(result).to eq("1")
@@ -152,7 +151,7 @@ end
 Then(/^the band with genre "([^"]*)" should be on bands' database$/)do |genre|
   result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from bandDB where genre = '#{genre}';\" -t`
   result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
-  expect(result).to eq("1")
+  expect(result).to be >=("1")
 end
 
 Then(/^the band with genre "([^"]*)" shouldn't be on bands' database$/)do |genre|
@@ -180,7 +179,7 @@ end
 
 And(/^the band with name "([^"]*)" and genre "([^"]*)" is not in bands' datebase$/) do |name,genre|
   begin
-    response = RestClient.get "http://localhost:4567/bands/:#{name}"
+    response = RestClient.get "http://localhost:4567/bands/findbyname/:#{name}"
     rescue RestClient::Conflict => e
     expect(e.response).to eq(204)
   end
