@@ -43,7 +43,7 @@ public class SongController {
      * @param res
      * @return a list of all bands songs
      */
-    public List<Song> getAllSongs(Request req, Response res){    
+    public List<Song> getAll(Request req, Response res){    
         return null;
     }
  
@@ -54,7 +54,7 @@ public class SongController {
      * @param res
      * @return the list of songs with Id parameters
      */
-    public Song getSongById (Request req, Response res){
+    public Song getById (Request req, Response res){
     	return null;
     }
     
@@ -65,7 +65,7 @@ public class SongController {
      * @param res
      * @return the list of songs with name parameters
      */
-    public List<Song> getSongByName (Request req, Response res){
+    public List<Song> getByName (Request req, Response res){
        	String songName = req.params("name");
     	
     	if (songName == null || songName == ""){
@@ -89,7 +89,7 @@ public class SongController {
      * @param res
      * @return the list of songs with duration parameters
      */
-    public List<Song> getSongByDuration (Request req, Response res){
+    public List<Song> getByDuration (Request req, Response res){
     	String duration = req.params("duration");
     	
     	if (duration == null || duration == ""){
@@ -145,7 +145,7 @@ public class SongController {
 	 * @param res
 	 * @return true if the song was deleted. Otherwise, false.
 	 */
-	public String removeSong(Request req,Response res){	
+	public String remove(Request req,Response res){	
 		String id = req.params(":id");
 		if ((id == "") ||(id == null)) {
 			res.status(400);
@@ -165,8 +165,6 @@ public class SongController {
 			res.body("Success");
 			res.body();
 		}
-		
-
 		res.status(409);
 		res.body("Fail");
 		return res.body();
