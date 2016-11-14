@@ -107,48 +107,4 @@ public class BandMemberController {
 	 	res.status(409);
 	 	return "Fail";
 	}
-	
-	/**
-	 * search Artists of a Band by his name
-	 * @param req it contain name of the Band to search Artist
-	 * @param res (Response)
-	 * @return List of Artist
-	 */
-	/*
-	public List<Artist> getBandMembersByBand(Request req, Response res){
-		String bName = req.queryParams("bandNickname");
-		if((bName=="")||(bName==null)){
-			res.status(400);
-			return null;
-		}
-		Session session = SessionManager.getInstance().openSession();//.openSession();
-		BandMemberDAO bmDAO=new BandMemberDAOImpl(session);//new BandMemberDAOImpl(session);
-		List<Artist> bandMembers = bmDAO.findByBandByAttributes(req.params(bName));
-		session.close();
-		int status = (bandMembers.size()>0)? 200:204;
-		res.status(status);
-		return bandMembers;
-	}*/
-	
-	/**
-	 * search Artists of a Band by his Id
-	 * @param req it contain name of the Band to search Artist
-	 * @param res (Response)
-	 * @return List of Artist
-	 */
-	/*
-	public List<Artist> getBandMembersByBandId(Request req, Response res){
-		String bandID = req.params(":idBand");
-		if((bandID=="")||(bandID==null)){
-			res.status(400);
-			return null;
-		}
-		Session session = SessionManager.getInstance().openSession();
-		BandMemberDAO bmDAO=new BandMemberDAOImpl(session);		
-		List<Artist> bandMembers = bmDAO.findByBand(req.params(bandID));
-		session.close();
-		int status = (bandMembers.size()>0)? 200:204;
-		res.status(status);
-		return bandMembers;
-	}*/
 }
