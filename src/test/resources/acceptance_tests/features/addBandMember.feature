@@ -10,7 +10,6 @@ Feature: The application responds appropriately to all events that correspond to
         And that the bandMember's database is empty
         When I add an bandMember with artist name "Matias" and surname "Serra" and nickname "" and band name "Band1" , the result is "OK"
         Then the bandMember's database should have 1 entries
-        And the entry should have artist name "Matias" and surname "Serra" and nickname "" and band name "Band1"
 
 	Scenario: Add a new bandMember on an not empty bandMember's database, band's database and artist's database not empty 
         Given that the artist's database have one artist with name "Matias" and surname "Serra" and nickname ""

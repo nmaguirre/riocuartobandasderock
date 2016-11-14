@@ -44,7 +44,7 @@ When(/^I add an bandMember with artist name "([^"]*)" and surname "([^"]*)" and 
   #  bandID = body[0]["bandID"]
   #  bandExist = 1
   #end
-  bandID = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select bandID from bandDB where name=#{bandName};\" -t`
+  bandID = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select bandID from bandDB;\" -t`
   bandID = bandID.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
   begin
     response3 = RestClient.post 'http://localhost:4567/bandmembers/', { :artistID => artistID, :bandID => bandID }, :content_type => 'text/plain' 
@@ -53,6 +53,8 @@ When(/^I add an bandMember with artist name "([^"]*)" and surname "([^"]*)" and 
     end
     rescue RestClient::Conflict => e
       expect(result).to eq("CONFLICT")
+    rescue RestClient::BadRequest => e
+      expect(result).to eq("BAD REQUEST")
     end
 end
 
@@ -75,6 +77,9 @@ When(/^I remove a bandMember with artist name "([^"]*)" and artist surname "([^"
   #end
   bandID = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select bandID from bandDB;\" -t`
   bandID = bandID.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+  if bandID == ""
+    bandID="idInvalido"
+  end
   begin
     response3 = RestClient.delete 'http://localhost:4567/bandmembers/' + artistID + '/' + bandID
     if response3.code == 200
