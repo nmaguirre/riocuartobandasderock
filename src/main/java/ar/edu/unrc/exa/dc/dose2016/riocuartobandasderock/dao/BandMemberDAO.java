@@ -70,4 +70,10 @@ public interface BandMemberDAO {
 	*/
 	public boolean deleteBandMember(String idBand, String idArtist);
 	
+	/**
+	 * @param String idBand, band ID.
+	 * @param String idArtist, artist ID.
+	 * @return true if exist the BandMember in database.
+	*/
+	public boolean existBandMember(String idBand, String idArtist);
 }

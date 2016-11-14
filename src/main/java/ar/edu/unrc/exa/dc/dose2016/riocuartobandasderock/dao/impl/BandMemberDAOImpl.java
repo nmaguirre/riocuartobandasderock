@@ -5,10 +5,6 @@ import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
-import org.hibernate.sql.Select;
-
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.ArtistDAO;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandMemberDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
@@ -198,6 +194,30 @@ public class BandMemberDAOImpl implements BandMemberDAO {
 					Artist.class);
 			query.setParameter("bID", bandId);
 			return query.getResultList();
+		}
+	}
+
+	/**
+	 * @param String idBand, band ID.
+	 * @param String idArtist, artist ID.
+	 * @return true if exist the BandMember in database.
+	*/
+	@Override
+	public boolean existBandMember(String idBand, String idArtist){
+		if (idBand == null || idArtist == null || idBand.equals("") || idArtist.equals("")) {
+			throw new IllegalArgumentException(
+					"the 'idBand','idArtist' params for search a bandmember relation can not be null or empty.");
+		} else {
+			boolean result = false;
+			Query<BandMember> query = this.currentSession
+					.createQuery("from BandMember where artistID=:aID and bandID=:bID", BandMember.class);
+			query.setParameter("aID", idArtist);
+			query.setParameter("bID", idBand);
+			List<BandMember> resultList = query.getResultList();
+			if(!resultList.isEmpty()){
+				result = true;
+			}
+			return result;
 		}
 	}
 }
