@@ -108,7 +108,7 @@ public class ArtistDaoImpl implements ArtistDAO {
 			throw new IllegalArgumentException("the params for search artist can't be null or empty.");
 		} else {
 			//look for the artist in the database
-			String hq1 = "FROM Artist A WHERE A.name = :paramName and A.nickname = :paramNickname and A.surname = :paramSurname";
+			String hq1 = "FROM Artist A WHERE upper(A.name) = upper(:paramName) and upper(A.nickname) = upper(:paramNickname) and upper(A.surname) = upper(:paramSurname)";
 			Query<Artist> query = this.currentSession.createQuery(hq1, Artist.class);
 			query.setParameter("paramName", name );
 			query.setParameter("paramNickname", nickname );
