@@ -690,7 +690,7 @@ public class BandMemberDAOTest {
 	 */
 	
 	@Test
-	public void artist_deleted() {
+	public void artist_deleted_check_cascade() {
 		
 		/*
 		 * CREATE ARTIST IN DB
@@ -747,6 +747,76 @@ public class BandMemberDAOTest {
 		session.getTransaction().commit();
 		
 		// Bandmember mustnt exists because artist Id is a foreign key with cascade on delete
+		boolean bandMemberExistsinBd = bandMemberDAO.existBandMember(bandId,artistId); 
+		 	
+		// Check that in db the bandMember was deleted
+		assertTrue(!bandMemberExistsinBd);
+	}
+	
+	
+	/*
+	 * DELETE BAND AND CHECK IF BANDMEMBER
+	 * WITH BAND ID WAS DELETED
+	 */
+	
+	@Test
+	public void band_deleted_check_cascade() {
+		
+		/*
+		 * CREATE ARTIST IN DB
+		*/
+		
+		String name = "a";
+		String surname = "b";
+		String nickname = "";
+		
+		while(artistDAO.existArtist(name,surname,nickname)){
+			name+="a";
+		}	
+		
+		// Add artistToAdd in db
+		session.beginTransaction();
+		artistDAO.createArtist(name,surname,nickname);
+		session.getTransaction().commit();
+		
+		/*
+		 * CREATE BAND IN DB
+		*/
+		
+		String bandName = "a";
+		String genre = "b";		
+		
+		while(bandDAO.existBand(bandName)){
+			bandName+="a";
+		}		
+		
+		// Add band in db
+		session.beginTransaction();
+		bandDAO.createBand(bandName, genre);
+		session.getTransaction().commit();
+		
+		/*
+		 * CREATE BANDMEMBER IN DB
+		 * (Artist and Band is recent created, then
+		 * the bandmember with their ids isnt in bd)
+		*/			
+		
+		String artistId = artistDAO.getArtist(name, surname, nickname).get(0).getId();
+		
+		String bandId = bandDAO.findByNameAndGenre(bandName, genre).get(0).getId();
+		
+		// Add bandMember in db
+		session.beginTransaction();
+		bandMemberDAO.createBandMember(bandId,artistId);
+		session.getTransaction().commit();
+	
+		
+		// Delete band
+		session.beginTransaction();
+		bandDAO.deleteBand(bandId);
+		session.getTransaction().commit();
+		
+		// Bandmember mustnt exists because band Id is a foreign key with cascade on delete
 		boolean bandMemberExistsinBd = bandMemberDAO.existBandMember(bandId,artistId); 
 		 	
 		// Check that in db the bandMember was deleted
