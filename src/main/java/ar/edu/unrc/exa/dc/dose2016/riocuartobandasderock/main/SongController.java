@@ -44,7 +44,12 @@ public class SongController {
      * @return a list of all bands songs
      */
     public List<Song> getAll(Request req, Response res){    
-        return null;
+    	Session session = SessionManager.getInstance().openSession();
+    	SongDAO sdao = new SongDaoImpl(session);
+    	List<Song> songs = sdao.getAllSongs();
+    	session.close();
+    	res.status(songs.size() > 0 ? 200 : 204);
+        return songs;
     }
  
     
@@ -55,7 +60,17 @@ public class SongController {
      * @return the list of songs with Id parameters
      */
     public Song getById (Request req, Response res){
-    	return null;
+    	String id = req.params(":id");
+    	if (id == ""){
+    		res.status(400);
+    		return null;	
+    	}
+    	Session session = SessionManager.getInstance().openSession();
+    	SongDAO sdao = new SongDaoImpl(session);
+    	Song song = sdao.findById(id);
+    	session.close();
+    	res.status(song != null ? 200 : 204);
+    	return song;
     }
     
     
@@ -66,7 +81,7 @@ public class SongController {
      * @return the list of songs with name parameters
      */
     public List<Song> getByName (Request req, Response res){
-       	String songName = req.params("name");
+       	String songName = req.params(":name");
     	
     	if (songName == null || songName == ""){
     		res.status(400);
@@ -74,12 +89,10 @@ public class SongController {
     	};   	
     	Session session = SessionManager.getInstance().openSession();
     	SongDAO sdao = new SongDaoImpl(session);
-    	Transaction transaction = session.beginTransaction();
     	List<Song> songs = sdao.findByName(songName);
-    	res.status(songs.size() > 0 ? 200 : 204);
-    	transaction.commit();
     	session.close();
-
+    	res.status(songs.size() > 0 ? 200 : 204);
+    	
     	return songs;    	
     }
   
@@ -90,7 +103,7 @@ public class SongController {
      * @return the list of songs with duration parameters
      */
     public List<Song> getByDuration (Request req, Response res){
-    	String duration = req.params("duration");
+    	String duration = req.params(":duration");
     	
     	if (duration == null || duration == ""){
     		res.status(400);
@@ -171,8 +184,53 @@ public class SongController {
 
 	}
     
-   
-    
+	/**
+     * Update a song
+     * @param req
+     * @param res 
+     * @return a string that describes the result of update
+     */
+	
+    public String update(Request req, Response res){
+    	String id = req.params(":id");
+    	if ((id == "") ||(id == null)) {
+			res.status(400);
+			res.body("Invalid request");
+			return res.body();
+		}
+    	Session session = SessionManager.getInstance().openSession();
+    	SongDAO sdao = new SongDaoImpl(session);
+    	Song song = sdao.findById(id);
+    	session.close();
+    	
+    	String name = req.queryParams("name");
+    	String duration = req.queryParams("duration");
+    	
+    	if (name == "" || name == null || duration == null ){
+    		res.status(400);
+            res.body("Invalid content of parameters");
+            return res.body();
+    	}
+    	
+    	song.setName(name);
+    	song.setDuration(Integer.parseInt(duration));
+    	
+    	session = SessionManager.getInstance().openSession();
+    	Transaction transaction = session.beginTransaction();
+    	boolean status = sdao.updateSong(song);
+    	transaction.commit();
+    	session.close();
+    	
+    	if (status){
+			res.status(200);
+			res.body("Success");
+			res.body();
+		}
+		res.status(409);
+		res.body("Fail");
+		return res.body();
+    }
 
+	
     
 }
