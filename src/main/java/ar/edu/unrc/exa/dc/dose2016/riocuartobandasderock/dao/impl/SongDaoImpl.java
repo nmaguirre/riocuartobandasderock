@@ -78,7 +78,7 @@ public class SongDaoImpl implements SongDAO{
 	@Override   
 	public Boolean addSong(String name,Integer duration){
 		boolean result = false;
-		if ((name != null && !name.equals("")) || duration != null){
+		if ((name != null && !name.equals("")) && duration != null){
 			Song song = new Song(name,duration);
 			this.currentSession.save(song);
 			result = true;
