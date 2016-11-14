@@ -132,4 +132,68 @@ public class AlbumController {
 
 
     }
+    
+    public String update(Request req, Response res) {
+    	Session session = SessionManager.getInstance().openSession();
+    	AlbumDaoImpl adao = new AlbumDaoImpl(session);
+    	
+        if (req.queryParams("title") == null || req.queryParams("title") == ""){
+            res.status(400);
+            res.body("Album title can't be null nor empty");
+            return res.body();
+        }
+        if (req.queryParams("id") == null || req.queryParams("id") == ""){
+            res.status(400);
+            res.body("Album id can't be null nor empty");
+            return res.body();
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+        try {
+            //Date should be in the next pattern: yyyy-mm-dd
+        	Date release_date = req.queryParams("release_date") != null ? sdf.parse(req.queryParams("release_date")) : null;
+        	Transaction transaction = session.beginTransaction();
+            boolean result = adao.update(req.queryParams("id"), req.queryParams("title"), release_date);
+            transaction.commit();
+            session.close();
+            int http_status = result ? 201 : 409;
+            res.status(http_status);
+            if (!result) res.body("Duplicate album"); //If the result of the creation was false, it means that there is a duplicate
+            res.body("Album updated");
+            return res.body();
+        } catch (ParseException | IllegalArgumentException e) {
+            //If an exception was thrown, then there was a problem with the parameters.
+            e.printStackTrace();
+            res.status(400);
+            res.body("Bad parameters. "+e.getMessage()+" \n" );
+            return res.body();
+        } catch (Exception e){
+            e.printStackTrace();
+            res.status(500);
+            res.body("Internal server error");
+            return res.body();
+        }
+
+    }
+    
+    public String delete(Request req, Response res) {
+    	Session session = SessionManager.getInstance().openSession();
+    	AlbumDaoImpl adao = new AlbumDaoImpl(session);
+        if (req.queryParams("id") == null || req.queryParams("id") == ""){
+            res.status(400);
+            res.body("Album id can't be null nor empty");
+            return res.body();
+        }
+        
+        Transaction transaction = session.beginTransaction();
+        boolean result = adao.delete(req.queryParams("id"));
+        transaction.commit();
+        session.close();
+        int http_status = result ? 201 : 409;
+        res.status(http_status);
+        if (!result) res.body("Album doesn't exist");
+        res.body("Album deleted");
+        return res.body();
+    }
+    
+    
 }
