@@ -33,8 +33,7 @@ public class ArtistController {
 	 *  Method return SingletonInstance of ArtistController 
 	 */
 	public static ArtistController getInstance() {
-		if (instance==null)
-		{ 
+		if (instance==null){ 
 			instance=new ArtistController();
 		}
 		return instance;
@@ -42,12 +41,11 @@ public class ArtistController {
 	
 
 	/**
-	* search artist by his Id
+	* Search artist by his Id
 	* @param req it contain id of the artist to search
-	* @param res
+	* @param res (Response)
 	* @return one Artist with id parameters
-	*/
-		
+	*/	
 	public List<Artist> getArtistById (Request req, Response res){
 		if (req.params(":id").isEmpty()){
 			res.status(400);
@@ -59,8 +57,14 @@ public class ArtistController {
 		int status = (artist.size()>0)? 200:204;
 		res.status(status);
 		return artist;
-		}
+	}
 	
+	/**
+	* Search one artist
+	* @param req it contain id of the artist to search
+	* @param res (Response)
+	* @return one Artist.
+	*/
 	public List<Artist> getOneArtist (Request req, Response res){
 		String name = req.queryParams("name");
 		if (name==null){
@@ -87,8 +91,7 @@ public class ArtistController {
 			int status =(artist.size()>0)? 200:204;
 			res.status(status);
 			return artist;
-		}
-		
+		}	
 	}
 	
 	/**
@@ -111,7 +114,7 @@ public class ArtistController {
 	/**
 	 * search for artists by name
 	 * @param req It contains the name to search for artists
-	 * @param res
+	 * @param res (Response)
 	 * @return List artist with name parameters
 	 */
 	public List<Artist> getArtistByName (Request req, Response res){
@@ -131,7 +134,7 @@ public class ArtistController {
 	/**
 	 * search for artists by surname
 	 * @param req It contains the surname to search for artists
-	 * @param res
+	 * @param res (Response)
 	 * @return List artist with surname parameters
 	 */
 	public List<Artist> getArtistBySurname (Request req, Response res){
@@ -151,7 +154,7 @@ public class ArtistController {
 	/**
 	 * search for artists by nickname
 	 * @param req It contains the nickname to search for artists
-	 * @param res
+	 * @param res (Response)
 	 * @return List artist with nickname parameters
 	 */
 	public List<Artist> getArtistByNickname (Request req, Response res){
@@ -170,8 +173,8 @@ public class ArtistController {
 
 	/**
 	 * creates an artist 
-	 * @param req    It contains the attributes of the new artist
-	 * @param res
+	 * @param req It contains the attributes of the new artist
+	 * @param res (Response)
 	 * @return a string that describes the result of createArtist
 	 */
 	public String createArtist(Request req,Response res){
@@ -206,8 +209,9 @@ public class ArtistController {
 	}
 	
 	/**
-	 * @param res
-	 * @return a string that describes the result of updateBandMember
+	 * Update an artist in database
+	 * @param res (Response)
+	 * @return a string that describes the result of updateArtist
 	 */
 	public String updateArtist(Request req, Response res){
 		Session session = SessionManager.getInstance().openSession();
@@ -252,8 +256,8 @@ public class ArtistController {
 	/**
 	* delete an artist by his Id
 	* @param req it contain id of the artist to delete
-	* @param res
-	* @return a string that describes the result of deleteBandMember
+	* @param res (Response)
+	* @return a string that describes the result of deleteArtist
 	*/
 	public String deleteArtist(Request req, Response res){
 		if ((req.params(":id")).isEmpty()){
@@ -277,8 +281,8 @@ public class ArtistController {
 	/**
 	 * search Artists of a Band by his name
 	 * @param req it contain name of the Band to search Artist
-	 * @param res
-	 * @return List of BandMembers
+	 * @param res (Response)
+	 * @return List of Bands
 	 */
 	public List<Band> getBandMembersByArtistId(Request req, Response res){
 		String artistID = req.params(":artistID");
@@ -298,8 +302,8 @@ public class ArtistController {
 	/**
 	 * search BandMembers of a Artist by his name, surname and nickname
 	 * @param req it contain idArtist to search
-	 * @param res
-	 * @return List of BandMembers
+	 * @param res (Response)
+	 * @return List of Bands
 	 */
 	public List<Band> getBandMembersByArtist(Request req, Response res){
 		String aName = req.queryParams("artistName");
@@ -326,6 +330,4 @@ public class ArtistController {
 		res.status(status);
 		return bandMembers;
 	}
-	
-
 }

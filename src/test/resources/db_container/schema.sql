@@ -25,8 +25,8 @@ CREATE TABLE BandDB (
 );
 
 CREATE TABLE BandMemberDB (
-    artistID text REFERENCES artistDB (artistID),
-    bandID text REFERENCES BandDB (bandID),
+    artistID text REFERENCES artistDB (artistID) ON DELETE CASCADE,
+    bandID text REFERENCES BandDB (bandID) ON DELETE CASCADE,
 	constraint primary_key primary key (artistID, bandID)
 );
 

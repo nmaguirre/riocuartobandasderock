@@ -86,7 +86,7 @@ public class BandMemberController {
 	/**
 	 * delete an BandMember by his idArtist and idBand
 	 * @param req it contains idArtist and idBand of the BandMember to search
-	 * @param res
+	 * @param res (Response)
 	 * @return a string that describes the result of deleteBandMember
 	 */
 	public String deleteBandMember(Request req, Response res){
@@ -107,46 +107,4 @@ public class BandMemberController {
 	 	res.status(409);
 	 	return "Fail";
 	}
-	
-	/**
-	 * search Artists of a Band by his name
-	 * @param req it contain name of the Band to search Artist
-	 * @param res
-	 * @return List of BandMembers
-	 *//*
-	public List<Artist> getBandMembersByBand(Request req, Response res){
-		String bName = req.queryParams("bandNickname");
-		if((bName=="")||(bName==null)){
-			res.status(400);
-			return null;
-		}
-		Session session = SessionManager.getInstance().openSession();//.openSession();
-		BandMemberDAO bmDAO=new BandMemberDAOImpl(session);//new BandMemberDAOImpl(session);
-		List<Artist> bandMembers = bmDAO.findByBandByAttributes(req.params(bName));
-		session.close();
-		int status = (bandMembers.size()>0)? 200:204;
-		res.status(status);
-		return bandMembers;
-	}*/
-	
-	/**
-	 * search Artists of a Band by his Id
-	 * @param req it contain name of the Band to search Artist
-	 * @param res
-	 * @return List of BandMembers
-	 *//*
-	public List<Artist> getBandMembersByBandId(Request req, Response res){
-		String bandID = req.params(":idBand");
-		if((bandID=="")||(bandID==null)){
-			res.status(400);
-			return null;
-		}
-		Session session = SessionManager.getInstance().openSession();
-		BandMemberDAO bmDAO=new BandMemberDAOImpl(session);		
-		List<Artist> bandMembers = bmDAO.findByBand(req.params(bandID));
-		session.close();
-		int status = (bandMembers.size()>0)? 200:204;
-		res.status(status);
-		return bandMembers;
-	}*/
 }
