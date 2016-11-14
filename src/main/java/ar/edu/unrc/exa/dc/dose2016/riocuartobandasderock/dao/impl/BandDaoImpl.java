@@ -47,22 +47,22 @@ public class BandDaoImpl implements BandDAO {
 		}
 	}
 
-	
+
 	/**
-	 * 
-	 * @param id
-	 * @param name
-	 * @param genre
+	 *
+	 * @param id of the band to modify
+	 * @param new name
+	 * @param new genre
 	 * @return true if the update was successful
 	 */
 	@Override
-	public boolean updateBand(String id, String name, String genre) {
+	public boolean updateBand(String id, String new_name, String new_genre) {
 		boolean result = true;
 		boolean areEmpty = false;
 		boolean areNull = false;
-		areNull = id == null || name == null || genre == null ;
+		areNull = id == null || new_name == null || new_genre == null ;
 		if(!areNull){
-			areEmpty = name.equals("") && genre.equals("") ;
+			areEmpty = new_name.equals("") && new_genre.equals("") ;
 			areEmpty = areEmpty || id.equals("");//if all params are empty or id is empty
 		}
 		if(areNull || areEmpty){ //I see that the arguments are valid
@@ -70,8 +70,8 @@ public class BandDaoImpl implements BandDAO {
 		} else {
 			Query<Band> query = this.currentSession.createQuery("update Band set name = :name,"
 					+ " genre = :genre, where bandID=:id", Band.class);
-			query.setParameter("name", name);
-			query.setParameter("genre", genre);
+			query.setParameter("name", new_name);
+			query.setParameter("genre", new_genre);
 			query.setParameter("id", id);
 			int afectedRows = query.executeUpdate();
 			if(afectedRows == 0){
@@ -220,7 +220,7 @@ public class BandDaoImpl implements BandDAO {
 				return bandList;
 				}
 		}
-	   
+
 	   @Override
 		public Band findById(String id) {
 			if(id == null || id.equals("")){

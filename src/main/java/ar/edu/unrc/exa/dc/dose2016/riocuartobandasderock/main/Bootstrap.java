@@ -96,10 +96,12 @@ public class Bootstrap {
         get("/bands",(req, res) -> bands.getBands(req, res));
 
         get("/bands/findbyname/:name",(req, res) -> bands.getBandByName(req, res));
-        
+
         get("/bands/findbygenre/:genre",(req, res) -> bands.getBandByGenre(req, res));
-        
+
         get("/bands/find/",(req, res) -> bands.getBandByNameAndGenre(req, res));
+
+        get("/bands/getbandmember/:bandID",(req,res)-> bands.getBandMembers(req, res));
 
         post("/bands/",(req, res) -> bands.createBand(req, res));
 
@@ -129,11 +131,11 @@ public class Bootstrap {
         post("/songs/",(req,res)->songController.create(req, res));
 
         get("/songs/findbyname/:name",(req,res)->songController.getByName(req,res));
-        
+
         get("/songs/findbyduration/:duration",(req,res)->songController.getByDuration(req,res));
-        
+
         delete("/songs/:id",(req, res) -> songController.remove(req, res));
-        
+
         after((req, res) -> {res.type("application/json");});
 
     }

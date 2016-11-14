@@ -8,6 +8,9 @@ import org.hibernate.Transaction;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.*;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandMemberDAO;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandMemberDAOImpl;
 import spark.Request;
 import spark.Response;
 
@@ -89,7 +92,7 @@ public class BandController {
 		res.status(status);
 		return bands;
 	}
-	
+
 	/**
 	 * This method take a name and a genre and return a list of bands with this attributes
 	 * @param req
@@ -153,16 +156,16 @@ public class BandController {
 			res.status(400);
 			return "Request invalid";
 		}
-		band.setName(req.queryParams("name"));
-		band.setGenre(req.queryParams("genre"));
+		String bandName = (req.queryParams("name"));
+		String bandGenre = (req.queryParams("genre"));
 		Transaction transaction = session.beginTransaction();
-		boolean status = bdao.updateBand(band);
+		boolean status = bdao.updateBand(band.getId(),bandName,bandGenre);
 		transaction.commit();
 		session.close();
 		if (status){
 			res.status(200);
 			return "Success";
-		} 
+		}
 		res.status(409);
 		return "Fail";
 	}
@@ -180,7 +183,7 @@ public class BandController {
 		}
 		Session session = SessionManager.getInstance().openSession();
 		BandDAO bdao = new BandDaoImpl(session);
-		Transaction transaction = session.beginTransaction();		
+		Transaction transaction = session.beginTransaction();
 	 	boolean status = bdao.deleteBand(req.params(":id"));
 	 	transaction.commit();
 	 	session.close();
@@ -190,6 +193,26 @@ public class BandController {
 		}
 		res.status(409);
 		return "Fail";
+	}
 
+	/**
+	 * search Artists of a Band by his name
+	 * @param req it contain the id of the Band to search Artist
+	 * @param res
+	 * @return List of BandMembers
+	 */
+	public List<Artist> getBandMembers(Request req, Response res){
+		String bandId = req.params(":bandID");
+		if((bandId=="")||(bandId==null)){
+			res.status(400);
+			return null;
+		}
+		Session session = SessionManager.getInstance().openSession();
+		BandMemberDAO bandMemberDAO = new BandMemberDAOImpl(session);
+		List<Artist> bandMembers = bandMemberDAO.findByBand(bandId);
+		session.close();
+		int status = (bandMembers.size()>0)? 200:204;
+		res.status(status);
+		return bandMembers;
 	}
 }
