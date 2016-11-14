@@ -52,13 +52,13 @@ When(/^I remove a band with name "([^"]*)" and genre "([^"]*)"$/)do |name,genre|
   begin
     response = RestClient.delete "http://localhost:4567/bands/:#{name}"
   rescue RestClient::Conflict => e
-    expect(e.response).to eq(201)
+    expect(e.response).to eq(200)
   end
 end
 
 When(/^I update the band with name "([^"]*)" and genre "([^"]*)" to name "([^"]*)" and genre "([^"]*)"$/)do |oldName,oldGenre,newName,newGenre|
   begin
-    response = RestClient.put "http://localhost:4567/bands/", { :oldName => oldName, :oldGenre => oldGenre, :newName => newName, :newGenre => newGenre}, :content_type => 'text/plain'
+    response = RestClient.put "http://localhost:4567/bands", { :oldName => oldName, :oldGenre => oldGenre, :newName => newName, :newGenre => newGenre}, :content_type => 'text/plain'
     rescue RestClient::Conflict => e
     expect(e.response).to eq(202)
   end

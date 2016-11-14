@@ -91,7 +91,7 @@ public class BandDaoImpl implements BandDAO {
 	@Override
 	public boolean deleteBand(String id){
 		Band band = this.getBand(id);
-		if (band.repOK()) {
+		if (band.repOK() && this.existBand(band.getName())) {
 			this.currentSession.delete(band);
 			return true;
 		} else {
