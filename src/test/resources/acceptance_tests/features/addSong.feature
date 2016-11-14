@@ -2,7 +2,6 @@ Feature: The application responds appropriately to all events that correspond to
 
     Background:
         Given that the application has been started
-        And I have successfully logged in as admin
 
     Scenario: Add a new song on an empty song's database 
         Given that the song's database is empty
