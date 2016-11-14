@@ -3,19 +3,15 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.DAOImplTest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.PersistenceException;
 
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.exception.ConstraintViolationException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandMemberDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.ArtistDaoImpl;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandDaoImpl;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandMemberDAOImpl;
@@ -138,7 +134,7 @@ public class BandMemberDAOTest {
 		
 		// Add bandMember in db
 		session.beginTransaction();
-		boolean successfulOPeration = bandMemberDAO.createBandMember(bandId,artistId);
+		bandMemberDAO.createBandMember(bandId,artistId);
 		session.getTransaction().commit();
 
 	}
@@ -180,7 +176,7 @@ public class BandMemberDAOTest {
 		
 		// Add bandMember in db
 		session.beginTransaction();
-		boolean successfulOPeration = bandMemberDAO.createBandMember(bandId,artistId);
+		bandMemberDAO.createBandMember(bandId,artistId);
 		session.getTransaction().commit();
 		
 	}
@@ -199,7 +195,7 @@ public class BandMemberDAOTest {
 		
 		// Add bandMember in db
 		session.beginTransaction();
-		boolean successfulOPeration = bandMemberDAO.createBandMember(bandId,artistId);
+		bandMemberDAO.createBandMember(bandId,artistId);
 		session.getTransaction().commit();
 		
 	}
@@ -301,7 +297,7 @@ public class BandMemberDAOTest {
 		String bandId = "1";
 		
 		 
-		BandMember obtained = bandMemberDAO.findById(bandId,artistId);
+		bandMemberDAO.findById(bandId,artistId);
 		 
 	}
 	
@@ -312,7 +308,7 @@ public class BandMemberDAOTest {
 		String bandId = "1";
 		
 		 
-		BandMember obtained = bandMemberDAO.findById(bandId,artistId);
+		bandMemberDAO.findById(bandId,artistId);
 		 
 	}
 	
@@ -323,7 +319,7 @@ public class BandMemberDAOTest {
 		String bandId = null;
 		
 		 
-		BandMember obtained = bandMemberDAO.findById(bandId,artistId);
+		bandMemberDAO.findById(bandId,artistId);
 		 
 	}
 	
@@ -334,7 +330,7 @@ public class BandMemberDAOTest {
 		String bandId = "";
 		
 		 
-		BandMember obtained = bandMemberDAO.findById(bandId,artistId);	 
+		bandMemberDAO.findById(bandId,artistId);	 
 	}
 	
 	
@@ -648,7 +644,7 @@ public class BandMemberDAOTest {
 		String artistId = null;
 			
 		session.beginTransaction();
-		boolean successfulOperation = bandMemberDAO.deleteBandMember(bandId, artistId);
+		bandMemberDAO.deleteBandMember(bandId, artistId);
 		session.getTransaction().commit();
 	}
 	
@@ -660,7 +656,7 @@ public class BandMemberDAOTest {
 		String artistId = "";
 			
 		session.beginTransaction();
-		boolean successfulOperation = bandMemberDAO.deleteBandMember(bandId, artistId);
+		bandMemberDAO.deleteBandMember(bandId, artistId);
 		session.getTransaction().commit();
 	}
 	
@@ -671,7 +667,7 @@ public class BandMemberDAOTest {
 		String artistId = "1";
 			
 		session.beginTransaction();
-		boolean successfulOperation = bandMemberDAO.deleteBandMember(bandId, artistId);
+		bandMemberDAO.deleteBandMember(bandId, artistId);
 		session.getTransaction().commit();
 	}
 	
@@ -683,7 +679,7 @@ public class BandMemberDAOTest {
 		String artistId = "1";
 			
 		session.beginTransaction();
-		boolean successfulOperation = bandMemberDAO.deleteBandMember(bandId, artistId);
+		bandMemberDAO.deleteBandMember(bandId, artistId);
 		session.getTransaction().commit();
 	}
 	
