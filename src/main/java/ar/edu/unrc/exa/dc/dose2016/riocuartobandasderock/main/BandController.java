@@ -75,7 +75,7 @@ public class BandController {
 	 * This method takes a band genre and return a list of bands with this genre
 	 * @param req
 	 * @param res
-	 * @return the data of a band, encapsulated in an object.
+	 * @return a list of bands with the genre of the request
 	 */
 	public List<Band> getBandByGenre(Request req,Response res){
 		if (req.params(":genre")==""){
@@ -89,9 +89,28 @@ public class BandController {
 		res.status(status);
 		return bands;
 	}
+	
+	/**
+	 * This method take a name and a genre and return a list of bands with this attributes
+	 * @param req
+	 * @param res
+	 * @return a list of bands with the genre and name of the request.
+	 */
+	public List<Band> getBandByNameAndGenre(Request req,Response res){
+		if (req.params("genre")==""||req.params("name")==""){
+			res.status(400);
+		}
+		Session session = SessionManager.getInstance().openSession();
+		BandDAO bdao = new BandDaoImpl(session);
+		List<Band> bands = bdao.findByNameAndGenre(req.params("genre"),req.params("name"));
+		session.close();
+		int status = (bands.size()!=0)? 200:204;
+		res.status(status);
+		return bands;
+	}
 
 	/***
-	 * This method takes the data of a band from the frontend, and creates a band in database
+	 * This method takes the data of a band from the front-end, and creates a band in database
 	 * @param req
 	 * @param res
 	 * @return the object of the band created.
@@ -116,20 +135,20 @@ public class BandController {
 	}
 
 	/***
-	 * This method takes the data of a band from the frontend, and updates a band in database
+	 * This method takes the data of a band from the front-end, and updates a band in database
 	 * @param req
 	 * @param res
 	 * @return a String that describes the result of update a band.
 	 */
 	public String updateBand(Request req,Response res){
-		/*
+
 		if((req.queryParams("name")=="") && (req.queryParams("genre")=="")){
 			res.status(400);
 			return "Request invalid";
 		}
 		Session session = SessionManager.getInstance().openSession();
 		BandDAO bdao = new BandDaoImpl(session);
-		Band band = bdao.findById(req.params(":id"));
+		Band band = bdao.getBand(req.params(":id"));
 		if (band==null){
 			res.status(400);
 			return "Request invalid";
@@ -143,13 +162,13 @@ public class BandController {
 		if (status){
 			res.status(200);
 			return "Success";
-		} */
+		} 
 		res.status(409);
 		return "Fail";
 	}
 
 	/***
-	 * This method takes the id of a band from the frontend, and delete this band in database
+	 * This method takes the id of a band from the front-end, and delete this band in database
 	 * @param req
 	 * @param res
 	 * @return true if the the band was created. Otherwise, false.

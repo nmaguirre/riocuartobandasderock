@@ -91,9 +91,16 @@ public class Bootstrap {
 
         get("/hello", (req, res) -> "Hello World");
 
+        /**
+        *   Band routes
+        */
         get("/bands",(req, res) -> bands.getBands(req, res));
 
-        get("/bands/:name",(req, res) -> bands.getBandByName(req, res));
+        get("/bands/findbyname/:name",(req, res) -> bands.getBandByName(req, res));
+        
+        get("/bands/findbygenre/:genre",(req, res) -> bands.getBandByGenre(req, res));
+        
+        get("/bands/find/",(req, res) -> bands.getBandByNameAndGenre(req, res));
 
         post("/bands/",(req, res) -> bands.createBand(req, res));
 
