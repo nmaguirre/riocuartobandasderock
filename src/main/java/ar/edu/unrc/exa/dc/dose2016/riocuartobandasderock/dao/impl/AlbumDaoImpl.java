@@ -4,7 +4,8 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.hibernate.Query;
+import org.hibernate.query.Query;
+//import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -53,7 +54,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 	 */
 	public List<Album> getAll(){
 		List<Album> l = new LinkedList<Album>();
-		l.addAll(this.currentSession.createQuery("from Album", Album.class).list());
+		l.addAll(this.currentSession.createQuery("from Album", Album.class).getResultList());
 		return l;
 	}	
 	
@@ -67,7 +68,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 		if (title!=null){
 			Query<Album> query = this.currentSession.createQuery("from Album where title = :title ");
 			query.setParameter("title", title);
-			byNameList.addAll(query.list());
+			byNameList.addAll(query.getResultList());
 		}
 		return byNameList;
 	}
@@ -82,7 +83,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 		if (releaseDate!=null){
 			Query<Album> query = this.currentSession.createQuery("from Album where releaseDate =:date ");
 			query.setParameter("date", releaseDate);
-			byReleaseDateList.addAll(query.list());
+			byReleaseDateList.addAll(query.getResultList());
 		}		
 		return byReleaseDateList;		
 	}
@@ -144,7 +145,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 	public boolean delete(String id){
 		Album toDelete = this.findById(id);
 		if (toDelete!= null) {
-			//SessionManager.getInstance().getCurrentSession().delete(toDelete); 
+			this.currentSession.delete(toDelete); 
 			return true;
 		}
 		return false;
@@ -174,17 +175,18 @@ public class AlbumDaoImpl implements AlbumDAO{
 				System.out.println("Entre porque el title!= and releaseDate !=null");
 				toUpdate.setTitle(title);
 				toUpdate.setReleaseDate(releaseDate);
+				this.currentSession.saveOrUpdate(toUpdate);
 				//SessionManager.getInstance().getCurrentSession().saveOrUpdate(toUpdate);
 				return true;
 			}
 			toUpdate.setTitle(title);
-			//SessionManager.getInstance().getCurrentSession().saveOrUpdate(toUpdate);
+			this.currentSession.saveOrUpdate(toUpdate);
 			return true;
 		}
 		if (title==null && releaseDate!=null){
 			System.out.println("Entre por aqui");
 			toUpdate.setReleaseDate(releaseDate);
-			//SessionManager.getInstance().getCurrentSession().saveOrUpdate(toUpdate);
+			this.currentSession.saveOrUpdate(toUpdate);
 			return true;
 		}
 		return false;
