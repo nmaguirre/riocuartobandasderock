@@ -5,7 +5,7 @@ Feature: update album
 		And I have successfully logged in as admin
 
 	Scenario: update album on an empty database.
-		Given that the album´s database is empty
+		Given that the album's database is empty
 		When I update the album named "Perdidos" by an album named "Encontrados" and release date "1999-10-02"
 		Then an exception is throw
 

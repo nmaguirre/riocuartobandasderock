@@ -148,6 +148,7 @@ public class Song {
 	*/
 	public void setAlbum(Album alb){
 		 album = alb;
-}
+
+    }
 	
 }
