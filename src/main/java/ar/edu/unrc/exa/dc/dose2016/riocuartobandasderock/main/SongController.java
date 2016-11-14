@@ -212,6 +212,9 @@ public class SongController {
             return res.body();
     	}
     	
+    	song.setName(name);
+    	song.setDuration(Integer.parseInt(duration));
+    	
     	session = SessionManager.getInstance().openSession();
     	Transaction transaction = session.beginTransaction();
     	boolean status = sdao.updateSong(song);
