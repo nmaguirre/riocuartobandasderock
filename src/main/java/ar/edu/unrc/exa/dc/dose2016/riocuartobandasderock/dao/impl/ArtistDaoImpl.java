@@ -246,7 +246,7 @@ public class ArtistDaoImpl implements ArtistDAO {
 	 */
 	@Override
 	public List<Artist> getArtist(String name, String surname, String nickname) {
-		List<Artist> result = null;
+		List<Artist> result=null;
 		boolean areEmpty = false;
 		boolean areNull = false;
 		areNull = name == null || nickname == null || surname == null;
@@ -256,14 +256,14 @@ public class ArtistDaoImpl implements ArtistDAO {
 		if(areNull || areEmpty){ //I see that the arguments are valid
 			throw new IllegalArgumentException("the params for get artist id can't be null or empty.");
 		} else {
-			if(existArtist(name, surname, nickname)){
+			//if(existArtist(name, surname, nickname)){
 				Query<Artist> query = this.currentSession.createQuery("from Artist where name = :name and"
 						+ " nickname = :nickname and surname = :surname", Artist.class);
 				query.setParameter("name", name );
 				query.setParameter("nickname", nickname );
 				query.setParameter("surname", surname );
 				result = query.getResultList();
-			}
+			//}
 			return result;
 		}
 	}
