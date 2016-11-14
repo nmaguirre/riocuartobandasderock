@@ -6,7 +6,11 @@ import static org.junit.Assert.assertTrue;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.PersistenceException;
+
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.exception.ConstraintViolationException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,9 +50,11 @@ public class BandMemberDAOTest {
 	
 	@Test
 	public void bandMember_not_in_db_artist_and_band_in_db() {
+		
 		/*
 		 * CREATE ARTIST IN DB
 		*/
+		
 		String name = "a";
 		String surname = "b";
 		String nickname = "";
@@ -56,17 +62,20 @@ public class BandMemberDAOTest {
 		while(artistDAO.existArtist(name,surname,nickname)){
 			name+="a";
 		}	
+		
 		// Add artistToAdd in db
 		session.beginTransaction();
 		artistDAO.createArtist(name,surname,nickname);
 		session.getTransaction().commit();
+		
 		/*
 		 * CREATE BAND IN DB
 		*/
+		
 		String bandName = "a";
 		String genre = "b";		
 		
-		while(bandDAO.existBand(bandName, genre)){
+		while(bandDAO.existBand(bandName)){
 			bandName+="a";
 		}		
 		
@@ -83,21 +92,21 @@ public class BandMemberDAOTest {
 		
 		String artistId = artistDAO.getArtist(name, surname, nickname).get(0).getId();
 		
-		//String bandId = bandDAO.findBandByNameAndGenre(bandName).getId;
+		String bandId = bandDAO.findByNameAndGenre(bandName, genre).get(0).getId();
 		
 		// Add bandMember in db
 		session.beginTransaction();
-		//boolean successfulOPeration = bandMemberDAO.createBandMember(artistId,bandId);
+		boolean successfulOPeration = bandMemberDAO.createBandMember(bandId,artistId);
 		session.getTransaction().commit();
 		
-		//boolean bandMemberInBd = bandMemberDAO.exists(artistId,bandId);
+		boolean bandMemberInBd = bandMemberDAO.existBandMember(bandId,artistId);
 		
 		// Check that the operation was successful and bandMember is in db
-		//assertTrue(successfulOPeration);
-		//assertTrue(bandMemberInBd);
+		assertTrue(successfulOPeration);
+		assertTrue(bandMemberInBd);
 	}
 	
-	@Test
+	@Test(expected = PersistenceException.class)
 	public void bandMember_not_in_db_but_artist_neither() {				
 		
 		/*
@@ -107,7 +116,7 @@ public class BandMemberDAOTest {
 		String bandName = "a";
 		String genre = "b";		
 		
-		while(bandDAO.existBand(bandName, genre)){
+		while(bandDAO.existBand(bandName)){
 			bandName+="a";
 		}
 		
@@ -124,25 +133,18 @@ public class BandMemberDAOTest {
 		
 		String artistId = "-1";
 		
-		//String bandId = bandDAO.findBandByNameAndGenre(bandName).getId;
+		String bandId = bandDAO.findByNameAndGenre(bandName, genre).get(0).getId();
 		 
 		
 		// Add bandMember in db
 		session.beginTransaction();
-		//boolean successfulOPeration = bandMemberDAO.createBandMember(artistId,bandId);
+		boolean successfulOPeration = bandMemberDAO.createBandMember(bandId,artistId);
 		session.getTransaction().commit();
-		
-		 
-		//boolean bandMemberInBd = bandMemberDAO.exists(artistId,bandId);
-		 
-		
-		// Check that the operation wasnt successful and bandMember is in db
-		//assertTrue(!successfulOPeration);
-		//assertTrue(!bandMemberInBd);
+
 	}
 	
 	
-	@Test
+	@Test(expected = PersistenceException.class)
 	public void bandMember_not_in_db_but_band_neither() {				
 		
 		/*
@@ -178,38 +180,28 @@ public class BandMemberDAOTest {
 		
 		// Add bandMember in db
 		session.beginTransaction();
-		//boolean successfulOPeration = bandMemberDAO.createBandMember(artistId,bandId);
+		boolean successfulOPeration = bandMemberDAO.createBandMember(bandId,artistId);
 		session.getTransaction().commit();
 		
-		 
-		//boolean bandMemberInBd = bandMemberDAO.exists(artistId,bandId);
-		 
-		
-		// Check that the operation wasnt successful and bandMember is in db
-		//assertTrue(!successfulOPeration);
-		//assertTrue(!bandMemberInBd);
 	}
 	
-	@Test
+	@Test(expected = PersistenceException.class)
 	public void bandMember_not_in_db_but_band_and_artist_neither() {				
-		
-				
+						
 		/*
 		 * CREATE BANDMEMBER IN DB
 		 * The operation must fail because
-		 * the band and arsits are not in db
+		 * the band and artist are not in db
 		*/			
 		
 		String bandId = "-1";
 		String artistId = "-1";
 		
-		 
-		//boolean bandMemberInBd = bandMemberDAO.exists(artistId,bandId);
-		 
+		// Add bandMember in db
+		session.beginTransaction();
+		boolean successfulOPeration = bandMemberDAO.createBandMember(bandId,artistId);
+		session.getTransaction().commit();
 		
-		// Check that the operation wasnt successful and bandMember is in db
-		//assertTrue(!successfulOPeration);
-		//assertTrue(!bandMemberInBd);
 	}
 	
 	
@@ -219,6 +211,7 @@ public class BandMemberDAOTest {
 	
 	@Test
 	public void findByID_BandMember_in_db() {
+		
 		/*
 		 * CREATE ARTIST IN DB
 		*/
@@ -247,7 +240,7 @@ public class BandMemberDAOTest {
 		String genre = "b";		
 		
 		 
-		while(bandDAO.existBand(bandName, genre)){
+		while(bandDAO.existBand(bandName)){
 			bandName+="a";
 		}
 		 		
@@ -266,30 +259,25 @@ public class BandMemberDAOTest {
 		 
 		String artistId = artistDAO.getArtist(name, surname, nickname).get(0).getId();
 		 
-		
+		String bandId = bandDAO.findByNameAndGenre(bandName, genre).get(0).getId();
 		 
-		//String bandId = bandDAO.findBandByNameAndGenre(bandName).getId;
-		 
-		
 		
 		// Add bandMember in db
 		session.beginTransaction();
-		//boolean successfulOPeration = bandMemberDAO.createBandMember(artistId,bandId);
+		boolean successfulOPeration = bandMemberDAO.createBandMember(bandId,artistId);
 		session.getTransaction().commit();
 		
 		 
-		//boolean bandMemberInBd = bandMemberDAO.exists(artistId,bandId);
+		boolean bandMemberInBd = bandMemberDAO.existBandMember(bandId,artistId);
 		 
 		
-		/*if(successfulOPeration && bandMemberInBd){
+		if(successfulOPeration && bandMemberInBd){
 			 
-			BandMember bandM = bandMemberDAO.findById(artistId,bandId);
+			BandMember bandM = bandMemberDAO.findById(bandId,artistId);
 			 
-			
-			assertTrue(bandM != null);
 			assertEquals(bandM.getArtistID(), artistId);
 			assertEquals(bandM.getBandID(), bandId);
-		}*/
+		}
 	}
 	
 	@Test
@@ -299,7 +287,7 @@ public class BandMemberDAOTest {
 		String bandId = "-1";
 				
 		 
-		BandMember bandM = bandMemberDAO.findById(artistId,bandId);
+		BandMember bandM = bandMemberDAO.findById(bandId,artistId);
 		 
 		
 		assertTrue(bandM == null);
@@ -313,7 +301,7 @@ public class BandMemberDAOTest {
 		String bandId = "1";
 		
 		 
-		BandMember obtained = bandMemberDAO.findById(artistId,bandId);
+		BandMember obtained = bandMemberDAO.findById(bandId,artistId);
 		 
 	}
 	
@@ -324,7 +312,7 @@ public class BandMemberDAOTest {
 		String bandId = "1";
 		
 		 
-		BandMember obtained = bandMemberDAO.findById(artistId,bandId);
+		BandMember obtained = bandMemberDAO.findById(bandId,artistId);
 		 
 	}
 	
@@ -335,7 +323,7 @@ public class BandMemberDAOTest {
 		String bandId = null;
 		
 		 
-		BandMember obtained = bandMemberDAO.findById(artistId,bandId);
+		BandMember obtained = bandMemberDAO.findById(bandId,artistId);
 		 
 	}
 	
@@ -346,8 +334,7 @@ public class BandMemberDAOTest {
 		String bandId = "";
 		
 		 
-		BandMember obtained = bandMemberDAO.findById(artistId,bandId);
-		 
+		BandMember obtained = bandMemberDAO.findById(bandId,artistId);	 
 	}
 	
 	
@@ -386,7 +373,7 @@ public class BandMemberDAOTest {
 		String genre = "b";		
 		
 		 
-		while(bandDAO.existBand(bandName, genre)){
+		while(bandDAO.existBand(bandName)){
 			bandName+="a";
 		}
 		 		
@@ -403,37 +390,38 @@ public class BandMemberDAOTest {
 		*/			
 		
 		 
-		String artistId = artistDAO.getArtist(name, surname, nickname).get(0).getId();
+		String artistId = artistDAO.getArtist(name, surname, nickname).get(0).getId();	
 		 
-		
-		 
-		//String bandId = bandDAO.findBandByNameAndGenre(bandName).getId;
+		String bandId = bandDAO.findByNameAndGenre(bandName, genre).get(0).getId();
 		 
 		
 		
 		// Add bandMember in db
 		session.beginTransaction();
-		//boolean successfulOPeration = bandMemberDAO.createBandMember(artistId,bandId);
+		boolean successfulOPeration = bandMemberDAO.createBandMember(bandId,artistId);
 		session.getTransaction().commit();
 		
 		 
-		//boolean bandMemberInBd = bandMemberDAO.exists(artistId,bandId);
+		boolean bandMemberInBd = bandMemberDAO.existBandMember(bandId,artistId);
 		 
 		
-		/*if(successfulOPeration && bandMemberInBd){
+		if(successfulOPeration && bandMemberInBd){
 			 
-			List<BandMember> bandMs = bandMemberDAO.findByArtist(artistId);
+			List<Band> bands = bandMemberDAO.findByArtist(artistId);
 			 
 			
-			assertTrue(!bandMs.isEmpty());
-			assertEquals(bandMs.get(0).getArtistID(), artistId);
-		}*/
+			assertTrue(!bands.isEmpty());
+			assertEquals(bands.get(0).getId(), bandId);
+			assertEquals(bands.get(0).getName(), bandName);
+			assertEquals(bands.get(0).getGenre(), genre);
+		}
 	}
 	
 	@Test
 	public void findByArtist_BandMember_with_the_artist_not_in_db() {
 		String artistId = "-1";
 		List<Band> bandList = bandMemberDAO.findByArtist(artistId);
+		
 		assertTrue(bandList.isEmpty());
 	}
 	
@@ -444,6 +432,7 @@ public class BandMemberDAOTest {
 		bandMemberDAO.findByArtist(artistId);
 		 
 	}
+	
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void findByArtist_empty_artistId() {
@@ -488,7 +477,7 @@ public class BandMemberDAOTest {
 		String genre = "b";		
 		
 		 
-		while(bandDAO.existBand(bandName, genre)){
+		while(bandDAO.existBand(bandName)){
 			bandName+="a";
 		}
 		 		
@@ -509,27 +498,30 @@ public class BandMemberDAOTest {
 		 
 		
 		 
-		//String bandId = bandDAO.findBandByNameAndGenre(bandName).getId;
+		String bandId = bandDAO.findByNameAndGenre(bandName, genre).get(0).getId();
 		 
 		
 		
 		// Add bandMember in db
 		session.beginTransaction();
-		//boolean successfulOPeration = bandMemberDAO.createBandMember(artistId,bandId);
+		boolean successfulOPeration = bandMemberDAO.createBandMember(bandId,artistId);
 		session.getTransaction().commit();
 		
 		 
-		//boolean bandMemberInBd = bandMemberDAO.exists(artistId,bandId);
+		boolean bandMemberInBd = bandMemberDAO.existBandMember(bandId,artistId);
 		 
 		
-		/*if(successfulOPeration && bandMemberInBd){
+		if(successfulOPeration && bandMemberInBd){
 			 
-			List<BandMember> bandMs = bandMemberDAO.findByBand(bandId);
+			List<Artist> artists = bandMemberDAO.findByBand(bandId);
 			 
 			
-			assertTrue(!bandMs.isEmpty());
-			assertEquals(bandMs.get(0).getBandID(), bandId);
-		}*/
+			assertTrue(!artists.isEmpty());
+			assertEquals(artists.get(0).getId(), artistId);
+			assertEquals(artists.get(0).getName(), name);
+			assertEquals(artists.get(0).getSurname(), surname);
+			assertEquals(artists.get(0).getNickname(), nickname);
+		}
 	}
 	
 	@Test
@@ -589,7 +581,7 @@ public class BandMemberDAOTest {
 		String genre = "b";		
 		
 		 
-		while(bandDAO.existBand(bandName, genre)){
+		while(bandDAO.existBand(bandName)){
 			bandName+="a";
 		}
 		 		
@@ -610,27 +602,27 @@ public class BandMemberDAOTest {
 		 
 		
 		 
-		//String bandId = bandDAO.findBandByNameAndGenre(bandName).getId;
+		String bandId = bandDAO.findByNameAndGenre(bandName, genre).get(0).getId();
 		 
 		
 		
 		// Add bandMember in db
 		session.beginTransaction();
-		//bandMemberDAO.createBandMember(artistId,bandId);
+		bandMemberDAO.createBandMember(bandId,artistId);
 		session.getTransaction().commit();
 		
 				
 		session.beginTransaction();
-		//boolean successfulOperation = bandMemberDAO.deleteBandMember(bandId, artistId);
+		boolean successfulOperation = bandMemberDAO.deleteBandMember(bandId, artistId);
 		session.getTransaction().commit();
 		
 		 
-		//boolean bandMemberExistsinBd = bandMemberDAO.existBandMember(bandId, artistId); 
+		boolean bandMemberExistsinBd = bandMemberDAO.existBandMember(bandId,artistId); 
 		 	
 		
 		// Check that in db the bandMember was deleted
-		//assertTrue(successfulOperation);
-		//assertTrue(!bandMemberExistsinBd);
+		assertTrue(successfulOperation);
+		assertTrue(!bandMemberExistsinBd);
 	}
 	
 	
@@ -644,7 +636,7 @@ public class BandMemberDAOTest {
 		boolean successfulOperation = bandMemberDAO.deleteBandMember(bandId, artistId);
 		session.getTransaction().commit();
 				
-		// Check that an update fail with not artist id in DB		
+		// Check that a delete fail without bandmember in DB		
 		assertTrue(!successfulOperation);
 	}
 	
