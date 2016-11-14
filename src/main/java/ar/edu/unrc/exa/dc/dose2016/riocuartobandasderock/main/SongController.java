@@ -184,8 +184,50 @@ public class SongController {
 
 	}
     
-   
-    
+	/**
+     * Update a song
+     * @param req
+     * @param res 
+     * @return a string that describes the result of update
+     */
+	
+    public String update(Request req, Response res){
+    	String id = req.params(":id");
+    	if ((id == "") ||(id == null)) {
+			res.status(400);
+			res.body("Invalid request");
+			return res.body();
+		}
+    	Session session = SessionManager.getInstance().openSession();
+    	SongDAO sdao = new SongDaoImpl(session);
+    	Song song = sdao.findById(id);
+    	session.close();
+    	
+    	String name = req.queryParams("name");
+    	String duration = req.queryParams("duration");
+    	
+    	if (name == "" || name == null || duration == null ){
+    		res.status(400);
+            res.body("Invalid content of parameters");
+            return res.body();
+    	}
+    	
+    	session = SessionManager.getInstance().openSession();
+    	Transaction transaction = session.beginTransaction();
+    	boolean status = sdao.updateSong(song);
+    	transaction.commit();
+    	session.close();
+    	
+    	if (status){
+			res.status(200);
+			res.body("Success");
+			res.body();
+		}
+		res.status(409);
+		res.body("Fail");
+		return res.body();
+    }
 
+	
     
 }
