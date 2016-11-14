@@ -16,8 +16,6 @@ public interface SongDAO {
 	
 	public Song findById(String id);
                     
-    public List<Song> findByAuthor(String author);
-                    
 	public List<Song> findByName(String name);
 	
 	public List<Song> findByDuration(Integer duration);

@@ -32,6 +32,7 @@ public class SongDaoImpl implements SongDAO{
 		return songList;
 	}
 	
+
 	/**
 	 * fn updateSong
 	 * description: the method allows update an existing song in the database
@@ -68,6 +69,7 @@ public class SongDaoImpl implements SongDAO{
 	 * fn addSong
 	 * description: The method allows add a new song in the database
 	 * @param name represents the name of the song to add in the database
+	 * @param duration represents the duration of the song to add in the database
 	 * @param duration represents the name of the song to add in the database
 	 * @return true if the add was successful
 	 */
@@ -123,6 +125,7 @@ public class SongDaoImpl implements SongDAO{
 			throw new IllegalArgumentException("the 'name' param for search an song can not be null or empty.");
 		}
 	}
+
     
 	/**
 	 * fn findByDuration
@@ -140,7 +143,5 @@ public class SongDaoImpl implements SongDAO{
 			throw new IllegalArgumentException("the 'duration' param for search an song can not be null or empty.");
 		}
 	}
-
-
 
 }
