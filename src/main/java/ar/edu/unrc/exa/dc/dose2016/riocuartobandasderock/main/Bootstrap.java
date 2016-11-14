@@ -126,13 +126,13 @@ public class Bootstrap {
         post("/login", (req, res) -> userController.login(req, res));
         post("/logout", (req, res) -> userController.logout(req, res));
 
-        post("/song",(req,res)->songController.create(req, res));
+        post("/songs/",(req,res)->songController.create(req, res));
 
-        get("/songs/findbyname/:name",(req,res)->songController.getSongByName(req,res));
+        get("/songs/findbyname/:name",(req,res)->songController.getByName(req,res));
         
-        get("/songs/findbyduration/:duration",(req,res)->songController.getSongByDuration(req,res));
+        get("/songs/findbyduration/:duration",(req,res)->songController.getByDuration(req,res));
         
-        delete("/song/:id",(req, res) -> songController.removeSong(req, res));
+        delete("/songs/:id",(req, res) -> songController.remove(req, res));
         
         after((req, res) -> {res.type("application/json");});
 
