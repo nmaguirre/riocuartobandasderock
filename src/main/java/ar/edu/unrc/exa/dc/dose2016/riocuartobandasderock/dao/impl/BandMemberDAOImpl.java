@@ -18,11 +18,18 @@ public class BandMemberDAOImpl implements BandMemberDAO {
 
 	private Session currentSession = null;
 
+	/*
+	 * This method initializes the session.
+	 * @param Session session, current session.
+	 */
 	public BandMemberDAOImpl(Session session) {
 		this.currentSession = session;
 	}
 
-	//working
+	/**
+	 * This method get all bandMembers.
+	 * @return List of bandMembers.
+	*/
 	@Override
 	public List<BandMember> getAllBandMembers() {
 		List<BandMember> bandMemberList = new LinkedList<>();
@@ -32,7 +39,12 @@ public class BandMemberDAOImpl implements BandMemberDAO {
 		return bandMemberList;
 	}
 
-	//working
+	/**
+	 * This method find an bandMember in database by bandID, and artistID.
+	 * @param String idBand, band ID.
+	 * @param String idArtist, artist ID.
+	 * @return BandMember that have a particular bandID and artistID.
+	*/
 	@Override
 	public BandMember findById(String idBand, String idArtist) {
 		if (idBand == null || idArtist == null || idBand.equals("") || idArtist.equals("")) {
@@ -48,7 +60,12 @@ public class BandMemberDAOImpl implements BandMemberDAO {
 		}
 	}
 
-	//working
+	/**
+	 * This method create an bandMember in database.
+	 * @param String idBand, band ID.
+	 * @param String idArtist, artist ID.
+	 * @return true if the create was successful.
+	*/
 	@Override
 	public boolean createBandMember(String idBand, String idArtist) {
 		boolean areEmpty = false;
@@ -66,7 +83,12 @@ public class BandMemberDAOImpl implements BandMemberDAO {
 		}
 	}
 
-	//working
+	/**
+	 * This method delete an bandMember in database.
+	 * @param String idBand, band ID.
+	 * @param String idArtist, artist ID.
+	 * @return true if the delete was successful.
+	*/
 	@Override
 	public boolean deleteBandMember(String idBand, String idArtist) {
 		if (idBand == null || idArtist == null || idBand.equals("") || idArtist.equals("")) {
@@ -86,7 +108,13 @@ public class BandMemberDAOImpl implements BandMemberDAO {
 		}
 	}
 
-	//working
+	/**
+	 * This method get all bands where the artist belongs.
+	 * @param String artistName.
+	 * @param String artistSurname.
+	 * @param String artistNickname.
+	 * @return List of bands where the artist, whit artistName, artistSurname and artistNickname, belongs.
+	*/
 	@Override
 	public List<Band> findByArtistByAttributes(String artistName, String artistSurname, String artistNickname) {
 		boolean areEmpty = false;
@@ -110,7 +138,11 @@ public class BandMemberDAOImpl implements BandMemberDAO {
 		}
 	}
 
-	//working
+	/**
+	 * This method get all artist of a band.
+	 * @param String bandName.
+	 * @return List artist of a band, whit bandName.
+	*/
 	@Override
 	public List<Artist> findByBandByAttributes(String bandName) {
 		boolean areEmpty = false;
@@ -131,7 +163,11 @@ public class BandMemberDAOImpl implements BandMemberDAO {
 		}
 	}
 	
-	//working
+	/**
+	 * This method get all bands where the artist belongs.
+	 * @param String artistId.
+	 * @return List of bands where the artist, whit artistID, belongs.
+	*/
 	@Override
 	public List<Band> findByArtist(String artistId) {
 		if (artistId == null || artistId.equals("")) {
@@ -146,7 +182,11 @@ public class BandMemberDAOImpl implements BandMemberDAO {
 		}
 	}
 
-	//working
+	/**
+	 * This method get all artist of a band.
+	 * @param String bandId.
+	 * @return List artist of a band, whit bandID.
+	*/
 	@Override
 	public List<Artist> findByBand(String bandId) {
 		if (bandId == null || bandId.equals("")) {
@@ -159,96 +199,5 @@ public class BandMemberDAOImpl implements BandMemberDAO {
 			query.setParameter("bID", bandId);
 			return query.getResultList();
 		}
-	}
-
-	public static void main(String args[]){
-		int i = 14;
-		Session sessionArtist = SessionManager.getInstance().openSession();
-		Session sessionBand = SessionManager.getInstance().openSession();
-		Session sessionBM = SessionManager.getInstance().openSession();
-		ArtistDAO aDao = new ArtistDaoImpl(sessionArtist);
-		BandDAO bDao = new BandDaoImpl(sessionBand);
-		BandMemberDAO bmDao = new BandMemberDAOImpl(sessionBM);
-		List<Band> band;
-		List<Artist> artist;
-		
-		String idArtist;
-		String idBand;
-		String bandName = "name";
-		String bandGenre = "genre";
-		String arName = "name";
-		String arNickname = "nickname";
-		String arSurname = "surname";
-		
-		
-		//creo banda y artista
-		sessionBand.beginTransaction();
-		bDao.createBand(bandName+i, bandGenre+i);
-		sessionBand.getTransaction().commit();
-		sessionArtist.beginTransaction();
-		aDao.createArtist(arName+i, arSurname+i, arNickname+i);
-		sessionArtist.getTransaction().commit();
-		
-		band = bDao.findByNameAndGenre(bandName+i, bandGenre+i);
-		artist = aDao.getArtist(arName+i, arSurname+i, arNickname+i);
-		
-		idArtist = artist.get(0).getId();
-		idBand = band.get(0).getId();
-		bandName = band.get(0).getName();
-		bandGenre = band.get(0).getGenre();
-		arName = artist.get(0).getName();
-		arNickname = artist.get(0).getNickname();
-		arSurname = artist.get(0).getSurname();
-		
-		System.out.println("id de artista creado: "+idArtist);
-		System.out.println("id de banda creado: "+idBand);
-		
-		//creo la relacion
-		sessionBM.beginTransaction();
-		bmDao.createBandMember(idBand, idArtist);
-		sessionBM.getTransaction().commit();
-		System.out.println("se creo la relacion entre: "+idArtist+" y "+idBand);
-		
-		//busqueda de bandas por ArtistID
-		System.out.println("-- Busqueda por ArtistID : "+idArtist+" tiene las bandas: ");
-		List<Band> bandList = bmDao.findByArtist(idArtist);
-		
-		for(Band b : bandList){
-			System.out.println(b.getName());
-			System.out.println(b.getGenre());
-		}
-		
-		//busqueda de bandas por atributos del artista
-		System.out.println("-- Busqueda por atributos de artistas: name="+arName+" surname="+arSurname+" nickname="+arNickname+" tiene las bandas: ");
-		bandList = bmDao.findByArtistByAttributes(arName, arSurname, arNickname);		
-		for(Band b : bandList){
-			System.out.println(b.getName());
-			System.out.println(b.getGenre());
-		}
-		//busqueda de artistas por BandID
-		System.out.println("-- Busqueda por BandID : "+idBand+" tiene los artistas: ");
-		List<Artist> artistList = bmDao.findByBand(idBand);
-		
-		for(Artist a : artistList){
-			System.out.println(a.getName());
-			System.out.println(a.getSurname());
-			System.out.println(a.getNickname());
-		}
-		
-		//busqueda de artistas por BandName
-				System.out.println("-- Busqueda por BandName : "+bandName+" tiene los artistas: ");
-		artistList = bmDao.findByBandByAttributes(bandName);
-		
-		for(Artist a : artistList){
-			System.out.println(a.getName());
-			System.out.println(a.getSurname());
-			System.out.println(a.getNickname());
-		}
-		
-		
-		sessionArtist.close();
-		sessionBand.close();
-		sessionBM.close();
-		
 	}
 }
