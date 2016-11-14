@@ -24,7 +24,6 @@ public class Song {
 	* album represents the album where the song belongs
 	*/
 	
-
 	@Id
 	@Column(name = "idSong")
 	private String idSong;
@@ -135,7 +134,7 @@ public class Song {
 	
 	/**
 	 * fn getAlbum
-	 * Description: This method allows obtain on request the album where the song belongs
+	 * description: This method allows obtain on request the album where the song belongs
 	 * @return the album where the song belongs
 	 */
 	public Album getAlbum(){
@@ -144,7 +143,7 @@ public class Song {
 		  	
 	/**
 	* proc setAlbum
-    * Description: Sets an album for the song
+    * description: Sets an album for the song
 	* @param alb represents the album to assign
 	*/
 	public void setAlbum(Album alb){
