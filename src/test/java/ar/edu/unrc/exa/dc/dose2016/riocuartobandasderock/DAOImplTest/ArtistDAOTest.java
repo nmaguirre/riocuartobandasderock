@@ -90,7 +90,7 @@ public class ArtistDAOTest {
 		}
 		
 		// Create the artist to add in db
-		Artist artistToAdd = new Artist(name, surname, nickname);
+		new Artist(name, surname, nickname);
 		
 		// Add artistToAdd in db for first time
 		session.beginTransaction();
@@ -105,6 +105,36 @@ public class ArtistDAOTest {
 		 
 	}
 	
+	@Test
+	public void createArtistTest_Artist_in_db_cases() {
+		
+		String name = "Pablo";
+		String surname = "b";
+		String nickname = "";
+		
+		
+		while(artistDAO.existArtist(name,surname,nickname)){
+			surname+="b";
+		}
+		
+		// Create the artist to add in db
+		new Artist(name, surname, nickname);
+		
+		// Add artistToAdd in db
+		session.beginTransaction();
+		artistDAO.createArtist(name, surname, nickname);
+		session.getTransaction().commit();
+		
+		String sameNameIgnoringCase = "pablo";
+		
+		// Add artistToAdd in db
+		session.beginTransaction();
+		boolean successfulOperation = artistDAO.createArtist(sameNameIgnoringCase, surname, nickname);
+		session.getTransaction().commit();
+		
+		assertTrue(!successfulOperation); 
+	}
+	
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void createArtistTest_Artist_with_null_name() {
@@ -113,7 +143,7 @@ public class ArtistDAOTest {
 		String nickname = "";
 		
 		// Create the artist to add in db
-		Artist artistToAdd = new Artist(name, surname, nickname);
+		new Artist(name, surname, nickname);
 		
 		// Add artistToAdd in db
 		session.beginTransaction();
@@ -129,7 +159,7 @@ public class ArtistDAOTest {
 		String nickname = "";
 		
 		// Create the artist to add in db
-		Artist artistToAdd = new Artist(name, surname, nickname);
+		new Artist(name, surname, nickname);
 		
 		// Add artistToAdd in db
 		session.beginTransaction();
@@ -145,7 +175,7 @@ public class ArtistDAOTest {
 		String nickname = null;
 		
 		// Create the artist to add in db
-		Artist artistToAdd = new Artist(name, surname, nickname);
+		new Artist(name, surname, nickname);
 		
 		// Add artistToAdd in db
 		session.beginTransaction();
@@ -161,7 +191,7 @@ public class ArtistDAOTest {
 		String nickname = "";
 		
 		// Create the artist to add in db
-		Artist artistToAdd = new Artist(name, surname, nickname);
+		new Artist(name, surname, nickname);
 		
 		// Add artistToAdd in db
 		session.beginTransaction();
@@ -186,7 +216,7 @@ public class ArtistDAOTest {
 		}
 		
 		// Create the artist to add in db
-		Artist artistToAdd = new Artist(name, surname, nickname);
+		new Artist(name, surname, nickname);
 		
 		// Add artistToAdd in db
 		session.beginTransaction();
@@ -236,7 +266,6 @@ public class ArtistDAOTest {
 	
 	@Test
 	public void findId_Artist_in_db() {
-		List<Artist> artistList = new LinkedList<>();
 		String name = "a";
 		String surname = "b";
 		String nickname = "";
@@ -383,9 +412,8 @@ public class ArtistDAOTest {
 	public void findByNickname_null_nickname() {
 		
 		String nickname = null;
-		
 		 
-		List<Artist> obtained = artistDAO.findByNickname(nickname);
+		artistDAO.findByNickname(nickname);
 		 
 	}
 	
@@ -402,7 +430,7 @@ public class ArtistDAOTest {
 	
 	@Test
 	public void updateArtistTest_Artist_in_db() {
-		List<Artist> artistList = new LinkedList<>();
+
 		String name = "a";
 		String surname = "b";
 		String nickname = "";
@@ -446,7 +474,7 @@ public class ArtistDAOTest {
 	
 	@Test
 	public void updateArtistTest_Artist_already_in_db() {
-		List<Artist> artistList = new LinkedList<>();
+		
 		String name = "a";
 		String surname = "b";
 		String nickname = "";
@@ -578,7 +606,7 @@ public class ArtistDAOTest {
 	
 	@Test
 	public void deleteArtistTest_Artist_in_db() {
-		List<Artist> artistList = new LinkedList<>();
+		
 		String name = "a";
 		String surname = "b";
 		String nickname = "";
@@ -588,7 +616,7 @@ public class ArtistDAOTest {
 		}
 		 
 		// Create the artist to add in db
-		Artist artistToAdd = new Artist(name, surname, nickname);
+		new Artist(name, surname, nickname);
 		
 		// Add artistToAdd in db
 		session.beginTransaction();
@@ -634,7 +662,7 @@ public class ArtistDAOTest {
 	public void deleteArtistTest_null_id() {
 		String id = null;
 		session.beginTransaction();
-		boolean successfulOperation = artistDAO.deleteArtist(id);
+		artistDAO.deleteArtist(id);
 		session.getTransaction().commit();
 	}
 	
@@ -643,7 +671,7 @@ public class ArtistDAOTest {
 	public void deleteArtistTest_empty_id() {
 		String id = "";
 		session.beginTransaction();
-		boolean successfulOperation = artistDAO.deleteArtist(id);
+		artistDAO.deleteArtist(id);
 		session.getTransaction().commit();
 	}
 	
