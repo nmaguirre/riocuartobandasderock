@@ -34,6 +34,7 @@ public interface ArtistDAO {
 	public List<Artist> findBySurname(String name);
 	
 	/**
+	 * This method find an artist in the database, by nickname.
 	 * @param String nickname.
 	 * @return Artists that have a particular nickname
 	*/
