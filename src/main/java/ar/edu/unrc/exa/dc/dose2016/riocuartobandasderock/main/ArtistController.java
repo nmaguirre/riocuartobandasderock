@@ -49,7 +49,7 @@ public class ArtistController {
 	*/
 		
 	public List<Artist> getArtistById (Request req, Response res){
-		if (req.params(":id")==""){
+		if (req.params(":id").isEmpty()){
 			res.status(400);
 		}
 		Session session = SessionManager.getInstance().openSession();
@@ -74,7 +74,8 @@ public class ArtistController {
 		if (nickname==null){
 			nickname="";
 		}
-		if((name=="") && (surname=="") && (nickname=="")){
+		boolean isEmpty=((name.isEmpty()) && (surname.isEmpty()) && (nickname.isEmpty()));
+		if (isEmpty){
 			res.status(400);
 			return null;
 		}
@@ -87,6 +88,7 @@ public class ArtistController {
 			res.status(status);
 			return artist;
 		}
+		
 	}
 	
 	/**
@@ -113,7 +115,7 @@ public class ArtistController {
 	 * @return List artist with name parameters
 	 */
 	public List<Artist> getArtistByName (Request req, Response res){
-		if (req.params(":name")==""){
+		if (req.params(":name").isEmpty()){
 			res.status(400);
 			return null;
 		}
@@ -133,7 +135,7 @@ public class ArtistController {
 	 * @return List artist with surname parameters
 	 */
 	public List<Artist> getArtistBySurname (Request req, Response res){
-		if (req.params(":surname")==""){
+		if (req.params(":surname").isEmpty()){
 			res.status(400);
 			return null;
 		}
@@ -153,7 +155,7 @@ public class ArtistController {
 	 * @return List artist with nickname parameters
 	 */
 	public List<Artist> getArtistByNickname (Request req, Response res){
-		if (req.params(":nickname")==""){
+		if (req.params(":nickname").isEmpty()){
 			res.status(400);
 			return null;
 		}
@@ -185,7 +187,7 @@ public class ArtistController {
 		if (nickname==null){
 			nickname="";
 		}
-		if((name=="") && (surname=="") && (nickname=="")){
+		if((name.isEmpty()) && (surname.isEmpty()) && (nickname.isEmpty())){
 			res.status(400);
 			return "Request invalid";
 		}
@@ -212,7 +214,7 @@ public class ArtistController {
 		ArtistDAO artistDAO=new ArtistDaoImpl(session);
 		List <Artist> artists = artistDAO.findById(req.params(":id"));
 		session.close();
-		if (artists.size()!=0){
+		if (artists.size()==0){
 			res.status(400);
 			return "Request invalid";
 		}
@@ -229,7 +231,7 @@ public class ArtistController {
 		if (nickname==null){
 			nickname=artist.getNickname();
 		}
-		if((name=="") && (surname=="") && (nickname=="")){
+		if((name.isEmpty()) && (surname.isEmpty()) && (nickname.isEmpty())){
 			res.status(400);
 			return "Request invalid";
 		}
@@ -254,7 +256,7 @@ public class ArtistController {
 	* @return a string that describes the result of deleteBandMember
 	*/
 	public String deleteArtist(Request req, Response res){
-		if ((req.params(":id"))==""){
+		if ((req.params(":id")).isEmpty()){
 			res.status(400);
 			return "Request invalid";
 		}
@@ -312,7 +314,7 @@ public class ArtistController {
 		if (aNickname==null){
 			aNickname="";
 		}
-		if((aName=="") && (aSurname=="") && (aNickname=="")){
+		if((aName.isEmpty()) && (aSurname.isEmpty()) && (aNickname.isEmpty())){
 			res.status(400);
 			return null;
 		}

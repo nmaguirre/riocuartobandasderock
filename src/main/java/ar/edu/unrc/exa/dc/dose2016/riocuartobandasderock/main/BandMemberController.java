@@ -38,7 +38,7 @@ public class BandMemberController {
 	 * @return a string that describes the result of createBandMember
 	 */
 	public String createBandMember (Request req,Response res){
-		if ((req.queryParams("artistID")=="")||(req.queryParams("bandID")=="")||(req.queryParams("artistID")==null)||(req.queryParams("bandID")==null)){
+		if ((req.queryParams("artistID").isEmpty())||(req.queryParams("bandID").isEmpty())||(req.queryParams("artistID")==null)||(req.queryParams("bandID")==null)){
 			res.status(400);
 			return "Request invalid";
 		}
@@ -63,7 +63,7 @@ public class BandMemberController {
 	 * @return a string that describes the result of deleteBandMember
 	 */
 	public String deleteBandMember(Request req, Response res){
-		if ((req.params(":bandID")==null)||(req.params(":artistID")=="")||(req.params(":artistID")=="")||(req.params(":bandID")==null)){
+		if ((req.params(":bandID")==null)||(req.params(":artistID").isEmpty())||(req.params(":artistID").isEmpty())||(req.params(":bandID")==null)){
 			res.status(400);
 			return "Request invalid";
 		}
