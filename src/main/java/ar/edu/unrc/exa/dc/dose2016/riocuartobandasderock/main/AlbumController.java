@@ -190,7 +190,7 @@ public class AlbumController {
         session.close();
         int http_status = result ? 201 : 409;
         res.status(http_status);
-        if (!result) res.body("Internal server error");
+        if (!result) res.body("Album doesn't exist");
         res.body("Album deleted");
         return res.body();
     }
