@@ -86,7 +86,7 @@ public class BandMemberController {
 	/**
 	 * delete an BandMember by his idArtist and idBand
 	 * @param req it contains idArtist and idBand of the BandMember to search
-	 * @param res
+	 * @param res (Response)
 	 * @return a string that describes the result of deleteBandMember
 	 */
 	public String deleteBandMember(Request req, Response res){
@@ -111,9 +111,10 @@ public class BandMemberController {
 	/**
 	 * search Artists of a Band by his name
 	 * @param req it contain name of the Band to search Artist
-	 * @param res
-	 * @return List of BandMembers
-	 *//*
+	 * @param res (Response)
+	 * @return List of Artist
+	 */
+	/*
 	public List<Artist> getBandMembersByBand(Request req, Response res){
 		String bName = req.queryParams("bandNickname");
 		if((bName=="")||(bName==null)){
@@ -132,9 +133,10 @@ public class BandMemberController {
 	/**
 	 * search Artists of a Band by his Id
 	 * @param req it contain name of the Band to search Artist
-	 * @param res
-	 * @return List of BandMembers
-	 *//*
+	 * @param res (Response)
+	 * @return List of Artist
+	 */
+	/*
 	public List<Artist> getBandMembersByBandId(Request req, Response res){
 		String bandID = req.params(":idBand");
 		if((bandID=="")||(bandID==null)){
