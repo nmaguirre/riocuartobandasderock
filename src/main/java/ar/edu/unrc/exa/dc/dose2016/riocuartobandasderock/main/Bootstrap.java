@@ -94,6 +94,10 @@ public class Bootstrap {
                 
         get("/albums/findByReleaseDate/:release_date", (req, res) -> albumController.findByReleaseDate(req, res));
 
+        put("/albums/:id", (req, res) -> albumController.update(req, res));
+        
+        delete("/albums/:id", (req, res) -> albumController.delete(req, res));
+        
         get("/hello", (req, res) -> "Hello World");
 
         get("/bands",(req, res) -> bands.getBands(req, res));
