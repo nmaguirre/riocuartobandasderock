@@ -178,6 +178,12 @@ public class ArtistController {
 	 * @return a string that describes the result of createArtist
 	 */
 	public String createArtist(Request req,Response res){
+		//Not Implemented yet
+		/*String user = req.session().attribute("name");
+			if ((user==null)||(!(user.equals("admin")))){
+			res.status(401);
+			return "Forbidden Access";
+		}*/
 		String name = req.queryParams("name");
 		if (name==null){
 			name="";
@@ -214,6 +220,12 @@ public class ArtistController {
 	 * @return a string that describes the result of updateArtist
 	 */
 	public String updateArtist(Request req, Response res){
+		//Not Implemented yet
+		/*String user = req.session().attribute("name");
+			if ((user==null)||(!(user.equals("admin")))){
+			res.status(401);
+			return "Forbidden Access";
+		}*/
 		Session session = SessionManager.getInstance().openSession();
 		ArtistDAO artistDAO=new ArtistDaoImpl(session);
 		List <Artist> artists = artistDAO.findById(req.params(":id"));
@@ -260,6 +272,12 @@ public class ArtistController {
 	* @return a string that describes the result of deleteArtist
 	*/
 	public String deleteArtist(Request req, Response res){
+		//Not Implemented yet
+		/*String user = req.session().attribute("name");
+			if ((user==null)||(!(user.equals("admin")))){
+			res.status(401);
+			return "Forbidden Access";
+		}*/
 		if ((req.params(":id")).isEmpty()){
 			res.status(400);
 			return "Request invalid";

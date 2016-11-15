@@ -48,6 +48,12 @@ public class BandMemberController {
 	 * @return a string that describes the result of createBandMember
 	 */
 	public String createBandMember (Request req,Response res){
+		//Not Implemented yet
+		/*String user = req.session().attribute("name");
+			if ((user==null)||(!(user.equals("admin")))){
+			res.status(401);
+			return "Forbidden Access";
+		}*/
 		if ((req.queryParams("artistID").isEmpty())||(req.queryParams("bandID").isEmpty())||(req.queryParams("artistID")==null)||(req.queryParams("bandID")==null)){
 			res.status(400);
 			return "Request invalid";
@@ -69,7 +75,6 @@ public class BandMemberController {
 			res.status(400);
 			return "Request Invalid";
 		}
-		//Session session = SessionManager.getInstance().openSession();
 		Transaction transaction = session.beginTransaction();
 		BandMemberDAO bmDAO = new BandMemberDAOImpl(session);
 		boolean status = (bmDAO.createBandMember(req.queryParams("bandID"),req.queryParams("artistID")));
@@ -90,6 +95,12 @@ public class BandMemberController {
 	 * @return a string that describes the result of deleteBandMember
 	 */
 	public String deleteBandMember(Request req, Response res){
+		//Not Implemented yet
+		/*String user = req.session().attribute("name");
+			if ((user==null)||(!(user.equals("admin")))){
+			res.status(401);
+			return "Forbidden Access";
+		}*/
 		if ((req.params(":bandID")==null)||(req.params(":artistID").isEmpty())||(req.params(":artistID").isEmpty())||(req.params(":bandID")==null)){
 			res.status(400);
 			return "Request invalid";
