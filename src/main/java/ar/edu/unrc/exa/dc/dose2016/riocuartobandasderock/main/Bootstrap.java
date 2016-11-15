@@ -125,6 +125,14 @@ public class Bootstrap {
 
         post("/artist/",(req,res)->artistController.createArtist(req,res));
 
+
+        post("/song/",(req,res)->songController.addSong(req, res));
+
+        get("/song/findbyname/:name",(req,res)->songController.getSongByName(req,res));
+
+        get("/song/findbyduration/:name",(req,res)->songController.getSongByDuration(req,res));
+
+
         /**
          * Users routes
          */
@@ -141,6 +149,7 @@ public class Bootstrap {
         get("/songs/findbyduration/:duration",(req,res)->songController.getByDuration(req,res));
 
         delete("/songs/:id",(req, res) -> songController.remove(req, res));
+
 
         after((req, res) -> {res.type("application/json");});
 
