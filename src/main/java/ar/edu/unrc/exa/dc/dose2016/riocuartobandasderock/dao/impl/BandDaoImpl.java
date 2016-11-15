@@ -11,8 +11,23 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 
 public class BandDaoImpl implements BandDAO {
 
-	private SessionManager SessionManager;
-
+	// private SessionManager SessionManager;
+	
+	/**
+	 * This method counts the number of bands 
+	 * 
+	 * @return number of bands
+	 */
+	
+	
+	public int cantBands() {
+		List<Band> bandList = new LinkedList<>();
+		Query<Band> query;
+		query = SessionManager.getInstance().getCurrentSession().createQuery("from Band", Band.class);
+		bandList.addAll(query.getResultList());
+		return bandList.size();
+	}
+	
 
 	/**
 	 * Get all bands from the database
@@ -99,7 +114,7 @@ public class BandDaoImpl implements BandDAO {
 		if(areNull || areEmpty){
 			throw new IllegalArgumentException("the params for create band can't be null or empty.");
 		} else {
-			if(this.existBand(name)){
+			if(existBand(name)){
 				result = false;
 			} else {
 				Band band = new Band(name, genre);
@@ -200,5 +215,5 @@ public class BandDaoImpl implements BandDAO {
 				return bandList;
 				}
 		}
-	
+
 }

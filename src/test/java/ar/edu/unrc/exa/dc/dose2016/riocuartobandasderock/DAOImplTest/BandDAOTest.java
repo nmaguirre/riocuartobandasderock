@@ -8,12 +8,9 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.ArtistDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandDAO;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.ArtistDaoImpl;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandDaoImpl;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SessionManager;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 
 import mockit.Expectations;
@@ -44,7 +41,7 @@ public class BandDAOTest {
 		
 		
 		session.openCurrentSession();
-		while(bandDAO.existBand(name,genre)){
+		while(bandDAO.existBand(name)){
 			name+="a";
 		}
 		session.closeCurrentSession();
@@ -85,7 +82,7 @@ public class BandDAOTest {
 		
 		
 		session.openCurrentSession();
-		while(bandDAO.existBand(name,genre)){
+		while(bandDAO.existBand(name)){
 			name+="a";
 		}
 		session.closeCurrentSession();
@@ -181,7 +178,7 @@ public class BandDAOTest {
 		String genre = "b";
 		
 		session.openCurrentSession();
-		while(bandDAO.existBand(name, genre)){
+		while(bandDAO.existBand(name)){
 			name+="a";
 		}
 		session.closeCurrentSession();
@@ -208,7 +205,7 @@ public class BandDAOTest {
 		String genre = "";
 			
 		session.openCurrentSession();
-		while(bandDAO.existBand(name,genre)){
+		while(bandDAO.existBand(name)){
 			name+="a";
 		}
 		session.closeCurrentSession();
@@ -256,7 +253,7 @@ public class BandDAOTest {
 		
 		
 		session.openCurrentSession();
-		while(bandDAO.existBand(name, genre)){
+		while(bandDAO.existBand(name)){
 			genre+="b";
 		}
 		session.closeCurrentSession();
@@ -286,7 +283,7 @@ public class BandDAOTest {
 		
 		
 		session.openCurrentSession();
-		while(bandDAO.existBand(name,genre)){
+		while(bandDAO.existBand(name)){
 			genre+="a";
 		}
 		session.closeCurrentSession();
@@ -319,13 +316,5 @@ public class BandDAOTest {
 		List<Band> obtained = bandDAO.findByGenre(genre);
 		session.closeCurrentSession();
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }

@@ -68,7 +68,7 @@ public class BandController {
 		}
 		session= SessionManager.getInstance();
 		session.openCurrentSession();
-		List<Band> bands = bandDAO.findBandByName(req.params(":name"));
+		List<Band> bands = bandDAO.findByName(req.params(":name"));
 		session.closeCurrentSession();
 		int status = (bands.size()!=0)? 200:204;
 		res.status(status);
@@ -87,7 +87,7 @@ public class BandController {
 		}
 		session= SessionManager.getInstance();
 		session.openCurrentSession();
-		List<Band> bands = bandDAO.findBandByName(req.params(":genre"));
+		List<Band> bands = bandDAO.findByName(req.params(":genre"));
 		session.closeCurrentSession();
 		int status = (bands.size()!=0)? 200:204;
 		res.status(status);

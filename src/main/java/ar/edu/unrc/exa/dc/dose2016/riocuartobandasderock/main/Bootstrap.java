@@ -71,7 +71,7 @@ public class Bootstrap {
         // List of controller
 
 
-        albumController =  AlbumController.getInstance();
+        albumController  = AlbumController.getInstance();
         artistController = new ArtistController();
         bands = BandController.getInstance();
         songController = new SongController();
