@@ -130,16 +130,15 @@ public class SongController {
     public String create (Request req, Response res){
     	
     	String songName = req.queryParams("name");    	
-    	String dur = req.queryParams("duration");    	
-    	Session session = SessionManager.getInstance().openSession();
-    	SongDAO sdao = new SongDaoImpl(session);
-    	Transaction transaction = session.beginTransaction();
-
+    	String dur = req.queryParams("duration");
     	if(( songName == null || songName == "" ) || dur == null) {
 			res.status(400);
 			res.body("Invalid content of parameters");
 			return res.body();
 		}
+    	Session session = SessionManager.getInstance().openSession();
+    	SongDAO sdao = new SongDaoImpl(session);
+    	Transaction transaction = session.beginTransaction();
     	boolean result = sdao.addSong(songName,Integer.parseInt(dur));
     	transaction.commit();
     	session.close();
@@ -147,7 +146,10 @@ public class SongController {
     	if(result){
     	res.body("Song created");
     	res.status(201);
-    	}
+    	} else{
+    		res.status(409);
+    		res.body("Operation failed");
+    	}	
     	return res.body();    		
     }
     
