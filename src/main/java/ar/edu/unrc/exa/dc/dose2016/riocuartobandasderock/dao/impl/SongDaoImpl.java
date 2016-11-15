@@ -126,16 +126,16 @@ public class SongDaoImpl implements SongDAO{
 		}
 	}
 
-    
 	/**
 	 * fn findByDuration
 	 * description: The method allows to get a song found by a duration
 	 * @param duration represents the duration of the song to search.
 	 * @return the list of songs found or null if the song does not exist
 	 */
+	
 	@Override
 	public List<Song> findByDuration(Integer duration){
-		if (duration != null && duration.equals("")) {
+		if (duration != null && !duration.equals("")) {
 			Query<Song> query = this.currentSession.createQuery("from Song where duration=:n", Song.class);
 			query.setParameter("n", duration);
 			return query.getResultList();

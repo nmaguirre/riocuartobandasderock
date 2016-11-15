@@ -31,7 +31,7 @@ Given(/^that the album's database is empty$/) do
 end
 
 Given(/^that the song's database is empty$/) do
-    result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from songDB;\" -t`
+    result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from SongDB;\" -t`
     result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
     expect(result=="0")
 end
@@ -168,7 +168,7 @@ When(/^I search a song with duration "([^"]*)" , the result of the search should
   begin
       String s = 'http://localhost:4567/songs/findbyduration/'+ value
       response = RestClient.get s
-      if entradas != "0"
+      if entries != "0"
         expect(response.code).to eq(200)
       else
         expect(response.code).to eq(204)
@@ -198,8 +198,7 @@ end
 Then(/^the song's database should have (\d+) entry$/) do |arg1|
     result = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select count(*) from SongDB;\" -t`
     result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
-	 HEAD
-    expect(result).to eq("1")
+    expect(result).to eq(arg1)
 end
 
 Then(/^the entry should have name "([^"]*)" and surname "([^"]*)"$/) do |name, surname|
@@ -222,7 +221,12 @@ end
 
 
 Then(/^the entry should have name "([^"]*)" and duration "([^"]*)"$/) do |name, duration|
-    pending
+    resultingName = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select name from SongDB;\" -t`
+    resultingName = resultingName.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+    expect(resultingName) == (name)
+    resultingDuration = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select duration from SongDB;\" -t`
+    resultingDuration = resultingDuration.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+    expect(resultingDuration) == (duration) 
 end
 
 

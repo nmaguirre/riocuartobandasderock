@@ -34,7 +34,7 @@ public class Song {
 	@Column(name = "duration")
 	private int duration;
 	
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = true)
 	@JoinColumn(name = "albumID")
 	private Album album;
 	

@@ -113,9 +113,10 @@ public class SongController {
     	SongDAO sdao = new SongDaoImpl(session);
 
     	List<Song> songs = sdao.findByDuration(Integer.parseInt(duration));
-    	res.status(songs.size() > 0 ? 200 : 204);
     	session.close();
-
+    	
+    	res.status(songs.size() > 0 ? 200 : 204);
+    	
     	return songs;
     }
     
