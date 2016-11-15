@@ -32,8 +32,8 @@ public interface BandDAO {
 	    *
 	    * @return true if the update was successful
 	    */
-	   public boolean updateBand(Band band);
-
+	   public boolean updateBand(String id, String name, String genre); 
+	   
 	   /**
 	    *
 	    * @param String id
@@ -87,5 +87,13 @@ public interface BandDAO {
 	    * @return true if a band exist
 	    */
 	   public boolean existBand(String name);
+	   
+	   
+	   /**
+		 * 
+		 * @param String id
+		 * @return Band that have a particular id	
+		 */
+	   public Band findById(String id);
 }
 

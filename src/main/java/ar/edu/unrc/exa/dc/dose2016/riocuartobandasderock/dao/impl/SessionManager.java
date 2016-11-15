@@ -2,7 +2,6 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
@@ -11,49 +10,26 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.User;
 
 public class SessionManager{
-
-	private Session currentSession;
-
-	private Transaction currentTransaction;
-
 	/**
 	 * Constructor of the class
 	 */
 
 	private SessionManager() {
-		currentSession = getSessionFactory().openSession();
-		currentTransaction = currentSession.beginTransaction();
+		this.sfactory = getSessionFactory();
 	}
-
 	/**
 	 * Singleton, on demand instance of ServerOptions.
 	 */
 	private static SessionManager instance = null;
-
-	public Session openCurrentSession() {
-		currentSession = getSessionFactory().openSession();
-		return currentSession;
+	private SessionFactory sfactory = null;
+	
+	public Session openSession() {
+		return this.sfactory.openSession(); 
 	}
 
-	public Session openCurrentSessionwithTransaction() {
-		currentSession = getSessionFactory().openSession();
-		currentTransaction = currentSession.beginTransaction();
-		return currentSession;
-	}
-
-	public void closeCurrentSession() {
-		currentSession.close();
-	}
-
-	public void closeCurrentSessionwithTransaction() {
-		currentTransaction.commit();
-		currentSession.close();
-	}
-
-	private static SessionFactory getSessionFactory() {
+	private SessionFactory getSessionFactory() {
 		String dbHost = ServerOptions.getInstance().getDbHost();
 		String dbPort = ServerOptions.getInstance().getDbPort();
 		// Configuration configuration = new Configuration().addPackage("models").configure("hibernate.cfg.xml").addAnnotatedClass(Artist.class);
@@ -72,29 +48,13 @@ public class SessionManager{
 		configuration.addAnnotatedClass(Album.class);
 		configuration.addAnnotatedClass(Band.class);
 		configuration.addAnnotatedClass(Song.class);
-		configuration.addAnnotatedClass(User.class);
 		StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
 				.applySettings(configuration.getProperties());
 		SessionFactory sf = configuration.buildSessionFactory(builder.build());
 		return sf;
 	}
 
-	public Session getCurrentSession() {
-		return currentSession;
-	}
-
-	public void setCurrentSession(Session currentSession) {
-		this.currentSession = currentSession;
-	}
-
-	public Transaction getCurrentTransaction() {
-		return currentTransaction;
-	}
-
-	public void setCurrentTransaction(Transaction currentTransaction) {
-		this.currentTransaction = currentTransaction;
-	}
-
+	
 	/**
 	 * Returns the (sole) instance of ServerOptions, on demand.
 	 * It is created the first time it is accessed, and from that
@@ -102,11 +62,11 @@ public class SessionManager{
 	 * See the Singleton Pattern for reference.
 	 * @return the instance of ServerOptions.
 	 */
-	public static SessionManager getInstance() {
+	public static synchronized SessionManager getInstance() {
 		if (instance==null) instance = new SessionManager();
 		return instance;
 	}
-
-
+	
+	
 
 }

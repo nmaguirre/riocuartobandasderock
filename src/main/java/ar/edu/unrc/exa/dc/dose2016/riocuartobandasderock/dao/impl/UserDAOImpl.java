@@ -1,13 +1,20 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl;
 
+import org.hibernate.Session;
+
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.UserDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.User;
 
 public class UserDAOImpl implements UserDAO {
+	private Session currentSession = null;
+	
+	public UserDAOImpl(Session session){
+		this.currentSession = session;
+	}
     @Override
     public User find(String name) {
         if (name != null && name != "") {
-            User user = SessionManager.getInstance().openCurrentSession().find(User.class, name);
+            User user = this.currentSession.find(User.class, name);
             return user;
         } else {
             return null;
@@ -21,8 +28,7 @@ public class UserDAOImpl implements UserDAO {
         } else if (find(name) != null) {
             return false;
         } else {
-            SessionManager.getInstance().openCurrentSessionwithTransaction().save(new User(name, password));
-            SessionManager.getInstance().closeCurrentSessionwithTransaction();
+        	this.currentSession.save(new User(name, password));
             return true;
         }
     }
@@ -30,8 +36,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public boolean update(User user) {
         if (user.repOk()) {
-            SessionManager.getInstance().openCurrentSessionwithTransaction().update(user);
-            SessionManager.getInstance().closeCurrentSessionwithTransaction();
+        	this.currentSession.update(user);
             return true;
         } else
             return false;
@@ -41,8 +46,7 @@ public class UserDAOImpl implements UserDAO {
     public boolean delete(String name) {
         User user = find(name);
         if (user != null) {
-            SessionManager.getInstance().openCurrentSessionwithTransaction().delete(user);
-            SessionManager.getInstance().closeCurrentSessionwithTransaction();
+        	this.currentSession.delete(user);
             return true;
         } else
             return false;

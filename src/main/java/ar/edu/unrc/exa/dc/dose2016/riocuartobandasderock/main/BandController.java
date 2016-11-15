@@ -2,10 +2,15 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.*;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandMemberDAO;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandMemberDAOImpl;
 import spark.Request;
 import spark.Response;
 
@@ -21,8 +26,6 @@ public class BandController {
 	 * check that have only one instance of class
 	 */
 	private static BandController instance = null;
-	private BandDAO bandDAO;
-	private SessionManager session;
 
 	/***
 	 * Constructor of class BandController
@@ -35,10 +38,6 @@ public class BandController {
       return instance;
   }
 
-  private BandController(){
-  	bandDAO = new BandDaoImpl();
-  }
-
 	/***
 	 * This method returns all bands
 	 * @param req
@@ -46,10 +45,10 @@ public class BandController {
 	 * @return A list of all bands
 	 */
 	public List<Band> getBands(Request req ,Response res){
-		session= SessionManager.getInstance();
-		session.openCurrentSession();
-		List<Band> bands= bandDAO.getAllBands();
-		session.closeCurrentSession();
+		Session session = SessionManager.getInstance().openSession();
+		BandDAO bdao = new BandDaoImpl(session);
+		List<Band> bands= bdao.getAllBands();
+		session.close();
 		int status = (bands.size()>0)? 200:204;
 		res.status(status);
 		return bands;
@@ -66,10 +65,10 @@ public class BandController {
 			res.status(400);
 			return null;
 		}
-		session= SessionManager.getInstance();
-		session.openCurrentSession();
-		List<Band> bands = bandDAO.findByName(req.params(":name"));
-		session.closeCurrentSession();
+		Session session = SessionManager.getInstance().openSession();
+		BandDAO bdao = new BandDaoImpl(session);
+		List<Band> bands = bdao.findByName(req.params(":name"));
+		session.close();
 		int status = (bands.size()!=0)? 200:204;
 		res.status(status);
 		return bands;
@@ -79,23 +78,42 @@ public class BandController {
 	 * This method takes a band genre and return a list of bands with this genre
 	 * @param req
 	 * @param res
-	 * @return the data of a band, encapsulated in an object.
+	 * @return a list of bands with the genre of the request
 	 */
 	public List<Band> getBandByGenre(Request req,Response res){
 		if (req.params(":genre")==""){
 			res.status(400);
 		}
-		session= SessionManager.getInstance();
-		session.openCurrentSession();
-		List<Band> bands = bandDAO.findByName(req.params(":genre"));
-		session.closeCurrentSession();
+		Session session = SessionManager.getInstance().openSession();
+		BandDAO bdao = new BandDaoImpl(session);
+		List<Band> bands = bdao.findByName(req.params(":genre"));
+		session.close();
+		int status = (bands.size()!=0)? 200:204;
+		res.status(status);
+		return bands;
+	}
+
+	/**
+	 * This method take a name and a genre and return a list of bands with this attributes
+	 * @param req
+	 * @param res
+	 * @return a list of bands with the genre and name of the request.
+	 */
+	public List<Band> getBandByNameAndGenre(Request req,Response res){
+		if (req.params("genre")==""||req.params("name")==""){
+			res.status(400);
+		}
+		Session session = SessionManager.getInstance().openSession();
+		BandDAO bdao = new BandDaoImpl(session);
+		List<Band> bands = bdao.findByNameAndGenre(req.params("genre"),req.params("name"));
+		session.close();
 		int status = (bands.size()!=0)? 200:204;
 		res.status(status);
 		return bands;
 	}
 
 	/***
-	 * This method takes the data of a band from the frontend, and creates a band in database
+	 * This method takes the data of a band from the front-end, and creates a band in database
 	 * @param req
 	 * @param res
 	 * @return the object of the band created.
@@ -105,10 +123,12 @@ public class BandController {
 			res.status(400);
 			return "Request invalid";
 		}
-		session= SessionManager.getInstance();
-		session.openCurrentSessionwithTransaction();
-		boolean status = bandDAO.createBand(req.queryParams("name"),req.queryParams("genre"));
-		session.closeCurrentSessionwithTransaction();
+		Session session = SessionManager.getInstance().openSession();
+		BandDAO bdao = new BandDaoImpl(session);
+		Transaction transaction = session.beginTransaction();
+		boolean status = bdao.createBand(req.queryParams("name"),req.queryParams("genre"));
+		transaction.commit();
+		session.close();
 		if (status){
 			res.status(201);
 			return "Success";
@@ -118,38 +138,40 @@ public class BandController {
 	}
 
 	/***
-	 * This method takes the data of a band from the frontend, and updates a band in database
+	 * This method takes the data of a band from the front-end, and updates a band in database
 	 * @param req
 	 * @param res
 	 * @return a String that describes the result of update a band.
 	 */
 	public String updateBand(Request req,Response res){
-		/*if((req.queryParams("name")=="") && (req.queryParams("genre")=="")){
+
+		if((req.queryParams("name")=="") && (req.queryParams("genre")=="")){
 			res.status(400);
 			return "Request invalid";
 		}
-		bandDAO.openCurrentSession();
-		Band band = bandDAO.findById(req.params(":id"));
-		bandDAO.closeCurrentSession();
+		Session session = SessionManager.getInstance().openSession();
+		BandDAO bdao = new BandDaoImpl(session);
+		Band band = bdao.getBand(req.params(":id"));
 		if (band==null){
 			res.status(400);
 			return "Request invalid";
 		}
-		band.setName(req.queryParams("name"));
-		band.setGenre(req.queryParams("genre"));
-		bandDAO.openCurrentSessionwithTransaction();
-		boolean status = bandDAO.updateBand(band);
-		bandDAO.closeCurrentSessionwithTransaction();
+		String bandName = (req.queryParams("name"));
+		String bandGenre = (req.queryParams("genre"));
+		Transaction transaction = session.beginTransaction();
+		boolean status = bdao.updateBand(band.getId(),bandName,bandGenre);
+		transaction.commit();
+		session.close();
 		if (status){
 			res.status(200);
 			return "Success";
-		}*/
+		}
 		res.status(409);
 		return "Fail";
 	}
 
 	/***
-	 * This method takes the id of a band from the frontend, and delete this band in database
+	 * This method takes the id of a band from the front-end, and delete this band in database
 	 * @param req
 	 * @param res
 	 * @return true if the the band was created. Otherwise, false.
@@ -159,16 +181,38 @@ public class BandController {
 			res.status();
 			return "Request invalid";
 		}
-		session= SessionManager.getInstance();
-		session.openCurrentSessionwithTransaction();
-	 	boolean status = bandDAO.deleteBand(req.params(":id"));
-	 	session.closeCurrentSessionwithTransaction();
+		Session session = SessionManager.getInstance().openSession();
+		BandDAO bdao = new BandDaoImpl(session);
+		Transaction transaction = session.beginTransaction();
+	 	boolean status = bdao.deleteBand(req.params(":id"));
+	 	transaction.commit();
+	 	session.close();
 		if (status){
 			res.status(200);
 			return "Success";
 		}
 		res.status(409);
 		return "Fail";
+	}
 
+	/**
+	 * search Artists of a Band by his name
+	 * @param req it contain the id of the Band to search Artist
+	 * @param res
+	 * @return List of BandMembers
+	 */
+	public List<Artist> getBandMembers(Request req, Response res){
+		String bandId = req.params(":bandID");
+		if((bandId=="")||(bandId==null)){
+			res.status(400);
+			return null;
+		}
+		Session session = SessionManager.getInstance().openSession();
+		BandMemberDAO bandMemberDAO = new BandMemberDAOImpl(session);
+		List<Artist> bandMembers = bandMemberDAO.findByBand(bandId);
+		session.close();
+		int status = (bandMembers.size()>0)? 200:204;
+		res.status(status);
+		return bandMembers;
 	}
 }

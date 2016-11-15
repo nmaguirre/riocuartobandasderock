@@ -1,6 +1,7 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.UserDAO;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SessionManager;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.UserDAOImpl;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.User;
 import spark.Request;
@@ -9,11 +10,8 @@ import spark.Session;
 
 public class UserController {
     private static UserController instance;
-    private UserDAO dao;
 
-    private UserController(){
-        dao = new UserDAOImpl();
-    }
+    private UserController(){}
 
     public static UserController getInstance(){
         if (instance == null)
@@ -24,12 +22,15 @@ public class UserController {
     public String create(Request req, Response res) {
         String name = req.queryParams("name");
         String password = req.queryParams("password");
+        org.hibernate.Session session= SessionManager.getInstance().openSession();
+        UserDAOImpl dao=new UserDAOImpl(session);
         if (dao.create(name, password)) {
             res.status(200);
+            session.close();
             return "New user created successfully\n";
-        }
-        else {
+        }else {
             res.status(422);
+            session.close();
             return "Failed to create new user\n";
         }
     }
@@ -38,19 +39,24 @@ public class UserController {
         String name = req.params("name");
         String password = req.queryParams("password");
         String new_password = req.queryParams("new_password");
+        org.hibernate.Session session= SessionManager.getInstance().openSession();
+        UserDAOImpl dao = new UserDAOImpl(session);
         User user = dao.find(name);
         if (user != null && new_password != null && user.password().equals(User.encodePassword(password))) {
             user.password(new_password);
             if (dao.update(user)) {
                 res.status(200);
+                session.close();
                 return "User updated successfully\n";
             }
             else {
                 res.status(422);
+                session.close();
                 return "Failed to update user\n";
             }
         } else {
             res.status(403);
+            session.close();
             return "Access forbidden\n";
         }
     }
@@ -58,18 +64,23 @@ public class UserController {
     public String delete(Request req, Response res) {
         String name = req.params("name");
         String password = req.queryParams("password");
+        org.hibernate.Session session= SessionManager.getInstance().openSession();
+        UserDAOImpl dao = new UserDAOImpl(session);
         User user = dao.find(name);
         if (user != null && user.password().equals(User.encodePassword(password))) {
             if (dao.delete(user.name())) {
                 res.status(200);
+                session.close();
                 return "User deleted successfully\n";
             }
             else {
                 res.status(422);
+                session.close();
                 return "Failed to delete user\n";
             }
         } else {
             res.status(403);
+            session.close();
             return "Access forbidden\n";
         }
     }
@@ -82,15 +93,19 @@ public class UserController {
         }
         String name = req.queryParams("name");
         String password = req.queryParams("password");
+        org.hibernate.Session sessionManager= SessionManager.getInstance().openSession();
+        UserDAOImpl dao = new UserDAOImpl(sessionManager);
         User user = dao.find(name);
         if (user != null && user.password().equals(User.encodePassword(password))) {
             session.attribute("name", user.name());
             session.attribute("password", user.password());
             session.maxInactiveInterval(120);
             res.status(200);
+            sessionManager.close();
             return "Logged in successfully\n";
         } else {
             res.status(403);
+            sessionManager.close();
             return "Invalid credentials\n";
         }
     }
@@ -109,8 +124,12 @@ public class UserController {
 
     public boolean authenticated(Request req, Response res) {
         Session session = req.session();
-        return session.attribute("name") != null &&
-               session.attribute("password") != null &&
-               dao.find(session.attribute("name")).password().equals(session.attribute("password"));
+        org.hibernate.Session sessionManager= SessionManager.getInstance().openSession();
+        UserDAOImpl dao = new UserDAOImpl(sessionManager);
+        Boolean result= session.attribute("name") != null &&
+                session.attribute("password") != null &&
+                dao.find(session.attribute("name")).password().equals(session.attribute("password"));
+        sessionManager.close();
+        return result;
     }
 }

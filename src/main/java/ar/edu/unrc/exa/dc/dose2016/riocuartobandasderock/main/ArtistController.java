@@ -3,11 +3,13 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 import spark.Response;
 import spark.Request;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.ArtistDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.ArtistDaoImpl;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SessionManager;
 
 import java.util.List;
+
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 /**
  *the ArtistController class treats http requests referred to the Artist model 
  */
@@ -15,14 +17,16 @@ public class ArtistController {
 	/**
 	 * one implementation ArtistDao to connect to db
 	 */
-	private ArtistDAO artistDAO;
-	private SessionManager session;
+    protected static ArtistController unique_instance = null;
+
     /**
      * Constructor
      */
-	public ArtistController(){
-		artistDAO = new ArtistDaoImpl();
-	}
+	public static ArtistController getInstance() {
+        if (unique_instance == null)
+            unique_instance = new ArtistController();
+        return unique_instance;
+    }
 
 	
 	/**
@@ -32,10 +36,11 @@ public class ArtistController {
 	 * @return  List of Artist
 	 */
 	public List<Artist> getAllArtists(Request req, Response res){
-		session= SessionManager.getInstance();
-		session.openCurrentSession();
-		List<Artist> artists = artistDAO.getAllArtists();
-		session.closeCurrentSession();
+		Session session = SessionManager.getInstance().openSession();
+		ArtistDaoImpl adao = new ArtistDaoImpl(session);
+		
+		List<Artist> artists = adao.getAllArtists();
+		session.close();
 		int status = (artists.size()>0)? 200:204;
 		res.status(status);
 		return artists;
@@ -53,10 +58,11 @@ public class ArtistController {
 			res.status(400);
 			return null;
 		}
-		session= SessionManager.getInstance();
-		session.openCurrentSession();
-		List<Artist> artists = artistDAO.findByName(req.params(":name"));
-		session.closeCurrentSession();
+		Session session = SessionManager.getInstance().openSession();
+		ArtistDaoImpl adao = new ArtistDaoImpl(session);
+
+		List<Artist> artists = adao.findByName(req.params(":name"));
+		session.close();
 		int status = (artists.size()!=0)? 200:204;
 		res.status(status);
 		return artists;
@@ -73,10 +79,11 @@ public class ArtistController {
 			res.status(400);
 			return null;
 		}
-		session= SessionManager.getInstance();
-		session.openCurrentSession();
-		List<Artist> artists = artistDAO.findBySurname(req.params(":surname"));
-		session.closeCurrentSession();
+		Session session = SessionManager.getInstance().openSession();
+		ArtistDaoImpl adao = new ArtistDaoImpl(session);
+
+		List<Artist> artists = adao.findBySurname(req.params(":surname"));
+		session.close();
 		int status = (artists.size()!=0)? 200:204;
 		res.status(status);
 		return artists;
@@ -93,10 +100,11 @@ public class ArtistController {
 			res.status(400);
 			return null;
 		}
-		session= SessionManager.getInstance();
-		session.openCurrentSession();
-		List<Artist> artists = artistDAO.findByNickname(req.params(":nickname"));
-		session.closeCurrentSession();
+		Session session = SessionManager.getInstance().openSession();
+		ArtistDaoImpl adao = new ArtistDaoImpl(session);
+
+		List<Artist> artists = adao.findByNickname(req.params(":nickname"));
+		session.close();
 		int status = (artists.size()!=0)? 200:204;
 		res.status(status);
 		return artists;
@@ -125,10 +133,13 @@ public class ArtistController {
 			res.status(400);
 			return "Request invalid";
 		}
-		session= SessionManager.getInstance();
-		session.openCurrentSessionwithTransaction();
-		boolean status = artistDAO.createArtist(name,surname,nickname);
-		session.closeCurrentSessionwithTransaction();
+		Session session = SessionManager.getInstance().openSession();
+		ArtistDaoImpl adao = new ArtistDaoImpl(session);
+
+		Transaction transaction = session.beginTransaction();
+		boolean status = adao.createArtist(name,surname,nickname);
+		transaction.commit();
+		session.close();
 		if (status){
 			res.status(201);
 			return "Success";

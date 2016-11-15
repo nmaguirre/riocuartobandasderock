@@ -85,14 +85,29 @@ public class Bootstrap {
         });
 
         // List of route and verbs API REST
-
-        post("/albums/", (req, res) -> albumController.create(req, res));
+        
+        post("/albums", (req, res) -> albumController.create(req, res));
+               
+        get("/albums", (req, res) -> albumController.getAll(req, res));
+              
+        get("/albums/findByTitle/:title", (req, res) -> albumController.findByTitle(req, res));
+                
+        get("/albums/findByReleaseDate/:release_date", (req, res) -> albumController.findByReleaseDate(req, res));
 
         get("/hello", (req, res) -> "Hello World");
 
+        /**
+        *   Band routes
+        */
         get("/bands",(req, res) -> bands.getBands(req, res));
 
-        get("/bands/:name",(req, res) -> bands.getBandByName(req, res));
+        get("/bands/findbyname/:name",(req, res) -> bands.getBandByName(req, res));
+
+        get("/bands/findbygenre/:genre",(req, res) -> bands.getBandByGenre(req, res));
+
+        get("/bands/find/",(req, res) -> bands.getBandByNameAndGenre(req, res));
+
+        get("/bands/getbandmember/:bandID",(req,res)-> bands.getBandMembers(req, res));
 
         post("/bands/",(req, res) -> bands.createBand(req, res));
 
@@ -110,11 +125,13 @@ public class Bootstrap {
 
         post("/artist/",(req,res)->artistController.createArtist(req,res));
 
+
         post("/song/",(req,res)->songController.addSong(req, res));
 
         get("/song/findbyname/:name",(req,res)->songController.getSongByName(req,res));
 
         get("/song/findbyduration/:name",(req,res)->songController.getSongByDuration(req,res));
+
 
         /**
          * Users routes
@@ -125,11 +142,15 @@ public class Bootstrap {
         post("/login", (req, res) -> userController.login(req, res));
         post("/logout", (req, res) -> userController.logout(req, res));
 
-        
-        get("/song/findbyduration/:duration",(req,res)->songController.getSongByDuration(req,res));
-        
-        delete("/song/:id",(req, res) -> songController.removeSong(req, res));
-        
+        post("/songs/",(req,res)->songController.create(req, res));
+
+        get("/songs/findbyname/:name",(req,res)->songController.getByName(req,res));
+
+        get("/songs/findbyduration/:duration",(req,res)->songController.getByDuration(req,res));
+
+        delete("/songs/:id",(req, res) -> songController.remove(req, res));
+
+
         after((req, res) -> {res.type("application/json");});
 
     }

@@ -16,7 +16,7 @@ end
 Given(/^that the application has been started$/) do
       # Application is started by the setUp routines
       # Nothing to do here...
-end 
+end
 
 Given(/^that the artist's database is empty$/) do
     result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from artistDB;\" -t`
@@ -26,18 +26,22 @@ end
 
 Given(/^that the album's database is empty$/) do
     result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from AlbumDB;\" -t`
-    result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars 
+    result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
     expect(result=="0")
 end
 
 Given(/^that the song's database is empty$/) do
     result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from songDB;\" -t`
+<<<<<<< HEAD
     result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars 
+=======
+    result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+>>>>>>> 1a6bfab74cbf2592cc281ae292a2a5321028a848
     expect(result=="0")
 end
 
 Given(/^that the song's database have one song with name "([^"]*)" and duration "([^"]*)"$/) do |name, duration|
-  response = RestClient.post 'http://localhost:4567/song/', { :name => name, :duration => duration }, :content_type => 'text/plain'
+  response = RestClient.post 'http://localhost:4567/songs/', { :name => name, :duration => duration }, :content_type => 'text/plain'
   expect(response.code).to eq(201)
 end
 
@@ -57,7 +61,7 @@ Given(/^that the artist's database have one artist with name "([^"]*)" and surna
 end
 
 Given(/^that the album's database have one album with title "([^"]*)" and release date "([^"]*)"$/) do |title, release_date|
-  response = RestClient.post 'http://localhost:4567/albums', { :title => title, :release_date => release_date}, :content_type => 'text/plain' 
+  response = RestClient.post 'http://localhost:4567/albums', { :title => title, :release_date => release_date}, :content_type => 'text/plain'
   expect(response.code).to eq(201)
 end
 
@@ -101,8 +105,13 @@ When(/^I add an artist with name "([^"]*)" and surname "([^"]*)" and nickname "(
 end
 
 When(/^I add an album with name "([^"]*)" and release date "([^"]*)"$/) do |title,release_date|
+<<<<<<< HEAD
   response = RestClient.post 'http://localhost:4567/albums', { :title => title, :release_date => release_date }, :content_type => 'text/plain' 
   expect(response.code).to eq(201)  
+=======
+  response = RestClient.post 'http://localhost:4567/albums', { :title => title, :release_date => release_date }, :content_type => 'text/plain'
+  expect(response.code).to eq(201)
+>>>>>>> 1a6bfab74cbf2592cc281ae292a2a5321028a848
 end
 
 When(/^I search an artist with "([^"]*)" "([^"]*)" , the result should have (\d+) entry$/) do |atributo,valor,entradas|
@@ -120,7 +129,7 @@ When(/^I search an artist with "([^"]*)" "([^"]*)" , the result should have (\d+
 end
 
 When(/^I search an album with "([^"]*)" "([^"]*)" , the result of the search should have (\d+) entry$/) do |atributo, valor, entradas|
-  begin  
+  begin
     String s = 'http://localhost:4567/albums/findby' + atributo + '/' + valor
     response = RestClient.get s
     if entradas != "0"
@@ -146,13 +155,17 @@ end
 
 
 When(/^I add a song with name "([^"]*)" and duration "([^"]*)"$/) do |name, duration|
+<<<<<<< HEAD
      response = RestClient.post 'http://localhost:4567/song/', { :name => name, :duration => duration }, :content_type => 'text/plain' 
+=======
+     response = RestClient.post 'http://localhost:4567/songs/', { :name => name, :duration => duration }, :content_type => 'text/plain'
+>>>>>>> 1a6bfab74cbf2592cc281ae292a2a5321028a848
      expect(response.code).to eq(201)
 end
 
 When(/^I search a song with name "([^"]*)" , the result of the search should have (\d+) entry$/) do |value, entries|
   begin
-      String s = 'http://localhost:4567/song/findbyname/'+ value.gsub(/[^[:print:]]|\s/,'')
+      String s = 'http://localhost:4567/songs/findbyname/'+ value.gsub(/[^[:print:]]|\s/,'')
       response = RestClient.get s
       if entries != "0"
         expect(response.code).to eq(200)
@@ -166,7 +179,7 @@ end
 
 When(/^I search a song with duration "([^"]*)" , the result of the search should have (\d+) entry$/) do |value, entries|
   begin
-      String s = 'http://localhost:4567/song/findbyduration/'+ value
+      String s = 'http://localhost:4567/songs/findbyduration/'+ value
       response = RestClient.get s
       if entradas != "0"
         expect(response.code).to eq(200)
@@ -198,7 +211,12 @@ end
 Then(/^the song's database should have (\d+) entry$/) do |arg1|
     result = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select count(*) from SongDB;\" -t`
     result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+<<<<<<< HEAD
     expect(result).to eq("1")   
+=======
+	 HEAD
+    expect(result).to eq("1")
+>>>>>>> 1a6bfab74cbf2592cc281ae292a2a5321028a848
 end
 
 Then(/^the entry should have name "([^"]*)" and surname "([^"]*)"$/) do |name, surname|
@@ -223,6 +241,7 @@ end
 Then(/^the entry should have name "([^"]*)" and duration "([^"]*)"$/) do |name, duration|
     pending
 end
+<<<<<<< HEAD
 
 Given(/^that the bands' database is empty$/) do
     sleep (2)
@@ -293,6 +312,8 @@ Then(/^the band with name "([^"]*)" and genre "([^"]*)" should be on bands' data
     expect(e.response).to eq(201)
   end
 end
+=======
+>>>>>>> 1a6bfab74cbf2592cc281ae292a2a5321028a848
 
 
 When(/^I list all the albums the result of the search should have (\d+) entries$/) do |arg1|
@@ -301,7 +322,7 @@ When(/^I list all the albums the result of the search should have (\d+) entries$
     puts("Response: "+response)
     if (arg1 == "0")
       expect(response.code).to eq(204)
-    else 
+    else
       expect(response.code).to eq(200)
     end
   end

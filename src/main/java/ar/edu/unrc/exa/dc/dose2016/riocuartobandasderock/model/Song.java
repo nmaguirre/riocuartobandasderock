@@ -20,25 +20,20 @@ public class Song {
    /**
 	* id represents the id of the song
 	* nameSong represents the name of the song
-	* genere represents the genere of the song
-	* performBy represents the bands from Rio Cuarto who played this song
 	* duration represents the duration of this song
-	* author represents the author who composed the song
 	* album represents the album where the song belongs
 	*/
 	
-
 	@Id
 	@Column(name = "idSong")
-	private String id;
+	private String idSong;
 	
 	@Column(name = "name")
-	private String nameSong;
+	private String name;
 
 	@Column(name = "duration")
 	private int duration;
 	
-
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "albumID")
 	private Album album;
@@ -52,22 +47,19 @@ public class Song {
 	
 	/**
 	 * Constructor of the class Song with parameters
-	 * @param i represent the id of the song to assign
+	 * @param id represent the id of the song to assign
 	 * @param nsong represents the name of the song to assign
-	 * @param gen represents the genre of the song to assign
-	 * @param band represents the band's name of the song to assign
 	 * @param dur represents the duration of the song to assign
-	 * @param aut represents the author of the song to assign
 	 * @param alb represent the album to assign
 	 */
 	public Song(String id,String nsong, int dur){
-		this.id = id;
-		nameSong = nsong;
+		this.idSong = id;
+		name = nsong;
 		duration = dur;
 	}
 	public Song(String nsong, int dur){
 		this(UUID.randomUUID().toString(),nsong, dur);
-		nameSong = nsong;
+		name = nsong;
 		duration = dur;
 	}
 	
@@ -76,43 +68,43 @@ public class Song {
 	
 	/**
 	 * fn getId
-	 * Description: This method allows obtain on request the id of the song
+	 * description: This method allows obtain on request the id of the song
 	 * @return the id of the song in format String
 	 */
 	public String getId(){
-		return id;
+		return idSong;
 	}
 	
 	/**
 	 * proc setId
-	 * Description: Sets the id of the song
+	 * description: Sets the id of the song
 	 * @param i represents the id of the song to assign
 	 */
 	public void setId(String i){
-		id = i;
+		idSong = i;
 	}
 	
 	/**
 	 * fn getName
-	 * Description: This method allows obtain on request the name of the song
+	 * description: This method allows obtain on request the name of the song
 	 * @return the name of the song in format String
 	 */
 	public String getName(){
-		return nameSong;
+		return name;
 	}
 	
 	/**
 	 * proc setName
-	 * Description: Sets the name of the song
+	 * description: Sets the name of the song
 	 * @param nsong represents the name to assign
 	 */
 	public void setName(String nsong){
-		nameSong = nsong;
+		name = nsong;
 	}
 	
 	/**
 	 * fn getDuration
-	 * Description: This method allows obtain on request the duration of the song
+	 * description: This method allows obtain on request the duration of the song
 	 * @return the duration of the song in format int
 	 */
 	public int getDuration(){
@@ -121,7 +113,7 @@ public class Song {
 	
 	/**
 	 * proc setDuration
-	 * Description: Sets a duration for the song
+	 * description: Sets a duration for the song
 	 * @param dur represents the duration to assign
 	 */
 	public void setDuration(int dur){
@@ -130,7 +122,7 @@ public class Song {
 	
 	/**
 	 * fn getDurationAsString
-	 * Description: This method allows obtain on request the duration of the song in format of conventional time
+	 * description: This method allows obtain on request the duration of the song in format of conventional time
 	 * @return the duration in format of conventional time
 	 **/
 	public String getDurationAsString(){
@@ -138,5 +130,25 @@ public class Song {
 		int resto = duration%60;
 		return cociente + ":" + resto;
 	} 
+	
+	
+	/**
+	 * fn getAlbum
+	 * description: This method allows obtain on request the album where the song belongs
+	 * @return the album where the song belongs
+	 */
+	public Album getAlbum(){
+		 return album;
+	}
+		  	
+	/**
+	* proc setAlbum
+    * description: Sets an album for the song
+	* @param alb represents the album to assign
+	*/
+	public void setAlbum(Album alb){
+		 album = alb;
+
+    }
 	
 }
