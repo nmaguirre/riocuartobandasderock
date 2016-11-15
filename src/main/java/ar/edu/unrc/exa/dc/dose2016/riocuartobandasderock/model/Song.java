@@ -52,15 +52,11 @@ public class Song {
 	 * @param dur represents the duration of the song to assign
 	 * @param alb represent the album to assign
 	 */
-	public Song(String id,String nsong, int dur){
-		this.idSong = id;
-		name = nsong;
-		duration = dur;
-	}
+
 	public Song(String nsong, int dur){
-		this(UUID.randomUUID().toString(),nsong, dur);
-		name = nsong;
-		duration = dur;
+		this.idSong = UUID.randomUUID().toString();
+		this.name = nsong;
+		this.duration = dur;
 	}
 	
 
@@ -150,5 +146,13 @@ public class Song {
 		 album = alb;
 
     }
+	
+	/**
+	 * This method evaluate if the song representation is the correct
+	 * @return true if the representation is ok, else return false
+	 */
+	public boolean repOk() {
+		return (this.name != null && this.name != "");
+	}
 	
 }
