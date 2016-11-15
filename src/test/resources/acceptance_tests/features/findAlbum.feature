@@ -2,7 +2,6 @@ Feature: The application responds appropriately to all events that correspond to
 
     Background:
         Given that the application has been started
-        And I have successfully logged in as admin
         
 	Scenario: Search album on an empty album's database by title
         Given that the album's database is empty

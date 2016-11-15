@@ -24,7 +24,6 @@ public class Song {
 	* album represents the album where the song belongs
 	*/
 	
-
 	@Id
 	@Column(name = "idSong")
 	private String idSong;
@@ -132,6 +131,7 @@ public class Song {
 		return cociente + ":" + resto;
 	} 
 	
+	
 	/**
 	 * fn getAlbum
 	 * description: This method allows obtain on request the album where the song belongs
@@ -148,7 +148,7 @@ public class Song {
 	*/
 	public void setAlbum(Album alb){
 		 album = alb;
-    }
 
+    }
 	
 }
