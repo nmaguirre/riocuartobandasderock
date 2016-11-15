@@ -94,6 +94,10 @@ public class Bootstrap {
                 
         get("/albums/findByReleaseDate/:release_date", (req, res) -> albumController.findByReleaseDate(req, res));
 
+        put("/albums/:id", (req, res) -> albumController.update(req, res));
+        
+        delete("/albums/:id", (req, res) -> albumController.delete(req, res));
+        
         get("/hello", (req, res) -> "Hello World");
 
         get("/bands",(req, res) -> bands.getBands(req, res));
@@ -127,9 +131,11 @@ public class Bootstrap {
 
         post("/songs/",(req,res)->songController.create(req, res));
 
-        get("/songs/findbyname/:name",(req,res)->songController.getByName(req,res));
+        get ("/songs", (req,res)->songController.getAll(req,res),json());
         
-        get("/songs/findbyduration/:duration",(req,res)->songController.getByDuration(req,res));
+        get("/songs/findbyname/:name",(req,res)->songController.getByName(req,res),json());
+        
+        get("/songs/findbyduration/:duration",(req,res)->songController.getByDuration(req,res),json());
         
         delete("/songs/:id",(req, res) -> songController.remove(req, res));
         
