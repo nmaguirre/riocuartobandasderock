@@ -25,7 +25,7 @@ public class BandDaoImpl implements BandDAO {
 	public int cantBands() {
 		List<Band> bandList = new LinkedList<>();
 		Query<Band> query;
-		query = SessionManager.getInstance().getCurrentSession().createQuery("from Band", Band.class);
+		query = this.currentSession.createQuery("from Band", Band.class);
 		bandList.addAll(query.getResultList());
 		return bandList.size();
 	}
