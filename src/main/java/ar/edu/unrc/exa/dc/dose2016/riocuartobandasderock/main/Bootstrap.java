@@ -99,15 +99,15 @@ public class Bootstrap {
         /**
         *   Band routes
         */
-        get("/bands",(req, res) -> bands.getBands(req, res));
+        get("/bands",(req, res) -> bands.getBands(req, res),json());
 
-        get("/bands/findbyname/:name",(req, res) -> bands.getBandByName(req, res));
+        get("/bands/findbyname/:name",(req, res) -> bands.getBandByName(req, res),json());
 
-        get("/bands/findbygenre/:genre",(req, res) -> bands.getBandByGenre(req, res));
+        get("/bands/findbygenre/:genre",(req, res) -> bands.getBandByGenre(req, res),json());
 
-        get("/bands/find/",(req, res) -> bands.getBandByNameAndGenre(req, res));
+        get("/bands/find/",(req, res) -> bands.getBandByNameAndGenre(req, res),json());
 
-        get("/bands/getbandmember/:bandID",(req,res)-> bands.getBandMembers(req, res));
+        get("/bands/getbandmember/:bandID",(req,res)-> bands.getBandMembers(req, res),json());
 
         post("/bands/",(req, res) -> bands.createBand(req, res));
 
