@@ -10,6 +10,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -38,6 +40,10 @@ public class Album {
 	/** The album songs. */
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "album", cascade = CascadeType.ALL)
 	private List<Song> songs = new LinkedList<Song>();
+
+	@ManyToOne(optional = true)
+	@JoinColumn(name = "bandID")
+	private Band band;
 
 	/**
 	 * Default or non-parameterized constructor. Instantiates a new empty Album.
@@ -141,6 +147,19 @@ public class Album {
 	 */
 	public boolean repOk() {
 		return (this.title != null) && (! this.title.isEmpty()); //&&  (! this.getSongs().isEmpty())
+	}
+
+	/**
+	 * Returns The Album Band.
+	 *
+	 * @return band
+	 */
+	public Band getBand() {
+		return band;
+	}
+
+	public void setBand(Band band) {
+		this.band = band;
 	}
 	
 }
