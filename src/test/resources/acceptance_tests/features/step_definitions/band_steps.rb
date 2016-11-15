@@ -48,11 +48,19 @@ When(/^I add a band with name "([^"]*)" and genre "([^"]*)"$/) do |name, genre|
   end
 end
 
-When(/^I remove a band with name "([^"]*)" and genre "([^"]*)"$/)do |name,genre|
+When(/^I remove a band with name "([^"]*)" and genre "([^"]*)" that exists in bands' database$/)do |name,genre|
   begin
     response = RestClient.delete "http://localhost:4567/bands/:#{name}"
   rescue RestClient::Conflict => e
-    expect(e.response).to eq(200)
+    expect(e.response.code).to eq(200)
+  end
+end
+
+When(/^I remove a band with name "([^"]*)" and genre "([^"]*)" that no exists in bands' database$/)do |name,genre|
+  begin
+    response = RestClient.delete "http://localhost:4567/bands/:#{name}"
+  rescue RestClient::Conflict => e
+    expect(e.response.code).to eq(409)
   end
 end
 
