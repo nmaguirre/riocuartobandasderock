@@ -10,6 +10,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandDaoImpl;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 
 /**
  *
@@ -78,6 +79,10 @@ public class Bootstrap {
         userController = UserController.getInstance();
         port(Integer.parseInt(ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().getAppPort()));
 
+        
+
+        externalStaticFileLocation("src/main/webapp");
+	
         before("/bands", (req, res) -> {
             if (!userController.authenticated(req, res)) {
                 halt(401, "Access forbidden\n");
