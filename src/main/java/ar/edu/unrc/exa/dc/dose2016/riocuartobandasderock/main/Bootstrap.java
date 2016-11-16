@@ -125,14 +125,6 @@ public class Bootstrap {
 
         post("/artist/",(req,res)->artistController.createArtist(req,res));
 
-
-        post("/song/",(req,res)->songController.addSong(req, res));
-
-        get("/song/findbyname/:name",(req,res)->songController.getSongByName(req,res));
-
-        get("/song/findbyduration/:name",(req,res)->songController.getSongByDuration(req,res));
-
-
         /**
          * Users routes
          */
