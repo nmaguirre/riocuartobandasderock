@@ -9,7 +9,9 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.BandMember;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.User;
 
 public class SessionManager{
 	/**
@@ -48,6 +50,8 @@ public class SessionManager{
 		configuration.addAnnotatedClass(Album.class);
 		configuration.addAnnotatedClass(Band.class);
 		configuration.addAnnotatedClass(Song.class);
+		configuration.addAnnotatedClass(User.class);
+		configuration.addAnnotatedClass(BandMember.class);
 		StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
 				.applySettings(configuration.getProperties());
 		SessionFactory sf = configuration.buildSessionFactory(builder.build());
