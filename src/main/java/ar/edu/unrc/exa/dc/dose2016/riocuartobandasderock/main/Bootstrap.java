@@ -138,9 +138,11 @@ public class Bootstrap {
         // the files statics for artist
         get("/artistadmin/:page", (req, res) -> {
         	String page=req.params("page");
+        	String pathfile ="src/main/webapp/artist/"+page;
+        	if (pathfile.indexOf('.')<0) pathfile+=".html";
         	String content;
         	try	{
-        		content = new String(Files.readAllBytes(Paths.get("src/main/webapp/artist-"+page+".html")));
+        		content = new String(Files.readAllBytes(Paths.get(pathfile)));
         	}catch (Exception e) {
         		content = "The file Html not exist or error loading this";
         	}
