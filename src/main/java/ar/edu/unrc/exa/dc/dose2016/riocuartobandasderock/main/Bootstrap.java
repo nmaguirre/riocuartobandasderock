@@ -2,6 +2,10 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
 import static spark.Spark.*;
 import static ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.JsonUtil.json;
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -132,6 +136,26 @@ public class Bootstrap {
         get("/artists/findbynickname/:nickname",(req,res)->artistController.getArtistByNickname(req,res),json());
 
         get("/artists/findbysurname/:surname",(req,res)->artistController.getArtistBySurname(req,res),json());
+
+         // the files statics for artist
+        get("/artistadmin/:page", (req, res) -> {
+            String page=req.params("page");
+            String pathfile ="src/main/webapp/artist/"+page;
+            if (pathfile.indexOf('.')<0) pathfile+=".html";
+            String content;
+            try {
+                content = new String(Files.readAllBytes(Paths.get(pathfile)));
+            }catch (Exception e) {
+                content = "The file Html not exist or error loading this";
+            }
+            res.status(200);
+            res.header("Server", "My Spark Server");
+            res.header("Connection","close");
+            res.header("Content-Type", "text/html; charset=utf-8");
+            res.header("Content-Length", Integer.toString(content.length()));
+            res.body(content);
+            return null;
+        });
                         
         get("/artists/getbands/",(req,res)->artistController.getBandMembersByArtist(req, res),json());
         
