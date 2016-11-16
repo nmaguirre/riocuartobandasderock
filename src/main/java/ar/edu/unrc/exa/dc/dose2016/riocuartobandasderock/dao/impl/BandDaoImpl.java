@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandDAO;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 
 public class BandDaoImpl implements BandDAO {
@@ -46,21 +47,38 @@ public class BandDaoImpl implements BandDAO {
 		}
 	}
 
+	
 	/**
-	 * Update a band in the database
-	 *
-	 * @param band to update
-	 *
-	 * @return boolean, true if the band was updated
+	 * 
+	 * @param id
+	 * @param name
+	 * @param genre
+	 * @return true if the update was successful
 	 */
 	@Override
-	public boolean updateBand(Band band){
-			if (band.repOK()) {
-				this.currentSession.update(band);
-				return true;
-			} else {
-				return false;
+	public boolean updateBand(String id, String name, String genre) {
+		boolean result = true;
+		boolean areEmpty = false;
+		boolean areNull = false;
+		areNull = id == null || name == null || genre == null ;
+		if(!areNull){
+			areEmpty = name.equals("") && genre.equals("") ;
+			areEmpty = areEmpty || id.equals("");//if all params are empty or id is empty
+		}
+		if(areNull || areEmpty){ //I see that the arguments are valid
+			throw new IllegalArgumentException("the params for update band can't be null or empty.");
+		} else {
+			Query<Band> query = this.currentSession.createQuery("update Band set name = :name,"
+					+ " genre = :genre, where bandID=:id", Band.class);
+			query.setParameter("name", name);
+			query.setParameter("genre", genre);
+			query.setParameter("id", id);
+			int afectedRows = query.executeUpdate();
+			if(afectedRows == 0){
+				result = false;
 			}
+			return result;
+		}
 	}
 
 	/**
@@ -201,6 +219,18 @@ public class BandDaoImpl implements BandDAO {
 				List<Band> bandList = query.getResultList();
 				return bandList;
 				}
+		}
+	   
+	   @Override
+		public Band findById(String id) {
+			if(id == null || id.equals("")){
+				throw new IllegalArgumentException("the 'id' param for search an band can not be null or empty.");
+			} else {
+				Query<Band> query = this.currentSession.
+						createQuery("from Band where bandID=:id", Band.class);
+				query.setParameter("id", id);
+				return query.getSingleResult();
+			}
 		}
 
 }

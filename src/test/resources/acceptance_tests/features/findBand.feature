@@ -5,36 +5,45 @@ Feature: The application responds appropriately to all events that correspond to
 
   Scenario: Search bands on an empty band's database by name
     Given that the bands' database is empty
-    When I search a band with name "Ska-p", the application must return 0 results
+    When I search a band with name "Ska-p" and the band doesn't exist in the database
+    Then the band with name "Ska-p" shouldn't be on bands' database
 
   Scenario: Search bands on an empty band's database by genre
     Given that the bands' database is empty
-    When I search a band with genre "ska/punk", the application must return 0 results
+    When I search a band with genre "Nu-Metal" and the band doesn't exist in the database
+    Then the band with genre "Nu-Metal" shouldn't be on bands' database
 
   Scenario: Search bands on an empty band's database by name and genre
     Given that the bands' database is empty
-    When I search a band with name "Ska-p", and genre "ska/punk", the application must return 0 results
+    When I search a band with name "Ska-p" and genre "Nu-Metal" and the band doesn't exist in the database
+    Then the band with name "Ska-p" and genre "Nu-Metal" shouldn't be on bands' database
 
   Scenario: Search bands on a not empty band's database by name
     Given that the bands' database have 5 entries
-    When I search a band with name "Ska-p", the band exist in the database, then the application must return 1 results 
+    When I search a band with name "Band1" and the band exist in the database
+    Then the band with name "Band1" should be on bands' database
 
   Scenario: Search bands on a not empty band's database by genre
     Given that the bands' database have 5 entries
-    When I search a band with genre "ska/punk", the band exist in the database, then the application must return 1 results 
+    When I search a band with genre "Nu-Metal" and the band exist in the database
+    Then the band with genre "Nu-Metal" should be on bands' database
 
   Scenario: Search bands on a not empty band's database by name and genre
     Given that the bands' database have 5 entries
-    When I search a band with name "Ska-p", and genre "ska/punk", the band exist in the database, the application must return 1 results
+    When I search a band with name "Band1" and genre "Nu-Metal" and the band exist in the database
+    Then the band with name "Band1" and genre "Nu-Metal" should be on bands' database
 
   Scenario: Search bands on a not empty band's database by name
     Given that the bands' database have 5 entries
-    When I search a band with name "Ska-p", the band doesn't exist in the database, then the application must return 0 results
+    When I search a band with name "Ska-p" and the band doesn't exist in the database
+    Then the band with name "Ska-p" shouldn't be on bands' database
 
   Scenario: Search bands on a not empty band's database by genre
     Given that the bands' database have 5 entries
-    When I search a band with genre "Ska-p", the band doesn't exist in the database, then the application must return 0 results
+    When I search a band with genre "Ska-p" and the band doesn't exist in the database
+    Then the band with genre "Ska-p" shouldn't be on bands' database
 
   Scenario: Search bands on a not empty band's database by name and genre
     Given that the bands' database have 5 entries
-    When I search a band with name "Ska-p", and genre "ska/punk", the band doesn't exist in the database, the application must return 0 results 
+    When I search a band with name "Ska-p" and genre "Nu-Metal" and the band doesn't exist in the database
+    Then the band with name "Ska-p" and genre "Nu-Metal" shouldn't be on bands' database

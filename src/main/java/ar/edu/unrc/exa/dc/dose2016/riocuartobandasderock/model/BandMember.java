@@ -1,7 +1,6 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +10,7 @@ import javax.persistence.Table;
 /* This class represents the association between a person and a band. */
 @Entity
 @Table(name = "BandMemberDB")
-public class BandMember {
+public class BandMember implements Serializable{
 
   /**
    * artistID represents the person id in the association class.
@@ -29,11 +28,18 @@ public class BandMember {
   
   /**
    * The constructor of BandMember class sets the new member.
+   * @param String artistID
+   * @param String bandID
   */
   public BandMember(String artistID, String bandID){    
     this.artistID = artistID;
     this.bandID =  bandID;
   }
+  /**
+   * The default constructor of BandMember class.
+  */
+  public BandMember(){};
+  
  
   /**
    * This method gains artist id in the association class.
@@ -67,5 +73,20 @@ public class BandMember {
   public void setBandID(String bm_bandID){
 	  if (bm_bandID == "") throw new IllegalArgumentException();
 	  bandID = bm_bandID;
+  }
+  
+  /**
+   * @return true if both are non empty.
+   */
+  public boolean repOk(){
+		boolean result = true;
+		boolean artistEmpty = false;
+		boolean bandEmpty = false;
+		if (artistID == "") artistEmpty = true;
+		if (bandID == "") bandEmpty = true;
+		if (artistEmpty || bandEmpty){
+			result = false;
+		}
+		return result;
   }
 }

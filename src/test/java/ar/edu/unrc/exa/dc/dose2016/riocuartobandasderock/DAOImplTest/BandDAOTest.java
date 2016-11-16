@@ -1,30 +1,40 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.DAOImplTest;
 
-import static org.junit.Assert.*;
-
-import java.util.LinkedList;
-import java.util.List;
-
-import org.junit.Before;
-import org.junit.Test;
-
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.ArtistDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandDAO;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.ArtistDaoImpl;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandDaoImpl;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SessionManager;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 
-import mockit.Expectations;
 
-import mockit.Mocked;
+
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.util.LinkedList;
+import java.util.List;
+
+import org.hibernate.Session;
+import org.junit.Before;
+import org.junit.Test;
+
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.ArtistDAO;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.ArtistDaoImpl;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SessionManager;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
+
 
 public class BandDAOTest {
-	private BandDAO bandDAO;
-	private SessionManager session;
 
+	private BandDAO bandDAO;
+	private Session session;
+	
 	@Before
 	public void setUp(){
-		bandDAO = new BandDaoImpl();
-		session = SessionManager.getInstance();
+		session = SessionManager.getInstance().openSession();
+		bandDAO = new BandDaoImpl(session);
 	}
 	
 	/*
@@ -32,7 +42,7 @@ public class BandDAOTest {
 	 */
 	
 	@Test
-	public void createBandTest_Band_not_in_db() {
+	public void createBandTest_Artist_not_in_db() {
 		
 		List<Band> bandList = new LinkedList<>();
 		
@@ -40,30 +50,25 @@ public class BandDAOTest {
 		String genre = "b";
 		
 		
-		session.openCurrentSession();
 		while(bandDAO.existBand(name)){
 			name+="a";
 		}
-		session.closeCurrentSession();
 		
-		// Create the artist to add in db
+		// Create the band to add in db
 		Band bandToAdd = new Band(name, genre);
 		
-		// Add artistToAdd in db
-		session.openCurrentSessionwithTransaction();
+		// Add abandToAdd in db
+		session.beginTransaction();
 		bandDAO.createBand(name,genre);
-		session.closeCurrentSessionwithTransaction();
+		session.getTransaction().commit();
 		
 		
-		session.openCurrentSession();
-		bandList.addAll(bandDAO.findByName(bandToAdd.getName()));
-		session.closeCurrentSession();
-		
+		bandList.addAll(bandDAO.findByName(bandToAdd.getName()));		
 		
 		List<Band> result = new LinkedList<>();
 		
 		for(Band currentBand: bandList){
-			// Add in result an artist if it is equals to artistToAdd
+			// Add in result an band if it is equals to bandToAdd
 			if (currentBand.equals(bandToAdd)){
 				result.add(currentBand);
 			}
@@ -72,7 +77,10 @@ public class BandDAOTest {
 		// Check that in db there is only 1 artist with artistToAdd information
 		assertTrue(result.size() == 1);
 		assertTrue(result.get(0).equals(bandToAdd));
+		
+		session.close();
 	}
+	
 	
 	@Test
 	public void createBandTest_Band_in_db() {
@@ -81,27 +89,27 @@ public class BandDAOTest {
 		String genre = "b";
 		
 		
-		session.openCurrentSession();
+		
 		while(bandDAO.existBand(name)){
 			name+="a";
 		}
-		session.closeCurrentSession();
 		
 		// Create the band to add in db
-		Band artistToAdd = new Band(name, genre);
+		Band bandToAdd = new Band(name, genre);
 		
 		// Add bandToAdd in db for first time
-		session.openCurrentSessionwithTransaction();
+		session.beginTransaction();
 		bandDAO.createBand(name, genre);
-		session.closeCurrentSessionwithTransaction();
+		session.getTransaction().commit();
 		
 		// Add bandToAdd in db for second time
-		session.openCurrentSessionwithTransaction();
+		session.beginTransaction();
 		boolean successfulOperation = bandDAO.createBand(name, genre);
-		session.closeCurrentSessionwithTransaction();
-		
-		assertTrue(!successfulOperation);	
+		session.getTransaction().commit();
+		assertTrue(!successfulOperation);
+		session.close();
 	}
+	
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void createBandTest_Band_with_null_name() {
@@ -110,13 +118,15 @@ public class BandDAOTest {
 		
 		
 		// Create the band to add in db
-		Band bandToAdd = new Band(name,genre);
+		Band bandToAdd = new Band(name, genre);
 		
 		// Add bandToAdd in db
-		session.openCurrentSessionwithTransaction();
+		session.beginTransaction();
 		bandDAO.createBand(name, genre);
-		session.closeCurrentSessionwithTransaction();
+		session.getTransaction().commit();
+		session.close();
 	}
+	
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void createBandTest_Band_with_null_surname() {
@@ -128,9 +138,10 @@ public class BandDAOTest {
 		Band bandToAdd = new Band(name, genre);
 		
 		// Add bandToAdd in db
-		session.openCurrentSessionwithTransaction();
+		session.beginTransaction();
 		bandDAO.createBand(name, genre);
-		session.closeCurrentSessionwithTransaction();
+		session.getTransaction().commit();
+		session.close();
 	}
 	
 	
@@ -144,9 +155,10 @@ public class BandDAOTest {
 		Band bandToAdd = new Band(name, genre);
 		
 		// Add bandToAdd in db
-		session.openCurrentSessionwithTransaction();
+		session.beginTransaction();
 		bandDAO.createBand(name, genre);
-		session.closeCurrentSessionwithTransaction();
+		session.getTransaction().commit();
+		session.close();
 	}
 	
 	
@@ -160,9 +172,10 @@ public class BandDAOTest {
 		Band bandToAdd = new Band(name, genre);
 		
 		// Add bandToAdd in db
-		session.openCurrentSessionwithTransaction();
+		session.beginTransaction();
 		bandDAO.createBand(name, genre);
-		session.closeCurrentSessionwithTransaction();
+		session.getTransaction().commit();
+		session.close();
 	}
 	
 	
@@ -177,25 +190,23 @@ public class BandDAOTest {
 		String name = "a";
 		String genre = "b";
 		
-		session.openCurrentSession();
+		
 		while(bandDAO.existBand(name)){
 			name+="a";
 		}
-		session.closeCurrentSession();
 		
 		// Create the band to add in db
 		Band bandToAdd = new Band(name, genre);
 		
 		// Add bandToAdd in db
-		session.openCurrentSessionwithTransaction();
-		bandDAO.createBand(name, genre);
-		session.closeCurrentSessionwithTransaction();
+		session.beginTransaction();
+		bandDAO.createBand(name,genre);
+		session.getTransaction().commit();
 		
-		session.openCurrentSession();
 		List<Band> obtained = bandDAO.findByName(name);
-		session.closeCurrentSession();
 		
 		assertEquals(obtained.get(0).getName(),name);
+		session.close();
 	}
 	
 	@Test
@@ -203,16 +214,12 @@ public class BandDAOTest {
 		
 		String name = "i_will_not_find_u";
 		String genre = "";
-			
-		session.openCurrentSession();
+		
+		
 		while(bandDAO.existBand(name)){
 			name+="a";
 		}
-		session.closeCurrentSession();
-		
-		session.openCurrentSession();
 		List<Band> obtained = bandDAO.findByName(name);
-		session.closeCurrentSession();
 		
 		assertEquals(obtained.size(), 0);
 	}
@@ -223,9 +230,7 @@ public class BandDAOTest {
 		
 		String name = null;
 		
-		session.openCurrentSession();
 		List<Band> obtained = bandDAO.findByName(name);
-		session.closeCurrentSession();
 	}
 	
 	
@@ -234,10 +239,11 @@ public class BandDAOTest {
 		
 		String name = "";
 		
-		session.openCurrentSession();
 		List<Band> obtained = bandDAO.findByName(name);
-		session.closeCurrentSession();
 	}
+	
+	
+	
 	
 	
 	/*
@@ -245,35 +251,32 @@ public class BandDAOTest {
 	 */
 	
 	@Test
-	public void findBygenre_Band_in_db() {
-		List<Band> bandList = new LinkedList<>();
+	public void findByGenre_Artist_in_db() {
+		List<Band> bandtList = new LinkedList<>();
 		
 		String name = "a";
 		String genre = "b";
 		
 		
-		session.openCurrentSession();
 		while(bandDAO.existBand(name)){
-			genre+="b";
+			name+="a";
 		}
-		session.closeCurrentSession();
 		
-		// Create the genre to add in db
+		// Create the artist to add in db
 		Band bandToAdd = new Band(name, genre);
 		
-		// Add artistToAdd in db
-		session.openCurrentSessionwithTransaction();
-		bandDAO.createBand(name, genre);
-		session.closeCurrentSessionwithTransaction();
+		// Add bandToAdd in db
+		session.beginTransaction();
+		bandDAO.createBand(name,genre);
+		session.getTransaction().commit();
 		
-		session.openCurrentSession();
+		 
 		List<Band> obtained = bandDAO.findByGenre(genre);
-		session.closeCurrentSession();
+		 
 		
-		assertEquals(obtained.get(0).getGenre(),genre);
+		assertEquals(obtained.get(0).getName(),name);
+		session.close();
 	}
-	
-	
 	
 	@Test
 	public void findByGenre_Band_not_in_db() {
@@ -282,39 +285,139 @@ public class BandDAOTest {
 		String genre = "rock";
 		
 		
-		session.openCurrentSession();
+		 
 		while(bandDAO.existBand(name)){
-			genre+="a";
+			name+="a";
 		}
-		session.closeCurrentSession();
+		 
 		
-		session.openCurrentSession();
+		 
 		List<Band> obtained = bandDAO.findByGenre(genre);
-		session.closeCurrentSession();
+		 
 		
 		assertEquals(obtained.size(), 0);
 	}
 	
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void findByGenre_null_surname() {
+	public void findByName_null_genre() {
 		
 		String genre = null;
 		
-		session.openCurrentSession();
+		 
 		List<Band> obtained = bandDAO.findByGenre(genre);
-		session.closeCurrentSession();
+		 
 	}
 	
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void findByGenre_empty_surname() {
+	
+	
+	
+	/*
+	 * UPDATE BAND METHOD TESTS
+	 */
+	
+	@Test
+	public void updateBandTest_Band_in_db() {
 		
-		String genre = "";
+		List<Band> bandList = new LinkedList<>();
 		
-		session.openCurrentSession();
-		List<Band> obtained = bandDAO.findByGenre(genre);
-		session.closeCurrentSession();
+		String name = "a";
+		String genre = "b";
+		
+		
+		 
+		while(bandDAO.existBand(name)){
+			name+="a";
+		}
+		 
+		
+		// Create the band to add in db
+		Band bandToAdd = new Band(name, genre);
+		
+		// Add bandToAdd in db
+		session.beginTransaction();
+		bandDAO.createBand(name, genre);
+		session.getTransaction().commit();
+		
+		
+		String obtainedId = bandDAO.getBand(name).getId();
+		 
+		
+		// If obtained id is -1 then the artist isnt created in DB
+		assertTrue(obtainedId != "-1");
+		
+		// Obtain a new name to update the artist that isnt in BD already
+		 
+		String updatedName = name;
+		String updatedGenre = "updatedGenre";
+		while(bandDAO.existBand(updatedName)){
+			updatedName+="a";
+		}
+		 
+		
+		session.beginTransaction();
+		bandDAO.updateBand(obtainedId , updatedName, updatedGenre);
+		session.getTransaction().commit();
+		
+		 
+		Band bandUpdated = bandDAO.findById(obtainedId); 
+		
+		
+		// Check that in db the band with id obtainedId was updated
+		assertTrue(bandUpdated.getName().equals(updatedName));
+		assertTrue(bandUpdated.getGenre().equals(updatedGenre));
+		session.close();
+	}
+	
+	
+	/*
+	 * DELETE BAND METHOD TESTS
+	 */
+	
+	@Test
+	public void deleteBandTest_Band_in_db() {
+		
+		List<Band> bandList = new LinkedList<>();
+		
+		String name = "a";
+		String genre = "b";
+		
+		
+		 
+		while(bandDAO.existBand(name)){
+			name+="a";
+		}
+		 
+		
+		// Create the band to add in db
+		Band bandToAdd = new Band(name, genre);
+		
+		// Add bandToAdd in db
+		session.beginTransaction();
+		bandDAO.createBand(name,genre);
+		session.getTransaction().commit();
+		
+		
+		 
+		String obtainedId = bandDAO.getBand(name).getId();
+		 
+		
+		// If obtained id is -1 then the band isnt created in DB
+		assertTrue(obtainedId != "-1");
+		
+		session.beginTransaction();
+		boolean successfulOperation = bandDAO.deleteBand(obtainedId);
+		session.getTransaction().commit();
+		
+		 
+		boolean bandExistsinBd = bandDAO.existBand(name); 
+		 	
+		
+		// Check that in db the artist with id obtainedId was deleted
+		assertTrue(successfulOperation);
+		assertTrue(!bandExistsinBd);
+		session.close();
 	}
 	
 }
