@@ -156,7 +156,7 @@ public class BandController {
 		band.setName(req.queryParams("name"));
 		band.setGenre(req.queryParams("genre"));
 		Transaction transaction = session.beginTransaction();
-		boolean status = true;//bdao.updateBand(band);
+		boolean status = bdao.updateBand(band);
 		transaction.commit();
 		session.close();
 		if (status){
