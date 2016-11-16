@@ -32,11 +32,9 @@ end
 
 Given(/^that the song's database is empty$/) do
     result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from songDB;\" -t`
-<<<<<<< HEAD
-    result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars 
-=======
+
     result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
->>>>>>> 1a6bfab74cbf2592cc281ae292a2a5321028a848
+
     expect(result=="0")
 end
 
@@ -105,13 +103,10 @@ When(/^I add an artist with name "([^"]*)" and surname "([^"]*)" and nickname "(
 end
 
 When(/^I add an album with name "([^"]*)" and release date "([^"]*)"$/) do |title,release_date|
-<<<<<<< HEAD
-  response = RestClient.post 'http://localhost:4567/albums', { :title => title, :release_date => release_date }, :content_type => 'text/plain' 
-  expect(response.code).to eq(201)  
-=======
+
   response = RestClient.post 'http://localhost:4567/albums', { :title => title, :release_date => release_date }, :content_type => 'text/plain'
   expect(response.code).to eq(201)
->>>>>>> 1a6bfab74cbf2592cc281ae292a2a5321028a848
+
 end
 
 When(/^I search an artist with "([^"]*)" "([^"]*)" , the result should have (\d+) entry$/) do |atributo,valor,entradas|
@@ -155,11 +150,9 @@ end
 
 
 When(/^I add a song with name "([^"]*)" and duration "([^"]*)"$/) do |name, duration|
-<<<<<<< HEAD
-     response = RestClient.post 'http://localhost:4567/song/', { :name => name, :duration => duration }, :content_type => 'text/plain' 
-=======
+
      response = RestClient.post 'http://localhost:4567/songs/', { :name => name, :duration => duration }, :content_type => 'text/plain'
->>>>>>> 1a6bfab74cbf2592cc281ae292a2a5321028a848
+
      expect(response.code).to eq(201)
 end
 
@@ -211,12 +204,10 @@ end
 Then(/^the song's database should have (\d+) entry$/) do |arg1|
     result = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select count(*) from SongDB;\" -t`
     result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
-<<<<<<< HEAD
-    expect(result).to eq("1")   
-=======
+
 	 HEAD
     expect(result).to eq("1")
->>>>>>> 1a6bfab74cbf2592cc281ae292a2a5321028a848
+
 end
 
 Then(/^the entry should have name "([^"]*)" and surname "([^"]*)"$/) do |name, surname|
@@ -241,7 +232,7 @@ end
 Then(/^the entry should have name "([^"]*)" and duration "([^"]*)"$/) do |name, duration|
     pending
 end
-<<<<<<< HEAD
+
 
 Given(/^that the bands' database is empty$/) do
     sleep (2)
@@ -312,8 +303,7 @@ Then(/^the band with name "([^"]*)" and genre "([^"]*)" should be on bands' data
     expect(e.response).to eq(201)
   end
 end
-=======
->>>>>>> 1a6bfab74cbf2592cc281ae292a2a5321028a848
+
 
 
 When(/^I list all the albums the result of the search should have (\d+) entries$/) do |arg1|
