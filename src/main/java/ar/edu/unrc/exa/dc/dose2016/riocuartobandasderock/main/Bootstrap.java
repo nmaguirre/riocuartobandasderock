@@ -8,6 +8,16 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+// import src.main.WebApp.Views;
+
+import spark.Request;
+import spark.Response;
+
+import spark.ModelAndView;
+import spark.TemplateEngine;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandDaoImpl;
 
@@ -23,7 +33,8 @@ public class Bootstrap {
 	private static ArtistController artistController;
 	private static AlbumController albumController;
     private static UserController userController;
-	private static SongController songController;
+    private static SongController songController;
+	private static String view = "src/main/WebApp/views/";
 
     public static void main(String[] args) {
 
@@ -85,6 +96,7 @@ public class Bootstrap {
         });
 
         // List of route and verbs API REST
+        get("/", (req, res) -> new ModelAndView(null,"/views/landing_page/index.mustache"), new MustacheTemplateEngine());
         
         post("/albums", (req, res) -> albumController.create(req, res));
                
