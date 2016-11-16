@@ -1,0 +1,23 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="/artistadmin/mystyle.css">
+    <title>Mostrar Artista</title>
+
+    <script src="/artistadmin/jquery.min.js"></script>
+    <script languague="javascript">
+      function getartists(){
+         $.get("http://localhost:4567/artists", function(data, status){
+            alert("Data: " + data + "\nStatus: " + status);
+          });
+        }
+      $(window).ready(function() {
+      getartists();
+      });
+    </script>
+   </head>
+
+  <body>
+    <h1> Admin Artist - Shows </h1>
+    <div id="data"></div>
+  </body>
+</html>

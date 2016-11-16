@@ -1,0 +1,70 @@
+#dataresult
+{ 
+    padding: 10px;
+    width: 80%; 
+    margin-left:auto; 
+    margin-right: auto; 
+    height:50%;
+    min-height:500px;
+    background-color: #CFCFCF;
+    border-radius: 20px;
+    -moz-border-radius: 20px;
+    font-family: "Times New Roman", Georgia, Serif;
+
+}
+
+h1 {
+    text-align: center;
+    color: #FFFFFF;
+}
+hr.hrclass {
+    border-top: 1px solid #8c8b8b;
+    text-align: center;
+    color: #126;
+}
+
+
+hr.style18 { 
+  height: 30px; 
+  border-style: solid; 
+  border-color: #8c8b8b; 
+  border-width: 1px 0 0 0; 
+  border-radius: 20px; 
+} 
+
+table {
+    border-collapse: collapse;
+    width: 65%;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+html,body
+{
+    background-color: #004084;
+    margin:0;
+    padding:0;
+    height: 100%;
+
+}
+
+header, datatable, dataartistaddform
+{                           
+    display: block
+}
+
+#datatable
+{
+    float: left; 
+    width: 60%;
+    height:400px;
+
+}
+
+#dataartistaddform
+{
+    float: right; 
+    width: 30%
+    height:400px;
+}

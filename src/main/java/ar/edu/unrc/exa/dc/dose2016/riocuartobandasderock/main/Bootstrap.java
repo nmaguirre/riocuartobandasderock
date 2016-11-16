@@ -191,7 +191,7 @@ public class Bootstrap {
         
         delete("/songs/:id",(req, res) -> songController.remove(req, res));
         
-        after((req, res) -> {res.type("application/json");});
+        after((req, res) -> {/*res.type("application/json");*/});
 
     }
 }

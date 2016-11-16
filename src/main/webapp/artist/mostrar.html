@@ -1,0 +1,80 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="/artistadmin/mystyle.css">
+    <title>Mostrar Artista</title>
+
+    <script src="/artistadmin/jquery.min.js"></script>
+    <script languague="javascript">
+
+      function sendformaddartist() {
+        name=$('input:text[name=name]').val();
+        surname=$('input:text[name=surname]').val();
+        nickname=$('input:text[name=nickname]').val();
+        //action post http://localhost:4567/artists
+        
+        if (name+surname+nickname=='') {
+            $("#dataartisaddformstatus").html('<font color="red">Atencion: rellenar al menos un campo del formulario</font>');
+        } else {
+          $("#dataartisaddformstatus").html('');
+          var url = 'http://localhost:4567/artists'; // El script a dónde se realizará la petición.
+          $.ajax({
+             type: "POST",
+             url: url,
+             data: $("#formulario").serialize(), // Adjuntar los campos del formulario enviado.
+             success: function(data)
+             {
+                 $("#dataartisaddformstatus").html('<font color="green">Result: '+data+'</font>'); // Mostrar la respuestas del script PHP.
+                 getartists(); //optional refresh list
+             },
+             error: function(x, e) {
+                 $("#dataartisaddformstatus").html('<font color="red">Result: Error</font>'); // Mostrar la respuestas del script PHP.
+             }
+          });
+      }
+
+        return false;
+      }
+
+      var response='';
+      function getartists(){
+         $.get("http://localhost:4567/artists", function(data, status){
+            request = JSON.parse(data);
+
+            response = '<table><tr><th>Name</th><th>Surname</th><th>Nickname</th></tr>';
+            $.each(request, function(i, item) {
+              //item.artistID
+              response += '<tr>'+'<td>'+item.name+'</td>'+'<td>'+item.surname+'</td>'+'<td>'+item.nickname+'</td>'+'</tr>';
+            });
+            response += '</table>';
+            $("#datacount").html('<hr class="hrclass"><b>Se encontraron '+request.length+' registros de artistas.</b><hr class="hrclass">');
+            if (request.length>0)
+              $("#datatable").html(response);
+ 
+          });
+        }
+      $(window).ready(function() {
+      getartists();
+      });
+    </script>
+   </head>
+
+  <body>
+    <h1> Admin Artist - Shows </h1>
+    <div id="dataresult">
+      <button onclick="getartists();">Shows</button>
+      <div id="datacount"></div>
+      <div id="datatable"></div>
+      <div id="dataartisaddform">
+      <div><strong>Agregar Artista</strong></div>
+        <form  action="" id="formulario">
+          <div>Nombre</div>  <input type=text name="name">
+          <div>Surname</div> <input type=text name="surname">
+          <div>Nickname</div> <input type=text name="nickname">
+          <div id="dataartisaddformstatus"></div>
+          <input type=submit name=press value="Enviar" onclick="return sendformaddartist();">
+        </form>
+      </div>
+      
+    </div>
+  </body>
+</html>
