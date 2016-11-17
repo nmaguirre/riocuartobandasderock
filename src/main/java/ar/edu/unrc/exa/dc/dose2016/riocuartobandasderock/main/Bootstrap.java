@@ -38,6 +38,8 @@ public class Bootstrap {
 
     public static void main(String[] args) {
 
+        externalStaticFileLocation("/src/main/resources/webapp");
+
     	CommandLineParser parser = new DefaultParser();
 
     	Option dbHost = new Option("dbh","dbHost",true,"use given host as database host");
