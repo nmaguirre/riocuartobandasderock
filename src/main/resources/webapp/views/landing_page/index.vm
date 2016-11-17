@@ -13,12 +13,12 @@
 
     <!-- Custom Fonts -->
     <style type="text/css">
-        #include("vendor/font-awesome/css/font-awesome.min.css")
-        #include("stylesheets/css/grayscale.min.css")
-        #include("stylesheets/css/font-awesome.min.css")
-        #include("stylesheets/css/font-awesome.css")
+        #include("assets/stylesheets/css/grayscale.min.css")
         #include("vendor/bootstrap/css/bootstrap.min.css")
     </style>
+
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+
 
     <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
@@ -150,7 +150,7 @@
     <script type="text/javascript" >
         #include("vendor/jquery/jquery.js")
         #include("vendor/bootstrap/js/bootstrap.min.js")
-        #include("js/grayscale.min.js")
+        #include("assets/js/grayscale.min.js")
     </script>
 
     <!-- Plugin JavaScript -->

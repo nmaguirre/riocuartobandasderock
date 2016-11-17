@@ -14,6 +14,15 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandMemberDAOI
 import spark.Request;
 import spark.Response;
 
+import spark.ModelAndView;
+
+import spark.ModelAndView;
+import spark.TemplateEngine;
+
+import java.util.HashMap;
+import java.util.Map;
+
+
 /***
  *
  * @author DOSE
@@ -111,6 +120,16 @@ public class BandController {
 		res.status(status);
 		return bands;
 	}
+
+
+
+	public ModelAndView newBand(Request req,Response res){
+    Map<String, Object> attributes = new HashMap<>();
+    return new ModelAndView(attributes, "views/band/new.vm");
+	}
+
+
+
 
 	/***
 	 * This method takes the data of a band from the front-end, and creates a band in database
