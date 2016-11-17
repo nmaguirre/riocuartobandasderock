@@ -10,25 +10,24 @@
         name=$('input:text[name=name]').val();
         surname=$('input:text[name=surname]').val();
         nickname=$('input:text[name=nickname]').val();
-        //action post http://localhost:4567/artists
         
         if (name+surname+nickname=='') {
             $("#dataartisaddformstatus").html('<font color="red">Atencion: rellenar al menos un campo del formulario</font>');
         } else {
           $("#dataartisaddformstatus").html('');
-          var url = 'http://localhost:4567/artists'; // El script a dónde se realizará la petición.
+          var url = 'http://localhost:4567/artists'; 
           $.ajax({
              type: "POST",
              url: url,
              data: $("#formulario").serialize(), // Adjuntar los campos del formulario enviado.
              success: function(data)
              {
-                 $("#dataartisaddformstatus").html('<font color="green">Result: '+data+'</font>'); // Mostrar la respuestas del script PHP.
+                 $("#dataartisaddformstatus").html('<font color="green">Result: '+data+'</font>'); // Show response Api Rest
                  getartists(); //optional refresh list
                  document.getElementById("formulario").reset();
              },
              error: function(x, e) {
-                 $("#dataartisaddformstatus").html('<font color="red">Result: Error</font>'); // Mostrar la respuestas del script PHP.
+                 $("#dataartisaddformstatus").html('<font color="red">Result: Error</font>'); //  Show response Api Rest
              }
           });
       }
