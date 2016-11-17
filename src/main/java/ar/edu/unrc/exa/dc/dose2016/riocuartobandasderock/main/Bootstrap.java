@@ -40,7 +40,7 @@ public class Bootstrap {
 
     public static void main(String[] args) {
 
-        externalStaticFileLocation("/src/main/resources/webapp");
+        staticFileLocation("./webapp");
 
     	CommandLineParser parser = new DefaultParser();
 
@@ -131,6 +131,8 @@ public class Bootstrap {
         get("/bands/find/",(req, res) -> bands.getBandByNameAndGenre(req, res),json());
 
         get("/bands/getbandmember/:bandID",(req,res)-> bands.getBandMembers(req, res),json());
+
+        get("/bands/new",(req, res) -> bands.newBand(req, res), new VelocityTemplateEngine());
 
         post("/bands/",(req, res) -> bands.createBand(req, res));
 
