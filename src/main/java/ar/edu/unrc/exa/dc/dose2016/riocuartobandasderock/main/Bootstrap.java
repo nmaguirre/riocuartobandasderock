@@ -148,7 +148,7 @@ public class Bootstrap {
         /**
          * BandMember routes
          */
-        post("/bandmembers/",(req,res)->bandMemberController.createBandMember(req, res));
+        post("/bandmembers",(req,res)->bandMemberController.createBandMember(req, res));
         
         delete("/bandmembers/:artistID/:BandID",(req,res)->bandMemberController.deleteBandMember(req, res));
         
