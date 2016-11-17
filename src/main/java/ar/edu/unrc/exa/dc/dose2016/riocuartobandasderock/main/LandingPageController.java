@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import static spark.Spark.*;
+// import static spark.Spark.staticFileLocation;
 
 import spark.ModelAndView;
 
@@ -50,6 +51,6 @@ public class LandingPageController {
    */
   public ModelAndView index(Request req ,Response res){
     Map<String, Object> attributes = new HashMap<>();
-    return new ModelAndView(attributes, "landing_page/index.vm");
+    return new ModelAndView(attributes, "views/landing_page/index.vm");
   }
 }
