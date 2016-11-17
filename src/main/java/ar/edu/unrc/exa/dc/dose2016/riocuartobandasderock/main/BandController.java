@@ -2,6 +2,7 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
 import java.util.List;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -125,16 +126,25 @@ public class BandController {
 		}
 		Session session = SessionManager.getInstance().openSession();
 		BandDAO bdao = new BandDaoImpl(session);
-		Transaction transaction = session.beginTransaction();
-		boolean status = bdao.createBand(req.queryParams("name"),req.queryParams("genre"));
-		transaction.commit();
-		session.close();
-		if (status){
-			res.status(201);
-			return "Success";
+		Transaction transaction = null;
+		boolean status = false;
+		try{
+			transaction = session.beginTransaction();
+			status = bdao.createBand(req.queryParams("name"),req.queryParams("genre"));
+			transaction.commit();
+		}catch(HibernateException e){
+			transaction.rollback();
+			status = false;
+			e.printStackTrace();
+		}finally {
+			session.close();
+			if (status){
+				res.status(201);
+				return "Success";
+			}
+			res.status(409);
+			return "Fail";
 		}
-		res.status(409);
-		return "Fail";
 	}
 
 	/***
@@ -158,16 +168,25 @@ public class BandController {
 		}
 		String bandName = (req.queryParams("name"));
 		String bandGenre = (req.queryParams("genre"));
-		Transaction transaction = session.beginTransaction();
-		boolean status = bdao.updateBand(band.getId(),bandName,bandGenre);
-		transaction.commit();
-		session.close();
-		if (status){
-			res.status(200);
-			return "Success";
+		Transaction transaction = null;
+		boolean status = false;
+		try{
+			transaction = session.beginTransaction();
+			status = bdao.updateBand(band.getId(),bandName,bandGenre);
+			transaction.commit();
+		}catch (HibernateException e) {
+			transaction.rollback();
+			status = false;
+			e.printStackTrace();
+		}finally{
+			session.close();
+			if (status){
+				res.status(200);
+				return "Success";
+			}
+			res.status(409);
+			return "Fail";
 		}
-		res.status(409);
-		return "Fail";
 	}
 
 	/***
@@ -183,22 +202,31 @@ public class BandController {
 		}
 		Session session = SessionManager.getInstance().openSession();
 		BandDAO bdao = new BandDaoImpl(session);
-		Transaction transaction = session.beginTransaction();
-		List<Band> searchResult = bdao.findByName(req.params(":name"));
-		transaction.commit();
-		if (searchResult.size()==1){
-			Band toRemove = searchResult.get(0);
+		Transaction transaction = null;
+		boolean status= false;
+		try{
 			transaction = session.beginTransaction();
-		 	boolean status = bdao.deleteBand(toRemove.getId());
-		 	transaction.commit();
+			List<Band> searchResult = bdao.findByName(req.params(":name"));
+			transaction.commit();
+			if (searchResult.size()==1){
+				Band toRemove = searchResult.get(0);
+				transaction = session.beginTransaction();
+			 	status = bdao.deleteBand(toRemove.getId());
+			}
+			transaction.commit();
+		}catch (HibernateException e) {
+			transaction.rollback();
+			status = false;
+			e.printStackTrace();
+		}finally{
 		 	session.close();
 			if (status){
 				res.status(200);
 				return "Success";
 			}
+			res.status(409);
+			return "Fail";
 		}
-		res.status(409);
-		return "Fail";
 	}
 
 	/**
