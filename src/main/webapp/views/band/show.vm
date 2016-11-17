@@ -1,6 +1,52 @@
-<html>  
-  <body>
-    #set( $path = "src/main/webapp/band/show.vm" )
-    found me on $path
-  </body>
-</html>
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<div class="col-md-8 col-md-offset-2">
+  <h3>
+    Band Show
+  </h3>
+</div>
+<div class="col-md-8 col-md-offset-2">
+  <div class="x_panel">
+    <div class="x_content">
+      <div>
+        <b>Nombre</b>
+        <div class="form-control">Nombre de la Banda</div>
+      </div>
+      <div>
+        <b>Genero</b>
+        <div class="form-control">Genero de la Banda</div>
+      </div>
+      <div>
+        <div class="col-md-6">
+          <b>Fecha de inicio</b>
+          <div class="form-control">dd/mm/aaaa</div>
+        </div>
+        <div class="col-md-6">
+          <b>Fecha de fin</b>
+          <div class="form-control">dd/mm/aaaa</div>
+        </div>
+      </div>
+      <div>
+        <b>Artistas</b>
+        <div>
+          <ul>
+            <li>Artista 1</li>
+            <li>Artista 2</li>
+            <li>Artista 3</li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <b>Albums</b>
+        <div>
+          <ul>
+            <li>Album 1</li>
+            <li>Album 2</li>
+            <li>Album 3</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
