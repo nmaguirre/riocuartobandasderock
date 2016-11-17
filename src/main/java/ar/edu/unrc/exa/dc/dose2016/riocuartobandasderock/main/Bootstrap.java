@@ -36,6 +36,7 @@ public class Bootstrap {
 	private static SongController songController;
 	private static BandMemberController bandMemberController;
 	private static String view = "src/main/WebApp/views/";
+    private static LandingPageController landingPageController;
 
     public static void main(String[] args) {
 
@@ -88,6 +89,7 @@ public class Bootstrap {
         bands = BandController.getInstance();
         songController = new SongController();
         userController = UserController.getInstance();
+        landingPageController = LandingPageController.getInstance();
         port(Integer.parseInt(ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().getAppPort()));
 
         /*before("/bands", (req, res) -> {
@@ -97,8 +99,14 @@ public class Bootstrap {
         });*/
 
         // List of route and verbs API REST
-        get("/", (req, res) -> new ModelAndView(null,"/views/landing_page/index.mustache"), new MustacheTemplateEngine());
-        
+        // get("/", (req, res) -> {
+        //     Map<String, Object> model = new HashMap<>();
+        //     return new ModelAndView(model, "landing_page/index.vm");
+        // }, new VelocityTemplateEngine()
+        // );
+
+        get("/", (req, res) -> landingPageController.index(req,res), new VelocityTemplateEngine());
+
         post("/albums", (req, res) -> albumController.create(req, res));
                
         get("/albums", (req, res) -> albumController.getAll(req, res));
@@ -181,8 +189,7 @@ public class Bootstrap {
 
         delete("/songs/:id",(req, res) -> songController.remove(req, res));
 
-
-        after((req, res) -> {res.type("application/json");});
+        after((req, res) -> {res.type("text/html");});
 
     }
 }
