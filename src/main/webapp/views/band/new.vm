@@ -1,0 +1,6 @@
+<html>  
+  <body>
+    #set( $path = "src/main/webapp/band/new.vm" )
+    found me on $path
+  </body>
+</html>
