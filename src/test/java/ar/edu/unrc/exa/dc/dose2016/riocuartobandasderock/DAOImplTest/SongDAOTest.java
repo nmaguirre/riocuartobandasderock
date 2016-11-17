@@ -29,6 +29,20 @@ public class SongDAOTest {
 		};
 		assertEquals(songModel,songDao.findById("3"));
 	}
+        
+        @Test
+	public void removeSongTest() {
+                        Song aux=new Song();
+                        new Expectations(){
+			{
+				songDao.removeSong(aux);
+				returns (true);
+			}
+		};
+		assertEquals(true,songDao.removeSong(aux));
+            
+        }
+        
                  
         @Test(expected=IllegalArgumentException.class)
             public void findByIdIfIdIsEmptyTest(){
