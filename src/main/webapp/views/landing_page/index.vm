@@ -1,6 +1,0 @@
-<html>  
-  <body>
-    #set( $path = "src/main/webapp/landing_page/index.vm" )
-    found me on $path
-  </body>
-</html>
