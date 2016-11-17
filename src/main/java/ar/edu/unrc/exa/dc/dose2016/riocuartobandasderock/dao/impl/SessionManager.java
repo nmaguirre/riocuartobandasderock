@@ -51,7 +51,7 @@ public class SessionManager{
 		configuration.addAnnotatedClass(Band.class);
 		configuration.addAnnotatedClass(Song.class);
 		configuration.addAnnotatedClass(User.class);
-		//configuration.addAnnotatedClass(BandMember.class);
+		configuration.addAnnotatedClass(BandMember.class);
 		StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
 				.applySettings(configuration.getProperties());
 		SessionFactory sf = configuration.buildSessionFactory(builder.build());
