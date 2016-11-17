@@ -177,19 +177,25 @@ public class BandController {
 	 * @return true if the the band was created. Otherwise, false.
 	 */
 	public String deleteBand(Request req,Response res){
-		if ((req.params(":id"))==""){
+		if ((req.params(":name"))==""){
 			res.status();
 			return "Request invalid";
 		}
 		Session session = SessionManager.getInstance().openSession();
 		BandDAO bdao = new BandDaoImpl(session);
 		Transaction transaction = session.beginTransaction();
-	 	boolean status = bdao.deleteBand(req.params(":id"));
-	 	transaction.commit();
-	 	session.close();
-		if (status){
-			res.status(200);
-			return "Success";
+		List<Band> searchResult = bdao.findByName(req.params(":name"));
+		transaction.commit();
+		if (searchResult.size()==1){
+			Band toRemove = searchResult.get(0);
+			transaction = session.beginTransaction();
+		 	boolean status = bdao.deleteBand(toRemove.getId());
+		 	transaction.commit();
+		 	session.close();
+			if (status){
+				res.status(200);
+				return "Success";
+			}
 		}
 		res.status(409);
 		return "Fail";
