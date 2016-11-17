@@ -25,6 +25,7 @@
              {
                  $("#dataartisaddformstatus").html('<font color="green">Result: '+data+'</font>'); // Mostrar la respuestas del script PHP.
                  getartists(); //optional refresh list
+                 document.getElementById("formulario").reset();
              },
              error: function(x, e) {
                  $("#dataartisaddformstatus").html('<font color="red">Result: Error</font>'); // Mostrar la respuestas del script PHP.
