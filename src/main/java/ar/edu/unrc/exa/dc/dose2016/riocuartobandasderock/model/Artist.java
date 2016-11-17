@@ -5,7 +5,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
- 
 
 /* This class represents one person that is artist of a band. */
 @Entity
@@ -60,7 +59,7 @@ public class Artist {
    * @param nickname: Artist nickname.
    */
   public Artist(String name, String surname, String nickname){    
-     this(UUID.randomUUID().toString(), name, surname, nickname);
+	this(UUID.randomUUID().toString(), name, surname, nickname);
   }
   
   /**
@@ -84,7 +83,7 @@ public class Artist {
   * @return artist name.
   */
   public String getName(){
-	  return name;
+	return name;
   }
   
   /**
@@ -107,8 +106,8 @@ public class Artist {
   * @throws IllegalArgumentException if name is null.
   */
   public void setName(String art_name){
-	  if (art_name == null) throw new IllegalArgumentException("Name can't be null");
-	  name = art_name;
+	if (art_name == null) throw new IllegalArgumentException("Name can't be null");
+	name = art_name;
   }
 
   /**
@@ -137,10 +136,26 @@ public class Artist {
    * @throws IllegalArgumentException if art is null.
    */
   public boolean equals(Artist art){
-	  if(art==null) throw new IllegalArgumentException("Artist can't be null");
-	  if(this.name.equals(art.name) && this.nickname.equals(art.nickname) && this.surname.equals(art.surname)){
-		  return true;
-	  }
-	  return false;
+	if(art==null) throw new IllegalArgumentException("Artist can't be null");
+	if(this.name.toLowerCase().equals(art.name.toLowerCase()) &&
+			this.nickname.toLowerCase().equals(art.nickname.toLowerCase()) &&
+			this.surname.toLowerCase().equals(art.surname.toLowerCase())){
+		return true;
+	}
+	return false;
+  } 
+  
+  /**
+   * @return true if the fields are not empty at the same time.
+   */
+  public boolean repOk(){
+	boolean result = true;
+	if (name == null) name = "";
+	if (nickname == null) nickname = "";
+	if (surname == null) surname = "";
+	if ((name == "") && (nickname == "") && (surname == "")){
+		result = false;
+	}
+	return result;
   }
 }
