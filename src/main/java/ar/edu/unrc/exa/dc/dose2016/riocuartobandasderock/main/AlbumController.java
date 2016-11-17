@@ -142,7 +142,7 @@ public class AlbumController {
             res.body("Album title can't be null nor empty");
             return res.body();
         }
-        if (req.queryParams("id") == null || req.queryParams("id") == ""){
+        if (req.params("id") == null || req.params("id") == ""){
             res.status(400);
             res.body("Album id can't be null nor empty");
             return res.body();
@@ -152,7 +152,7 @@ public class AlbumController {
             //Date should be in the next pattern: yyyy-mm-dd
         	Date release_date = req.queryParams("release_date") != null ? sdf.parse(req.queryParams("release_date")) : null;
         	Transaction transaction = session.beginTransaction();
-            boolean result = adao.update(req.queryParams("id"), req.queryParams("title"), release_date);
+            boolean result = adao.update(req.params("id"), req.queryParams("title"), release_date);
             transaction.commit();
             session.close();
             int http_status = result ? 201 : 409;
@@ -178,14 +178,14 @@ public class AlbumController {
     public String delete(Request req, Response res) {
     	Session session = SessionManager.getInstance().openSession();
     	AlbumDaoImpl adao = new AlbumDaoImpl(session);
-        if (req.queryParams("id") == null || req.queryParams("id") == ""){
+       if ((req.params("id") == null) || (req.params("id").equals(""))){
             res.status(400);
             res.body("Album id can't be null nor empty");
             return res.body();
         }
         
         Transaction transaction = session.beginTransaction();
-        boolean result = adao.delete(req.queryParams("id"));
+        boolean result = adao.delete(req.params("id"));
         transaction.commit();
         session.close();
         int http_status = result ? 201 : 409;
