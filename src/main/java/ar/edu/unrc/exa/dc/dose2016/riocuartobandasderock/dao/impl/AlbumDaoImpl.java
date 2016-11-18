@@ -96,7 +96,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 	 * @return true iff album was inserted into data base correctly
 	 */
 	public boolean create(String title, Date releaseDate){
-		if(title==null || title.isEmpty()) throw new IllegalArgumentException("Error: AlbumDaoImpl.createAlbum() : Database doesnt support null or empty title");
+		if(title==null || title.equals("") ) throw new IllegalArgumentException("Error: AlbumDaoImpl.createAlbum() : Database doesnt support null or empty title");
 		boolean isCreated=false;
 		if(releaseDate!=null){
 			//then the title and the day should not be in db. 
@@ -131,7 +131,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 			//then the title not be in db.
 			List<Album> byTitle = this.findByTitle(title);
 			for(int i=0;i<byTitle.size();i++){
-				if(byTitle.get(i).getTitle() == title){
+				if(byTitle.get(i).getTitle().compareTo(title) == 0){
 					return false;
 				}
 			}
@@ -176,10 +176,8 @@ public class AlbumDaoImpl implements AlbumDAO{
 		if (toUpdate==null) return false;
 		//skip representation
 		if (title==null && releaseDate==null) return true;
-		if (title!=null && title!=""){
-			System.out.println("Entre porque title !=null o title!='' ");
+		if (title!=null && !title.equals("")){
 			if (releaseDate!=null){
-				System.out.println("Entre porque el title!= and releaseDate !=null");
 				toUpdate.setTitle(title);
 				toUpdate.setReleaseDate(releaseDate);
 				this.currentSession.saveOrUpdate(toUpdate);
@@ -191,11 +189,10 @@ public class AlbumDaoImpl implements AlbumDAO{
 			return true;
 		}
 		if (title==null && releaseDate!=null){
-			System.out.println("Entre por aqui");
 			toUpdate.setReleaseDate(releaseDate);
 			this.currentSession.saveOrUpdate(toUpdate);
 			return true;
 		}
 		return false;
-}
+	}
 }
