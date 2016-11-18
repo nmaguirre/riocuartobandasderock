@@ -68,7 +68,7 @@ end
 
 When(/^I try to add an album named "([^"]*)" and release date "([^"]*)"$/) do |title,release_date|
   begin
-  response = RestClient.post 'http://localhost:4567/albums/', { :title => title, :release_date => release_date}, :content_type => 'text/plain'
+  response = RestClient.post 'http://localhost:4567/albums', { :title => title, :release_date => release_date}, :content_type => 'text/plain'
   expect(response.code).to eq(201)
   rescue RestClient::Conflict => e
   end
