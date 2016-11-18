@@ -1,5 +1,7 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -103,16 +105,21 @@ public class AlbumDaoImpl implements AlbumDAO{
 			
 			boolean exist=false;
 			for (int i = 0; i < byTitle.size(); i++) {
-				if (byTitle.get(i).getTitle().equals(title)  ){
+				if (byTitle.get(i).getTitle().compareTo(title)==0){
 					exist=true;
 				}
 			}			
-			if(exist){//Aca esta el errorrr!!!
+			if(exist){
 				//then releaseDate not be in db
 				for(int i=0;i<byReleaseDate.size();i++){
 					
-					if(byReleaseDate.get(i).getReleaseDate().compareTo(releaseDate)==0){
-						return false;
+					SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+					try {
+						if(releaseDate.compareTo(f.parse(byReleaseDate.get(i).getReleaseDate().toString())) == 0){
+							return false;
+						}
+					} catch (ParseException e) {
+						e.printStackTrace();
 					}
 				}
 				isCreated=true;				
@@ -124,7 +131,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 			//then the title not be in db.
 			List<Album> byTitle = this.findByTitle(title);
 			for(int i=0;i<byTitle.size();i++){
-				if(byTitle.get(i).getTitle().equals(releaseDate)){
+				if(byTitle.get(i).getTitle() == title){
 					return false;
 				}
 			}
