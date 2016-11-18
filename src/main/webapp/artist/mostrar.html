@@ -6,7 +6,7 @@
     <script src="/artistadmin/jquery.min.js"></script>
     <script languague="javascript">
 
-      function sendformaddartist() {
+      function sendform() {
         name=$('input:text[name=name]').val();
         surname=$('input:text[name=surname]').val();
         nickname=$('input:text[name=nickname]').val();
@@ -15,7 +15,7 @@
             $("#dataartisaddformstatus").html('<font color="red">Atencion: rellenar al menos un campo del formulario</font>');
         } else {
           $("#dataartisaddformstatus").html('');
-          var url = 'http://localhost:4567/artists'; 
+          var url = '/artists'; 
           $.ajax({
              type: "POST",
              url: url,
@@ -23,7 +23,8 @@
              success: function(data)
              {
                  $("#dataartisaddformstatus").html('<font color="green">Result: '+data+'</font>'); // Show response Api Rest
-                 getartists(); //optional refresh list
+                 getregisters(); //optional refresh list
+                 $("#formulario")[0].reset();
              },
              error: function(x, e) {
                  $("#dataartisaddformstatus").html('<font color="red">Result: Error</font>'); //  Show response Api Rest
@@ -34,15 +35,50 @@
         return false;
       }
 
-      var response='';
-      function getartists(){
-         $.get("http://localhost:4567/artists", function(data, status){
-            request = JSON.parse(data);
+      function updateregister(id,dos) {
+        resourcelocation ='/artists/'+id;
 
-            response = '<table><tr><th>Name</th><th>Surname</th><th>Nickname</th></tr>';
+        alert('EN espera de implementacion ');
+        console.log(dos);
+
+
+        return false;
+      }
+
+
+      function deleteregister(id) {
+        resourcelocation ='/artists/'+id;
+        if (confirm('Estas seguro de eliminar el registro id='+id)) {
+          $.ajax({
+             type: "DELETE",
+             url: resourcelocation,
+             data: '', 
+             success: function(data)
+             {
+                 $("#dataartisaddformstatus").html('<font color="green">Result: '+data+'</font>'); // Show response Api Rest
+                 getregisters(); //optional refresh list
+             },
+             error: function(x, e) {
+                 $("#dataartisaddformstatus").html('<font color="red">Result: Error</font>'); //  Show response Api Rest
+             }
+          });
+
+        }
+        return false;
+      }
+      var response='';
+      function getregisters(){
+        resourcelocation='/artists';
+         $.get(resourcelocation, function(data, status){
+            var request = JSON.parse(data);
+
+            response = '<table><tr><th>Name</th><th>Surname</th><th>Nickname</th><th>Action</th></tr>';
+            itemindex = 0;
             $.each(request, function(i, item) {
-              //item.artistID
-              response += '<tr>'+'<td>'+item.name+'</td>'+'<td>'+item.surname+'</td>'+'<td>'+item.nickname+'</td>'+'</tr>';
+                   response += '<tr>'+'<td>'+item.name+'</td>'+'<td>'+item.surname+'</td>'+'<td>'+item.nickname+'</td>'+'<td><input type="button" value="Editar" onclick="updateregister(\''+item.artistID+'\','+itemindex+');"><input type="button" value="Borrar" onclick="deleteregister(\''+item.artistID+'\');"></td></tr>';
+                    ++itemindex;
+
+
             });
             response += '</table>';
             $("#datacount").html('<hr class="hrclass"><b>Se encontraron '+request.length+' registros de artistas.</b><hr class="hrclass">');
@@ -52,7 +88,7 @@
           });
         }
       $(window).ready(function() {
-      getartists();
+      getregisters();
       });
     </script>
    </head>
@@ -60,7 +96,7 @@
   <body>
     <h1> Admin Artist - Shows </h1>
     <div id="dataresult">
-      <button onclick="getartists();">Shows</button>
+      <button onclick="getregisters();">Shows</button>
       <div id="datacount"></div>
       <div id="datatable"></div>
       <div id="dataartisaddform">
@@ -70,7 +106,7 @@
           <div>Surname</div> <input type=text name="surname">
           <div>Nickname</div> <input type=text name="nickname">
           <div id="dataartisaddformstatus"></div>
-          <input type=submit name=press value="Enviar" onclick="return sendformaddartist();">
+          <input type=submit name=press value="Enviar" onclick="return sendform();">
         </form>
       </div>
       
