@@ -127,7 +127,7 @@ public class Bootstrap {
 
         get("/bands/new",(req, res) -> bands.newBand(req, res), new VelocityTemplateEngine());
 
-        get("/bands/new",(req, res) -> bands.newBand(req, res), new VelocityTemplateEngine());
+        get("/bands/:id/edit",(req, res) -> bands.editBand(req, res), new VelocityTemplateEngine());
 
         post("/bands/",(req, res) -> bands.createBand(req, res));
 

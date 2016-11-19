@@ -9,12 +9,12 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Grayscale - Start Bootstrap Theme</title>
+  <title>Bands of Río Cuarto</title>
 
   <!-- Custom Fonts -->
   <style type="text/css">
-    #include("assets/stylesheets/css/grayscale.min.css")
-    #include("assets/stylesheets/css/font-awesome.min.css")
+    #include("assets/css/grayscale.min.css")
+    #include("assets/css/font-awesome.min.css")
     #include("vendor/bootstrap/css/bootstrap.min.css")
   </style>
 
