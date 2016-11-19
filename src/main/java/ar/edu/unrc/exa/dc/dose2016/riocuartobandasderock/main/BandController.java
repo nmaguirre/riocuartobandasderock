@@ -2,6 +2,7 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
 import java.util.List;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -53,14 +54,18 @@ public class BandController {
 	 * @param res
 	 * @return A list of all bands
 	 */
-	public List<Band> getBands(Request req ,Response res){
+	public ModelAndView getBands(Request req ,Response res){
 		Session session = SessionManager.getInstance().openSession();
 		BandDAO bdao = new BandDaoImpl(session);
 		List<Band> bands= bdao.getAllBands();
+		System.out.println("===================== SE ROMPIO ACA ===================");
 		session.close();
 		int status = (bands.size()>0)? 200:204;
 		res.status(status);
-		return bands;
+		// return bands;
+
+    Map<String, Object> attributes = new HashMap<>();
+    return new ModelAndView(attributes, "views/bands/index.vm");
 	}
 
 	/***
@@ -125,7 +130,7 @@ public class BandController {
 
 	public ModelAndView newBand(Request req,Response res){
     Map<String, Object> attributes = new HashMap<>();
-    return new ModelAndView(attributes, "views/band/new.vm");
+    return new ModelAndView(attributes, "views/bands/new.vm");
 	}
 
 
@@ -144,16 +149,25 @@ public class BandController {
 		}
 		Session session = SessionManager.getInstance().openSession();
 		BandDAO bdao = new BandDaoImpl(session);
-		Transaction transaction = session.beginTransaction();
-		boolean status = bdao.createBand(req.queryParams("name"),req.queryParams("genre"));
-		transaction.commit();
-		session.close();
-		if (status){
-			res.status(201);
-			return "Success";
+		Transaction transaction = null;
+		boolean status = false;
+		try{
+			transaction = session.beginTransaction();
+			status = bdao.createBand(req.queryParams("name"),req.queryParams("genre"));
+			transaction.commit();
+		}catch(HibernateException e){
+			transaction.rollback();
+			status = false;
+			e.printStackTrace();
+		}finally {
+			session.close();
+			if (status){
+				res.status(201);
+				return "Success";
+			}
+			res.status(409);
+			return "Fail";
 		}
-		res.status(409);
-		return "Fail";
 	}
 
 	/***
@@ -177,16 +191,25 @@ public class BandController {
 		}
 		String bandName = (req.queryParams("name"));
 		String bandGenre = (req.queryParams("genre"));
-		Transaction transaction = session.beginTransaction();
-		boolean status = bdao.updateBand(band.getId(),bandName,bandGenre);
-		transaction.commit();
-		session.close();
-		if (status){
-			res.status(200);
-			return "Success";
+		Transaction transaction = null;
+		boolean status = false;
+		try{
+			transaction = session.beginTransaction();
+			status = bdao.updateBand(band.getId(),bandName,bandGenre);
+			transaction.commit();
+		}catch (HibernateException e) {
+			transaction.rollback();
+			status = false;
+			e.printStackTrace();
+		}finally{
+			session.close();
+			if (status){
+				res.status(200);
+				return "Success";
+			}
+			res.status(409);
+			return "Fail";
 		}
-		res.status(409);
-		return "Fail";
 	}
 
 	/***
@@ -196,22 +219,37 @@ public class BandController {
 	 * @return true if the the band was created. Otherwise, false.
 	 */
 	public String deleteBand(Request req,Response res){
-		if ((req.params(":id"))==""){
+		if ((req.params(":name"))==""){
 			res.status();
 			return "Request invalid";
 		}
 		Session session = SessionManager.getInstance().openSession();
 		BandDAO bdao = new BandDaoImpl(session);
-		Transaction transaction = session.beginTransaction();
-	 	boolean status = bdao.deleteBand(req.params(":id"));
-	 	transaction.commit();
-	 	session.close();
-		if (status){
-			res.status(200);
-			return "Success";
+		Transaction transaction = null;
+		boolean status= false;
+		try{
+			transaction = session.beginTransaction();
+			List<Band> searchResult = bdao.findByName(req.params(":name"));
+			transaction.commit();
+			if (searchResult.size()==1){
+				Band toRemove = searchResult.get(0);
+				transaction = session.beginTransaction();
+			 	status = bdao.deleteBand(toRemove.getId());
+			}
+			transaction.commit();
+		}catch (HibernateException e) {
+			transaction.rollback();
+			status = false;
+			e.printStackTrace();
+		}finally{
+		 	session.close();
+			if (status){
+				res.status(200);
+				return "Success";
+			}
+			res.status(409);
+			return "Fail";
 		}
-		res.status(409);
-		return "Fail";
 	}
 
 	/**
