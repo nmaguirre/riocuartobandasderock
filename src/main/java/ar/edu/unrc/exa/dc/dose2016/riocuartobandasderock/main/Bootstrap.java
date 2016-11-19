@@ -94,18 +94,11 @@ public class Bootstrap {
         landingPageController = LandingPageController.getInstance();
         port(Integer.parseInt(ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().getAppPort()));
 
-        /*before("/bands", (req, res) -> {
-            if (!userController.authenticated(req, res)) {
-                halt(401, "Access forbidden\n");
-            }
-        });*/
-
-        // List of route and verbs API REST
-        // get("/", (req, res) -> {
-        //     Map<String, Object> model = new HashMap<>();
-        //     return new ModelAndView(model, "landing_page/index.vm");
-        // }, new VelocityTemplateEngine()
-        // );
+        // before("/bands", (req, res) -> {
+        //     if (!userController.authenticated(req, res)) {
+        //         halt(401, "Access forbidden\n");
+        //     }
+        // });
 
         get("/", (req, res) -> landingPageController.index(req,res), new VelocityTemplateEngine());
 
@@ -122,7 +115,7 @@ public class Bootstrap {
         /**
         *   Band routes
         */
-        get("/bands",(req, res) -> bands.getBands(req, res),json());
+        get("/bands",(req, res) -> bands.getBands(req, res), new VelocityTemplateEngine());
 
         get("/bands/findbyname/:name",(req, res) -> bands.getBandByName(req, res),json());
 
