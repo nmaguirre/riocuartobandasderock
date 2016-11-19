@@ -57,7 +57,7 @@ public class AlbumDAOTest {
 		
 		transaction.commit();
 	
-		assertTrue(!b);
+		assertFalse(b);
 		session.close();
 	}
 	
@@ -70,7 +70,54 @@ public class AlbumDAOTest {
 	
 		transaction.commit();
 		
-		assertTrue(!b);
+		assertFalse(b);
+		session.close();
+	}
+	
+	@Test
+	public void createAlbumWithNullReleaseDate(){
+		Transaction transaction = session.beginTransaction();
+		
+		boolean c = albumDao.create("AlbumTestAux",null);
+		
+		transaction.commit();
+		
+		assertTrue(c);
+		
+		session.close();
+	}
+	
+	@Test
+	public void createAlbumWithNullReleaseDateAndSameTitle(){
+		Transaction transaction = session.beginTransaction();
+		
+		boolean a = albumDao.create("AlbumTestAux00",new Date(2010,03,11));
+		
+		boolean b = albumDao.create("AlbumTestAux01",new Date(2010,07,11));
+		
+		boolean c = albumDao.create("AlbumTestAux01",null);
+		
+		transaction.commit();
+		
+		assertFalse(c);
+		
+		session.close();
+	}
+	
+	@Test
+	public void createAlbumWithNullReleaseDateAndDistinctTitle(){
+		Transaction transaction = session.beginTransaction();
+		
+		boolean a = albumDao.create("AlbumTest00",new Date(2010,03,11));
+		
+		boolean b = albumDao.create("AlbumTest01",new Date(2010,07,11));
+		
+		boolean c = albumDao.create("AlbumTest02",null);
+		
+		transaction.commit();
+		
+		assertTrue(c);
+		
 		session.close();
 	}
 	
@@ -78,15 +125,12 @@ public class AlbumDAOTest {
 	public void createAlbumIfTitleIsNull(){
 		Transaction transaction = session.beginTransaction();
 		boolean a = albumDao.create(null,null);	
-		
-		transaction.commit();
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void createAlbumIfTitleIsEmptyAndReleaseDateIsNull(){
 		Transaction transaction = session.beginTransaction();
 		boolean a = albumDao.create("",null);	
-		transaction.commit();
 	}
 	
 	@Test
@@ -223,7 +267,7 @@ public class AlbumDAOTest {
 		transaction.commit();
 		session.close();	
 		
-		assertTrue(!res);
+		assertFalse(res);
 	}
 	
 	@Test
@@ -247,15 +291,13 @@ public class AlbumDAOTest {
 		transaction.commit();
 		session.close();	
 		
-		assertTrue(!res);
+		assertFalse(res);
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void updateAlbumWithNullId(){
 		Transaction transaction = session.beginTransaction();
 		boolean res = albumDao.update(null,"AlbumTestUpdate6",null);
-		transaction.commit();
-		session.close();
 	}
 		
 }
