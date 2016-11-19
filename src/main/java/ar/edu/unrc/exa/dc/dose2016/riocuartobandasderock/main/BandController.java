@@ -126,15 +126,15 @@ public class BandController {
 		return bands;
 	}
 
-
-
 	public ModelAndView newBand(Request req,Response res){
     Map<String, Object> attributes = new HashMap<>();
     return new ModelAndView(attributes, "views/bands/new.vm");
 	}
 
-
-
+	public ModelAndView editBand(Request req,Response res){
+    Map<String, Object> attributes = new HashMap<>();
+    return new ModelAndView(attributes, "views/bands/edit.vm");
+	}
 
 	/***
 	 * This method takes the data of a band from the front-end, and creates a band in database
