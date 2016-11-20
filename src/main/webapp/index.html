@@ -2,6 +2,8 @@
 <html lang="en">
 
 <head>
+    <!-- Favicon -->
+	<link rel="shortcut icon" type="image/x-icon" href="img/nenene.jpg">
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -24,21 +26,21 @@
     <link rel="stylesheet" href="vendor/simple-line-icons/css/simple-line-icons.css">
     <link rel="stylesheet" href="vendor/device-mockups/device-mockups.min.css">
 
-        <!-- Theme JavaScript -->
-
+    <!-- Theme JavaScript -->
     <script type="text/javascript" src="javascript/arbor-tween.js"></script>
     <script type="text/javascript" src="javascript/arbor.js"></script>
     <script type="text/javascript" src="javascript/graphics.js"></script>
     <script type="text/javascript" src="javascript/renderer.js"></script>
 
-
     <!-- Theme CSS -->
     <link href="css/new-age.min.css" rel="stylesheet">
-
+    
+    <!-- Our JavaScript -->
+    <script type="text/javascript" src="javascript/other.js"></script>
+    
 </head>
 
 <body id="page-top">
-
     <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -83,8 +85,16 @@
                 </div>
             </div>
         </div>
+        
+        
+        <!-- AudioTest (Se borrara) -->
+        <audio id="nenene" src="sound/rockandrollnene.mp3" type="audio/mpeg"></audio>
+        <button style="color: #FF0000" onclick="document.getElementById('nenene').play()">Rock!!</button>
+        
+       
+       
     </section>
-
+    
     <footer>
         <div class="container">
             <p>&copy; 2016 DOSE UNRC. All Rights Reserved.</p>
@@ -100,7 +110,8 @@
     <!-- Plugin JavaScript -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
     <script src="javascript/mainArbor.js"></script>
-
+    
+    
 </body>
 
 </html>
