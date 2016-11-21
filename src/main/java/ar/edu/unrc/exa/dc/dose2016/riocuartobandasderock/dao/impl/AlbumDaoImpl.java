@@ -116,12 +116,10 @@ public class AlbumDaoImpl implements AlbumDAO{
 			if(exist){
 				//then releaseDate not be in db
 				for(int i=0;i<byReleaseDate.size();i++){
-					
-					SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 					try {
-						if(releaseDate.compareTo(f.parse(byReleaseDate.get(i).getReleaseDate().toString())) == 0){
+						if(releaseDate.compareTo(byReleaseDate.get(i).getReleaseDate()) == 0){
 							return false;
-						}
+						}	
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}

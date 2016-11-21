@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.UUID;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -109,8 +111,9 @@ public class Album {
 	 *
 	 * @return relaseDate
 	 */
-	public Date getReleaseDate() {
-		return releaseDate;
+	public Date getReleaseDate() throws ParseException{
+		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+		return f.parse(this.releaseDate.toString());
 	}
 
 	/**
