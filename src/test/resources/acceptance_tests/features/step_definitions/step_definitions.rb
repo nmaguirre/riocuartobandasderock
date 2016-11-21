@@ -289,7 +289,7 @@ Then(/^the album's database remains empty$/) do
 end
 
 Then(/^the database contains an album named "([^"]*)" with release date "([^"]*)"$/) do |title, releaseDate|
-    queryResult = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select * from AlbumDB where title = '#{title}' and releaseDate = '#{releaseDate}';\" -t`
+    queryResult = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from AlbumDB where title = '#{title}' and releaseDate = '#{releaseDate}';\" -t`
     queryResult = queryResult.gsub(/[^[:print:]]|\s/,'')
     expect(queryResult.code).to eq("1")
 end
