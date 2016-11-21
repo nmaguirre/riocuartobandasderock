@@ -241,7 +241,7 @@ When(/^I delete a song with UUID "([^"]*)"$/) do |id|
   begin
        String s = 'http://localhost:4567/songs/'+id
        response = RestClient.delete s
-      rescue RestClient::NotFound => e
+      rescue RestClient::Conflict => e
           expect(e.response.code).to eq(409)
       end
    end
