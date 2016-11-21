@@ -12,7 +12,26 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 
 public class BandDaoImpl implements BandDAO {
 
+
+	// private SessionManager SessionManager;
+	
+	/**
+	 * This method counts the number of bands 
+	 * 
+	 * @return number of bands
+	 */
+	
+	
+	public int cantBands() {
+		List<Band> bandList = new LinkedList<>();
+		Query<Band> query;
+		query = this.currentSession.createQuery("from Band", Band.class);
+		bandList.addAll(query.getResultList());
+		return bandList.size();
+	}
+	
 	private Session currentSession=null;
+
 
 	public BandDaoImpl(Session session) {
 		this.currentSession = session;
@@ -91,7 +110,7 @@ public class BandDaoImpl implements BandDAO {
 	@Override
 	public boolean deleteBand(String id){
 		Band band = this.getBand(id);
-		if (band.repOK() && this.existBand(band.getName())) {
+		if (band != null && band.repOK() && this.existBand(band.getName())) {
 			this.currentSession.delete(band);
 			return true;
 		} else {

@@ -29,16 +29,21 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandDaoImpl;
 public class Bootstrap {
 
 
-	private static BandController bands ;
+	private static BandController bands;
 	private static ArtistController artistController;
 	private static AlbumController albumController;
     private static UserController userController;
-    private static SongController songController;
+
+	private static SongController songController;
+	private static BandMemberController bandMemberController;
+	private static String view = "src/main/WebApp/views/";
+
     private static LandingPageController landingPageController;
 
     public static void main(String[] args) {
 
-        externalStaticFileLocation("/src/main/resources/webapp");
+
+        staticFileLocation("./webapp");
 
     	CommandLineParser parser = new DefaultParser();
 
@@ -83,27 +88,20 @@ public class Bootstrap {
 
         // List of controller
 
-
         albumController  = AlbumController.getInstance();
-        artistController = new ArtistController();
+        artistController = ArtistController.getInstance();
+        bandMemberController = BandMemberController.getInstance();
         bands = BandController.getInstance();
         songController = new SongController();
         userController = UserController.getInstance();
         landingPageController = LandingPageController.getInstance();
         port(Integer.parseInt(ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().getAppPort()));
 
-        before("/bands", (req, res) -> {
-            if (!userController.authenticated(req, res)) {
-                halt(401, "Access forbidden\n");
-            }
-        });
-
-        // List of route and verbs API REST
-        // get("/", (req, res) -> {
-        //     Map<String, Object> model = new HashMap<>();
-        //     return new ModelAndView(model, "landing_page/index.vm");
-        // }, new VelocityTemplateEngine()
-        // );
+        // before("/bands", (req, res) -> {
+        //     if (!userController.authenticated(req, res)) {
+        //         halt(401, "Access forbidden\n");
+        //     }
+        // });
 
         get("/", (req, res) -> landingPageController.index(req,res), new VelocityTemplateEngine());
 
@@ -120,32 +118,62 @@ public class Bootstrap {
         /**
         *   Band routes
         */
-        get("/bands",(req, res) -> bands.getBands(req, res));
+        get("/bands",(req, res) -> bands.getBands(req, res), new VelocityTemplateEngine());
 
-        get("/bands/findbyname/:name",(req, res) -> bands.getBandByName(req, res));
+        get("/bands/findbyname/:name",(req, res) -> bands.getBandByName(req, res), json());
 
-        get("/bands/findbygenre/:genre",(req, res) -> bands.getBandByGenre(req, res));
+        get("/bands/findbygenre/:genre",(req, res) -> bands.getBandByGenre(req, res),json());
 
-        get("/bands/find/",(req, res) -> bands.getBandByNameAndGenre(req, res));
+        get("/bands/find/",(req, res) -> bands.getBandByNameAndGenre(req, res),json());
 
-        get("/bands/getbandmember/:bandID",(req,res)-> bands.getBandMembers(req, res));
+        get("/bands/getbandmember/:bandID",(req,res)-> bands.getBandMembers(req, res),json());
+
+        get("/bands/new",(req, res) -> bands.newBand(req, res), new VelocityTemplateEngine());
+
+        get("/bands/:id/edit",(req, res) -> bands.editBand(req, res), new VelocityTemplateEngine());
 
         post("/bands/",(req, res) -> bands.createBand(req, res));
 
         put("/bands",(req, res) -> bands.updateBand(req, res));
 
         delete("/bands/:name",(req, res) -> bands.deleteBand(req, res));
+        
+        /* ArtistController  Begin Routes*/
+        
+        /** returns an artist whose id = :id the output is json format
+         * example:   Request: GET /artist/10
+         *            Output : {name: Matias, surname: Cerra, nickname: }
+         * 
+         * **/    
+        get("/artists/:id",(req,res)->artistController.getArtistById(req,res));
+                                
+        get("/artists/findbyallattributes/",(req,res)->artistController.getOneArtist(req,res),json());
+                
+        get("/artists",(req,res)->artistController.getAllArtists(req,res),json());
 
-        get ("/artist", (req,res)->artistController.getAllArtists(req,res),json());
+        get("/artists/findbyname/:name",(req,res)->artistController.getArtistByName(req,res),json());
+        
+        get("/artists/findbynickname/:nickname",(req,res)->artistController.getArtistByNickname(req,res),json());
 
-        get("/artist/findbyname/:name",(req,res)->artistController.getArtistByName(req,res),json());
+        get("/artists/findbysurname/:surname",(req,res)->artistController.getArtistBySurname(req,res),json());
+                        
+        get("/artists/getbands/",(req,res)->artistController.getBandMembersByArtist(req, res),json());
+        
+        get("/artists/getbandsbyId/:artistID",(req,res)->artistController.getBandMembersByArtistId(req, res),json());
 
-        get("/artist/findbynickname/:nickname",(req,res)->artistController.getArtistByNickname(req,res),json());
+        post("/artists",(req,res)->artistController.createArtist(req,res));
+        
+        put("/artists/:id",(req,res)->artistController.updateArtist(req,res));
 
-        get("/artist/findbysurname/:surname",(req,res)->artistController.getArtistBySurname(req,res),json());
-
-        post("/artist/",(req,res)->artistController.createArtist(req,res));
-
+        delete("/artists/:id",(req,res)->artistController.deleteArtist(req,res));
+        
+        /**
+         * BandMember routes
+         */
+        post("/bandmembers",(req,res)->bandMemberController.createBandMember(req, res));
+        
+        delete("/bandmembers/:artistID/:BandID",(req,res)->bandMemberController.deleteBandMember(req, res));
+        
         /**
          * Users routes
          */

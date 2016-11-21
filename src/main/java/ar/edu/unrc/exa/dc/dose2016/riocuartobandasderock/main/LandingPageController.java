@@ -51,6 +51,9 @@ public class LandingPageController {
    */
   public ModelAndView index(Request req ,Response res){
     Map<String, Object> attributes = new HashMap<>();
-    return new ModelAndView(attributes, "views/landing_page/index.vm");
+
+    attributes.put("template", Routes.landing_page());
+    return new ModelAndView(attributes, Routes.layout_landing_page());
+
   }
 }
