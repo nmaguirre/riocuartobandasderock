@@ -5,6 +5,8 @@
 	<title>Rio Cuarto bandas de rock</title>
 	<!--CSS-->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="/css/main.css">
 
 	<!--JS-->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7" crossorigin="anonymous"></script>
@@ -15,19 +17,35 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-route.js"></script>
 	<!-- APP -->
 	<script type="text/javascript" src="app.js"></script>
-	<script type="text/javascript" src="/javascript/controllers/albumController.js"></script>
+	<script type="text/javascript" src="/javascript/controllers/albumsController.js"></script>
+	<script type="text/javascript" src="/javascript/controllers/artistsController.js"></script>
+	<script type="text/javascript" src="/javascript/controllers/bandsController.js"></script>
+	<script type="text/javascript" src="/javascript/controllers/homeController.js"></script>
+	<script type="text/javascript" src="/javascript/controllers/songsController.js"></script>
 </head>
 <body ng-app="app">
-	<div class="container bg-primary">
-		<div class="row">
-			<div class="offset-xs-3 col-xs-6 text-center text-white">
-				<h1>Rio Cuarto bandas de Rock!</h1>
-			</div>
-			<div ng-view></div>
-			<div ng-controller="AlbumController">
-				<button class="btn btn-default" ng-click="click()">Clickeame</button>
-			</div>
-		</div>
+	<div class="container">
+		<nav class="navbar navbar-fixed-top navbar-light bg-faded">
+					<a class="navbar-brand" href="#">RCBR</a>
+					<ul class="nav navbar-nav">
+						<li class="nav-item active">
+							<a class="nav-link" href="#/bands">Bandas <span class="sr-only">(current)</span></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#/albums">Albums</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#/songs">Canciones</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#/artists">Artistas</a>
+						</li>
+					</ul>
+					<form class="form-inline float-xs-right">
+						<input class="form-control" type="text" placeholder="Buscar">
+						<button class="btn btn-success-outline" type="submit">Buscar</button>
+					</form>
+		</nav>
 	</div>
 </body>
 </html>
