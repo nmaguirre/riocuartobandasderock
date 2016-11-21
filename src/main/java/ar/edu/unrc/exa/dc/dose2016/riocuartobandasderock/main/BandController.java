@@ -55,6 +55,8 @@ public class BandController {
 	 * @return A list of all bands
 	 */
 	public ModelAndView getBands(Request req ,Response res){
+    Map<String, Object> attributes = new HashMap<>();
+    
 		Session session = SessionManager.getInstance().openSession();
 		BandDAO bdao = new BandDaoImpl(session);
 		List<Band> bands= bdao.getAllBands();
@@ -64,8 +66,8 @@ public class BandController {
 		res.status(status);
 		// return bands;
 
-    Map<String, Object> attributes = new HashMap<>();
-    return new ModelAndView(attributes, "views/bands/index.vm");
+    attributes.put("template", Routes.index_band());
+    return new ModelAndView(attributes, Routes.layout_dashboard());
 	}
 
 	/***
@@ -76,6 +78,7 @@ public class BandController {
 	 */
 	public List<Band> getBandByName(Request req,Response res){
 		if (req.params(":name")==""){
+			System.out.println("ENTREEE AACACACACACACACACACACA");
 			res.status(400);
 			return null;
 		}
@@ -128,12 +131,18 @@ public class BandController {
 
 	public ModelAndView newBand(Request req,Response res){
     Map<String, Object> attributes = new HashMap<>();
-    return new ModelAndView(attributes, "views/bands/new.vm");
+
+    attributes.put("template", Routes.new_band());
+    attributes.put("title", "new");
+    return new ModelAndView(attributes, Routes.layout_dashboard());
 	}
 
 	public ModelAndView editBand(Request req,Response res){
     Map<String, Object> attributes = new HashMap<>();
-    return new ModelAndView(attributes, "views/bands/edit.vm");
+
+    attributes.put("template", Routes.edit_band());
+    attributes.put("title", "edit");
+    return new ModelAndView(attributes, Routes.layout_dashboard());
 	}
 
 	/***

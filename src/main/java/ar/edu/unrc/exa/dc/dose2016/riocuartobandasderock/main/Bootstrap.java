@@ -117,7 +117,7 @@ public class Bootstrap {
         */
         get("/bands",(req, res) -> bands.getBands(req, res), new VelocityTemplateEngine());
 
-        get("/bands/findbyname/:name",(req, res) -> bands.getBandByName(req, res),json());
+        get("/bands/findbyname/:name",(req, res) -> bands.getBandByName(req, res), json());
 
         get("/bands/findbygenre/:genre",(req, res) -> bands.getBandByGenre(req, res),json());
 
