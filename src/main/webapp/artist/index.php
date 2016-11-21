@@ -140,6 +140,33 @@
 
     }
 
+   function showSearchMenu(by) {            
+        $('#searchForm').slideToggle();
+        switch(by){
+            case "name": 
+                document.getElementById("nameSearch").disabled = false;
+                document.getElementById("surnameSearch").disabled = true;
+                document.getElementById("nicknameSearch").disabled = true;
+                break;
+            case "surname":
+                document.getElementById("nameSearch").disabled = true;
+                document.getElementById("surnameSearch").disabled = false;
+                document.getElementById("nicknameSearch").disabled = true;
+                break;
+            case "nickname":
+                document.getElementById("nameSearch").disabled = true;
+                document.getElementById("surnameSearch").disabled = true;
+                document.getElementById("nicknameSearch").disabled = false;
+                break;
+            case "all":
+                document.getElementById("nameSearch").disabled = false;
+                document.getElementById("surnameSearch").disabled = false;
+                document.getElementById("nicknameSearch").disabled = false;
+        }
+        
+   }
+
+
     $(document).ready(function() {
         showArtists();
     });
@@ -148,6 +175,20 @@
 </head>
 
 <body>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Artist TEAM</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Home</a></li>
+      <li><a href="#">Page 1</a></li>
+      <li><a href="#">Page 2</a></li>
+      <li><a href="#">Page 3</a></li>
+    </ul>
+  </div>
+</nav>
 
 <div class="container">
     <div align="center">
@@ -158,7 +199,23 @@
     </div>    
     <div class="row">
         <div class="panel panel-default users-content">
-            <div class="panel-heading">Artists list<a href="javascript:void(0);" class="glyphicon glyphicon-plus" id="addLink" onclick="javascript:$('#addForm').slideToggle();"></a></div>
+            <div class="panel-heading"><i class="glyphicon glyphicon-th-list"></i>  Artists list
+	<div class="btn-group pull-right" role="group">
+	<button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:$('#addForm').slideToggle();">Add</button>
+	  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	    Search <span class="caret"></span>
+	  </button>
+	  <ul class="dropdown-menu">
+	    <li><a href="javascript:void(0);" onclick="javascript:$(showSearchMenu('name'));">By name</a></li>
+	    <li><a href="javascript:void(0);" onclick="javascript:$(showSearchMenu('surname'));">By surname</a></li>
+	    <li><a href="javascript:void(0);" onclick="javascript:$(showSearchMenu('nickname'));">By nickname</a></li>
+	    <li role="separator" class="divider"></li>
+	    <li><a href="javascript:void(0);" onclick="javascript:$(showSearchMenu('all'));">By all fields</a></li>
+	  </ul>
+
+	</div>
+
+	    </div>
             <div class="panel-body none formData" id="addForm">
                 <h2 id="actionLabel">Add Artist</h2>
                 <form class="form" id="userForm">
@@ -174,10 +231,11 @@
                         <label>Nickname</label>
                         <input type="text" class="form-control" name="nickname" id="nickname"/>
                     </div>
-                    <a href="javascript:void(0);" class="btn btn-warning" onclick="$('#addForm').slideUp();">Cancel</a>
+                    <a href="javascript:void(0);" class="btn btn-warning" onclick="$('#addForm').slideUp(); $('.form')[0].reset();">Cancel</a>
                     <a href="javascript:void(0);" class="btn btn-success" onclick="addArtist()">Add Artist</a>
                 </form>
             </div>
+
             <div class="panel-body none formData" id="editForm">
                 <h2 id="actionLabel">Edit Artist</h2>
                 <form class="form" id="userForm">
@@ -196,6 +254,27 @@
                     <input type="hidden" class="form-control" name="id" id="idEdit"/>
                     <a href="javascript:void(0);" class="btn btn-warning" onclick="$('#editForm').slideUp();">Cancel</a>
                     <a href="javascript:void(0);" class="btn btn-success" onclick="updateArtist()">Update Artist</a>
+                </form>
+            </div>
+
+	    <div class="panel-body none formData" id="searchForm">
+                <h2 id="actionLabel">Search Artist</h2>
+                <form class="form" id="userForm">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" class="form-control" name="name" id="nameSearch"/>
+                    </div>
+                    <div class="form-group">
+                        <label>Surname</label>
+                        <input type="text" class="form-control" name="surname" id="surnameSearch"/>
+                    </div>
+                    <div class="form-group">
+                        <label>Nickname</label>
+                        <input type="text" class="form-control" name="nickname" id="nicknameSearch"/>
+                    </div>
+                    <input type="hidden" class="form-control" name="id" id="idSearch"/>
+                    <a href="javascript:void(0);" class="btn btn-warning" onclick="$('#searchForm').slideUp();">Cancel</a>
+                    <a href="javascript:void(0);" class="btn btn-success" onclick="updateArtist()">Search Artist</a>
                 </form>
             </div>
             <table class="table table-striped">
