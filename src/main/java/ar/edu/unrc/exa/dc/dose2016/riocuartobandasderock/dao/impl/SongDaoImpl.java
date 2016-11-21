@@ -59,11 +59,15 @@ public class SongDaoImpl implements SongDAO{
 	public Boolean removeSong(String id){
 		if (id != null) {
 			Song s = findById(id);
-			this.currentSession.delete(s);
-			return true;
-		} else {
-			return false;
-		}
+			if (s != null){
+				this.currentSession.delete(s);
+				return true;
+			} else {
+				return false; 
+			}
+		} 
+		
+		return false;
 	}
 	
 	/**
