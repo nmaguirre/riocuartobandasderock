@@ -2,6 +2,7 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
 import java.util.List;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -13,6 +14,15 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandMemberDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandMemberDAOImpl;
 import spark.Request;
 import spark.Response;
+
+import spark.ModelAndView;
+
+import spark.ModelAndView;
+import spark.TemplateEngine;
+
+import java.util.HashMap;
+import java.util.Map;
+
 
 /***
  *
@@ -44,14 +54,20 @@ public class BandController {
 	 * @param res
 	 * @return A list of all bands
 	 */
-	public List<Band> getBands(Request req ,Response res){
+	public ModelAndView getBands(Request req ,Response res){
+    Map<String, Object> attributes = new HashMap<>();
+    
 		Session session = SessionManager.getInstance().openSession();
 		BandDAO bdao = new BandDaoImpl(session);
 		List<Band> bands= bdao.getAllBands();
+		System.out.println("===================== SE ROMPIO ACA ===================");
 		session.close();
 		int status = (bands.size()>0)? 200:204;
 		res.status(status);
-		return bands;
+		// return bands;
+
+    attributes.put("template", Routes.index_band());
+    return new ModelAndView(attributes, Routes.layout_dashboard());
 	}
 
 	/***
@@ -62,6 +78,7 @@ public class BandController {
 	 */
 	public List<Band> getBandByName(Request req,Response res){
 		if (req.params(":name")==""){
+			System.out.println("ENTREEE AACACACACACACACACACACA");
 			res.status(400);
 			return null;
 		}
@@ -112,6 +129,22 @@ public class BandController {
 		return bands;
 	}
 
+	public ModelAndView newBand(Request req,Response res){
+    Map<String, Object> attributes = new HashMap<>();
+
+    attributes.put("template", Routes.new_band());
+    attributes.put("title", "new");
+    return new ModelAndView(attributes, Routes.layout_dashboard());
+	}
+
+	public ModelAndView editBand(Request req,Response res){
+    Map<String, Object> attributes = new HashMap<>();
+
+    attributes.put("template", Routes.edit_band());
+    attributes.put("title", "edit");
+    return new ModelAndView(attributes, Routes.layout_dashboard());
+	}
+
 	/***
 	 * This method takes the data of a band from the front-end, and creates a band in database
 	 * @param req
@@ -125,16 +158,25 @@ public class BandController {
 		}
 		Session session = SessionManager.getInstance().openSession();
 		BandDAO bdao = new BandDaoImpl(session);
-		Transaction transaction = session.beginTransaction();
-		boolean status = bdao.createBand(req.queryParams("name"),req.queryParams("genre"));
-		transaction.commit();
-		session.close();
-		if (status){
-			res.status(201);
-			return "Success";
+		Transaction transaction = null;
+		boolean status = false;
+		try{
+			transaction = session.beginTransaction();
+			status = bdao.createBand(req.queryParams("name"),req.queryParams("genre"));
+			transaction.commit();
+		}catch(HibernateException e){
+			transaction.rollback();
+			status = false;
+			e.printStackTrace();
+		}finally {
+			session.close();
+			if (status){
+				res.status(201);
+				return "Success";
+			}
+			res.status(409);
+			return "Fail";
 		}
-		res.status(409);
-		return "Fail";
 	}
 
 	/***
@@ -158,16 +200,25 @@ public class BandController {
 		}
 		String bandName = (req.queryParams("name"));
 		String bandGenre = (req.queryParams("genre"));
-		Transaction transaction = session.beginTransaction();
-		boolean status = bdao.updateBand(band.getId(),bandName,bandGenre);
-		transaction.commit();
-		session.close();
-		if (status){
-			res.status(200);
-			return "Success";
+		Transaction transaction = null;
+		boolean status = false;
+		try{
+			transaction = session.beginTransaction();
+			status = bdao.updateBand(band.getId(),bandName,bandGenre);
+			transaction.commit();
+		}catch (HibernateException e) {
+			transaction.rollback();
+			status = false;
+			e.printStackTrace();
+		}finally{
+			session.close();
+			if (status){
+				res.status(200);
+				return "Success";
+			}
+			res.status(409);
+			return "Fail";
 		}
-		res.status(409);
-		return "Fail";
 	}
 
 	/***
@@ -177,22 +228,37 @@ public class BandController {
 	 * @return true if the the band was created. Otherwise, false.
 	 */
 	public String deleteBand(Request req,Response res){
-		if ((req.params(":id"))==""){
+		if ((req.params(":name"))==""){
 			res.status();
 			return "Request invalid";
 		}
 		Session session = SessionManager.getInstance().openSession();
 		BandDAO bdao = new BandDaoImpl(session);
-		Transaction transaction = session.beginTransaction();
-	 	boolean status = bdao.deleteBand(req.params(":id"));
-	 	transaction.commit();
-	 	session.close();
-		if (status){
-			res.status(200);
-			return "Success";
+		Transaction transaction = null;
+		boolean status= false;
+		try{
+			transaction = session.beginTransaction();
+			List<Band> searchResult = bdao.findByName(req.params(":name"));
+			transaction.commit();
+			if (searchResult.size()==1){
+				Band toRemove = searchResult.get(0);
+				transaction = session.beginTransaction();
+			 	status = bdao.deleteBand(toRemove.getId());
+			}
+			transaction.commit();
+		}catch (HibernateException e) {
+			transaction.rollback();
+			status = false;
+			e.printStackTrace();
+		}finally{
+		 	session.close();
+			if (status){
+				res.status(200);
+				return "Success";
+			}
+			res.status(409);
+			return "Fail";
 		}
-		res.status(409);
-		return "Fail";
 	}
 
 	/**

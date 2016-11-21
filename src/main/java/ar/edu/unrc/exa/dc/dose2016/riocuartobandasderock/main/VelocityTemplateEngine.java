@@ -44,11 +44,16 @@ public class VelocityTemplateEngine extends TemplateEngine {
     public VelocityTemplateEngine() {
         Properties properties = new Properties();
 
-        String path = "/Users/Ezequiel/Documents/Programs/Java/DOSE/riocuartobandasderock/riocuartobandasderock/src/main/webapp/views";
+        String path = "/Users/Ezequiel/Documents/Programs/Java/DOSE/riocuartobandasderock/riocuartobandasderock/src/main/resources/webapp/views";
         properties.setProperty("file.resource.loader.path", path);
 
+        String root_path = "/Users/Ezequiel/Documents/Programs/Java/DOSE/riocuartobandasderock/riocuartobandasderock/src/main/resources/webapp";
+        properties.setProperty("file.resource.loader.path", root_path);
 
-        // properties.setProperty("resource.loader", "src/main/webapp/views/");
+        // properties.setProperty("file.resource.loader.path", "resources/webapp/views");
+
+
+        // properties.setProperty("resource.loader", "webapp/views/");
         properties.setProperty(
                 "class.resource.loader.class",
                 "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
