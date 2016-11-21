@@ -68,7 +68,6 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-7">
-                    <div class="header-content">
                         <div class="header-content-inner">
                             <canvas id="viewport" width="800" height="600"></canvas>
                         </div>
@@ -77,7 +76,82 @@
             </div>
         </div>
     </header>
-
+    
+   <!-- ZONA DE BUSQUEDA Provisional (mover a la derecha de arborjs) -->
+	<section>
+	  <div style="width: 360px; ">
+		<p>Search Songs</p>
+			<form action="songFindByName(this.value)">
+				By name:<br>
+				<input type="text" name="name"><input type="submit">
+				<br>
+			</form>
+			<form action="songFindByDuration(this.value)">
+				By duration:<br>
+				<input type="text" name="duration"><input type="submit">
+				<br>
+			</form>		
+			<br>
+			<button style="color: black" onclick="songGetAll()">Search All</button>			
+	  </div>
+	  <br>
+	  <div style="width: 360px; ">
+		<p>Search Artists</p>
+			<form action="artistFindByName(this.value)">
+				By name:<br>
+				<input type="text" name="name"><input type="submit">
+				<br>
+			</form>
+			<form action="artistFindByNickname(this.value)">
+				By nickname:<br>
+				<input type="text" name="nickname"><input type="submit">
+				<br>
+			</form>
+				<form action="artistFindBySurname(this.value)">
+				By surname:<br>
+				<input type="text" name="surname"><input type="submit">
+			    <br>
+			</form>	
+			<br>
+			<button style="color: black" onclick="artisGetAll()">Search All</button>				
+	  </div>
+	  <br>
+	  <div style="width: 360px; ">
+		<p>Search ALbums</p>
+			<form action="albumFindByTitle(this.value)">
+				By title:<br>
+				<input type="text" name="title"><input type="submit">
+				<br>
+			</form>
+			<form action="albumFindByReleaseDate(this.value)">
+				By ReleaseDate:<br>
+				<input type="text" name="releasedate"><input type="submit">
+				<br>
+			</form>
+			<br>
+			<button style="color: black" onclick="albumGetAll()">Search All</button>			
+	  </div>
+	  <br>
+	  <div style="width: 360px; ">
+		<p>Search Bands</p>
+			<form action="bandFindByName(this.value)">
+				By name:<br>
+				<input type="text" name="name"><input type="submit">
+				<br>
+			</form>
+			<form action="bandFindByGenre(this.value)">
+				By genre:<br>
+				<input type="text" name="genre"><input type="submit">
+				<br>
+			</form>
+			<br>
+			<button style="color: black" onclick="bandGetAll()">Search All</button>			
+	  </div>    	  	
+	</section>
+	
+	
+	
+	
     <section id="download" class="download bg-primary text-center">
         <div class="container">
             <div class="row">
@@ -86,7 +160,7 @@
             </div>
         </div>
         
-        
+        <div id="show">Customer info will be listed here...</div>
         <!-- AudioTest (Se borrara) -->
         <audio id="nenene" src="sound/rockandrollnene.mp3" type="audio/mpeg"></audio>
         <button style="color: #FF0000" onclick="document.getElementById('nenene').play()">Rock!!</button>

@@ -7,9 +7,11 @@ function songGetAll() {
 	  xhttp = new XMLHttpRequest();
 	  xhttp.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
-	    document.getElementById("show").innerHTML = this.responseText;
+	    //document.getElementById("show").innerHTML = this.responseText;
+	    songResp = JSON.parse(xhttp.responseText);
 	    }
 	  };
+	  
 	  xhttp.open("GET", "/songs", true);
 	  xhttp.send();
 	}
@@ -25,10 +27,12 @@ function songFindByName(str) {
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
     document.getElementById("show").innerHTML = this.responseText;
+    songResp = JSON.parse(xhttp.responseText);
     }
   };
   xhttp.open("GET", "/songs/findbyname/"+str, true);
   xhttp.send();
+  
 }
 
 //FindByDuration
@@ -42,6 +46,7 @@ function songFindByDuration(str) {
 	  xhttp.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
 	    document.getElementById("show").innerHTML = this.responseText;
+	    songResp = JSON.parse(xhttp.responseText);
 	    }
 	  };
 	  xhttp.open("GET", "/songs/findbyduration/"+str, true);
@@ -56,7 +61,8 @@ function artistGetAll() {
 	  xhttp = new XMLHttpRequest();
 	  xhttp.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
-	    document.getElementById("show").innerHTML = this.responseText;
+	    //document.getElementById("show").innerHTML = this.responseText;
+	    artistResp = JSON.parse(xhttp.responseText);
 	    }
 	  };
 	  xhttp.open("GET", "/artist", true);
@@ -74,6 +80,7 @@ function artistFindByName(str) {
 	  xhttp.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
 	    document.getElementById("show").innerHTML = this.responseText;
+	    artistResp = JSON.parse(xhttp.responseText);
 	    }
 	  };
 	  xhttp.open("GET", "/artist/findbyname/"+str, true);
@@ -91,6 +98,7 @@ function artistFindByNickname(str) {
 	  xhttp.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
 	    document.getElementById("show").innerHTML = this.responseText;
+	    artistResp = JSON.parse(xhttp.responseText);
 	    }
 	  };
 	  xhttp.open("GET", "/artist/findbynickname/"+str, true);
@@ -108,6 +116,7 @@ function artistFindBySurname(str) {
 	  xhttp.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
 	    document.getElementById("show").innerHTML = this.responseText;
+	    artistResp = JSON.parse(xhttp.responseText);
 	    }
 	  };
 	  xhttp.open("GET", "/artist/findbysurname/"+str, true);
@@ -122,7 +131,8 @@ function albumGetAll() {
 	  xhttp = new XMLHttpRequest();
 	  xhttp.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
-	    document.getElementById("show").innerHTML = this.responseText;
+	    //document.getElementById("show").innerHTML = this.responseText;
+	    albumResp = JSON.parse(xhttp.responseText);	
 	    }
 	  };
 	  xhttp.open("GET", "/albums", true);
@@ -140,6 +150,7 @@ function albumFindByReleaseDate(str) {
 	  xhttp.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
 	    document.getElementById("show").innerHTML = this.responseText;
+	    albumResp = JSON.parse(xhttp.responseText);	
 	    }
 	  };
 	  xhttp.open("GET", "albums/findByReleaseDate"+str, true);
@@ -157,6 +168,7 @@ function albumFindByTitle(str) {
 	  xhttp.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
 	    document.getElementById("show").innerHTML = this.responseText;
+	    albumResp = JSON.parse(xhttp.responseText);	
 	    }
 	  };
 	  xhttp.open("GET", "/albums/findByTitle/"+str, true);
@@ -164,4 +176,52 @@ function albumFindByTitle(str) {
 	}
 
 //********** Band **********
-//Falta..
+//GetAll
+function bandGetAll() {
+	  var xhttp; 
+	  xhttp = new XMLHttpRequest();
+	  xhttp.onreadystatechange = function() {
+	    if (this.readyState == 4 && this.status == 200) {
+	    //document.getElementById("show").innerHTML = this.responseText;
+	    bandResp = JSON.parse(xhttp.responseText);	
+	    }
+	  };
+	  xhttp.open("GET", "/bands", true);
+	  xhttp.send();
+	}
+
+//FindByName
+function bandFyndByName(str) {
+	  var xhttp; 
+	  if (str == "") {
+	    document.getElementById("show").innerHTML = "";
+	    return;
+	  }
+	  xhttp = new XMLHttpRequest();
+	  xhttp.onreadystatechange = function() {
+	    if (this.readyState == 4 && this.status == 200) {
+	    document.getElementById("show").innerHTML = this.responseText;
+	    bandResp = JSON.parse(xhttp.responseText);
+	    }
+	  };
+	  xhttp.open("GET", "/bands/findbyname"+str, true);
+	  xhttp.send();
+	}
+
+//FindByTGenre
+function bandFindByGenre(str) {
+	  var xhttp; 
+	  if (str == "") {
+	    document.getElementById("show").innerHTML = "";
+	    return;
+	  }
+	  xhttp = new XMLHttpRequest();
+	  xhttp.onreadystatechange = function() {
+	    if (this.readyState == 4 && this.status == 200) {
+	    document.getElementById("show").innerHTML = this.responseText;
+	    bandResp = JSON.parse(xhttp.responseText);
+	    }
+	  };
+	  xhttp.open("GET", "/bands/findbygenre"+str, true);
+	  xhttp.send();
+	}
