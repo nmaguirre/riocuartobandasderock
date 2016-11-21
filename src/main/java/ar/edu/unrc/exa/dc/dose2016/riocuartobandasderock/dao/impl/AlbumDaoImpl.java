@@ -13,6 +13,8 @@ import org.hibernate.Transaction;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.AlbumDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
+
 /**
  * This class implements the AlbumDAO interface,
  * and contains the methods necessary 
@@ -31,6 +33,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 //	private Transaction currentTransaction;
 	
 	private Session currentSession=null;
+
 	
 	public AlbumDaoImpl(Session session) {
 		this.currentSession = session;
@@ -93,9 +96,10 @@ public class AlbumDaoImpl implements AlbumDAO{
 	/**
 	 * @param title
 	 * @param releaseDate
+	 * @param songs
 	 * @return true iff album was inserted into data base correctly
 	 */
-	public boolean create(String title, Date releaseDate){
+	public boolean create(String title, Date releaseDate, List<Object> songs){
 		if(title==null || title.equals("") ) throw new IllegalArgumentException("Error: AlbumDaoImpl.createAlbum() : Database doesnt support null or empty title");
 		boolean isCreated=false;
 		if(releaseDate!=null){
@@ -139,6 +143,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 		}
 		if (isCreated){
 			Album album = new Album(title,releaseDate);
+			if (this.castSongsList(songs)!=null) album.setSongs(this.castSongsList(songs));
 			if (!album.repOk()) throw new IllegalArgumentException ("Bad representation of album");
 			this.currentSession.save(album);
 		}
@@ -159,6 +164,20 @@ public class AlbumDaoImpl implements AlbumDAO{
 	}
 	
 	/**
+	 * This method 'cast' the list of songs, 
+	 * if a song does not surpass the repOk then returns a null list.
+	 * @param songs
+	 * @return Songs List that was casted
+	 */
+	private List<Song> castSongsList (List<Object> songs){
+		List<Song> parseSongs = new LinkedList<Song>();
+		for (int i=0; i<songs.size();i++){
+			if (!( (Song) songs.get(i) ).repOk() ) return null;
+			parseSongs.add( (Song) songs.get(i) );
+		}
+		return parseSongs;
+	}
+	/**
 	 * This method receives the fields to be updated 
 	 * and also the id of the album to be updated. 
 	 * If any of the fields are null, 
@@ -168,31 +187,43 @@ public class AlbumDaoImpl implements AlbumDAO{
 	 * @param id
 	 * @param title
 	 * @param releaseDate
+	 * @param songs
 	 * @return true iff update was successful
 	 */
-	public boolean update(String id, String title, Date releaseDate){
+	public boolean update(String id, String title, Date releaseDate, List<Object> songs){
 		if (id==null) throw new IllegalArgumentException("Error : AlbumDaoImpl.update() null Id");
 		Album toUpdate = this.findById(id);
 		if (toUpdate==null) return false;
 		//skip representation
-		if (title==null && releaseDate==null) return true;
+		if (title==null && releaseDate==null && songs==null) return true;
 		if (title!=null && !title.equals("")){
 			if (releaseDate!=null){
 				toUpdate.setTitle(title);
 				toUpdate.setReleaseDate(releaseDate);
+				if (songs!=null && this.castSongsList(songs)!=null) toUpdate.setSongs(this.castSongsList(songs));
 				this.currentSession.saveOrUpdate(toUpdate);
 				//SessionManager.getInstance().getCurrentSession().saveOrUpdate(toUpdate);
 				return true;
+				
 			}
 			toUpdate.setTitle(title);
+			if (songs!=null && this.castSongsList(songs)!=null) toUpdate.setSongs(this.castSongsList(songs));
 			this.currentSession.saveOrUpdate(toUpdate);
 			return true;
 		}
 		if (title==null && releaseDate!=null){
 			toUpdate.setReleaseDate(releaseDate);
+			if (songs!=null && this.castSongsList(songs)!=null) toUpdate.setSongs(this.castSongsList(songs));
 			this.currentSession.saveOrUpdate(toUpdate);
 			return true;
 		}
+		if (title==null && releaseDate == null && songs!=null){
+			if (this.castSongsList(songs)!=null){ 
+				toUpdate.setSongs(this.castSongsList(songs));
+				return true;
+			}
+		}
+		if (this.castSongsList(songs)==null) return false;
 		return false;
 	}
 }
