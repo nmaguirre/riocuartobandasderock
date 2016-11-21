@@ -240,3 +240,106 @@ This will delete the specified album
 This will update the information of a specific albun
 
 + Response 200
+
+# Group Songs
+Resources related to songs in the API
+## Songs Collection [/songs/]
+### List all songs [GET]
+This will list all the songs in the database
++ Response 200 (application/json)
+    + Body
+
+            [{
+                "idSong": "1",
+                "name": "Jijiji",
+                "duration": "336",
+                "album": "7"
+            },{
+                "idSong": "7",
+                "name": "Estadio Azteca",
+                "duration": "229",
+                "album": "3"
+            }]
+            
+### Create a new Song [POST]
+
+You may add a new song using this action. It takes a JSON object containing a name, a duration in seconds and the id of the album which it belongs to.
+
++ name (string) - Song name
++ duration (int) - Song duration
++ album_id (int) - Id of the song album
+
++ Request (application/json)
+    + Body
+
+            {
+                "idSong": "8",
+                "name": "Los Dinosaurios",
+                "duration": "218",
+                "album_id": "4"
+            }
+
+
++ Response 201 (application/json)
+
+## Song [/songs/findbyname/{name}]
+
++ Parameters
+  + name (string) - name of the song
+
+### List all songs with a specific name [GET]
+
+This will list all the songs in the database with a specific name
+
++ Response 200 (application/json)
+    + Body
+
+            [
+              {
+                "idSong": "9",
+                "name": "Los Dinosaurios",
+                "duration": "218",
+                "album_id": "4"
+            }, {
+               "idSong": "10",
+                "name": "Los Dinosaurios",
+                "duration": "229",
+                "album_id": "9"
+            }]
+            
+## Song [/songs/findbyduration/{duration}]
+
++ Parameters
+  + duration (int) - duration of the song
+
+### List all songs with a specific duration [GET]
+
+This will list all the songs in the database with a specific duration
+
++ Response 200 (application/json)
+    + Body
+
+            [
+              {
+                "idSong": "9",
+                "name": "Los Dinosaurios",
+                "duration": "218",
+                "album_id": "4"
+            }, {
+               "idSong": "14",
+                "name": "Mujer Amante",
+                "duration": "218",
+                "album_id": "10"
+            }]
+
+## Song [/songs/{song_id}]
+
++ Parameters
+  + song_id (number) - ID of the song in the form of an integer
+
+### Deleta a song with a specific id [DELETE]
+
+This will delete the specified song
+
++ Response 200
+
