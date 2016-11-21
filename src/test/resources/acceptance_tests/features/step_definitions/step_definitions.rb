@@ -237,6 +237,16 @@ When(/^I update the album with name "([^"]*)" and release date "([^"]*)" to name
         end
 end
 
+When(/^I delete a song with UUID "([^"]*)"$/) do |id|
+  begin
+       String s = 'http://localhost:4567/songs/'+id
+       response = RestClient.delete s
+      rescue RestClient::NotFound => e
+          expect(e.response.code).to eq(409)
+      end
+   end
+
+
 Then(/^the artist's database should have (\d+) entry$/) do |arg1|
     result = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select count(*) from artistDB;\" -t`
     result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars

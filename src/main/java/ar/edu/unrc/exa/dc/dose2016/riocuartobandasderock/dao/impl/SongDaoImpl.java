@@ -58,7 +58,8 @@ public class SongDaoImpl implements SongDAO{
 	@Override   
 	public Boolean removeSong(String id){
 		if (id != null) {
-			this.currentSession.delete(id);
+			Song s = findById(id);
+			this.currentSession.delete(s);
 			return true;
 		} else {
 			return false;

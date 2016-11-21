@@ -180,9 +180,10 @@ public class SongController {
 			res.status(200);
 			res.body("Success");
 			res.body();
-		}
-		res.status(409);
-		res.body("Fail");
+		} else {
+			res.status(409);
+			res.body("Fail");
+		}	
 		return res.body();
 
 	}
@@ -228,9 +229,10 @@ public class SongController {
 			res.status(200);
 			res.body("Success");
 			res.body();
-		}
-		res.status(409);
-		res.body("Fail");
+		} else {
+			res.status(409);
+			res.body("Fail");
+		}	
 		return res.body();
     }
 

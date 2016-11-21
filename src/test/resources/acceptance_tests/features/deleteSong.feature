@@ -1,24 +1,19 @@
-Feature: I delete Song
-	The application receive a song that I want to delete from the database
+Feature: The application responds appropriately to all events that correspond to the various forms of delete songs in the system
 
-	
-Scenario: I delete a song that doesn't exist
-	Given That the song with the name "Jijiji" doesn't exist in the database
-	And The database contains 1 song with the name "Un Angel"
-	When I delete a song with the name "Jijiji"
-	Then An exception is thrown
-	And The database contains 1 song with the name "Un Angel"   
-	
-Scenario: I delete a song that exist
-	Given That the song with name "Jijiji" is in the database
-	And The song with name "Un Angel" is in the database 
-	When I delete a song with the name "Jijiji"
-	Then I delete a song with the name "Jijiji" from database
-	And The database contains 1 song with the name "Un Angel"
-	
-Scenario: I delete a song that doesn't exist
-	Given That the song with the name "Jijiji"
-	And The database is empty
-	When I delete a song with the name "Jijij"
-	Then An exception is thrown
-	And the database is empty
+	Background:
+		Given that the application has been started
+		
+	Scenario: Delete a song on an empty song's database
+		Given that the song's database is empty
+		When I delete a song with UUID "44f464ce-b000-11e6-80f5-76304dec7eb7"
+		Then the song's database should have 0 entry 
+		
+	Scenario: Delete a song that exists in database
+		Given that the song's database have one song with UUID "44f464ce-b000-11e6-80f5-76304dec7eb7"
+		When I delete a song with UUID "44f464ce-b000-11e6-80f5-76304dec7eb7"
+		Then the song's database should have 0 entry
+		
+	Scenario: Delete a song that doesn't exist in database
+		Given that the song's database have one song with UUID "44f464ce-b000-11e6-80f5-76304dec7eb7"
+		When I delete a song with the UUID "c6039a6c-b000-11e6-80f5-76304dec7eb7"
+		Then the song's database should have 1 entry
