@@ -40,7 +40,7 @@ public class Bootstrap {
 
     public static void main(String[] args) {
 
-        staticFileLocation("./webapp");
+        staticFileLocation("/webapp");
 
     	CommandLineParser parser = new DefaultParser();
 
@@ -103,11 +103,11 @@ public class Bootstrap {
         get("/", (req, res) -> landingPageController.index(req,res), new VelocityTemplateEngine());
 
         post("/albums", (req, res) -> albumController.create(req, res));
-               
+
         get("/albums", (req, res) -> albumController.getAll(req, res));
-              
+
         get("/albums/findByTitle/:title", (req, res) -> albumController.findByTitle(req, res));
-                
+
         get("/albums/findByReleaseDate/:release_date", (req, res) -> albumController.findByReleaseDate(req, res));
 
         get("/hello", (req, res) -> "Hello World");
@@ -135,43 +135,43 @@ public class Bootstrap {
         put("/bands",(req, res) -> bands.updateBand(req, res));
 
         delete("/bands/:name",(req, res) -> bands.deleteBand(req, res));
-        
+
         /* ArtistController  Begin Routes*/
-        
+
         /** returns an artist whose id = :id the output is json format
          * example:   Request: GET /artist/10
          *            Output : {name: Matias, surname: Cerra, nickname: }
-         * 
-         * **/    
+         *
+         * **/
         get("/artists/:id",(req,res)->artistController.getArtistById(req,res));
-                                
+
         get("/artists/findbyallattributes/",(req,res)->artistController.getOneArtist(req,res),json());
-                
+
         get("/artists",(req,res)->artistController.getAllArtists(req,res),json());
 
         get("/artists/findbyname/:name",(req,res)->artistController.getArtistByName(req,res),json());
-        
+
         get("/artists/findbynickname/:nickname",(req,res)->artistController.getArtistByNickname(req,res),json());
 
         get("/artists/findbysurname/:surname",(req,res)->artistController.getArtistBySurname(req,res),json());
-                        
+
         get("/artists/getbands/",(req,res)->artistController.getBandMembersByArtist(req, res),json());
-        
+
         get("/artists/getbandsbyId/:artistID",(req,res)->artistController.getBandMembersByArtistId(req, res),json());
 
         post("/artists",(req,res)->artistController.createArtist(req,res));
-        
+
         put("/artists/:id",(req,res)->artistController.updateArtist(req,res));
 
         delete("/artists/:id",(req,res)->artistController.deleteArtist(req,res));
-        
+
         /**
          * BandMember routes
          */
         post("/bandmembers",(req,res)->bandMemberController.createBandMember(req, res));
-        
+
         delete("/bandmembers/:artistID/:BandID",(req,res)->bandMemberController.deleteBandMember(req, res));
-        
+
         /**
          * Users routes
          */

@@ -4,7 +4,7 @@
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- *  
+ *
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -45,24 +45,14 @@ public class VelocityTemplateEngine extends TemplateEngine {
      */
     public VelocityTemplateEngine() {
         Properties properties = new Properties();
-        Path p = FileSystems.getDefault().getPath("main","VelocityTemplateEngine.java"); // p have the path of  this file
-        p = p.toAbsolutePath(); // get absolute path 
-        p =p.getParent().getParent().getParent().getParent().getParent(); 
-        String path = p.toString() + "/main/resources/webapp/views";
-        System.out.println(p.toString());
-        System.out.println(path);
-        properties.setProperty("file.resource.loader.path", path);
-
-        String root_path = p.toString() + "/main/resources/webapp";
-        properties.setProperty("file.resource.loader.path", root_path);
-
-        // properties.setProperty("file.resource.loader.path", "resources/webapp/views");
-
-
-        // properties.setProperty("resource.loader", "webapp/views/");
-        properties.setProperty(
-                "class.resource.loader.class",
-                "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+        Path p = FileSystems.getDefault().getPath("");
+        p = p.toAbsolutePath();
+        String src_path = p.toString() + "/target/classes/webapp";
+        String target_path = p.toString() + "/src/main/resources/webapp";
+        properties.setProperty("file.resource.loader.path", src_path);
+        properties.setProperty("file.resource.loader.path", target_path);
+        properties.setProperty("class.resource.loader.class",
+                               "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         this.velocityEngine = new org.apache.velocity.app.VelocityEngine(properties);
     }
 
