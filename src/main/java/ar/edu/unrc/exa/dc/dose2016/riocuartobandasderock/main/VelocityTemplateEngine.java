@@ -18,6 +18,8 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
@@ -43,11 +45,15 @@ public class VelocityTemplateEngine extends TemplateEngine {
      */
     public VelocityTemplateEngine() {
         Properties properties = new Properties();
-
-        String path = "/Users/Ezequiel/Documents/Programs/Java/DOSE/riocuartobandasderock/riocuartobandasderock/src/main/resources/webapp/views";
+        Path p = FileSystems.getDefault().getPath("main","VelocityTemplateEngine.java"); // p have the path of  this file
+        p = p.toAbsolutePath(); // get absolute path 
+        p =p.getParent().getParent().getParent().getParent().getParent(); 
+        String path = p.toString() + "/main/resources/webapp/views";
+        System.out.println(p.toString());
+        System.out.println(path);
         properties.setProperty("file.resource.loader.path", path);
 
-        String root_path = "/Users/Ezequiel/Documents/Programs/Java/DOSE/riocuartobandasderock/riocuartobandasderock/src/main/resources/webapp";
+        String root_path = p.toString() + "/main/resources/webapp";
         properties.setProperty("file.resource.loader.path", root_path);
 
         // properties.setProperty("file.resource.loader.path", "resources/webapp/views");
