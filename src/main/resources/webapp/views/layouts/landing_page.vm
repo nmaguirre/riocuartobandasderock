@@ -76,8 +76,8 @@
 
   <!-- jQuery -->
   <script src="vendor/jquery/jquery.js"></script>
-  <script src="vendor/jbootstrap/js/bootstrap.min.js"></script>
-  <script src="ssets/js/grayscale.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+  <script src="assets/js/grayscale.min.js"></script>
 
   <!-- Plugin JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
