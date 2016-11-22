@@ -48,6 +48,30 @@ When(/^I add a band with name "([^"]*)" and genre "([^"]*)"$/) do |name, genre|
   end
 end
 
+When(/^I add a band with no name and no genre$/) do
+  begin
+   response = RestClient.post 'http://localhost:4567/bands/', {}, :content_type => 'text/plain'
+   rescue RestClient::Conflict => e
+   expect(e.response.code).to eq(409)
+  end
+end
+
+When(/^I add a band with no name and genre "([^"]*)"$/) do | genre|
+  begin
+   response = RestClient.post 'http://localhost:4567/bands/', { :genre => genre }, :content_type => 'text/plain'
+   rescue RestClient::Conflict => e
+   expect(e.response.code).to eq(409)
+  end
+end
+
+When(/^I add a band with name "([^"]*)" and no genre$/) do | name|
+  begin
+   response = RestClient.post 'http://localhost:4567/bands/', { :name => name }, :content_type => 'text/plain'
+   rescue RestClient::Conflict => e
+   expect(e.response.code).to eq(409)
+  end
+end
+
 When(/^I remove a band with name "([^"]*)" and genre "([^"]*)" that exists in bands' database$/)do |name,genre|
   begin
     response = RestClient.delete "http://localhost:4567/bands/#{name}"
