@@ -85,19 +85,19 @@ public class Bootstrap {
         });
 
         // List of route and verbs API REST
-        
+
         post("/albums", (req, res) -> albumController.create(req, res));
-               
+
         get("/albums", (req, res) -> albumController.getAll(req, res));
-              
+
         get("/albums/findByTitle/:title", (req, res) -> albumController.findByTitle(req, res));
-                
+
         get("/albums/findByReleaseDate/:release_date", (req, res) -> albumController.findByReleaseDate(req, res));
 
         put("/albums/:id", (req, res) -> albumController.update(req, res));
-        
+
         delete("/albums/:id", (req, res) -> albumController.delete(req, res));
-        
+
         get("/hello", (req, res) -> "Hello World");
 
         get("/bands",(req, res) -> bands.getBands(req, res));
@@ -131,14 +131,16 @@ public class Bootstrap {
 
         post("/songs/",(req,res)->songController.create(req, res));
 
+				post("/songs/:id", (req,res) -> songController.createWithId(req,res));
+
         get ("/songs", (req,res)->songController.getAll(req,res),json());
-        
+
         get("/songs/findbyname/:name",(req,res)->songController.getByName(req,res),json());
-        
+
         get("/songs/findbyduration/:duration",(req,res)->songController.getByDuration(req,res),json());
-        
+
         delete("/songs/:id",(req, res) -> songController.remove(req, res));
-        
+
         after((req, res) -> {res.type("application/json");});
 
     }

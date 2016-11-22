@@ -51,9 +51,10 @@ public interface AlbumDAO {
 	/**
 	 * @param title 
 	 * @param releaseDate
+	 * @param songs
 	 * @return true iff creation is successful 
 	 */
-	public boolean create(String title, Date releaseDate);
+	public boolean create(String title, Date releaseDate, List<Object> songs);
 	
 	/**
 	 * This method deletes an album found by id
@@ -64,7 +65,7 @@ public interface AlbumDAO {
 	
 	/**
 	 * This method receives the fields to be updated 
-	 * and also the id of the album to be updated. 
+	 * and also the id of the album to be updated and song list. 
 	 * If any of the fields are null, 
 	 * then you do not want to update that field. 
 	 * In case of some field, which receives, not null 
@@ -72,7 +73,8 @@ public interface AlbumDAO {
 	 * @param id
 	 * @param title
 	 * @param releaseDate
+	 * @param songs
 	 * @return true iff update was successful
 	 */
-	public boolean update(String id, String title, Date releaseDate);
+	public boolean update(String id, String title, Date releaseDate, List<Object> songs);
 }
