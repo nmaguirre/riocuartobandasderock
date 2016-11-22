@@ -6,7 +6,7 @@ require "rspec"
 include RSpec::Matchers
 
 HOST = "localhost"
-PORT = "5432"
+PORT = "7500"
 
 def execute_sql(sql_code)
     done = system "sh db_execute.sh \"#{sql_code}\""
@@ -199,8 +199,9 @@ end
 
 When(/^I try to update an album with name "([^"]*)" and release date "([^"]*)" to name "([^"]*)" and release date "([^"]*)"$/) do |oldTitle, oldReleaseDate, newTitle, newReleaseDate|
     queryResult = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select albumID from AlbumDB where title = '#{oldTitle}' and releaseDate = '#{oldReleaseDate}';\" -t`
+    puts("http://localhost:4567/albums/#{queryResult}")
     queryResult = queryResult.gsub(/[^[:print:]]|\s/,'')
-    response = RestClient.put "http://localhost:4567/albums/'#{queryResult}'", { :title => newTitle, :release_date => newReleaseDate }, :content_type => 'text/plain'
+    response = RestClient.put "http://localhost:4567/albums/#{queryResult}", { :title => newTitle, :release_date => newReleaseDate }, :content_type => 'text/plain'
     expect(response.code).to eq(400)
 end
 
@@ -208,29 +209,32 @@ When(/^I update the album name from "([^"]*)" to "([^"]*)" keeping "([^"]*)" as 
     begin
         queryResult = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select albumID from AlbumDB where title = '#{oldTitle}' and releaseDate = '#{releaseDate}';\" -t`
         queryResult = queryResult.gsub(/[^[:print:]]|\s/,'')
-        response = RestClient.put "http://localhost:4567/albums/'#{queryResult}'", { :title => newTitle, :release_date => releaseDate }, :content_type => 'text/plain'
+	puts("http://localhost:4567/albums/#{queryResult}")
+        response = RestClient.put "http://localhost:4567/albums/#{queryResult}", { :title => newTitle, :release_date => releaseDate }, :content_type => 'text/plain'
         expect(response.code).to eq(201)
         rescue RestClient::Conflict => e
             expect(response.code).to eq(409)
         end
 end
 
-When(/^I update the album release date from "([^"]*)" to "([^"]*)" keeping "([^"]*)" as name$/) do |title, oldReleaseDate, newReleaseDate|
+When(/^I update the album release date from "([^"]*)" to "([^"]*)" keeping "([^"]*)" as name$/) do |oldReleaseDate, newReleaseDate, title|
     begin
         queryResult = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select albumID from AlbumDB where title = '#{title}' and releaseDate = '#{oldReleaseDate}';\" -t`
         queryResult = queryResult.gsub(/[^[:print:]]|\s/,'')
-        response = RestClient.put "http://localhost:4567/albums/'#{queryResult}'", { :title => title, :release_date => newReleaseDate }, :content_type => 'text/plain'
+        puts("http://localhost:4567/albums/#{queryResult}")
+	response = RestClient.put "http://localhost:4567/albums/#{queryResult}", { :title => title, :release_date => newReleaseDate }, :content_type => 'text/plain'
         expect(response.code).to eq(201)
         rescue RestClient::Conflict => e
             expect(response.code).to eq(409)
         end
 end
 
-When(/^I update the album with name "([^"]*)" and release date "([^"]*)" to name "([^"]*)" and release date "([^"]*)"$/) do |oldTitle, newTitle, oldReleaseDate, newReleaseDate|
+When(/^I update the album with name "([^"]*)" and release date "([^"]*)" to name "([^"]*)" and release date "([^"]*)"$/) do |oldTitle, oldReleaseDate, newTitle, newReleaseDate|
     begin
         queryResult = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select albumID from AlbumDB where title = '#{oldTitle}' and releaseDate = '#{oldReleaseDate}';\" -t`
         queryResult = queryResult.gsub(/[^[:print:]]|\s/,'')
-        response = RestClient.put "http://localhost:4567/albums/'#{queryResult}'", { :title => newTitle, :release_date => newReleaseDate }, :content_type => 'text/plain'
+	puts("http://localhost:4567/albums/#{queryResult}")
+        response = RestClient.put "http://localhost:4567/albums/#{queryResult}", { :title => newTitle, :release_date => newReleaseDate }, :content_type => 'text/plain'
         expect(response.code).to eq(201)
         rescue RestClient::Conflict => e
             expect(response.code).to eq(409)
@@ -301,5 +305,5 @@ end
 Then(/^the database contains an album named "([^"]*)" with release date "([^"]*)"$/) do |title, releaseDate|
     queryResult = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from AlbumDB where title = '#{title}' and releaseDate = '#{releaseDate}';\" -t`
     queryResult = queryResult.gsub(/[^[:print:]]|\s/,'')
-    expect(queryResult.code).to eq("1")
+    expect(queryResult == "1")
 end
