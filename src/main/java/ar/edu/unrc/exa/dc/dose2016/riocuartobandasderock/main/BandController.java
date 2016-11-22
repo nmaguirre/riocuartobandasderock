@@ -120,7 +120,7 @@ public class BandController {
 	 * @return the object of the band created.
 	 */
 	public String createBand(Request req,Response res){
-		if((req.queryParams("name")=="") && (req.queryParams("genre")=="")){
+		if((req.queryParams("name")=="") || (req.queryParams("genre")=="")){
 			res.status(400);
 			return "Request invalid";
 		}
