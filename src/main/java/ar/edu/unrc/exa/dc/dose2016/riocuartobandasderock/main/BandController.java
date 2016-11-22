@@ -55,19 +55,18 @@ public class BandController {
 	 * @return A list of all bands
 	 */
 	public ModelAndView getBands(Request req ,Response res){
-    Map<String, Object> attributes = new HashMap<>();
+    	Map<String, Object> attributes = new HashMap<>();
     
 		Session session = SessionManager.getInstance().openSession();
 		BandDAO bdao = new BandDaoImpl(session);
 		List<Band> bands= bdao.getAllBands();
-		System.out.println("===================== SE ROMPIO ACA ===================");
 		session.close();
 		int status = (bands.size()>0)? 200:204;
 		res.status(status);
 		// return bands;
 
-    attributes.put("template", Routes.index_band());
-    return new ModelAndView(attributes, Routes.layout_dashboard());
+	    attributes.put("template", Routes.index_band());
+	    return new ModelAndView(attributes, Routes.layout_dashboard());
 	}
 
 	/***
