@@ -12,30 +12,80 @@
 <style type="text/css">
     table tr th, table tr td{font-size: 1.2rem;}
     .row{ margin:20px 20px 20px 20px;width: 100%;}
-    .glyphicon{font-size: 20px;}
+    .glyphicon{font-size: 25px;}
     .glyphicon-plus{float: right;}
     a.glyphicon{text-decoration: none;}
     a.glyphicon-trash{margin-left: 10px;}
     .none{display: none;}
+    .table td{
+        text-align: center;   
+    }
+    .table th{
+        text-align: center;   
+    }
+    .table-row{
+        cursor:pointer;
+    }
+    /*.glyphicon-trash{
+        pointer-events: none;
+        cursor: default;
+        color: gray;
+    }
+    .glyphicon-edit{
+        pointer-events: none;
+        cursor: default;
+        color: gray;
+    }*/
+
 </style>
 
 <script>
     
-    function showArtists(){
+    var findResourceTag = '/artists/findbynickname/'; // Default value
+
+    function showArtists(resourcelocation){
         $("#userData").html('<table></table>'); // Clean table, need to refresh with non elements in db
 
-        resourcelocation='/artists';
+        //resourcelocation='/artists';
          $.get(resourcelocation, function(data, status){
-            var request = JSON.parse(data);
-            response = '<table>';
-            itemindex = 1;
-            $.each(request, function(i, item) {
-                   response += '<table> <tr>'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.surname+'</td>'+'<td>'+item.nickname+'</td>' + '<td> <a href="javascript:void(0);" class="glyphicon glyphicon-edit" onclick="showInEdit(\''+item.artistID+'\')"</a> <a href="javascript:void(0);" class="glyphicon glyphicon-trash" onclick="deleteArtist(\''+item.artistID+'\')"</a> </td> </tr> </table>';
-                    ++itemindex;
-            });           
-            response += '</table>';
+            if (typeof data === "undefined") {
+                response = '<tr><td colspan="5"> No Artists found...</td></tr>'
+            }else{
+                var request = JSON.parse(data);
+                response = '<table>';
+                itemindex = 1;
+                $.each(request, function(i, item) {
+                       response += '<tr onclick="showBandMInDialog(\''+item.artistID+'\')">'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.surname+'</td>'+'<td>'+item.nickname+'</td>' + '<td> <a href="javascript:void(0);" class="glyphicon glyphicon-edit" onclick="showInEdit(\''+item.artistID+'\'); event.stopImmediatePropagation();"</a> <a href="javascript:void(0);" class="glyphicon glyphicon-trash" onclick="deleteArtist(\''+item.artistID+'\'); event.stopImmediatePropagation();"</a> </td> </tr>';
+                        ++itemindex;
+                });           
+                response += '</table>';
+            }
             
             $("#userData").html(response);
+ 
+          });
+    }
+
+    function showBandMInDialog(id){
+        $("#bandMModal").modal() 
+        $("#bandMData").html('<table></table>'); // Clean table, need to refresh with non elements in db
+
+        resourcelocation='/artists/getbandsbyId/'+id;
+         $.get(resourcelocation, function(data, status){
+            if (typeof data === "undefined") {
+                response = '<tr><td colspan="5"> No Bands found...</td></tr>'
+            }else{
+                var request = JSON.parse(data);
+                response = '<table>';
+                itemindex = 1;
+                $.each(request, function(i, item) {
+                       response += '<tr>'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.surname+'</td> </tr>';
+                        ++itemindex;
+                });           
+                response += '</table>';    
+            }
+
+            $("#bandMData").html(response);
  
           });
     }
@@ -78,7 +128,7 @@
                 data: $("#addForm").find('.form').serialize(), // Adjuntar los campos del formulario enviado.
                 success: function(data)
                 {
-                    showArtists(); //optional refresh list
+                    showArtists('/artists'); //optional refresh list
                     $('.form')[0].reset();
                     $('.formData').slideUp();
                  },
@@ -107,14 +157,14 @@
                 data: $("#editForm").find('.form').serialize(), // Adjuntar los campos del formulario enviado.
                 success: function(data)
                 {
-                   showArtists(); //optional refresh list
-                   $('.form')[0].reset();
+                   showArtists('/artists'); //optional refresh list
+                   $('.form')[1].reset();
                    $('.formData').slideUp();
                 },
                 error: function(x, e) {
                     //$("#dataartisaddformstatus").html('<font color="red">Result: Error</font>'); //  Show response Api Rest
                     alert('No ha realizado ninguna modificación en el registro');
-                    $('.form')[0].reset();
+                    $('.form')[1].reset();
                     $('.formData').slideUp();
                 }
             });
@@ -131,7 +181,7 @@
             data: '', 
             success: function(data)
             {
-                showArtists(); //optional refresh list
+                showArtists('/artists'); //optional refresh list
             },
             error: function(x, e) {
                      
@@ -141,34 +191,107 @@
     }
 
    function showSearchMenu(by) {            
-        $('#searchForm').slideToggle();
+        $('.form')[2].reset();
+        $('#searchForm').slideToggle();        
         switch(by){
             case "name": 
                 document.getElementById("nameSearch").disabled = false;
                 document.getElementById("surnameSearch").disabled = true;
                 document.getElementById("nicknameSearch").disabled = true;
+                findResourceTag = '/artists/findbyname/';
                 break;
             case "surname":
                 document.getElementById("nameSearch").disabled = true;
                 document.getElementById("surnameSearch").disabled = false;
                 document.getElementById("nicknameSearch").disabled = true;
+                findResourceTag = '/artists/findbysurname/';
                 break;
             case "nickname":
                 document.getElementById("nameSearch").disabled = true;
                 document.getElementById("surnameSearch").disabled = true;
                 document.getElementById("nicknameSearch").disabled = false;
+                findResourceTag = '/artists/findbynickname/';
                 break;
             case "all":
                 document.getElementById("nameSearch").disabled = false;
                 document.getElementById("surnameSearch").disabled = false;
                 document.getElementById("nicknameSearch").disabled = false;
+                findResourceTag = '/artists/findbyallattributes/';
         }
         
    }
 
+   function executeSearch() {            
+        
+        switch(findResourceTag){
+            case "/artists/findbyname/": 
+                var resourcelocation = findResourceTag+$('#nameSearch').val();
+                showArtists(resourcelocation);
+                break;
+            case "/artists/findbysurname/":
+                var resourcelocation = findResourceTag+$('#surnameSearch').val();
+                showArtists(resourcelocation);
+                break;
+            case "/artists/findbynickname/":
+                var resourcelocation = findResourceTag+$('#nicknameSearch').val();
+                showArtists(resourcelocation);
+                break;
+            case "/artists/findbyallattributes/":
+                $.ajax({
+                    type: "GET",
+                    url: findResourceTag,
+                    data: $("#searchForm").find('.form').serialize(), // Adjuntar los campos del formulario enviado.
+                    success: function(data)
+                    {
+                        if (typeof data === "undefined") {
+                            response = '<tr><td colspan="5"> No Artists found...</td></tr>'
+                        }else{
+                            var request = JSON.parse(data);
+                            response = '<table>';
+                            itemindex = 1;
+                            $.each(request, function(i, item) {
+                                   response += '<tr onclick="showBandMInDialog(\''+item.artistID+'\')">'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.surname+'</td>'+'<td>'+item.nickname+'</td>' + '<td> <a href="javascript:void(0);" class="glyphicon glyphicon-edit" onclick="showInEdit(\''+item.artistID+'\'); event.stopImmediatePropagation();"</a> <a href="javascript:void(0);" class="glyphicon glyphicon-trash" onclick="deleteArtist(\''+item.artistID+'\'); event.stopImmediatePropagation();"</a> </td> </tr>';
+                                    ++itemindex;
+                            });           
+                            response += '</table>';
+                        }
+                        
+                        $("#userData").html(response);
+                     },
+                     error: function(x, e) {
+                        alert("Se ha producido un error");
+                     }
+                });
+        }
+
+        $('.form')[2].reset();
+        $('#searchForm').slideToggle(); 
+   }
+
+    /**
+     * Vertically center Bootstrap 3 modals so they aren't always stuck at the top
+     */
+
+    $(function() {
+        function reposition() {
+            var modal = $(this),
+                dialog = modal.find('.modal-dialog');
+            modal.css('display', 'block');
+            
+            // Dividing by two centers the modal exactly, but dividing by three 
+            // or four works better for larger screens.
+            dialog.css("margin-top", Math.max(0, ($(window).height() - dialog.height()) / 2));
+        }
+        // Reposition when a modal is shown
+        $('.modal').on('show.bs.modal', reposition);
+        // Reposition when the window is resized
+        $(window).on('resize', function() {
+            $('.modal:visible').each(reposition);
+        });
+    });
 
     $(document).ready(function() {
-        showArtists();
+        showArtists('/artists');
     });
         
 </script>
@@ -183,9 +306,10 @@
     </div>
     <ul class="nav navbar-nav">
       <li class="active"><a href="#">Home</a></li>
-      <li><a href="#">Page 1</a></li>
-      <li><a href="#">Page 2</a></li>
-      <li><a href="#">Page 3</a></li>
+      <li><a href="#">Artist</a></li>
+      <li><a href="#">Album</a></li>
+      <li><a href="#">Band</a></li>
+      <li><a href="#">Song</a></li>
     </ul>
   </div>
 </nav>
@@ -201,7 +325,8 @@
         <div class="panel panel-default users-content">
             <div class="panel-heading"><i class="glyphicon glyphicon-th-list"></i>  Artists list
 	<div class="btn-group pull-right" role="group">
-	<button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:$('#addForm').slideToggle();">Add</button>
+    <button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:showArtists('/artists')">Show all</button>
+	<button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:$('#addForm').slideToggle(); $('.form')[0].reset();">Add</button>
 	  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	    Search <span class="caret"></span>
 	  </button>
@@ -231,7 +356,7 @@
                         <label>Nickname</label>
                         <input type="text" class="form-control" name="nickname" id="nickname"/>
                     </div>
-                    <a href="javascript:void(0);" class="btn btn-warning" onclick="$('#addForm').slideUp(); $('.form')[0].reset();">Cancel</a>
+                    <a href="javascript:void(0);" class="btn btn-warning" onclick="$('#addForm').slideUp();">Cancel</a>
                     <a href="javascript:void(0);" class="btn btn-success" onclick="addArtist()">Add Artist</a>
                 </form>
             </div>
@@ -252,8 +377,8 @@
                         <input type="text" class="form-control" name="nickname" id="nicknameEdit"/>
                     </div>
                     <input type="hidden" class="form-control" name="id" id="idEdit"/>
-                    <a href="javascript:void(0);" class="btn btn-warning" onclick="$('#editForm').slideUp();">Cancel</a>
-                    <a href="javascript:void(0);" class="btn btn-success" onclick="updateArtist()">Update Artist</a>
+                    <a href="javascript:void(0);" class="btn btn-warning" onclick="$('#editForm').slideUp(); ; $('.form')[1].reset();">Cancel</a>
+                    <a href="javascript:void(0);" class="btn btn-success" onclick="updateArtist() ; $('.form')[1].reset();">Update Artist</a>
                 </form>
             </div>
 
@@ -274,10 +399,10 @@
                     </div>
                     <input type="hidden" class="form-control" name="id" id="idSearch"/>
                     <a href="javascript:void(0);" class="btn btn-warning" onclick="$('#searchForm').slideUp();">Cancel</a>
-                    <a href="javascript:void(0);" class="btn btn-success" onclick="updateArtist()">Search Artist</a>
+                    <a href="javascript:void(0);" class="btn btn-success" onclick="executeSearch()">Search Artist</a>
                 </form>
             </div>
-            <table class="table table-striped">
+            <table class="table collection table table-bordered table-striped table-hover" id="mainTable">
                 <thead>
                     <tr>
                         <th></th>
@@ -287,11 +412,42 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody id="userData"></tbody>
+                <tbody id="userData" class="table-row"></tbody>
             </table>
 
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div id="bandMModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Band Member</h4>
+      </div>
+      <div class="modal-body">
+        <table class="table collection table table-bordered table-striped table-hover" id="bandMTable">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Name</th>
+                        <th>Genre</th>
+                    </tr>
+                </thead>
+                <tbody id="bandMData"></tbody>
+            </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 </body>
 </html>
