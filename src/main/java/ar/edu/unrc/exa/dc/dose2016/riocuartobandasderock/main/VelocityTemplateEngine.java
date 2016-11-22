@@ -47,9 +47,7 @@ public class VelocityTemplateEngine extends TemplateEngine {
         Properties properties = new Properties();
         Path p = FileSystems.getDefault().getPath("");
         p = p.toAbsolutePath();
-        String src_path = p.toString() + "/target/classes/webapp";
-        String target_path = p.toString() + "/src/main/resources/webapp";
-        properties.setProperty("file.resource.loader.path", src_path);
+        String target_path = p.toString() + "/target/classes/webapp";
         properties.setProperty("file.resource.loader.path", target_path);
         properties.setProperty("class.resource.loader.class",
                                "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
