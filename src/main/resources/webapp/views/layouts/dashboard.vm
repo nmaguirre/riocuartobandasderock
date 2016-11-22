@@ -6,22 +6,17 @@
   <link rel="icon" type="image/png" href="assets/img/favicon.png" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-  <title>Bands | $(title) </title>
+  <title>Dashboard | $(title) </title>
 
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
   <meta name="viewport" content="width=device-width" />
 
-
-  <!-- Bootstrap core CSS     -->
-  <style type="text/css">
-    #include("/assets/css/bootstrap.min.css")
-    #include("assets/css/material-dashboard.css")
-    #include("assets/css/demo.css")
-  </style>
-
-  <!--     Fonts and icons     -->
-  <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
   <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300|Material+Icons' rel='stylesheet' type='text/css'>
+
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="assets/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link href="assets/css/material-dashboard.css" rel="stylesheet" type="text/css">
+  <link href="assets/css/demo.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -39,19 +34,14 @@
   </div>
 
 </body>
-  
+
   <!--   Core JS Files   -->
-  <script type="text/javascript">
-    #include("assets/js/jquery-3.1.0.min.js")
-    #include("assets/js/bootstrap.min.js")
-    #include("assets/js/material.min.js")
-
-    #include("assets/js/chartist.min.js")
-    #include("assets/js/bootstrap-notify.js")
-
-    #include("assets/js/material-dashboard.js")
-
-    #include("assets/js/demo.js")
-  </script>
+  <script src="assets/js/jquery-3.1.0.min.js"></script>
+  <script src="assets/js/bootstrap.min.js"></script>
+  <script src="assets/js/material.min.js"></script>
+  <script src="assets/js/chartist.min.js"></script>
+  <script src="assets/js/bootstrap-notify.min.js"></script>
+  <script src="assets/js/material-dashboard.min.js"></script>
+  <script src="assets/js/demo.js"></script>
 
 </html>

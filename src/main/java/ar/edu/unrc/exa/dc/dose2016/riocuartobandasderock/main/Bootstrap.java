@@ -37,6 +37,7 @@ public class Bootstrap {
 	private static BandMemberController bandMemberController;
 	private static String view = "src/main/WebApp/views/";
     private static LandingPageController landingPageController;
+    private static DashboardController dashboardController;
 
     public static void main(String[] args) {
 
@@ -92,6 +93,7 @@ public class Bootstrap {
         songController = new SongController();
         userController = UserController.getInstance();
         landingPageController = LandingPageController.getInstance();
+        dashboardController = DashboardController.getInstance();
         port(Integer.parseInt(ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().getAppPort()));
 
         // before("/bands", (req, res) -> {
@@ -101,6 +103,7 @@ public class Bootstrap {
         // });
 
         get("/", (req, res) -> landingPageController.index(req,res), new VelocityTemplateEngine());
+        get("/dashboard", (req, res) -> dashboardController.index(req,res), new VelocityTemplateEngine());
 
         post("/albums", (req, res) -> albumController.create(req, res));
 
