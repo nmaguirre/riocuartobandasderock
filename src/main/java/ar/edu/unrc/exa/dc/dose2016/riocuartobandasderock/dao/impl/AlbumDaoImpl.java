@@ -162,13 +162,14 @@ public class AlbumDaoImpl implements AlbumDAO{
 	}
 	
 	/**
-	 * This method 'cast' the list of songs, 
+	 * This private method 'cast' the list of songs, 
 	 * if a song does not surpass the repOk then returns a null list.
 	 * @param songs
 	 * @return Songs List that was casted
 	 */
 	private List<Song> castSongsList (List<Object> songs){
 		List<Song> parseSongs = new LinkedList<Song>();
+		if (songs==null) return null;
 		for (int i=0; i<songs.size();i++){
 			if (!( (Song) songs.get(i) ).repOk() ) return null;
 			parseSongs.add( (Song) songs.get(i) );
@@ -189,7 +190,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 	 * @return true iff update was successful
 	 */
 	public boolean update(String id, String title, Date releaseDate, List<Object> songs){
-		if (id==null) throw new IllegalArgumentException("Error : AlbumDaoImpl.update() null Id");
+		if (id==null || id.equals("")) throw new IllegalArgumentException("Error : AlbumDaoImpl.update() null or empty Id");
 		Album toUpdate = this.findById(id);
 		if (toUpdate==null) return false;
 		//skip representation
@@ -198,26 +199,27 @@ public class AlbumDaoImpl implements AlbumDAO{
 			if (releaseDate!=null){
 				toUpdate.setTitle(title);
 				toUpdate.setReleaseDate(releaseDate);
-				if (songs!=null && this.castSongsList(songs)!=null) toUpdate.setSongs(this.castSongsList(songs));
+				if (this.castSongsList(songs)!=null) toUpdate.setSongs(this.castSongsList(songs));
 				this.currentSession.saveOrUpdate(toUpdate);
 				//SessionManager.getInstance().getCurrentSession().saveOrUpdate(toUpdate);
 				return true;
 				
 			}
 			toUpdate.setTitle(title);
-			if (songs!=null && this.castSongsList(songs)!=null) toUpdate.setSongs(this.castSongsList(songs));
+			if (this.castSongsList(songs)!=null) toUpdate.setSongs(this.castSongsList(songs));
 			this.currentSession.saveOrUpdate(toUpdate);
 			return true;
 		}
 		if (title==null && releaseDate!=null){
 			toUpdate.setReleaseDate(releaseDate);
-			if (songs!=null && this.castSongsList(songs)!=null) toUpdate.setSongs(this.castSongsList(songs));
+			if (this.castSongsList(songs)!=null) toUpdate.setSongs(this.castSongsList(songs));
 			this.currentSession.saveOrUpdate(toUpdate);
 			return true;
 		}
 		if (title==null && releaseDate == null && songs!=null){
 			if (this.castSongsList(songs)!=null){ 
 				toUpdate.setSongs(this.castSongsList(songs));
+				this.currentSession.saveOrUpdate(toUpdate);
 				return true;
 			}
 		}
