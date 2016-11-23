@@ -20,33 +20,32 @@ Feature: The application responds appropriately to all events that correspond to
 	        Then the song's database should have 2 entry
 
 	Scenario: Add a new song without duration in a database empty
-		Given that the song's database is empty
-		When I add a song with name "Stairway to Heaven" and duration "" 
-		Then the song's database should have 0 entry 
+			Given that the song's database is empty
+			When I add a song with name "Stairway to Heaven" and duration "" 
+			Then the song's database should have 1 entry 
 
 	Scenario: Add a new song without name in a database empty
-		Given that the song's database is empty
-		When I add a song with name "" and duration "400"
-		Then the song's database should have 0 entry  
+			Given that the song's database is empty
+			When I add a song with name "" and duration "400"
+			Then the song's database should have 0 entry  
 	
 	Scenario: Add a new song without name and duration in a the database empty
-		Given that the song's database is empty
-		When I add a song with name "" and duration ""
-		Then the song's database should have 0 entry
+			Given that the song's database is empty
+			When I add a song with name "" and duration ""
+			Then the song's database should have 0 entry
 
 	Scenario: Add a new song without duration in a database not empty
-		Given that the song's database have one song with name "Jijiji" and duration "5"
-		When I add a song with name "Stairway to Heaven" and duration "" 
-		Then the song's database should have 1 entry 
+			Given that the song's database have one song with name "Jijiji" and duration "5"
+			When I add a song with name "Stairway to Heaven" and duration "" 
+			Then the song's database should have 2 entry 
 
 	Scenario: Add a new song without name in a database not empty
-		Given that the song's database have one song with name "Jijiji" and duration "5"
-		When I add a song with name "" and duration ""  
-		Then the song's database should have 1 entry
-	
+			Given that the song's database have one song with name "Jijiji" and duration "5"
+			When I add a song with name "" and duration "10"  
+			Then the song's database should have 1 entry
+		
 	Scenario: Add a new song without name and duration in a database not empty
-		Given that the song's database have one song with name "Jijiji" and duration "5"
-		When I add a song with name "" and duration "" 
-		Then the song's database should have 1 entry
-
+			Given that the song's database have one song with name "Jijiji" and duration "5"
+			When I add a song with name "" and duration "" 
+			Then the song's database should have 1 entry
 	
