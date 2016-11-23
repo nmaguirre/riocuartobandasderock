@@ -13,6 +13,7 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions;
 //import java.util.Date;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 
 /**
  * Interface AlbumDAO, specifies that methods 
@@ -46,6 +47,12 @@ public interface AlbumDAO {
 	 * @return Albums list founds by release date
 	 */
 	public List<Album> findByReleaseDate(Date releaseDate);
+	
+	/**
+	 * @param id_album
+	 * @return song list founds by album id
+	 */
+	public List<Song> findSongs(String id_album);
 	
 	
 	/**
