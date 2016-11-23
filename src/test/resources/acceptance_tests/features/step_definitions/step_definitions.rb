@@ -59,7 +59,7 @@ Given(/^that the album's database have one album with title "([^"]*)" and releas
   expect(response.code).to eq(201)
 end
 
-Given(/^that the database contains an album named "([^"]*)" and release date "([^"]*)"$/) do |title,release_date|
+Given(/^that the album's database contains an album named "([^"]*)" with release date "([^"]*)"$/) do |title,release_date|
   response = RestClient.post 'http://localhost:4567/albums', { :title => title, :release_date => release_date }, :content_type => 'text/plain'
   expect(response.code).to eq(201)
 end
@@ -69,7 +69,23 @@ Given(/^that the album's database contains an album with title "([^"]*)" and rel
    expect(response.code).to eq(201)
 end
 
-When(/^I try to add an album named "([^"]*)" and release date "([^"]*)"$/) do |title,release_date|
+Given(/^that the album's database have (\d+) entries$/) do |numEntries|
+    1..numEntries.to_i.times do |n|
+        response = RestClient.post "http://localhost:4567/albums", { :title => "Album#{n}" }, :content_type => 'text/plain'
+    end
+    result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from AlbumDB;\" -t`
+    result = result.gsub(/[^[:print:]]|\s/,'')
+    expect(result == numEntries)
+end
+
+Given(/^the album named "([^"]*)" doesn't exist in database$/) do |title|
+    queryResult = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from AlbumDB where title = '#{title}';\" -t`
+    queryResult = queryResult.gsub(/[^[:print:]]|\s/,'')
+    expect(queryResult == "0")
+end
+
+
+When(/^I try to add an album with name "([^"]*)" and release date "([^"]*)"$/) do |title,release_date|
   begin
   response = RestClient.post 'http://localhost:4567/albums', { :title => title, :release_date => release_date}, :content_type => 'text/plain'
   expect(response.code).to eq(201)
@@ -79,7 +95,7 @@ When(/^I try to add an album named "([^"]*)" and release date "([^"]*)"$/) do |t
   end
 end
 
-Then(/^the system informs that album named "([^"]*)" and release date "([^"]*)" already exists in the database$/) do |title,release_date|
+Then(/^the system informs that the album named "([^"]*)" with release date "([^"]*)" already exists in the database$/) do |title,release_date|
   resultingTitle = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select title from AlbumDB;\" -t`
   resultingTitle = resultingTitle.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
   expect(resultingTitle == title)
@@ -302,7 +318,7 @@ Then(/^the album's database remains empty$/) do
     expect(result).to eq("0")
 end
 
-Then(/^the database contains an album named "([^"]*)" with release date "([^"]*)"$/) do |title, releaseDate|
+Then(/^the album's database contains an album named "([^"]*)" with release date "([^"]*)"$/) do |title, releaseDate|
     queryResult = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from AlbumDB where title = '#{title}' and releaseDate = '#{releaseDate}';\" -t`
     queryResult = queryResult.gsub(/[^[:print:]]|\s/,'')
     expect(queryResult == "1")
