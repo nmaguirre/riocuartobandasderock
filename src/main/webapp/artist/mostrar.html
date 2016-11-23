@@ -1,115 +1,65 @@
 <html>
   <head>
-    <link rel="stylesheet" type="text/css" href="/artistadmin/mystyle.css">
-    <title>Mostrar Artista</title>
+    <title>System Admin</title>
+    <!-- requiere images - font - recurses from maxcdn.bootstrapcdn.com -->
 
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="/artistadmin/jquery.min.js"></script>
-    <script languague="javascript">
+    <script src="/artistadmin/libartist.js"></script>
+    <style type="text/css">
+    table tr th, table tr td{font-size: 1.2rem;}
+    .row{ margin:20px 20px 20px 20px;width: 100%;}
+    .glyphicon{font-size: 20px;}
+    .glyphicon-plus{float: right;}
+    a.glyphicon{text-decoration: none;}
+    a.glyphicon-trash{margin-left: 10px;}
+    .none{display: none;}
+    </style>
 
-      function sendform() {
-        name=$('input:text[name=name]').val();
-        surname=$('input:text[name=surname]').val();
-        nickname=$('input:text[name=nickname]').val();
-        
-        if (name+surname+nickname=='') {
-            $("#dataartisaddformstatus").html('<font color="red">Atencion: rellenar al menos un campo del formulario</font>');
-        } else {
-          $("#dataartisaddformstatus").html('');
-          var url = '/artists'; 
-          $.ajax({
-             type: "POST",
-             url: url,
-             data: $("#formulario").serialize(), // Adjuntar los campos del formulario enviado.
-             success: function(data)
-             {
-                 $("#dataartisaddformstatus").html('<font color="green">Result: '+data+'</font>'); // Show response Api Rest
-                 getregisters(); //optional refresh list
-                 $("#formulario")[0].reset();
-             },
-             error: function(x, e) {
-                 $("#dataartisaddformstatus").html('<font color="red">Result: Error</font>'); //  Show response Api Rest
-             }
-          });
-      }
-
-        return false;
-      }
-
-      function updateregister(id,dos) {
-        resourcelocation ='/artists/'+id;
-
-        alert('EN espera de implementacion ');
-        console.log(dos);
-
-
-        return false;
-      }
-
-
-      function deleteregister(id) {
-        resourcelocation ='/artists/'+id;
-        if (confirm('Estas seguro de eliminar el registro id='+id)) {
-          $.ajax({
-             type: "DELETE",
-             url: resourcelocation,
-             data: '', 
-             success: function(data)
-             {
-                 $("#dataartisaddformstatus").html('<font color="green">Result: '+data+'</font>'); // Show response Api Rest
-                 getregisters(); //optional refresh list
-             },
-             error: function(x, e) {
-                 $("#dataartisaddformstatus").html('<font color="red">Result: Error</font>'); //  Show response Api Rest
-             }
-          });
-
-        }
-        return false;
-      }
-      var response='';
-      function getregisters(){
-        resourcelocation='/artists';
-         $.get(resourcelocation, function(data, status){
-            var request = JSON.parse(data);
-
-            response = '<table><tr><th>Name</th><th>Surname</th><th>Nickname</th><th>Action</th></tr>';
-            itemindex = 0;
-            $.each(request, function(i, item) {
-                   response += '<tr>'+'<td>'+item.name+'</td>'+'<td>'+item.surname+'</td>'+'<td>'+item.nickname+'</td>'+'<td><input type="button" value="Editar" onclick="updateregister(\''+item.artistID+'\','+itemindex+');"><input type="button" value="Borrar" onclick="deleteregister(\''+item.artistID+'\');"></td></tr>';
-                    ++itemindex;
-
-
-            });
-            response += '</table>';
-            $("#datacount").html('<hr class="hrclass"><b>Se encontraron '+request.length+' registros de artistas.</b><hr class="hrclass">');
-            if (request.length>0)
-              $("#datatable").html(response);
- 
-          });
-        }
-      $(window).ready(function() {
-      getregisters();
-      });
-    </script>
    </head>
 
   <body>
-    <h1> Admin Artist - Shows </h1>
-    <div id="dataresult">
-      <button onclick="getregisters();">Shows</button>
-      <div id="datacount"></div>
-      <div id="datatable"></div>
-      <div id="dataartisaddform">
-      <div><strong>Agregar Artista</strong></div>
-        <form  action="" id="formulario">
-          <div>Nombre</div>  <input type=text name="name">
-          <div>Surname</div> <input type=text name="surname">
-          <div>Nickname</div> <input type=text name="nickname">
-          <div id="dataartisaddformstatus"></div>
-          <input type=submit name=press value="Enviar" onclick="return sendform();">
-        </form>
-      </div>
-      
-    </div>
+    <div class="container">
+        <div align="center">
+            <h2>
+                <i class="glyphicon glyphicon-th-list"></i> Admin - Artists
+                <span id=loader class="loader progress progress-striped active"><span class="bar"></span></span>
+            </h2>
+        </div>
+      <div class="row">    
+         <div class="panel panel-default users-content">
+
+         <div class="panel-heading">Artists list<a href="javascript:void(0);" class="glyphicon glyphicon-plus" id="addLink" onclick="javascript:$('#addForm').slideToggle();"></a></div>
+
+                     <div class="panel-body none formData" id="addForm">
+                        Example
+                     </div>
+
+                  <div id="dataresult">
+                  <div id="menubar"><strong> Records </strong>
+                      <input type="button" value="Create" onclick="lybartist.createRegister();">
+                      <input type="button" value="Find" onclick="lybartist.findbyall();">
+                      <input type="button" value="Show" onclick="lybartist.show();"><br>
+                      <span> Result of action : </span><div id="statusactionform"></div>
+                  </div>
+                    <div id="datacount"></div>
+                    <div id="dataformaction" style="display:none;">
+                    <div><strong><div id="titleform"></div></strong></div>
+                      <form  action="" id="formulario">
+                        <div>Nombre</div>  <input type=text name="name">
+                        <div>Surname</div> <input type=text name="surname">
+                        <div>Nickname</div> <input type=text name="nickname">
+                        <div></div><input type=submit name=press value="Send" onclick="return lybartist.sendform();">
+                        <input type=reset  name=default value="Reset">
+                        <input type=button  name=hidden value="Close" onclick="return lybartist.hiddenform();">
+                      </form>
+                    </div>
+                    <div id="datatable"></div>
+                  </div>
+          </div><!-- end panel div-->
+      </div> <!--rows end>
+    <div class="container"><!-- class container -->
   </body>
 </html>

@@ -145,10 +145,12 @@ public class Bootstrap {
             String content;
             try {
                 content = new String(Files.readAllBytes(Paths.get(pathfile)));
+                res.status(200);
             }catch (Exception e) {
-                content = "The file Html not exist or error loading this";
+                content = "The file '"+page+"' not exist or error loading this";
+                res.status(404);
             }
-            res.status(200);
+            
             res.header("Server", "My Spark Server");
             res.header("Connection","close");
             res.header("Content-Type", "text/html; charset=utf-8");
