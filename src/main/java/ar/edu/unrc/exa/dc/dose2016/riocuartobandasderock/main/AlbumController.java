@@ -3,6 +3,7 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -66,7 +67,13 @@ public class AlbumController {
             //Date should be in the next pattern: yyyy-mm-dd
         	Date release_date = req.queryParams("release_date") != null ? sdf.parse(req.queryParams("release_date")) : null;
         	Transaction transaction = session.beginTransaction();
-            boolean result = adao.create(req.queryParams("title"), release_date);
+        	
+        	//TODO: set correct values
+        	List<Object> songs = new LinkedList<Object>();
+        	Object bandId = null;
+        	//
+        	
+            boolean result = adao.create(req.queryParams("title"), release_date, songs, bandId);
             transaction.commit();
             session.close();
             int http_status = result ? 201 : 409;
@@ -151,7 +158,13 @@ public class AlbumController {
             //Date should be in the next pattern: yyyy-mm-dd
         	Date release_date = req.queryParams("release_date") != null ? sdf.parse(req.queryParams("release_date")) : null;
         	Transaction transaction = session.beginTransaction();
-            boolean result = adao.update(req.params("id"), req.queryParams("title"), release_date);
+        	
+        	//TODO: set correct values
+        	List<Object> songs = new LinkedList<Object>();
+        	Object bandId = null;
+        	//
+        	
+            boolean result = adao.update(req.params("id"), req.queryParams("title"), release_date, songs, bandId);
             transaction.commit();
             session.close();
             int http_status = result ? 201 : 409;

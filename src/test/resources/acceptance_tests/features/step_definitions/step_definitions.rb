@@ -18,12 +18,6 @@ Given(/^that the application has been started$/) do
       # Nothing to do here...
 end
 
-Given(/^that the artist's database is empty$/) do
-    result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from artistDB;\" -t`
-    result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
-    expect(result).to eq("0")
-end
-
 Given(/^that the album's database is empty$/) do
     result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from AlbumDB;\" -t`
     result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
@@ -31,8 +25,11 @@ Given(/^that the album's database is empty$/) do
 end
 
 Given(/^that the song's database is empty$/) do
+
     result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from SongDB;\" -t`
+
     result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+
     expect(result=="0")
 end
 
@@ -110,32 +107,11 @@ And(/^the album's database does not change and maintain (\d+) entry$/) do |entry
   expect(queryResult == entry)
 end
 
-When(/^I add an artist with name "([^"]*)" and surname "([^"]*)" and nickname "([^"]*)"$/) do |name,surname,nickname|
-  begin
-  response = RestClient.post 'http://localhost:4567/artist/', { :name => name, :surname => surname, :nickname => nickname }, :content_type => 'text/plain'
-  expect(response.code).to eq(201)
-  rescue RestClient::Conflict => e
-  end
-
-end
-
 When(/^I add an album with name "([^"]*)" and release date "([^"]*)"$/) do |title,release_date|
+
   response = RestClient.post 'http://localhost:4567/albums', { :title => title, :release_date => release_date }, :content_type => 'text/plain'
   expect(response.code).to eq(201)
-end
 
-When(/^I search an artist with "([^"]*)" "([^"]*)" , the result should have (\d+) entry$/) do |atributo,valor,entradas|
-  begin
-    String s = 'http://localhost:4567/artist/findby' + atributo + '/' + valor
-    response = RestClient.get s
-    if entradas != "0"
-      expect(response.code).to eq(200)
-    else
-      expect(response.code).to eq(204)
-    end
-  rescue RestClient::NotFound => e
-    expect(valor).to eq("")
-  end
 end
 
 When(/^I search an album with "([^"]*)" "([^"]*)" , the result of the search should have (\d+) entry$/) do |atributo, valor, entradas|
@@ -152,20 +128,10 @@ When(/^I search an album with "([^"]*)" "([^"]*)" , the result of the search sho
   end
 end
 
-When(/^I list the artists from the database , the result of the search should have (\d+) entry$/) do |arg1|
-  begin
-    response = RestClient.get 'http://localhost:4567/artist'
-    if arg1 != "0"
-      expect(response.code).to eq(200)
-    end
-  rescue RestClient::Conflict => e
-    expect(arg1).to eq("0")
-  end
-end
-
-
 When(/^I add a song with name "([^"]*)" and duration "([^"]*)"$/) do |name, duration|
+
      response = RestClient.post 'http://localhost:4567/songs/', { :name => name, :duration => duration }, :content_type => 'text/plain'
+
      expect(response.code).to eq(201)
 end
 
@@ -282,17 +248,10 @@ end
 Then(/^the song's database should have (\d+) entry$/) do |arg1|
     result = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select count(*) from SongDB;\" -t`
     result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+
     expect(result).to eq(arg1)
 end
 
-Then(/^the entry should have name "([^"]*)" and surname "([^"]*)"$/) do |name, surname|
-    resultingName = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select name from artistDB;\" -t`
-    resultingName = resultingName.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
-    expect(resultingName).to eq(name)
-    resultingSurname = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select surname from artistDB;\" -t`
-    resultingSurname = resultingSurname.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
-    expect(resultingSurname).to eq(surname)
-end
 
 Then(/^the entry should have name "([^"]*)" and release date "([^"]*)"$/) do |title,release_date|
     resultingTitle = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select title from AlbumDB;\" -t`
@@ -318,8 +277,23 @@ Then(/^the album's database remains empty$/) do
     expect(result).to eq("0")
 end
 
+
 Then(/^the album's database contains an album named "([^"]*)" with release date "([^"]*)"$/) do |title, releaseDate|
     queryResult = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from AlbumDB where title = '#{title}' and releaseDate = '#{releaseDate}';\" -t`
     queryResult = queryResult.gsub(/[^[:print:]]|\s/,'')
     expect(queryResult == "1")
 end
+
+
+When(/^I list all the albums the result of the search should have (\d+) entries$/) do |arg1|
+  begin
+    response = RestClient.get "http://localhost:4567/albums"
+    puts("Response: "+response)
+    if (arg1 == "0")
+      expect(response.code).to eq(204)
+    else
+      expect(response.code).to eq(200)
+    end
+  end
+
+
