@@ -38,6 +38,11 @@ Given(/^that the song's database have one song with name "([^"]*)" and duration 
   expect(response.code).to eq(201)
 end
 
+Given(/^that the song's database have one song with UUID "([^"]*)"$/) do |id|
+  response = RestClient.post 'http://localhost:4567/songs/'+id, { :id => id}, :content_type => 'text/plain'
+  expect(response.code).to eq(201)
+end
+
 Given(/^that the song's database have one song with name "([^"]*)" and duration "([^"]*)" and belong to the album "([^"]*)"$/) do |arg1, arg2, arg3|
   pending # Write code here that turns the phrase above into concrete actions
 end
