@@ -14,6 +14,15 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SessionManager
 import spark.Request;
 import spark.Response;
 
+import spark.ModelAndView;
+
+import spark.ModelAndView;
+import spark.TemplateEngine;
+
+import java.util.HashMap;
+import java.util.Map;
+
+
 public class AlbumController {
     protected static AlbumController unique_instance = null;
 
@@ -26,7 +35,9 @@ public class AlbumController {
         return unique_instance;
     }
 
-    public List<Album> getAll(Request req, Response res){
+    // public List<Album> getAll(Request req, Response res){
+    public ModelAndView getAll(Request req, Response res){
+        Map<String, Object> attributes = new HashMap<>();
     	Session session = SessionManager.getInstance().openSession();
     	AlbumDaoImpl adao = new AlbumDaoImpl(session);
 
@@ -35,22 +46,38 @@ public class AlbumController {
     	int status = albums.size() > 0 ? 200 : 204;
 		res.status(status);
 		res.body(albums.toString());
-		return albums;
-//    	try {
-//    		sessionManager.openCurrentSession();
-//    		List<Album> albums = dao.getAll();
-//    		sessionManager.closeCurrentSession();
-//    		int status = albums.size() > 0 ? 200 : 204;
-//    		res.status(status);
-//    		res.body(albums.toString());
-//    		return albums;
-//    	} catch (Exception e) {
-//			e.printStackTrace();
-//			res.status(500);
-//			res.body("Internal server error");
-//			return null;
-//    	}
+		// return albums;
+        attributes.put("albumns", albums);
+        attributes.put("template", Routes.index_album());
+        return new ModelAndView(attributes, Routes.layout_dashboard());
     }
+
+
+    public ModelAndView showAlbum(Request req,Response res){
+        Map<String, Object> attributes = new HashMap<>();
+
+        attributes.put("template", Routes.show_album());
+        attributes.put("title", "Show");
+        return new ModelAndView(attributes, Routes.layout_dashboard());
+    }
+
+    public ModelAndView newAlbum(Request req,Response res){
+        Map<String, Object> attributes = new HashMap<>();
+
+        attributes.put("template", Routes.new_album());
+        attributes.put("title", "New");
+        return new ModelAndView(attributes, Routes.layout_dashboard());
+    }
+
+    public ModelAndView editAlbum(Request req,Response res){
+        Map<String, Object> attributes = new HashMap<>();
+
+        attributes.put("template", Routes.edit_album());
+        attributes.put("title", "Edit");
+        return new ModelAndView(attributes, Routes.layout_dashboard());
+    }
+
+
     
     public String create(Request req, Response res) {
     	Session session = SessionManager.getInstance().openSession();
