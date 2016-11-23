@@ -7,9 +7,23 @@
         formResource : null, // resource of foorm CREATE | UPDATE
         resource   : null,   // resource FIND | SHOW
         action     : null,   // action FIND SHOW CREATE UPDATE
-        entities  : ['artists','albums','users','bands','songs'], // entities of system
+        entities   : ['artists','albums','users','bands','songs'], // entities of system
+        attributes : ['name','surname','nickname'],
         actionentities : {SHOW :'/', UPDATE : '/ID', },
         currentEntitie : null,
+        generateform : function () {
+          autogenerate='<form id="formulario">';
+          ind=0;
+          for(ind=0; ind < this.attributes.length; ind++){
+              autogenerate+='<div>'+this.cFirst(this.attributes[ind])+'</div>  <input type=text name="'+this.attributes[ind]+'" class="form-control">';
+          }
+          autogenerate+='<div></div><input type=submit class="btn btn-default" name=press value="Send" onclick="return lybartist.sendform();">';
+          autogenerate+='<input type=reset  class="btn btn-default" name=default value="Reset">';
+          autogenerate+='<input type=button  class="btn btn-default" name=hidden value="Close" onclick="return lybartist.hiddenform();">';
+          autogenerate+='</form>';
+          $("#autogenerateform").html(autogenerate);
+            return true;
+        },
         init : function () {  // Lybrary init config
           this.currentEntitie = this.entities[0];
           this.formResource   = '/'+this.currentEntitie;
@@ -17,6 +31,7 @@
           this.formmode = 'POST';
           this.action = 'SHOW';
           $("#titleform").html('Create '+this.currentEntitie);
+          this.generateform();
           return false;
         },
         changeContext  : function (oneaction,onemethod) {
@@ -24,7 +39,7 @@
           this.formmode = onemethod;
           $("#statusactionform").html('');
           $("#formulario")[0].reset();
-          $("#titleform").html(oneaction+' '+this.currentEntitie);
+          $("#titleform").html('<h2>'+oneaction+' '+this.currentEntitie+'</h2>');
 
           //$("#dataformaction").css('display','block');
           $("#dataformaction").slideDown();
@@ -129,7 +144,7 @@
                 $("#datacount").html('List Empty');
                 return false;
             }
-            response = '<table><tr>'; 
+            response = '<table class="table collection table table-bordered table-striped table-hover"><tr><th>N</th>'; 
             getHeaders = true;
             $.each(lybartist.cachejson, function(i, item) {
                    if (getHeaders) { // get Header Names
@@ -143,10 +158,10 @@
                    idvalue=null;
                    $.each(item, function(name,value) { // fill rows
                    	     if (idvalue!=null) {response+='<td>'+value+'</td>';}
-					     	else {idvalue=value;} 
+					     	else {idvalue=value;response+='<td>'+(i+1)+'</td>';} 
                    });
-                   response +='<td><input type="button" value="Edit" onclick="lybartist.updateregister(\''+idvalue+'\','+i+');">';
-                   response += '<input type="button" value="Delete" onclick="lybartist.deleteregister(\''+idvalue+'\');"></td></tr>';
+                   response +='<td><input type="button" class="btn btn-default" value="Edit" onclick="lybartist.updateregister(\''+idvalue+'\','+i+');">';
+                   response += '<input type="button" class="btn btn-default" value="Delete" onclick="lybartist.deleteregister(\''+idvalue+'\');"></td></tr>';
 
             });
             response += '</table>'; // note lybartist is necesary reference, this is one pointer ajax object
