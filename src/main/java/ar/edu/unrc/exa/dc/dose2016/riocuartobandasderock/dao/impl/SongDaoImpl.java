@@ -120,19 +120,15 @@ public class SongDaoImpl implements SongDAO{
 	 */
 	@Override
 	public Song findById(String id){
-		if (id != null && id != "") {
+		
+		if (id == null || id == "") {
+			throw new IllegalArgumentException("The param 'id' for search a song can't be null or empty.");
+		} else {
 			Song song = this.currentSession.find(Song.class, id);
 			return song;
-		} else {
-			return null;
 		}
 	}
 
-	/*
-	@Override
-	public List<Song> findByAuthor(String author){
-		return null;
-	}*/
 
 	/**
 	 * fn findByName
