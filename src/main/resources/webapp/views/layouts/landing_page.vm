@@ -11,15 +11,12 @@
 
   <title>Bands of Río Cuarto</title>
 
-  <!-- Custom Fonts -->
-  <style type="text/css">
-    #include("assets/css/grayscale.min.css")
-    #include("assets/css/font-awesome.min.css")
-    #include("vendor/bootstrap/css/bootstrap.min.css")
-  </style>
-
   <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="assets/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link href="assets/css/grayscale.min.css" rel="stylesheet" type="text/css">
 
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -78,11 +75,9 @@
   </footer>
 
   <!-- jQuery -->
-  <script type="text/javascript" >
-    #include("vendor/jquery/jquery.js")
-    #include("vendor/bootstrap/js/bootstrap.min.js")
-    #include("assets/js/grayscale.min.js")
-  </script>
+  <script src="vendor/jquery/jquery.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+  <script src="assets/js/grayscale.min.js"></script>
 
   <!-- Plugin JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>

@@ -4,30 +4,32 @@
       <div class="col-md-12">
         <div class="card card-plain">
           <div class="card-header" data-background-color="purple">
-            <h4 class="title">Listado de todas las Bandas</h4>
+            <h4 class="title">Listado de todos los Artistas</h4>
           </div>
           <div class="card-content table-responsive">
             <table class="table table-hover">
               <thead>
                 <th>ID</th>
                 <th>Nombre</th>
-                <th>Genero</th>
+                <th>Apellido</th>
+                <th>Apodo</th>
                 <th>Acciones</th>
               </thead>
               <tbody>
-                #foreach( $band in $bands )
+                #foreach( $artist in $artists )
                   <tr>
-                    <td>$band.getId()</td>
-                    <td>$band.getName()</td>
-                    <td>$band.getGenre()</td>
+                    <td>$artist.getId()</td>
+                    <td>$artist.getName()</td>
+                    <td>$artist.getSurname()</td>
+                    <td>$artist.getNickname()</td>
                     <td>
-                      <a href="/bands/$!{band.getId()}">
+                      <a href="/artists/$!{artist.getId()}">
                         <i class="material-icons">remove_red_eye</i>
                       </a>
-                      <a href="/bands/$!{band.getId()}/edit">
+                      <a href="/artists/$!{artist.getId()}/edit">
                         <i class="material-icons">edit</i>
                       </a>
-                      <a href="/bands/$!{band.getId()}" method="delete">
+                      <a href="/artists/$!{artist.getId()}" method="delete">
                         <i class="material-icons">close</i>
                       </a>
                     </td>

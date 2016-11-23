@@ -86,4 +86,9 @@ public class Routes {
     return "views/landing_page/index.vm";
   }
 
+  // Routes to Dashboard
+  public static String dashboard_index(){
+    return "views/dashboard/index.vm";
+  }
+
 }

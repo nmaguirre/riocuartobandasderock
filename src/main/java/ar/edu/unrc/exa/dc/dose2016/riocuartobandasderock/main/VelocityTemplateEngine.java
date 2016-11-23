@@ -4,7 +4,7 @@
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- *  
+ *
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -18,6 +18,8 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
@@ -43,20 +45,13 @@ public class VelocityTemplateEngine extends TemplateEngine {
      */
     public VelocityTemplateEngine() {
         Properties properties = new Properties();
-
-        String path = "/Users/Ezequiel/Documents/Programs/Java/DOSE/riocuartobandasderock/riocuartobandasderock/src/main/resources/webapp/views";
-        properties.setProperty("file.resource.loader.path", path);
-
-        String root_path = "/Users/Ezequiel/Documents/Programs/Java/DOSE/riocuartobandasderock/riocuartobandasderock/src/main/resources/webapp";
-        properties.setProperty("file.resource.loader.path", root_path);
-
-        // properties.setProperty("file.resource.loader.path", "resources/webapp/views");
-
-
-        // properties.setProperty("resource.loader", "webapp/views/");
-        properties.setProperty(
-                "class.resource.loader.class",
-                "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+        Path p = FileSystems.getDefault().getPath("");
+        p = p.toAbsolutePath();
+        String target_path = p.toString() + "/target/classes/webapp";
+        properties.setProperty("file.resource.loader.path", target_path);
+        properties.setProperty("file.resource.loader.cache", "false");
+        properties.setProperty("class.resource.loader.class",
+                               "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         this.velocityEngine = new org.apache.velocity.app.VelocityEngine(properties);
     }
 

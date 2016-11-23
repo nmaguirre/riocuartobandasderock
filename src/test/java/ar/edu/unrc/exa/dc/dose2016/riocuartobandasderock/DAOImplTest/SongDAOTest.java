@@ -29,6 +29,52 @@ public class SongDAOTest {
 		};
 		assertEquals(songModel,songDao.findById("3"));
 	}
+        
+        @Test
+	public void findByNameTest() {
+                         List<Song> allSongs = new LinkedList<Song>();
+		Song songModel = new Song();
+		songModel.setName("t1");
+                         allSongs.add(songModel);
+		new Expectations(){
+			{
+				songDao.findByName(withEqual("t1"));
+				returns (allSongs);
+			}
+		};
+		assertEquals(allSongs,songDao.findByName("t1"));
+	}
+        
+        @Test
+	public void findByDurationTest() {
+                         List<Song> allSongs = new LinkedList<Song>();
+		Song songModel = new Song();
+		songModel.setDuration(300);
+                         allSongs.add(songModel);
+		new Expectations(){
+			{
+				songDao.findByDuration(withEqual(300));
+				returns (allSongs);
+			}
+		};
+		assertEquals(allSongs,songDao.findByDuration(300));
+	}
+        
+        @Test
+        public void addSongTest(){
+            List<Song> allSongs = new LinkedList<Song>();
+            Song song1=new Song();
+            song1.setName("t1");
+            song1.setDuration(300);
+            allSongs.add(song1);
+            new Expectations(){
+                        {
+                            songDao.addSong("t1", 300);
+                            returns(true);
+                        }
+            };
+            assertEquals(allSongs.contains(song1), songDao.addSong("t1", 300));
+        }
                  
         @Test(expected=IllegalArgumentException.class)
             public void findByIdIfIdIsEmptyTest(){
@@ -41,7 +87,7 @@ public class SongDAOTest {
 	}
             
             @Test 
-            public void findAllSongsTest(){
+            public void getAllSongsTest(){
                 List<Song> allSongs = new LinkedList<Song>();
                 Song song1=new Song();
                 Song song2=new Song();

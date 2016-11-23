@@ -6,13 +6,9 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import static spark.Spark.*;
-// import static spark.Spark.staticFileLocation;
-
-import spark.ModelAndView;
 
 import spark.Request;
 import spark.Response;
-
 import spark.ModelAndView;
 import spark.TemplateEngine;
 
@@ -27,19 +23,19 @@ import java.util.Map;
  * following the singleton patter.
  */
 
-public class LandingPageController {
+public class DashboardController {
   /*
    * check that have only one instance of class
    */
-  private static LandingPageController instance = null;
+  private static DashboardController instance = null;
 
   /***
-   * Constructor of class LandingPageController
+   * Constructor of class DashboardController
    * Implement the singleton pattern.
    */
-  public static LandingPageController getInstance() {
+  public static DashboardController getInstance() {
       if(instance == null) {
-         instance = new LandingPageController();
+         instance = new DashboardController();
       }
       return instance;
   }
@@ -52,7 +48,7 @@ public class LandingPageController {
   public ModelAndView index(Request req ,Response res){
     Map<String, Object> attributes = new HashMap<>();
 
-    attributes.put("template", Routes.landing_page());
-    return new ModelAndView(attributes, Routes.layout_landing_page());
+    attributes.put("template", Routes.dashboard_index());
+    return new ModelAndView(attributes, Routes.layout_dashboard());
   }
 }

@@ -33,17 +33,16 @@ public class Bootstrap {
 	private static ArtistController artistController;
 	private static AlbumController albumController;
     private static UserController userController;
-
 	private static SongController songController;
 	private static BandMemberController bandMemberController;
 	private static String view = "src/main/WebApp/views/";
-
     private static LandingPageController landingPageController;
+    private static DashboardController dashboardController;
 
     public static void main(String[] args) {
 
+    	staticFileLocation("/webapp");
 
-        staticFileLocation("./webapp");
 
     	CommandLineParser parser = new DefaultParser();
 
@@ -95,6 +94,7 @@ public class Bootstrap {
         songController = new SongController();
         userController = UserController.getInstance();
         landingPageController = LandingPageController.getInstance();
+        dashboardController = DashboardController.getInstance();
         port(Integer.parseInt(ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().getAppPort()));
 
         // before("/bands", (req, res) -> {
@@ -103,21 +103,42 @@ public class Bootstrap {
         //     }
         // });
 
+        /**
+        * LANDING PAGE
+        **/
         get("/", (req, res) -> landingPageController.index(req,res), new VelocityTemplateEngine());
 
-        post("/albums", (req, res) -> albumController.create(req, res));
-               
-        get("/albums", (req, res) -> albumController.getAll(req, res));
-              
+
+        /**
+        * DASHBOARD
+        **/
+        get("/dashboard", (req, res) -> dashboardController.index(req,res), new VelocityTemplateEngine());
+
+        /**
+        * ALBUM
+        **/
+        get("/albums", (req, res) -> albumController.getAll(req, res), new VelocityTemplateEngine());
+
+        get("/albums/new",(req, res) -> albumController.newAlbum(req, res), new VelocityTemplateEngine());
+
+        get("/albums/:id/edit",(req, res) -> albumController.editAlbum(req, res), new VelocityTemplateEngine());
+
+        get("/albums/:id",(req, res) -> albumController.showAlbum(req, res), new VelocityTemplateEngine());
+
+
         get("/albums/findByTitle/:title", (req, res) -> albumController.findByTitle(req, res));
-                
+
         get("/albums/findByReleaseDate/:release_date", (req, res) -> albumController.findByReleaseDate(req, res));
+
+        post("/albums", (req, res) -> albumController.create(req, res));
+
+
 
         get("/hello", (req, res) -> "Hello World");
 
         /**
-        *   Band routes
-        */
+        * BAND
+        **/
         get("/bands",(req, res) -> bands.getBands(req, res), new VelocityTemplateEngine());
 
         get("/bands/findbyname/:name",(req, res) -> bands.getBandByName(req, res), json());
@@ -132,57 +153,70 @@ public class Bootstrap {
 
         get("/bands/:id/edit",(req, res) -> bands.editBand(req, res), new VelocityTemplateEngine());
 
+        get("/bands/:id",(req, res) -> bands.showBand(req, res), new VelocityTemplateEngine());
+
+        get("/bands/",(req, res) -> bands.createBand(req, res));// for test the add bands
+
         post("/bands/",(req, res) -> bands.createBand(req, res));
 
         put("/bands",(req, res) -> bands.updateBand(req, res));
 
         delete("/bands/:name",(req, res) -> bands.deleteBand(req, res));
-        
-        /* ArtistController  Begin Routes*/
-        
-        /** returns an artist whose id = :id the output is json format
-         * example:   Request: GET /artist/10
-         *            Output : {name: Matias, surname: Cerra, nickname: }
-         * 
-         * **/    
-        get("/artists/:id",(req,res)->artistController.getArtistById(req,res));
-                                
+
+        /**
+        * ARTIST
+        **/
+        get("/artists",(req,res)->artistController.getAllArtists(req,res), new VelocityTemplateEngine());
+
+        get("/artists/new",(req, res) -> artistController.newArtist(req, res), new VelocityTemplateEngine());
+
+        get("/artists/:id/edit",(req, res) -> artistController.editArtist(req, res), new VelocityTemplateEngine());
+
+        get("/artists/:id",(req, res) -> artistController.showArtist(req, res), new VelocityTemplateEngine());
+
         get("/artists/findbyallattributes/",(req,res)->artistController.getOneArtist(req,res),json());
-                
-        get("/artists",(req,res)->artistController.getAllArtists(req,res),json());
+
+        get("/artists/:id",(req,res)->artistController.getArtistById(req,res));
 
         get("/artists/findbyname/:name",(req,res)->artistController.getArtistByName(req,res),json());
-        
+
         get("/artists/findbynickname/:nickname",(req,res)->artistController.getArtistByNickname(req,res),json());
 
         get("/artists/findbysurname/:surname",(req,res)->artistController.getArtistBySurname(req,res),json());
-                        
+
         get("/artists/getbands/",(req,res)->artistController.getBandMembersByArtist(req, res),json());
-        
+
         get("/artists/getbandsbyId/:artistID",(req,res)->artistController.getBandMembersByArtistId(req, res),json());
 
         post("/artists",(req,res)->artistController.createArtist(req,res));
-        
+
         put("/artists/:id",(req,res)->artistController.updateArtist(req,res));
 
         delete("/artists/:id",(req,res)->artistController.deleteArtist(req,res));
-        
+
         /**
-         * BandMember routes
-         */
+         * BAND MEMEBER
+         **/
         post("/bandmembers",(req,res)->bandMemberController.createBandMember(req, res));
-        
+
         delete("/bandmembers/:artistID/:BandID",(req,res)->bandMemberController.deleteBandMember(req, res));
-        
+
         /**
-         * Users routes
-         */
+         * USER
+         **/
         post("/users", (req, res) -> userController.create(req, res));
+
         put("/users/:name", (req, res) -> userController.update(req, res));
+
         delete("/users/:name", (req, res) -> userController.delete(req, res));
+
         post("/login", (req, res) -> userController.login(req, res));
+
         post("/logout", (req, res) -> userController.logout(req, res));
 
+        /**
+        * SONG 
+        **/
         post("/songs/",(req,res)->songController.create(req, res));
 
         get("/songs/findbyname/:name",(req,res)->songController.getByName(req,res));

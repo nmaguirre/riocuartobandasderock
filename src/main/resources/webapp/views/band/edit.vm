@@ -1,6 +1,0 @@
-<html>  
-  <body>
-    #set( $path = "src/main/webapp/band/edit.vm" )
-    found me on $path
-  </body>
-</html>
