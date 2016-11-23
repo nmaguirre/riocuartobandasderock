@@ -131,7 +131,7 @@ public class SongController {
 
     	String songName = req.queryParams("name");
     	String dur = req.queryParams("duration");
-    	if(( songName == null || songName == "" ) || dur == null) {
+    	if( songName == null || songName.isEmpty() || dur == null) {
 			res.status(400);
 			res.body("Invalid content of parameters");
 			return res.body();
@@ -139,7 +139,7 @@ public class SongController {
     	Session session = SessionManager.getInstance().openSession();
     	SongDAO sdao = new SongDaoImpl(session);
     	Transaction transaction = session.beginTransaction();
-    	boolean result = sdao.addSong(songName,Integer.parseInt(dur));
+    	boolean result = sdao.addSong(songName, (dur.isEmpty()?  0 : Integer.parseInt(dur)));
     	transaction.commit();
     	session.close();
 
