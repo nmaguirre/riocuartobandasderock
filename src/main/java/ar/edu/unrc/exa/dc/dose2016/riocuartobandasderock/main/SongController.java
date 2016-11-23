@@ -60,13 +60,16 @@ public class SongController {
      * @return the list of songs with Id parameters
      */
     public Song getById (Request req, Response res){
+    	
+    	Session session = SessionManager.getInstance().openSession();
+    	SongDAO sdao = new SongDaoImpl(session);
+    	
     	String id = req.params(":id");
     	if (id == ""){
     		res.status(400);
     		return null;
     	}
-    	Session session = SessionManager.getInstance().openSession();
-    	SongDAO sdao = new SongDaoImpl(session);
+    	
     	Song song = sdao.findById(id);
     	session.close();
     	res.status(song != null ? 200 : 204);
@@ -81,14 +84,16 @@ public class SongController {
      * @return the list of songs with name parameters
      */
     public List<Song> getByName (Request req, Response res){
+    	
+    	Session session = SessionManager.getInstance().openSession();
+    	SongDAO sdao = new SongDaoImpl(session);
+    	
        	String songName = req.params(":name");
 
     	if (songName == null || songName == ""){
     		res.status(400);
     		return null;
-    	};
-    	Session session = SessionManager.getInstance().openSession();
-    	SongDAO sdao = new SongDaoImpl(session);
+    	}
     	List<Song> songs = sdao.findByName(songName);
     	session.close();
     	res.status(songs.size() > 0 ? 200 : 204);
@@ -103,14 +108,15 @@ public class SongController {
      * @return the list of songs with duration parameters
      */
     public List<Song> getByDuration (Request req, Response res){
+    	Session session = SessionManager.getInstance().openSession();
+    	SongDAO sdao = new SongDaoImpl(session);
+    	
     	String duration = req.params(":duration");
 
     	if (duration == null || duration == ""){
     		res.status(400);
     		return null;
     	}
-    	Session session = SessionManager.getInstance().openSession();
-    	SongDAO sdao = new SongDaoImpl(session);
 
     	List<Song> songs = sdao.findByDuration(Integer.parseInt(duration));
     	session.close();
@@ -162,10 +168,17 @@ public class SongController {
      * @return a string that describes the result of create
      */
     public String createWithId (Request req, Response res){
-
-      String id = req.params("id");
+    	
     	Session session = SessionManager.getInstance().openSession();
     	SongDAO sdao = new SongDaoImpl(session);
+    	String id = req.params(":id");
+    	
+		if ((id == "") ||(id == null)) {
+			res.status(400);
+			res.body("Invalid request");
+			return res.body();
+		}
+    	
     	Transaction transaction = session.beginTransaction();
     	boolean result = sdao.addSongWithId(id);
     	transaction.commit();
@@ -190,14 +203,16 @@ public class SongController {
 	 * @return true if the song was deleted. Otherwise, false.
 	 */
 	public String remove(Request req,Response res){
+		
+		Session session = SessionManager.getInstance().openSession();
+		SongDAO sdao = new SongDaoImpl(session);
+		
 		String id = req.params(":id");
 		if ((id == "") ||(id == null)) {
 			res.status(400);
 			res.body("Invalid request");
 			return res.body();
 		}
-		Session session = SessionManager.getInstance().openSession();
-		SongDAO sdao = new SongDaoImpl(session);
 
 		Transaction transaction = session.beginTransaction();
 	 	boolean status = sdao.removeSong(id);
@@ -224,16 +239,17 @@ public class SongController {
      */
 
     public String update(Request req, Response res){
+    	Session session = SessionManager.getInstance().openSession();
+    	SongDAO sdao = new SongDaoImpl(session);
+    	
     	String id = req.params(":id");
     	if ((id == "") ||(id == null)) {
 			res.status(400);
 			res.body("Invalid request");
 			return res.body();
 		}
-    	Session session = SessionManager.getInstance().openSession();
-    	SongDAO sdao = new SongDaoImpl(session);
+
     	Song song = sdao.findById(id);
-    	session.close();
 
     	String name = req.queryParams("name");
     	String duration = req.queryParams("duration");
@@ -246,6 +262,8 @@ public class SongController {
 
     	song.setName(name);
     	song.setDuration(Integer.parseInt(duration));
+    	
+    	session.close();
 
     	session = SessionManager.getInstance().openSession();
     	Transaction transaction = session.beginTransaction();

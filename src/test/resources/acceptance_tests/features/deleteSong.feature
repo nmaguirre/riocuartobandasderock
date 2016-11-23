@@ -15,5 +15,5 @@ Feature: The application responds appropriately to all events that correspond to
 		
 	Scenario: Delete a song that doesn't exist in database
 		Given that the song's database have one song with UUID "44f464ce-b000-11e6-80f5-76304dec7eb7"
-		When I delete a song with the UUID "c6039a6c-b000-11e6-80f5-76304dec7eb7"
+		When I delete a song with UUID "c6039a6c-b000-11e6-80f5-76304dec7eb7"
 		Then the song's database should have 1 entry
