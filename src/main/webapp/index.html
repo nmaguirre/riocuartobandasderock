@@ -40,14 +40,13 @@
     
     <style>
   		canvas.arbor{
-  			float:right;
   			position: absolute;
   			top: 100px; 
-  			left:400px;}
+  			left:500px;}
   		
   		div.searchZone{
   			position: absolute;
-  			top: 110px; 
+  			top: 110px;
   		}		 		
   	</style>
 </head>
@@ -79,12 +78,12 @@
     <header>
         <div class="container">
             <div class="row">
-                <canvas class="arbor" id="viewport" width="680" height="980"
-                    style="border:1px solid #000000; width: 584px">
+                <canvas class="arbor" id="viewport" width="680" height="800"
+                    style="border:1px solid #000000; width: 680px; height: 800px">
                 </canvas>
                             
             <!-- Search Zone-->
-                <section class="searchZone" style="width: 250px; height: 1058px">
+                <section class="searchZone" style="width: 250px; height: 1058px;">
     	               <div style="width: 250px; ">
     	                    <legend>Search Songs</legend>
                             <form action="songFindByName(this.value)">
@@ -124,7 +123,7 @@
                 	  </div>
                 	  <br>
                 	  <div style="width: 250px; ">
-                		<legend>Search ALbums</legend>
+                		<legend>Search Albums</legend>
                 			<form action="albumFindByTitle(this.value)">
                 				By title:<br>
                 				<input type="text" name="title"><input type="submit" style="color: black">
@@ -165,7 +164,7 @@
 	
 	
 	
-    <section id="download" class="download bg-primary text-center" style="height: 344px; ">
+    <section id="Customer" class="download bg-primary text-center" style="height: 344px; ">
         <div class="container">
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
