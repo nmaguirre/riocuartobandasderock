@@ -12,6 +12,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.AlbumDAO;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
@@ -34,7 +35,6 @@ public class AlbumDaoImpl implements AlbumDAO{
 //	private Transaction currentTransaction;
 	
 	private Session currentSession=null;
-
 	
 	public AlbumDaoImpl(Session session) {
 		this.currentSession = session;
@@ -60,9 +60,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 	 */
 	public List<Album> getAll(){
 		List<Album> l = new LinkedList<Album>();
-		System.out.println("antes");
 		l.addAll(this.currentSession.createQuery("from Album", Album.class).getResultList());
-		System.out.println("despues");
 		return l;
 	}	
 	
@@ -103,9 +101,9 @@ public class AlbumDaoImpl implements AlbumDAO{
 	 * @param band
 	 * @return true iff album was inserted into data base correctly
 	 */
-	public boolean create(String title, Date releaseDate, List<Object> songs, Object band){
+	public boolean create(String title, Date releaseDate, List<Object> songs, String id_band){
 		if(title==null || title.equals("") ) throw new IllegalArgumentException("Error: AlbumDaoImpl.createAlbum() : Database doesnt support null or empty title");
-		if(band==null) throw new IllegalArgumentException("Error: AlbumDaoImpl.createAlbum() : Database doesnt support null Band");
+		if(id_band==null) throw new IllegalArgumentException("Error: AlbumDaoImpl.createAlbum() : Database doesnt support null Band");
 		boolean isCreated=false;
 		if(releaseDate!=null){
 			//then the title and the day should not be in db. 
@@ -149,7 +147,8 @@ public class AlbumDaoImpl implements AlbumDAO{
 		if (isCreated){
 			Album album = new Album(title,releaseDate);
 			if (this.castSongsList(songs)!=null) album.setSongs(this.castSongsList(songs));
-			if (this.castBand(band)!=null) album.setBand(this.castBand(band));
+			BandDAO bdao = new BandDaoImpl(this.currentSession);
+			album.setBand(bdao.findById(id_band));
 			if (!album.repOk()) throw new IllegalArgumentException ("Bad representation of album");
 			this.currentSession.save(album);
 		}
@@ -186,18 +185,6 @@ public class AlbumDaoImpl implements AlbumDAO{
 	}
 	
 	/**
-	 * This private method 'cast' the Band, 
-	 * if an band does not surpass the repOk then returns a null.
-	 * @param band
-	 * @return band that was casted or null
-	 */	
-	private Band castBand (Object band){
-		if (((Band)band).repOK()){
-			return (Band) band;
-		}
-		return null;
-	}
-	/**
 	 * This method receives the fields to be updated 
 	 * and also the id of the album to be updated. 
 	 * If any of the fields are null, 
@@ -210,11 +197,11 @@ public class AlbumDaoImpl implements AlbumDAO{
 	 * @param songs
 	 * @return true iff update was successful
 	 */
-	public boolean update(String id, String title, Date releaseDate, List<Object> songs, Object band){
+	public boolean update(String id, String title, Date releaseDate, List<Object> songs, String id_band){
 		  if (id==null || id.equals("")) throw new IllegalArgumentException("Error : AlbumDaoImpl.update() null or empty Id");
 		  Album toUpdate = this.findById(id);
 		  if (toUpdate==null) return false;
-		  if (title==null && releaseDate==null && songs==null && band==null) return true;
+		  if (title==null && releaseDate==null && songs==null && id_band==null) return true;
 
 		  if(title!=null){
 			if(title.equals("")){
@@ -234,59 +221,12 @@ public class AlbumDaoImpl implements AlbumDAO{
 		    toUpdate.setSongs(this.castSongsList(songs));
 		  }
 		  
-		  if(band!=null){
-		    if(this.castBand(band)==null){
-		      return false;
-		    }
-		    toUpdate.setBand(this.castBand(band));
+		  if(id_band!=null){
+			BandDAO bdao = new BandDaoImpl(this.currentSession);
+		    toUpdate.setBand(bdao.findById(id_band));
 		  }
 
 		  this.currentSession.saveOrUpdate(toUpdate);
 		  return true;
-//		//skip representation
-//		if (title==null && releaseDate==null && songs==null) return true;
-//		if (title!=null && !title.equals("")){
-//			if (releaseDate!=null){
-//				toUpdate.setTitle(title);
-//				toUpdate.setReleaseDate(releaseDate);
-//				if (this.castSongsList(songs)!=null) toUpdate.setSongs(this.castSongsList(songs));
-//				this.currentSession.saveOrUpdate(toUpdate);
-//				//SessionManager.getInstance().getCurrentSession().saveOrUpdate(toUpdate);
-//				return true;
-//				
-//			}
-//			toUpdate.setTitle(title);
-//			if (this.castSongsList(songs)!=null) toUpdate.setSongs(this.castSongsList(songs));
-//			this.currentSession.saveOrUpdate(toUpdate);
-//			return true;
-//		}
-//		if (title==null && releaseDate!=null){
-//			toUpdate.setReleaseDate(releaseDate);
-//			if (this.castSongsList(songs)!=null) toUpdate.setSongs(this.castSongsList(songs));
-//			this.currentSession.saveOrUpdate(toUpdate);
-//			return true;
-//		}
-//		if (title==null && releaseDate == null && songs!=null){
-//			if (this.castSongsList(songs)!=null){ 
-//				toUpdate.setSongs(this.castSongsList(songs));
-//				this.currentSession.saveOrUpdate(toUpdate);
-//				return true;
-//			}
-//		}
-//		if (this.castSongsList(songs)==null) return false;
-//		return false;
-	}
-
-	@Override
-	public boolean create(String title, Date releaseDate, List<Object> songs) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean update(String id, String title, Date releaseDate,
-			List<Object> songs) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 }

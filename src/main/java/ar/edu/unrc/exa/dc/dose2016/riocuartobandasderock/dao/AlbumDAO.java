@@ -52,9 +52,10 @@ public interface AlbumDAO {
 	 * @param title 
 	 * @param releaseDate
 	 * @param songs
+	 * @param band
 	 * @return true iff creation is successful 
 	 */
-	public boolean create(String title, Date releaseDate, List<Object> songs);
+	public boolean create(String title, Date releaseDate, List<Object> songs, String band);
 	
 	/**
 	 * This method deletes an album found by id
@@ -74,7 +75,8 @@ public interface AlbumDAO {
 	 * @param title
 	 * @param releaseDate
 	 * @param songs
+	 * @param band
 	 * @return true iff update was successful
 	 */
-	public boolean update(String id, String title, Date releaseDate, List<Object> songs);
+	public boolean update(String id, String title, Date releaseDate, List<Object> songs, String band);
 }
