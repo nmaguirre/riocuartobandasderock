@@ -2,12 +2,14 @@
   <head>
     <title>System Admin</title>
     <!-- requiere images - font - recurses from maxcdn.bootstrapcdn.com -->
-
+    <!--<script src="/artistadmin/jquery.min.js"></script>-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+ 
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script src="/artistadmin/libartist.js"></script>
+
     <style type="text/css">
     table tr th, table tr td{font-size: 1.2rem;}
     .row{ margin:20px 20px 20px 20px;width: 100%;}
@@ -27,11 +29,10 @@
           <a class="navbar-brand" href="#">Artist TEAM</a>
         </div>
         <ul class="nav navbar-nav">
-          <li><a href="http://localhost:4567/artistadmin/index.php">Home</a></li>
-          <li class="active"><a href="http://localhost:4567/artistadmin/artist.php">Artist</a></li>
-          <li><a href="http://localhost:4567/artistadmin/album.php">Album</a></li>
-          <li><a href="http://localhost:4567/artistadmin/band.php">Band</a></li>
-          <li><a href="http://localhost:4567/artistadmin/song.php">Song</a></li>
+          <li class="active"><a href="javascript:void(0);" onclick="lybartist.activesection('artists',['name','surname','nickname']);">Artist</a></li>
+          <li><a href="javascript:void(0);" onclick="lybartist.activesection('albums',['title','releaseDate']);">Album</a></li>
+          <li><a href="javascript:void(0);">Band</a></li>
+          <li><a href="javascript:void(0);">Song</a></li>
         </ul>
       </div>
     </nav>
@@ -39,7 +40,7 @@
     <div class="container">
         <div align="center">
             <h2>
-                <i class="glyphicon glyphicon-th-list"></i> Admin - Artists
+                <i class="glyphicon glyphicon-th-list"></i> Admin - <span id="nameentitie">Registers</span>
                 <span id=loader class="loader progress progress-striped active"><span class="bar"></span></span>
             </h2>
         </div>
@@ -50,43 +51,26 @@
 
             <div class="btn-group pull-right" role="group">
                 <button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:lybartist.show();">Show all</button>
-              <button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:lybartist.createRegister();">Add</button>
-              <button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:lybartist.findbyall();">Find</button>
-
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Search <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                  <li><a href="javascript:void(0);" onclick="javascript:$(showSearchMenu('name'));">By name</a></li>
-                  <li><a href="javascript:void(0);" onclick="javascript:$(showSearchMenu('surname'));">By surname</a></li>
-                  <li><a href="javascript:void(0);" onclick="javascript:$(showSearchMenu('nickname'));">By nickname</a></li>
-                  <li role="separator" class="divider"></li>
-                  <li><a href="javascript:void(0);" onclick="javascript:$(showSearchMenu('all'));">By all fields</a></li>
-                </ul>
-
+              <button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:lybartist.createRegister();">Add</button> 
+                  <span id="typeofsearch"></span>
               </div>
-
-
-
          </div>
 
                      <div class="panel-body none formData" id="addForm">
                      </div>
 
-                  <div id="dataresult">
-                    <div id="statusactionform"></div>
-                    <div id="datacount"></div>
+                    <span id="statusactionform"></span>
+                    <span id="datacount"></span>
                     <div class="panel-body none formData" id="dataformaction" style="display:none;">
-                    <div><strong><div id="titleform"></div></strong></div>
-
-                    <div id="autogenerateform">
+	                    <div><strong><span id="titleform"></span></strong></div>
+	                    <div id="autogenerateform"></div>
                     </div>
-
-                    </div>
-                    <div id="datatable"></div>
-                  </div>
+                    <span id="datatable"></span>
           </div><!-- end panel div-->
-      </div> <!--rows end>
-    <div class="container"><!-- class container -->
+      </div> <!--rows end-->
+      <div class="row">
+      		<span id="datatable2"></span>
+      </div>
+    </div><!-- class container -->
   </body>
 </html>

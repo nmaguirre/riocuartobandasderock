@@ -5,12 +5,19 @@
         lastid    : null, // last id of one register
         formmode  : 'POST', // Default mode form is POST | PUT
         formResource : null, // resource of foorm CREATE | UPDATE
-        resource   : null,   // resource FIND | SHOW
         action     : null,   // action FIND SHOW CREATE UPDATE
-        entities   : ['artists','albums','users','bands','songs'], // entities of system
-        attributes : ['name','surname','nickname'],
-        actionentities : {SHOW :'/', UPDATE : '/ID', },
-        currentEntitie : null,
+        entitie    : 'artists', // only one entitie of system for artist
+        attributes : ['name','surname','nickname'], // attributes for artist
+        findlist   : [{resource:  'findbyname/',useurl:['name'],use:[]},{resource:  'findbysurname/',useurl:['surname'],use:[]},{resource:  'findbynickname/',useurl:['nickname'],use:[]},{resource:  'findbyallattributes/',useurl:[],use:[]}],
+        resource   : null,   // resource FIND | SHOW
+        resourceindex: 0,
+        relationship   : ['bands'], // relationship many-to-many
+        activesection : function (section,attr) {
+          this.entitie = section;
+          this.attributes = attr;
+          this.init();
+          this.showRegisters();
+        },
         generateform : function () {
           autogenerate='<form id="formulario">';
           ind=0;
@@ -22,15 +29,27 @@
           autogenerate+='<input type=button  class="btn btn-default" name=hidden value="Close" onclick="return lybartist.hiddenform();">';
           autogenerate+='</form>';
           $("#autogenerateform").html(autogenerate);
+
+          autogenerate='<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ';
+          autogenerate+=' aria-haspopup="true" aria-expanded="false">';
+          autogenerate+=' Search <span class="caret"></span> </button>';
+
+          autogenerate+='<ul class="dropdown-menu">';
+          $.each(this.findlist, function(i,item) {
+          	autogenerate+='<li><a href="javascript:void(0);" onClick="lybartist.showSearchMenu(\''+i+'\');">'+item.resource+'</a></li>';
+          });
+          autogenerate+='</ul>';
+          $("#typeofsearch").html(autogenerate);
+          
             return true;
         },
         init : function () {  // Lybrary init config
-          this.currentEntitie = this.entities[0];
-          this.formResource   = '/'+this.currentEntitie;
-          this.resource   = '/'+this.currentEntitie;
+          this.formResource   = '/'+this.entitie;
+          this.resource   = '/'+this.entitie;
           this.formmode = 'POST';
           this.action = 'SHOW';
-          $("#titleform").html('Create '+this.currentEntitie);
+          $("#titleform").html('Create '+this.entitie);
+          $("#nameentitie").html(this.cFirst(this.entitie));
           this.generateform();
           return false;
         },
@@ -39,7 +58,7 @@
           this.formmode = onemethod;
           $("#statusactionform").html('');
           $("#formulario")[0].reset();
-          $("#titleform").html('<h2>'+oneaction+' '+this.currentEntitie+'</h2>');
+          $("#titleform").html('<h2>'+oneaction+' '+this.entitie+'</h2>');
 
           //$("#dataformaction").css('display','block');
           $("#dataformaction").slideDown();
@@ -55,24 +74,25 @@
         show : function () {
           if (this.action=='FIND') this.hiddenform();
           this.action = 'SHOW';
-          this.resource = '/'+ this.currentEntitie;
+          this.resource = '/'+ this.entitie;
           this.showRegisters();
           return false;
         },
-        findbyall : function() {
-            this.changeContext("FIND","GET");
-            this.resource='/'+this.currentEntitie+'/findbyallattributes/';
-          return false;
+        showSearchMenu: function (indice) {
+          this.changeContext("FIND","GET");
+          this.resource='/'+this.entitie+'/'+this.findlist[indice].resource+'';
+          this.resourceindex=indice;
+        	return false;
         },
         createRegister : function() { // form create register
             this.changeContext("CREATE","POST");
-            this.formResource='/'+this.currentEntitie;
+            this.formResource='/'+this.entitie;
 
             return false;
         },
         updateregister: function (id,indexofcache) { // form update register
             this.changeContext("UPDATE","PUT");
-            this.formResource='/'+this.currentEntitie+'/'+id;
+            this.formResource='/'+this.entitie+'/'+id;
             this.recoveryofcache(indexofcache);
            return false;
         },
@@ -85,7 +105,6 @@
              } else {
                  $('input:text[name='+name+']').val(value);
              }
-           // console.log(name);
           });
           return false;
         },
@@ -93,7 +112,7 @@
             if (confirm('Really delete this register!!!')) {
               $.ajax({
                  type: "DELETE",
-                 url: '/'+this.currentEntitie+'/'+id,
+                 url: '/'+this.entitie+'/'+id,
                  data: '', 
                  success: function(data)
                  {
@@ -132,7 +151,21 @@
       },
      showRegisters : function () {
         resourcereal=this.resource;
-        if (this.action=='FIND') resourcereal +='?'+ $("#formulario").serialize();
+        if (this.action=='FIND'){
+          findcurrent = this.findlist[this.resourceindex];
+          if (findcurrent.useurl.length>0){ //find with parameters in path
+               argument=$('input:text[name='+findcurrent.useurl[0]+']').val();   
+               resourcereal +=argument;
+               if (argument==''){
+                 $("#statusactionform").html('<font color="red"><b>Error parameters \''+findcurrent.useurl[0]+'\' is empty</b></font>');
+               } else{
+                $("#statusactionform").html('');
+               }
+          } else
+          {
+               resourcereal +='?'+ $("#formulario").serialize();
+          }
+        } 
         response='';
          // note lybartist is necesary reference, this is one pointer ajax object in method .GET 
          $.get(resourcereal, function(data, status){
@@ -152,14 +185,18 @@
                           if (!getHeaders) {response+= '<th>'+lybartist.cFirst(name)+'</th>';}
                               else {getHeaders=false}
                        });
+                        if (lybartist.relationship.length>0)
+                          response+='<th>Relation</th>';
                         response+='<th>Action</th></tr>';
                    }
                    response += '<tr>';
                    idvalue=null;
                    $.each(item, function(name,value) { // fill rows
                    	     if (idvalue!=null) {response+='<td>'+value+'</td>';}
-					     	else {idvalue=value;response+='<td>'+(i+1)+'</td>';} 
+	           			     	 else {idvalue=value;response+='<td>'+(i+1)+'</td>';} 
                    });
+                   if (lybartist.relationship.length>0) //only one relation many to many
+                       response +='<td><input type="button" class="btn btn-default" value="'+lybartist.relationship[0]+'" onclick="lybartist.showManyToMany(\''+lybartist.entitie+'\',\''+idvalue+'\',\''+lybartist.relationship[0]+'\');"></td>';
                    response +='<td><input type="button" class="btn btn-default" value="Edit" onclick="lybartist.updateregister(\''+idvalue+'\','+i+');">';
                    response += '<input type="button" class="btn btn-default" value="Delete" onclick="lybartist.deleteregister(\''+idvalue+'\');"></td></tr>';
 
@@ -173,6 +210,52 @@
             } 
           }); // end object ajax
          return false;
+        },
+        showManyToMany: function (origin,id,destine) {
+          $("#datacount").html('');
+          $("#statusactionform").html('');
+          console.log('Many to many of '+origin+'('+id+') to '+destine);
+                 $.ajax({ // Note in body "this" not is one pointer lybartist exept in parameters
+                 type: 'GET',
+                 url: '/artists/getbandsbyId/'+id,
+                 success: function(data)
+                 {
+                   myjson='';
+                   try{ myjson = JSON.parse(data);}
+                   catch(a){
+                        myjson=null;
+                        $("#datatable2").html('<div class="col-xs-6 col-md-4">List Empty</div>');
+                        return false;
+                    }
+                    response = '<div class="col-xs-6 col-md-4"><h2> In Relation Table </h2></div><table class="table collection table table-bordered table-striped table-hover"><tr><th>N</th>'; 
+                    getHeaders = true;
+                    $.each(myjson, function(i, item) {
+                       if (getHeaders) { // get Header Names
+                          $.each(item, function(name,value) { //skip first name atribute
+                            if (!getHeaders) {response+= '<th>'+lybartist.cFirst(name)+'</th>';}
+                                else {getHeaders=false}
+                          });
+                        }
+
+                            response += '<th>Action</th></tr><tr><td>'+(i+1)+'</td>';
+                            idvalue=null;
+                            $.each(item, function(name,value) { // fill rows
+                               if (idvalue!=null) {response+='<td>'+value+'</td>';}
+                               else {idvalue=value;}
+                            });
+                            response+='<td>OneAction</td>';
+                    });
+                    response +='</tr>';
+                    response += '</table>';
+                    $("#datatable2").html(response); // Show response Api Rest
+                 },
+                 error: function(x, e) {
+                     $("#statusactionform").html('<font color="red"><b>Error</b></font>'); //  Show response Api Rest
+                 }
+              }); // end ajax
+ 
+
+          return false;
         }
     }; // end Lybrary artist-team
 
