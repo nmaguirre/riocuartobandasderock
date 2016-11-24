@@ -1,13 +1,17 @@
 angular.module('app')
 .controller('AlbumsController', ['$scope', '$http', function($scope,$http){
 		
-		$scope.click = function(){
-			console.log("A");
-			$http.get("http://localhost:4567/hello").then(function callback(data){
-				console.log(data);
-			});
-			$http.get("http://localhost:4567/bands").then(function callback(data){
-				console.log(data);
-			});
-		}
+	$scope.albums = [];
+
+	function load_albums() {
+		$http.get("https://private-53163-riocuartobandasderock.apiary-mock.com/albums").then(function callback(response){
+			if (response.status == 200){
+				$scope.albums = response.data;
+			} else {
+				alert("Oops, something went wrong, try again later!")
+			}
+		});
+	}
+		
+	load_albums();
 }]);

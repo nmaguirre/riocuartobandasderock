@@ -9,7 +9,7 @@ angular["module"]("app", ["ngRoute"])
 				templateUrl: "views/albums.html"
 			})
 			["when"]("/artists",{
-				controller: "ArtistController",
+				controller: "ArtistsController",
 				templateUrl: "views/artists.html"
 			})
 			["when"]("/bands",{
