@@ -1,6 +1,7 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
 import static spark.Spark.*;
+
 import static ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.JsonUtil.json;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -123,7 +124,7 @@ public class Bootstrap {
          *            Output : {name: Matias, surname: Cerra, nickname: }
          * 
          * **/    
-        get("/artists/:id",(req,res)->artistController.getArtistById(req,res));
+        get("/artists/:id",(req,res)->artistController.getArtistById(req,res),json());
                                 
         get("/artists/findbyallattributes/",(req,res)->artistController.getOneArtist(req,res),json());
                 
@@ -150,7 +151,7 @@ public class Bootstrap {
          */
         post("/bandmembers",(req,res)->bandMemberController.createBandMember(req, res));
         
-        delete("/bandmembers/:artistID/:BandID",(req,res)->bandMemberController.deleteBandMember(req, res));
+        delete("/bandmembers/:artistID/:bandID",(req,res)->bandMemberController.deleteBandMember(req, res));
         
         /**
          * Users routes
