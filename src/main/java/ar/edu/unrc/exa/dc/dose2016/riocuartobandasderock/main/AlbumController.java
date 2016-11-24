@@ -70,7 +70,7 @@ public class AlbumController {
         	
         	//TODO: set correct values
         	List<Object> songs = new LinkedList<Object>();
-        	Object bandId = null;
+        	String bandId = " ";
         	//
         	
             boolean result = adao.create(req.queryParams("title"), release_date, songs, bandId);
@@ -161,7 +161,7 @@ public class AlbumController {
         	
         	//TODO: set correct values
         	List<Object> songs = new LinkedList<Object>();
-        	Object bandId = null;
+        	String bandId = " ";
         	//
         	
             boolean result = adao.update(req.params("id"), req.queryParams("title"), release_date, songs, bandId);
