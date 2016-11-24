@@ -40,14 +40,13 @@
     
     <style>
   		canvas.arbor{
-  			float:right;
   			position: absolute;
   			top: 100px; 
   			left:400px;
   		}
   		div.searchZone{
   			position: absolute;
-  			top: 110px; 
+  			top: 110px;
   		}		 		
   		input[type=text] {
   			color: black;
@@ -82,89 +81,81 @@
     <header>
         <div class="container">
             <div class="row">
-                <!--div class="col-sm-7"-->
-                        <!--div class="header-content-inner"-->
-                            <canvas class="arbor" id="viewport" width="680" height="980"
-                            style="border:1px solid #000000; width: 584px"></canvas>
+                <canvas class="arbor" id="viewport" width="680" height="800" style="border:1px solid #000000; width: 680px; height: 800px"></canvas>
                             
-                            <!-- ZONA DE BUSQUEDA-->
-	<section class="searchZone" style="width: 250px; height: 1058px">
-	  <div style="width: 250px; ">  
-		<legend>Search Songs</legend>
-			<form action="songFindByName(this.value)">
-				By name:<br>
-				<input type="text" name="name"><input type="submit" style="color: black">
-				<br>
-			</form>
-			<form action="songFindByDuration(this.value)">
-				By duration:<br>
-				<input type="text" name="duration"><input type="submit" style="color: black">
-				<br>
-			</form>		
-			<br>
-			<button style="color: black" onclick="songGetAll()">Search All</button>		
-				
-	  </div>
-	  <br>
-	  <div style="width: 250px; ">
-		<legend>Search Artists</legend>
-			<form action="artistFindByName(this.value)">
-				By name:<br>
-				<input type="text" name="name"><input type="submit" style="color: black">
-				<br>
-			</form>
-			<form action="artistFindByNickname(this.value)">
-				By nickname:<br>
-				<input type="text" name="nickname"><input type="submit" style="color: black">
-				<br>
-			</form>
-				<form action="artistFindBySurname(this.value)">
-				By surname:<br>
-				<input type="text" name="surname"><input type="submit" style="color: black">
-			    <br>
-			</form>	
-			<br>
-			<button style="color: black" onclick="artisGetAll()">Search All</button>				
-	  </div>
-	  <br>
-	  <div style="width: 250px; ">
-		<legend>Search ALbums</legend>
-			<form action="albumFindByTitle(this.value)">
-				By title:<br>
-				<input type="text" name="title"><input type="submit" style="color: black">
-				<br>
-			</form>
-			<form action="albumFindByReleaseDate(this.value)">
-				By ReleaseDate:<br>
-				<input type="text" name="releasedate"><input type="submit" style="color: black">
-				<br>
-			</form>
-			<br>
-			<button style="color: black" onclick="albumGetAll()">Search All</button>			
-	  </div>
-	  <br>
-	  <div style="width: 250px; ">
-		<legend>Search Bands</legend>
-			<form action="bandFindByName(this.value)">
-				By name:<br>
-				<input type="text" name="name"><input type="submit" style="color: black">
-				<br>
-			</form>
-			<form action="bandFindByGenre(this.value)">
-				By genre:<br>
-				<input type="text" name="genre"><input type="submit" style="color: black">
-				<br>
-			</form>
-			<br>
-			<button style="color: black" onclick="bandGetAll()">Search All</button>			
-	  </div>    	  	
-	</section>
-                            
-                 	  	
-                                                    
+            <!-- Search Zone-->
+                <section class="searchZone" style="width: 250px; height: 1058px;">
+    	               <div style="width: 250px; ">
+    	                    <legend>Search Songs</legend>
+                            <form action="songFindByName(this.value)">
+    				            By name:<br>
+    				            <input type="text" name="name"><input type="submit" style="color: black">
+    				            <br>
+                            </form>
+    			            <form action="songFindByDuration(this.value)">
+        				        By duration:<br>
+        				        <input type="text" name="duration"><input type="submit" style="color: black">
+        				        <br>
+    			            </form>		
+    			            <br>
+    			            <button style="color: black" onclick="songGetAll()">Search All</button>		
+    				
                         </div>
-                    <!--/div-->
-                <!--/div-->
+    	            <br>
+                	  <div style="width: 250px; ">
+                		<legend>Search Artists</legend>
+                			<form action="artistFindByName(this.value)">
+                				By name:<br>
+                				<input type="text" name="name"><input type="submit" style="color: black">
+                				<br>
+                			</form>
+                			<form action="artistFindByNickname(this.value)">
+                				By nickname:<br>
+                				<input type="text" name="nickname"><input type="submit" style="color: black">
+                				<br>
+                			</form>
+                				<form action="artistFindBySurname(this.value)">
+                				By surname:<br>
+                				<input type="text" name="surname"><input type="submit" style="color: black">
+                			    <br>
+                			</form>	
+                			<br>
+                			<button style="color: black" onclick="artisGetAll()">Search All</button>				
+                	  </div>
+                	  <br>
+                	  <div style="width: 250px; ">
+                		<legend>Search Albums</legend>
+                			<form action="albumFindByTitle(this.value)">
+                				By title:<br>
+                				<input type="text" name="title"><input type="submit" style="color: black">
+                				<br>
+                			</form>
+                			<form action="albumFindByReleaseDate(this.value)">
+                				By ReleaseDate:<br>
+                				<input type="text" name="releasedate"><input type="submit" style="color: black">
+                				<br>
+                			</form>
+                			<br>
+                			<button style="color: black" onclick="albumGetAll()">Search All</button>			
+                	  </div>
+                	  <br>
+                	  <div style="width: 250px; ">
+                		<legend>Search Bands</legend>
+                			<form action="bandFindByName(this.value)">
+                				By name:<br>
+                				<input type="text" name="name"><input type="submit" style="color: black">
+                				<br>
+                			</form>
+                			<form action="bandFindByGenre(this.value)">
+                				By genre:<br>
+                				<input type="text" name="genre"><input type="submit" style="color: black">
+                				<br>
+                			</form>
+                			<br>
+                			<button style="color: black" onclick="bandGetAll()">Search All</button>			
+                	   </div>    	  	
+            	   </section>                            
+                </div>
             </div>
         </div>
     </header>
@@ -174,7 +165,7 @@
 	
 	
 	
-    <section id="download" class="download bg-primary text-center" style="height: 344px; ">
+    <section id="Customer" class="download bg-primary text-center" style="height: 344px; ">
         <div class="container">
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
