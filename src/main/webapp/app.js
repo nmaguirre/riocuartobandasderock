@@ -10,7 +10,7 @@ angular["module"]("app", ["ngRoute"])
 			})
 			["when"]("/albums/:id",{
 				controller: "AlbumsController",
-				templateUrl: "views/albumsPrueba.html"
+				templateUrl: "views/album.html"
 			})
 
 			["when"]("/artists",{
