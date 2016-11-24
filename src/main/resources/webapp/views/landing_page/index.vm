@@ -20,7 +20,50 @@
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2">
       <h2>BANDAS</h2>
-    </div>
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card card-plain">
+                  <div class="card-header" data-background-color="purple">
+                    <h4 class="title">Listado de todas las Bandas</h4>
+                  </div>
+                  <div class="card-content table-responsive">
+                    <table class="table table-hover">
+                      <thead>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Genero</th>
+                        <th>Acciones</th>
+                      </thead>
+                      <tbody>
+                        #foreach( $band in $bands )
+                          <tr>
+                            <td>$band.getId()</td>
+                            <td>$band.getName()</td>
+                            <td>$band.getGenre()</td>
+                            <td>
+                              <a href="/bands/$!{band.getId()}">
+                                <i class="material-icons">remove_red_eye</i>
+                              </a>
+                              <a href="/bands/$!{band.getId()}/edit">
+                                <i class="material-icons">edit</i>
+                              </a>
+                              <a href="/bands/$!{band.getId()}" method="delete">
+                                <i class="material-icons">close</i>
+                              </a>
+                            </td>
+                          </tr>
+                        #end
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
   </div>
 </section>
 
@@ -29,8 +72,52 @@
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2">
       <h2>ARTISTAS</h2>
-      <p></p>
-    </div>
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card card-plain">
+                  <div class="card-header" data-background-color="purple">
+                    <h4 class="title">Listado de todos los Artistas</h4>
+                  </div>
+                  <div class="card-content table-responsive">
+                    <table class="table table-hover">
+                      <thead>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Apodo</th>
+                        <th>Acciones</th>
+                      </thead>
+                      <tbody>
+                        #foreach( $artist in $artists )
+                          <tr>
+                            <td>$artist.getId()</td>
+                            <td>$artist.getName()</td>
+                            <td>$artist.getSurname()</td>
+                            <td>$artist.getNickname()</td>
+                            <td>
+                              <a href="/artists/$!{artist.getId()}">
+                                <i class="material-icons">remove_red_eye</i>
+                              </a>
+                              <a href="/artists/$!{artist.getId()}/edit">
+                                <i class="material-icons">edit</i>
+                              </a>
+                              <a href="/artists/$!{artist.getId()}" method="delete">
+                                <i class="material-icons">close</i>
+                              </a>
+                            </td>
+                          </tr>
+                        #end
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
   </div>
 </section>
 
@@ -39,9 +126,53 @@
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2">
       <h2>CANCIONES</h2>
-      <p></p>
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card card-plain">
+                  <div class="card-header" data-background-color="purple">
+                    <h4 class="title">Listado de todas las Canciones</h4>
+                  </div>
+                  <div class="card-content table-responsive">
+                    <table class="table table-hover">
+                      <thead>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Duración</th>
+                        <th>Álbum</th>
+                        <th>Acciones</th>
+                      </thead>
+                      <tbody>
+                        #foreach( $album in $albums )
+                          <tr>
+                            <td>$album.getId()</td>
+                            <td>$album.getName()</td>
+                            <td>$album.getDuration()</td>
+                            <td>$album.getAlbum()</td>
+                            <td>
+                              <a href="/songs/$!{song.getId()}">
+                                <i class="material-icons">remove_red_eye</i>
+                              </a>
+                              <a href="/albums/$!{song.getId()}/edit">
+                                <i class="material-icons">edit</i>
+                              </a>
+                              <a href="/albums/$!{song.getId()}" method="delete">
+                                <i class="material-icons">close</i>
+                              </a>
+                            </td>
+                          </tr>
+                        #end
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
 </section>
 
   <!-- Albums Section -->
@@ -49,9 +180,51 @@
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2">
       <h2>ÁLBUMES</h2>
-      <p></p>
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card card-plain">
+                  <div class="card-header" data-background-color="purple">
+                    <h4 class="title">Listado de todos los Albunes</h4>
+                  </div>
+                  <div class="card-content table-responsive">
+                    <table class="table table-hover">
+                      <thead>
+                        <th>ID</th>
+                        <th>Titulo</th>
+                        <th>Lanzamiento</th>
+                        <th>Acciones</th>
+                      </thead>
+                      <tbody>
+                        #foreach( $album in $albums )
+                          <tr>
+                            <td>$album.getId()</td>
+                            <td>$album.getTitle()</td>
+                            <td>$album.getReleaseDate()</td>
+                            <td>
+                              <a href="/albums/$!{album.getId()}">
+                                <i class="material-icons">remove_red_eye</i>
+                              </a>
+                              <a href="/albums/$!{album.getId()}/edit">
+                                <i class="material-icons">edit</i>
+                              </a>
+                              <a href="/albums/$!{album.getId()}" method="delete">
+                                <i class="material-icons">close</i>
+                              </a>
+                            </td>
+                          </tr>
+                        #end
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
 </section>
 
   <!-- Sing_up Section -->
