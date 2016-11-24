@@ -1,4 +1,4 @@
-<div class="sidebar" data-color="purple" data-image="assets/img/sidebar-1.jpg">
+<div class="sidebar" data-color="orange" data-image="assets/img/sidebar-1.jpg">
   <!--
         Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
 
@@ -14,7 +14,7 @@
   <div class="sidebar-wrapper">
     <ul class="nav">
       <li>
-        <a href="dashboard.html">
+        <a href="/dashboard">
           <i class="material-icons">dashboard</i>
           <p>Dashboard</p>
         </a>

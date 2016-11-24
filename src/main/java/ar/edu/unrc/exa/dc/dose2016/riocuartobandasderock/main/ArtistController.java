@@ -13,6 +13,15 @@ import spark.Request;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import java.util.List;
+
+import spark.ModelAndView;
+
+import spark.ModelAndView;
+import spark.TemplateEngine;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  *the ArtistController class treats http requests referred to the Artist model 
  */
@@ -100,16 +109,49 @@ public class ArtistController {
 	 * @param res (Response)
 	 * @return  List of Artist
 	 */
-	public List<Artist> getAllArtists(Request req, Response res){
+	// public List<Artist> getAllArtists(Request req, Response res){
+	public ModelAndView getAllArtists(Request req, Response res){
+		Map<String, Object> attributes = new HashMap<>();
 		Session session = SessionManager.getInstance().openSession();
 		ArtistDAO artistDAO = new ArtistDaoImpl(session);
 		List<Artist> artists = artistDAO.getAllArtists();
 		session.close();
 		int status = (artists.size()>0)? 200:204;
 		res.status(status);
-		return artists;
+		// return artists;
+  	attributes.put("artists", artists);
+  	attributes.put("template", Routes.index_artist());
+    return new ModelAndView(attributes, Routes.layout_dashboard());
+
 	}
 	
+
+
+
+  public ModelAndView showArtist(Request req,Response res){
+    Map<String, Object> attributes = new HashMap<>();
+
+    attributes.put("template", Routes.show_artist());
+    attributes.put("title", "Show");
+    return new ModelAndView(attributes, Routes.layout_dashboard());
+  }
+
+  public ModelAndView newArtist(Request req,Response res){
+    Map<String, Object> attributes = new HashMap<>();
+
+    attributes.put("template", Routes.new_artist());
+    attributes.put("title", "New");
+    return new ModelAndView(attributes, Routes.layout_dashboard());
+  }
+
+  public ModelAndView editArtist(Request req,Response res){
+    Map<String, Object> attributes = new HashMap<>();
+
+    attributes.put("template", Routes.edit_artist());
+    attributes.put("title", "Edit");
+    return new ModelAndView(attributes, Routes.layout_dashboard());
+  }
+
 	
 	/**
 	 * search for artists by name
