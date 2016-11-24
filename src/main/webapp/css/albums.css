@@ -5,6 +5,15 @@
 	padding-top: 4%;
 }
 
+.album-info {
+	margin-bottom: 2%;
+}
+
+.album-song {
+	color: white;
+	text-decoration: none;
+}
+
 .album {
 	background-color: #282828;
 	text-align: center;
