@@ -240,3 +240,273 @@ This will delete the specified album
 This will update the information of a specific albun
 
 + Response 200
+
+
+# Group Artist
+Resources related to artist in the API
+
+## Artist Collection [/artists]
+
+### List all artists [GET]
+This will list all the albums in the database
+
++ Response 200 (application/json)
+  + Body
+            [
+              {
+                "ArtistID": "1",
+                "name": "Matias",
+                "surname": "Serra",
+                "nickname": "lolo"
+              }, {
+                "ArtistID": "2",
+                "name": "Matias",
+                "surname": "Pirotto",
+                "nickname": "saca"
+              }, {
+                "ArtistID": "3",
+                "name": "Leandro",
+                "surname": "Pirotto",
+                "nickname": "chancha"
+              }, {
+                "ArtistID": "4",
+                "name": "Rocky",
+                "surname": "Balboa",
+                "nickname": "chancha"
+              }, {
+                "ArtistID": "5",
+                "name": "Juan",
+                "surname": "Gonzalez",
+                "nickname": "yupau"
+              },
+            ]
+                      
+
+### Create a new artist [POST]
+
+You may add a new artist using this action. It takes a JSON object containing a name, surname and nickname of the artist.
+
++ name (string) - artist name
++ surname (string) - artist surname
++ nickname (string) - artist nickname
+
++ Request (application/json)
+   + Body
+
+            {
+              "name": "Mariano",
+              "surname": "Pirotto",
+              "nickname": "arqueroConSuerte"
+            }
+
+
++ Response 201 (application/json)
+
+## Artist [/artists/findbyname/{name}]
+
++ Parameters
+  + name (string) - name of the artist
+
+### List all artists with a specific name [GET]
+
+This will list all the artists in the database with a specific name
+
++ Response 200 (application/json)
+   + Body
+            [
+              {
+                "ArtistID": "1",
+                "name": "Matias",
+                "surname": "Serra",
+                "nickname": "lolo"
+              }, {
+                "ArtistID": "2",
+                "name": "Matias",
+                "surname": "Pirotto",
+                "nickname": "saca"
+              }
+            ]
+## Artist [/artists/findbysurname/{surname}]
+
++ Parameters
+  + surname (string) - name of the artist
+
+### List all artists with a specific surname [GET]
+
+This will list all the artists in the database with a specific surname
+
++ Response 200 (application/json)
+   + Body
+            [
+               {
+                "ArtistID": "2",
+                "name": "Matias",
+                "surname": "Pirotto",
+                "nickname": "lolo"
+              }, {
+                "ArtistID": "3",
+                "name": "Leandro",
+                "surname": "Pirotto",
+                "nickname": "chancha"
+              }
+            ]
+
+## Artist [/artists/findbynickname/{nickname}]
+
++ Parameters
+  + nickname (string) - nickname of the artist
+
+### List all artists with a specific nickname [GET]
+
+This will list all the artists in the database with a specific nickname
+
++ Response 200 (application/json)
+   + Body
+            [
+              {
+                "ArtistID": "3",
+                "name": "Leandro",
+                "surname": "Pirotto",
+                "nickname": "chancha"
+              }, {
+                "ArtistID": "4",
+                "name": "Rocky",
+                "surname": "Balboa",
+                "nickname": "chancha"
+              }
+            ] 
+
+## Artist [/artists/{id}]
+
++ Parameters
+  + id (string) - ID of the artist in the form of an string
+
+### Search for a specific artist by his ID [GET]
+
+This will return a specific artist
+
++ Response 200 (application/json)
+  + Body
+
+            [
+              {
+                "ArtistID": "1",
+                "name": "Matias",
+                "surname": "Serra",
+                "nickname": "lolo"
+              }
+            ]
+
+### Delete an artist [DELETE]
+
+This will delete the specified artist
+
++ Response 200 
+
+### Update an artist [PUT]
+
+This will update the information of a specific artist
+
++ Response 200
+            
+## Artist [/artists/findbyallattributes/{?name}{&surname,nickname}]
+
++ Parameters
+  + name (string) - name of the artist in the form of an string
+  + surname (string) - surname of the artist in the form of an string
+  + nickname (string) - nickname of the artist in the form of an string
+
+
+### Search for a specific artist by his attributes [GET]
+
+This will return a specific artist
+
++ Response 200 (application/json)
+  + Body
+
+            [
+              {
+                "ArtistID": "1",
+                "name": "Matias",
+                "surname": "Serra",
+                "nickname": "lolo"
+              }
+            ]
+            
+## Artist [GET /artists/getbands/{?artistName}{&artistSurname,artistNickname}]
+
++ Parameters
+  + artistName (string) - name of the artist in the form of an string
+  + artistSurname (string) - surname of the artist in the form of an string
+  + artistNickname (string) - nickname of the artist in the form of an string
+            
+### Search the bands of a specific artist by his attributes [GET]
+
+This will list all the bands in the database with a specific artist
+
++ Response 200 (application/json)
+  + Body
+
+            [
+              {
+                "BandID": "1",
+                "name": "Band1",
+                "genre": "Rock"
+              }
+            ]   
+
+## Artist [/artists/getbands/{artistID}]
+
++ Parameters
+  + artistID (string) - ID of the artist in the form of an string
+            
+### Search the bands of a specific artist by his attributes [GET]
+
+This will list all the bands in the database with a specific artist
+
++ Response 200 (application/json)
+  + Body
+
+            [
+              {
+                "BandID": "1",
+                "name": "Band1",
+                "genre": "Rock"
+              }
+            ]  
+ 
+
+# Group BandMember
+Resources related to bandMember in the API
+
+## BandMember [/bandmembers]
+
+### Create a new artist [POST]
+
+You may add a new bandMember using this action. It takes a JSON object containing a name, surname and nickname of the artist.
+
++ artistID (string) - artist ID
++ bandID (string) - band ID
+
++ Request (application/json)
+    + Body
+
+            {
+              "artistID": "1",
+              "bandID": "12"
+            }
+
++ Response 201 (application/json)
+
+## BandMember [/bandmembers/{artistID}/{bandID}]
+
++ Parameters
+  + artistID (string) - ID of the artist in the form of an string
+  + bandID (string) - ID of the band in the form of an string
+
+
+### Delete an bandMember [DELETE]
+
+This will delete the specified bandMember
+
++ Response 200 
