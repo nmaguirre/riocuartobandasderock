@@ -1,11 +1,11 @@
-.albums-container {
+.artists-container {
 	background-color: #181818;
 	height: auto;
-	margin-top: 1%;
 	padding-top: 4%;
+	margin-top: 1%;
 }
 
-.album {
+.artist {
 	background-color: #282828;
 	text-align: center;
 	padding-top: 2%;

@@ -1,9 +1,13 @@
 <div class="row">
-	<div class="col-xs-12 albums-container">
+	<div class="col-xs-3">
+		<input class="form-control" type="" name="" ng-model="artist_search" placeholder="Filtrar">
+	</div>
+	<div class="col-xs-12 artists-container">
 		<div class="row">
-			<div class="col-xs-3 album" ng-repeat="album in albums | orderBy: 'title'">
-				<p class="lead">{{album.title}}<br><small class="text-muted">{{album.releaseDate}}</small></p>
-				<a ng-href="/#/songs/{{song.idSong}}" ng-repeat="song in album.songs">{{song.name}}<br></a>
+			<div class="col-xs-3 artist" ng-repeat="artist in artists | orderBy: 'ArtistID' | filter : artist_search">
+				<img src="/img/placeholder.png" class="img-fluid" alt="">
+				<p class="lead">{{artist.name}} {{artist.surname}}<br><small class="text-muted">{{artist.nickname}}</small></p>
+				<!--<a ng-href="/#/songs/{{song.idSong}}" ng-repeat="song in album.songs">{{song.name}}<br></a>-->
 			</div>
 		</div>
 	</div>

@@ -1,9 +1,17 @@
 angular.module('app')
 .controller('ArtistsController', ['$scope', '$http', function($scope,$http){
 		
-		$scope.click = function(){
-			$http.get("http://localhost:4567/bands").then(function callback(data){
-				console.log(data);
-			});
-		}
+	$scope.artists = [];
+
+	function load_artists() {
+		$http.get("https://private-53163-riocuartobandasderock.apiary-mock.com/artists").then(function callback(response){
+			if (response.status == 200){
+				$scope.artists = response.data;
+			} else {
+				alert("Oops, something went wrong, try again later!")
+			}
+		});
+	}
+		
+	load_artists();
 }]);
