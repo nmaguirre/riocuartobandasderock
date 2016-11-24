@@ -8,6 +8,11 @@ angular["module"]("app", ["ngRoute"])
 				controller: "AlbumsController",
 				templateUrl: "views/albums.html"
 			})
+			["when"]("/albums/:id",{
+				controller: "AlbumsController",
+				templateUrl: "views/albumsPrueba.html"
+			})
+
 			["when"]("/artists",{
 				controller: "ArtistsController",
 				templateUrl: "views/artists.html"
