@@ -6,23 +6,14 @@
         formmode  : 'POST', // Default mode form is POST | PUT
         formResource : null, // resource of foorm CREATE | UPDATE
         action     : null,   // action FIND SHOW CREATE UPDATE
-        entitie    : 'artists', // only one entitie of system for artist
-        attributes : ['name','surname','nickname'], // attributes for artist
-        findlist   : [{resource:  'findbyname/',useurl:['name'],use:[]},{resource:  'findbysurname/',useurl:['surname'],use:[]},{resource:  'findbynickname/',useurl:['nickname'],use:[]},{resource:  'findbyallattributes/',useurl:[],use:[]}],
+        config     :null,    //configuration 
         resource   : null,   // resource FIND | SHOW
         resourceindex: 0,
-        relationship   : ['bands'], // relationship many-to-many
-        activesection : function (section,attr) {
-          this.entitie = section;
-          this.attributes = attr;
-          this.init();
-          this.showRegisters();
-        },
         generateform : function () {
           autogenerate='<form id="formulario">';
           ind=0;
-          for(ind=0; ind < this.attributes.length; ind++){
-              autogenerate+='<div>'+this.cFirst(this.attributes[ind])+'</div>  <input type=text name="'+this.attributes[ind]+'" class="form-control">';
+          for(ind=0; ind < this.config.attributes.length; ind++){
+              autogenerate+='<div>'+this.cFirst(this.config.attributes[ind])+'</div>  <input type=text name="'+this.config.attributes[ind]+'" class="form-control">';
           }
           autogenerate+='<div></div><input type=submit class="btn btn-default" name=press value="Send" onclick="return lybartist.sendform();">';
           autogenerate+='<input type=reset  class="btn btn-default" name=default value="Reset">';
@@ -35,7 +26,7 @@
           autogenerate+=' Search <span class="caret"></span> </button>';
 
           autogenerate+='<ul class="dropdown-menu">';
-          $.each(this.findlist, function(i,item) {
+          $.each(this.config.findlist, function(i,item) {
           	autogenerate+='<li><a href="javascript:void(0);" onClick="lybartist.showSearchMenu(\''+i+'\');">'+item.resource+'</a></li>';
           });
           autogenerate+='</ul>';
@@ -44,12 +35,12 @@
             return true;
         },
         init : function () {  // Lybrary init config
-          this.formResource   = '/'+this.entitie;
-          this.resource   = '/'+this.entitie;
+          this.formResource   = '/'+this.config.entitie;
+          this.resource   = '/'+this.config.entitie;
           this.formmode = 'POST';
           this.action = 'SHOW';
-          $("#titleform").html('Create '+this.entitie);
-          $("#nameentitie").html(this.cFirst(this.entitie));
+          $("#titleform").html('Create '+this.config.entitie);
+          $("#nameentitie").html(this.cFirst(this.config.entitie));
           this.generateform();
           return false;
         },
@@ -58,7 +49,7 @@
           this.formmode = onemethod;
           $("#statusactionform").html('');
           $("#formulario")[0].reset();
-          $("#titleform").html('<h2>'+oneaction+' '+this.entitie+'</h2>');
+          $("#titleform").html('<h2>'+oneaction+' '+this.config.entitie+'</h2>');
 
           //$("#dataformaction").css('display','block');
           $("#dataformaction").slideDown();
@@ -74,25 +65,25 @@
         show : function () {
           if (this.action=='FIND') this.hiddenform();
           this.action = 'SHOW';
-          this.resource = '/'+ this.entitie;
+          this.resource = '/'+ this.config.entitie;
           this.showRegisters();
           return false;
         },
         showSearchMenu: function (indice) {
           this.changeContext("FIND","GET");
-          this.resource='/'+this.entitie+'/'+this.findlist[indice].resource+'';
+          this.resource='/'+this.config.entitie+'/'+this.config.findlist[indice].resource+'';
           this.resourceindex=indice;
         	return false;
         },
         createRegister : function() { // form create register
             this.changeContext("CREATE","POST");
-            this.formResource='/'+this.entitie;
+            this.formResource='/'+this.config.entitie;
 
             return false;
         },
         updateregister: function (id,indexofcache) { // form update register
             this.changeContext("UPDATE","PUT");
-            this.formResource='/'+this.entitie+'/'+id;
+            this.formResource='/'+this.config.entitie+'/'+id;
             this.recoveryofcache(indexofcache);
            return false;
         },
@@ -112,7 +103,7 @@
             if (confirm('Really delete this register!!!')) {
               $.ajax({
                  type: "DELETE",
-                 url: '/'+this.entitie+'/'+id,
+                 url: '/'+this.config.entitie+'/'+id,
                  data: '', 
                  success: function(data)
                  {
@@ -152,7 +143,7 @@
      showRegisters : function () {
         resourcereal=this.resource;
         if (this.action=='FIND'){
-          findcurrent = this.findlist[this.resourceindex];
+          findcurrent = this.config.findlist[this.resourceindex];
           if (findcurrent.useurl.length>0){ //find with parameters in path
                argument=$('input:text[name='+findcurrent.useurl[0]+']').val();   
                resourcereal +=argument;
@@ -185,7 +176,7 @@
                           if (!getHeaders) {response+= '<th>'+lybartist.cFirst(name)+'</th>';}
                               else {getHeaders=false}
                        });
-                        if (lybartist.relationship.length>0)
+                        if (lybartist.config.relationship.length>0)
                           response+='<th>Relation</th>';
                         response+='<th>Action</th></tr>';
                    }
@@ -195,10 +186,10 @@
                    	     if (idvalue!=null) {response+='<td>'+value+'</td>';}
 	           			     	 else {idvalue=value;response+='<td>'+(i+1)+'</td>';} 
                    });
-                   if (lybartist.relationship.length>0) //only one relation many to many
-                       response +='<td><input type="button" class="btn btn-default" value="'+lybartist.relationship[0]+'" onclick="lybartist.showManyToMany(\''+lybartist.entitie+'\',\''+idvalue+'\',\''+lybartist.relationship[0]+'\');"></td>';
-                   response +='<td><input type="button" class="btn btn-default" value="Edit" onclick="lybartist.updateregister(\''+idvalue+'\','+i+');">';
-                   response += '<input type="button" class="btn btn-default" value="Delete" onclick="lybartist.deleteregister(\''+idvalue+'\');"></td></tr>';
+                   if (lybartist.config.relationship.length>0) //only one relation many to many
+                       response +='<td><input type="button" class="btn btn-primary" value="'+lybartist.config.relationship[0]+'" onclick="lybartist.showManyToMany(\''+lybartist.config.entitie+'\',\''+idvalue+'\',\''+lybartist.config.relationship[0]+'\');"></td>';
+                   response +='<td><input type="button" class="btn btn-warning" value="Edit" onclick="lybartist.updateregister(\''+idvalue+'\','+i+');">';
+                   response += '&nbsp;<input type="button" class="btn btn-danger" value="Delete" onclick="lybartist.deleteregister(\''+idvalue+'\');"></td></tr>';
 
             });
             response += '</table>'; // note lybartist is necesary reference, this is one pointer ajax object
@@ -258,8 +249,3 @@
           return false;
         }
     }; // end Lybrary artist-team
-
-      $(window).ready(function() {
-        lybartist.init();
-        lybartist.showRegisters();
-      });

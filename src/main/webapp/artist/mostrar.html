@@ -19,6 +19,36 @@
     a.glyphicon-trash{margin-left: 10px;}
     .none{display: none;}
     </style>
+    <script languague="javascript">
+    /*
+
+            entitie    : 'artists', // only one entitie of system for artist
+        attributes : ['name','surname','nickname'], // attributes for artist
+        findlist   : [{resource:  'findbyname/',useurl:['name'],use:[]},{resource:  'findbysurname/',useurl:['surname'],use:[]},{resource:  'findbynickname/',useurl:['nickname'],use:[]},{resource:  'findbyallattributes/',useurl:[],use:[]}],
+        relationship   : ['bands']
+
+*/
+
+	    var configuration = new Array();
+	    	configuration['artists']= {
+	    		entitie    :'artists',
+	    		attributes : ['name','surname','nickname'],
+	    		findlist   : [{resource:  'findbyname/',useurl:['name'],use:[]},{resource:  'findbysurname/',useurl:['surname'],use:[]},{resource:  'findbynickname/',useurl:['nickname'],use:[]},{resource:  'findbyallattributes/',useurl:[],use:[]}],
+	    		relationship   : ['bands']
+	    	};
+
+    	function openPage(page) {
+    		lybartist.config=configuration[page];
+    		lybartist.init();
+          	lybartist.showRegisters();
+    		return false;
+    	}
+    	$(window).ready(function() {
+    		openPage('artists');
+	        lybartist.init();
+	        lybartist.showRegisters();
+      	});
+    </script>
 
    </head>
 
@@ -30,9 +60,6 @@
         </div>
         <ul class="nav navbar-nav">
           <li class="active"><a href="javascript:void(0);" onclick="lybartist.activesection('artists',['name','surname','nickname']);">Artist</a></li>
-          <li><a href="javascript:void(0);" onclick="lybartist.activesection('albums',['title','releaseDate']);">Album</a></li>
-          <li><a href="javascript:void(0);">Band</a></li>
-          <li><a href="javascript:void(0);">Song</a></li>
         </ul>
       </div>
     </nav>
