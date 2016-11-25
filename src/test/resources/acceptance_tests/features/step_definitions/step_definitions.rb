@@ -364,3 +364,16 @@ Given(/^that the database contains an album with name "([^"]*)" and release date
   queryResult = queryResult.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
   expect(queryResult == "1")
 end
+
+When(/^I delete the album with name "([^"]*)" and release date "([^"]*)"$/) do |title, releaseDate|
+  queryResult = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select albumID from AlbumDB where title = '#{title}' and releaseDate = '#{releaseDate}';\" -t`
+  queryResult = queryResult.gsub(/[^[:print:]]|\s/,'')
+  response = RestClient.delete "http://localhost:4567/albums/#{queryResult}"
+  expect(response.code).to eq(201)
+end
+
+Then(/^the album's database doesn't contain an album with name "([^"]*)" and release date "([^"]*)"$/) do |title, releaseDate|
+  queryResult = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from AlbumDB where title = '#{title}' and releaseDate = '#{releaseDate}';\" -t`
+  queryResult = queryResult.gsub(/[^[:print:]]|\s/,'')
+  expect(queryResult == "0")
+end
