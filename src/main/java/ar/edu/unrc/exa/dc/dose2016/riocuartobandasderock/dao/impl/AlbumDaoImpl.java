@@ -25,14 +25,6 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
  *
  */
 public class AlbumDaoImpl implements AlbumDAO{
-//	/**
-//	 * this.currentSession represents a Session.
-//	 */
-//	private SessionManager SessionManager;
-//	/*
-//	 * currentTransaction represents a Session with Transaction.
-//	 */
-//	private Transaction currentTransaction;
 	
 	private Session currentSession=null;
 	
@@ -94,6 +86,10 @@ public class AlbumDaoImpl implements AlbumDAO{
 		return byReleaseDateList;		
 	}
 	
+	/**
+	 * @param id_album
+	 * @return Song list founds by album id.
+	 */
 	public List<Song> findSongs(String id_album){
 		List<Song> songs = new LinkedList<Song>();
 		if(id_album==null || id_album.equals("")){
@@ -153,11 +149,14 @@ public class AlbumDaoImpl implements AlbumDAO{
 		}
 		if (isCreated){
 			Album album = new Album(title,releaseDate);
-			if (this.castSongsList(songs)!=null) album.setSongs(this.castSongsList(songs));
+			if (songs!=null){
+				if (this.castSongsList(songs)==null) return false;//because Songs repOK not correct
+			}
+			album.setSongs(this.castSongsList(songs));//Album support null list songs	
+			
 			BandDAO bdao = new BandDaoImpl(this.currentSession);
 			try{
-				Band b = bdao.findById(id_band);
-				System.out.println(b.getName());
+				Band b = bdao.findById(id_band); 
 				album.setBand(b);
 			}catch(IllegalArgumentException e){
 				System.out.println("ERROR: "+ e);
@@ -173,6 +172,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 	 * @return true iff album was delete
 	 */
 	public boolean delete(String id){
+		if (id==null || id.equals("")) return false;
 		Album toDelete = this.findById(id);
 		if (toDelete!= null) {
 			this.currentSession.delete(toDelete); 
@@ -189,7 +189,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 	 */
 	private List<Song> castSongsList (List<Object> songs){
 		List<Song> parseSongs = new LinkedList<Song>();
-		if (songs==null) return null;
+		if (songs==null) return parseSongs;
 		for (int i=0; i<songs.size();i++){
 			if (!( (Song) songs.get(i) ).repOk() ) return null;
 			parseSongs.add( (Song) songs.get(i) );
@@ -235,8 +235,13 @@ public class AlbumDaoImpl implements AlbumDAO{
 		  }
 		  
 		  if(id_band!=null){
-			BandDAO bdao = new BandDaoImpl(this.currentSession);
-		    toUpdate.setBand(bdao.findById(id_band));
+			  BandDAO bdao = new BandDaoImpl(this.currentSession);
+			  try{
+					Band b = bdao.findById(id_band); 
+					toUpdate.setBand(bdao.findById(id_band));
+				}catch(IllegalArgumentException e){
+					System.out.println("ERROR: "+ e);
+				}		    
 		  }
 
 		  this.currentSession.saveOrUpdate(toUpdate);
