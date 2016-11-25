@@ -12,10 +12,13 @@ angular["module"]("app", ["ngRoute"])
 				controller: "AlbumsController",
 				templateUrl: "views/album.html"
 			})
-			
 			["when"]("/artists",{
 				controller: "ArtistsController",
 				templateUrl: "views/artists.html"
+			})
+			["when"]("/artists/:id",{
+				controller: "ArtistsController",
+				templateUrl: "views/artist.html"
 			})
 			["when"]("/bands",{
 				controller: "BandsController",
