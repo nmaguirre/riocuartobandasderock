@@ -20,6 +20,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.*;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.*;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.*;
 /***
  *
  * @author DOSE
@@ -50,9 +53,21 @@ public class LandingPageController {
    * @param res
    */
   public ModelAndView index(Request req ,Response res){
+    Session session = SessionManager.getInstance().openSession();
+    BandDAO bdao = new BandDaoImpl(session);
+    AlbumDaoImpl adao = new AlbumDaoImpl(session);
+    SongDAO sdao = new SongDaoImpl(session);
+    ArtistDAO artistDAO = new ArtistDaoImpl(session);
     Map<String, Object> attributes = new HashMap<>();
-
+    List<Band> bands= bdao.getAllBands();
+    List<Artist> artists = artistDAO.getAllArtists();
+    List<Song> songs = sdao.getAllSongs();
+    List<Album> albums = adao.getAll();
     attributes.put("template", Routes.landing_page());
+    attributes.put("bands", bands);
+    attributes.put("artists", artists);
+    attributes.put("songs",songs);
+    attributes.put("albumns", albums);
     return new ModelAndView(attributes, Routes.layout_landing_page());
   }
 }

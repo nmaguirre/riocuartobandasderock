@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Bands of Río Cuarto</title>
+  <title>Rock en Río Cuarto</title>
 
   <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
@@ -38,7 +38,7 @@
           Menu <i class="fa fa-bars"></i>
         </button>
         <a class="navbar-brand page-scroll" href="#page-top">
-          <i class="fa fa-play-circle"></i> <span class="light">Start</span> Bootstrap
+          <i class="fa fa-play-circle"></i> <span class="light">Inicio</span>
         </a>
       </div>
 
@@ -50,13 +50,25 @@
             <a href="#page-top"></a>
           </li>
           <li>
-            <a class="page-scroll" href="#about">About</a>
+            <a class="page-scroll" href="#bandas">Bandas</a>
           </li>
           <li>
-            <a class="page-scroll" href="#sign_up">Sign up</a>
+            <a class="page-scroll" href="#artistas">Artistas</a>
           </li>
           <li>
-            <a class="page-scroll" href="#sign_in">Sign in</a>
+            <a class="page-scroll" href="#canciones">Canciones</a>
+          </li>
+          <li>
+            <a class="page-scroll" href="#albumes">Álbumes</a>
+          </li>
+          <li>
+            <a class="page-scroll" href="#registrarse">Registrarse</a>
+          </li>
+          <li>
+            <a class="page-scroll" href="#iniciar_sesion">Iniciar Sesión</a>
+          </li>
+           <li>
+            <a class="page-scroll" href="#a_cerca_de">A cerca de</a>
           </li>
         </ul>
       </div>

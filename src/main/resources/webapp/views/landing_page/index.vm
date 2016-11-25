@@ -3,9 +3,9 @@
     <div class="container">
       <div class="row">
         <div class="col-md-8 col-md-offset-2">
-          <h1 class="brand-heading">Grayscale</h1>
-          <p class="intro-text">A free, responsive, one page Bootstrap theme.
-            <br>Created by Start Bootstrap.</p>
+          <h1 class="brand-heading">ROCK EN RIO CUARTO</h1>
+          <p class="intro-text">Una recopilación de talentos.
+            <br>Creado por DOSE2016.</p>
           <a href="#about" class="btn btn-circle page-scroll">
             <i class="fa fa-angle-double-down animated"></i>
           </a>
@@ -15,53 +15,194 @@
   </div>
 </header>
 
-  <!-- About Section -->
-<section id="about" class="container content-section text-center">
+  <!-- Bands Section -->
+<section id="bandas" class="container content-section text-center">
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2">
-      <h2>About Grayscale</h2>
-      <p>Grayscale is a free Bootstrap 3 theme created by Start Bootstrap. It can be yours right now, simply download the template on <a href="http://startbootstrap.com/template-overviews/grayscale/">the preview page</a>. The theme is open source, and you can use it for any purpose, personal or commercial.</p>
-      <p>This theme features stock photos by <a href="http://gratisography.com/">Gratisography</a> along with a custom Google Maps skin courtesy of <a href="http://snazzymaps.com/">Snazzy Maps</a>.</p>
-      <p>Grayscale includes full HTML, CSS, and custom JavaScript files along with LESS files for easy customization.</p>
-    </div>
+      <h2>BANDAS</h2>
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card card-plain">
+                  <div class="card-header" data-background-color="purple">
+                    <h4 class="title">Listado de todas las Bandas</h4>
+                  </div>
+                  <div class="card-content table-responsive">
+                    <table class="table table-hover">
+                      <thead>
+                        <th>Nombre</th>
+                        <th>Genero</th>
+                      </thead>
+                      <tbody>
+                        #foreach( $band in $bands )
+                          <tr>
+                            <td>$band.getName()</td>
+                            <td>$band.getGenre()</td>
+                          </tr>
+                        #end
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
   </div>
 </section>
 
-  <!-- Download Section -->
-<section id="sign_up" class="content-section text-center">
-  <div class="download-section">
-    <div class="container">
-      <div class="col-lg-8 col-lg-offset-2">
-        <h2>Download Grayscale</h2>
-        <p>You can download Grayscale for free on the preview page at Start Bootstrap.</p>
-        <a href="http://startbootstrap.com/template-overviews/grayscale/" class="btn btn-default btn-lg">Visit Download Page</a>
+  <!-- Artist Section -->
+<section id="artistas" class="container content-section text-center">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2">
+      <h2>ARTISTAS</h2>
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card card-plain">
+                  <div class="card-header" data-background-color="purple">
+                    <h4 class="title">Listado de todos los Artistas</h4>
+                  </div>
+                  <div class="card-content table-responsive">
+                    <table class="table table-hover">
+                      <thead>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Apodo</th>
+                      </thead>
+                      <tbody>
+                        #foreach( $artist in $artists )
+                          <tr>
+                            <td>$artist.getName()</td>
+                            <td>$artist.getSurname()</td>
+                            <td>$artist.getNickname()</td>
+                          </tr>
+                        #end
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</section>
+
+  <!-- Songs Section -->
+<section id="canciones" class="container content-section text-center">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2">
+      <h2>CANCIONES</h2>
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card card-plain">
+                  <div class="card-header" data-background-color="purple">
+                    <h4 class="title">Listado de todas las Canciones</h4>
+                  </div>
+                  <div class="card-content table-responsive">
+                    <table class="table table-hover">
+                      <thead>
+                        <th>Nombre</th>
+                        <th>Duración</th>
+                        <th>Álbum</th>
+                      </thead>
+                      <tbody>
+                        #foreach( $album in $albums )
+                          <tr>
+                            <td>$album.getName()</td>
+                            <td>$album.getDuration()</td>
+                            <td>$album.getAlbum()</td>
+                          </tr>
+                        #end
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 </section>
 
-<!-- Contact Section -->
-<section id="sign_in" class="container content-section text-center">
+  <!-- Albums Section -->
+<section id="albumes" class="container content-section text-center">
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2">
-      <h2>Contact Start Bootstrap</h2>
-      <p>Feel free to email us to provide some feedback on our templates, give us suggestions for new templates and themes, or to just say hello!</p>
-      <p><a href="mailto:feedback@startbootstrap.com">feedback@startbootstrap.com</a>
-      </p>
-      <ul class="list-inline banner-social-buttons">
-        <li>
-          <a href="https://twitter.com/SBootstrap" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i> <span class="network-name">Twitter</span></a>
-        </li>
-        <li>
-          <a href="https://github.com/IronSummitMedia/startbootstrap" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
-        </li>
-        <li>
-          <a href="https://plus.google.com/+Startbootstrap/posts" class="btn btn-default btn-lg"><i class="fa fa-google-plus fa-fw"></i> <span class="network-name">Google+</span></a>
-        </li>
-      </ul>
+      <h2>ÁLBUMES</h2>
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card card-plain">
+                  <div class="card-header" data-background-color="purple">
+                    <h4 class="title">Listado de todos los Albunes</h4>
+                  </div>
+                  <div class="card-content table-responsive">
+                    <table class="table table-hover">
+                      <thead>
+                        <th>Titulo</th>
+                        <th>Lanzamiento</th>
+                        <th>Acciones</th>
+                      </thead>
+                      <tbody>
+                        #foreach( $album in $albums )
+                          <tr>
+                            <td>$album.getId()</td>
+                            <td>$album.getTitle()</td>
+                            <td>$album.getReleaseDate()</td>
+                          </tr>
+                        #end
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+  <!-- Sing_up Section -->
+<section id="registrarse" class="container content-section text-center">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2">
+      <h2>REGISTRARSE</h2>
+      <p></p>
     </div>
   </div>
 </section>
+
+  <!-- Sing_in Section -->
+<section id="iniciar_sesion" class="container content-section text-center">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2">
+      <h2>INICIAR SESIÓN</h2>
+      <p></p>
+    </div>
+  </div>
+</section>
+
+  <!-- About Section -->
+<section id="a_cerca_de" class="container content-section text-center">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2">
+      <h2>A cerca de Rock en Rio Cuarto</h2>
+      <p>Rock en Rio Cuarto es una página web ingeniada por estudiantes de Licenciatura en Ciencias de la Computación de la Universidad Nacional de Río Cuarto para lograr recopilar todos los talentos rockeros de Río Cuarto, organizando así las diferentes bandas, con sus respectivos artistas, álbumes y canciones.</p>
+    </div>
+  </div>
+</section>
+
 
 <!-- Map Section -->
 <div id="map"></div>
