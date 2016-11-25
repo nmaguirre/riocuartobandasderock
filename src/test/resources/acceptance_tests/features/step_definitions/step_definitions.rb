@@ -304,3 +304,63 @@ When(/^I list all the albums the result of the search should have (\d+) entries$
   end
 
 end
+
+#------------------------------------------------------------------
+
+When(/^I try to delete an album with name "([^"]*)" and release date "([^"]*)"$/) do |title, releaseDate|
+  begin
+  response = RestClient.post 'http://localhost:4567/albums', { :title => title, :release_date => releaseDate}, :content_type => 'text/plain'
+  queryResult = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select albumID from AlbumDB;\" -t`
+  queryResult = queryResult.gsub(/[^[:print:]]|\s/,'')
+  response = RestClient.delete "http://localhost:4567/albums/#{queryResult}"
+  expect(response.code).to eq(201)
+  response = RestClient.delete "http://localhost:4567/albums/#{queryResult}"
+  rescue RestClient::Conflict => e
+    expect(e.response.code).to eq(409)
+  end
+end
+
+Given(/^that the album's database have (\d+) entry$/) do |number|
+  $i = 0
+  while $i < number.to_i do
+     newTitle = "Encontrados#$i"
+     response = RestClient.post 'http://localhost:4567/albums', { :title => '#{newTitle}'}, :content_type => 'text/plain'
+     $i +=1
+  end
+  queryResult = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select count(*) from AlbumDB;\" -t`
+  queryResult = queryResult.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+  expect(queryResult == number.to_i)
+end
+
+
+Given(/^the album named "([^"]*)" doesn't exist in the album's database$/) do |title|
+    queryResult = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from AlbumDB where title = '#{title}';\" -t`
+    queryResult = queryResult.gsub(/[^[:print:]]|\s/,'')
+    expect(queryResult == "0")
+end
+
+When(/^I delete the album named "([^"]*)"$/) do |title|
+ begin
+  response = RestClient.post 'http://localhost:4567/albums', { :title => title}, :content_type => 'text/plain'
+  queryResult = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select albumID from AlbumDB where title = '#{title}';\" -t`
+  queryResult = queryResult.gsub(/[^[:print:]]|\s/,'')
+  response = RestClient.delete "http://localhost:4567/albums/#{queryResult}"
+  expect(response.code).to eq(201)
+  response = RestClient.delete "http://localhost:4567/albums/#{queryResult}"
+  rescue RestClient::Conflict => e
+    expect(e.response.code).to eq(409)
+  end
+end
+
+Then(/^the album's database have (\d+) entry$/) do |number|
+  queryResult = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select count(*) from AlbumDB;\" -t`
+  queryResult = queryResult.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+  expect(queryResult == number.to_i)
+end
+
+Given(/^that the database contains an album with name "([^"]*)" and release date "([^"]*)"$/) do |title, releaseDate|
+  response = RestClient.post 'http://localhost:4567/albums', { :title => title, :release_date => releaseDate}, :content_type => 'text/plain'
+  queryResult = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select count(*) from AlbumDB;\" -t`
+  queryResult = queryResult.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+  expect(queryResult == "1")
+end
