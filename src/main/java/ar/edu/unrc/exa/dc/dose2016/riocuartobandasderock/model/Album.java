@@ -26,24 +26,28 @@ import javax.persistence.Table;
 @Table(name = "AlbumDB")
 public class Album {
 
-	/** The album ID. */
+	/** The Album ID. */
 	@Id
 	@Column(name = "AlbumID")
 	private String id;
 
-	/** The album title. */
+	/** The Album title. */
 	@Column(name = "title")
 	private String title;
 
-	/** The album release date. */
+	/** The Album release date. */
 	@Column(name = "releaseDate")
 	private Date releaseDate;
 
-	/** The album songs. */
+	/** The Album songs. */
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "album", cascade = CascadeType.ALL)
 	private List<Song> songs = new LinkedList<Song>();
 
-	@ManyToOne(optional = true)
+	/**
+	 * The Album band.
+	 * With optional=false we make sure that no Album tuple can exist without a Band tuple.
+	 */
+	@ManyToOne(optional = false)
 	@JoinColumn(name = "bandID")
 	private Band band;
 
@@ -55,9 +59,9 @@ public class Album {
 	}
 
 	/**
-	 * Basic parameterized constructor. Instantiates a new album setting the field title with their corresponding parameter.
+	 * Basic parameterized constructor. Instantiates a new Album setting the field title with their corresponding parameter.
 	 *
-	 * @param title The album title.
+	 * @param title The Album title.
 	 */
 	public Album(String title) {
 		this.id = UUID.randomUUID().toString();
@@ -65,14 +69,12 @@ public class Album {
 	}
 
 	/**
-	 * Full parameterized constructor. Instantiates a new album setting the fields title and releaseDate with their corresponding parameters.
+	 * Full parameterized constructor. Instantiates a new Album setting the fields title and releaseDate with their corresponding parameters.
 	 *
 	 * @param title The album title.
 	 * @param releaseDate The album release date.
 	 */
-
 	public Album(String title, Date releaseDate) {
-
 		this.id = UUID.randomUUID().toString();
 		this.title = title;
 		this.releaseDate = releaseDate;
@@ -99,7 +101,7 @@ public class Album {
 	 /**
 	  * Sets the Album field title with the parameter title.
 	  *
-	  * @param title The new album title.
+	  * @param title The new Album title.
 	  */
 	public void setTitle(String title) {
 		this.title = title;
@@ -107,11 +109,11 @@ public class Album {
 
 	/**
 
-	 * Returns the album release date.
+	 * Returns the Album release date.
 	 *
-	 * @return relaseDate
+	 * @return releaseDate
 	 */
-	public Date getReleaseDate() throws ParseException{
+	public Date getReleaseDate() throws ParseException {
 		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 		return f.parse(this.releaseDate.toString());
 	}
@@ -144,9 +146,9 @@ public class Album {
 	}
 
 	/**
-	 * This method return if the Album's representation is correct 
+	 * This method determines if the Album's representation is correct 
 	 *
-	 * @return true if the Album's representation is correct, otherwise false
+	 * @return true if the Album's representation is correct, false otherwise
 	 */
 	public boolean repOk() {
 		return (this.title != null) && (! this.title.isEmpty()); //&&  (! this.getSongs().isEmpty())
@@ -161,8 +163,13 @@ public class Album {
 		return band;
 	}
 
+	/**
+	 * Sets the Album field band with the parameter band.
+	 *
+	 * @param band The new Album band.
+	 */
 	public void setBand(Band band) {
 		this.band = band;
 	}
-	
+
 }
