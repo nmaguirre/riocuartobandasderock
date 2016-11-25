@@ -17,8 +17,9 @@ function songGetAll() {
 	}
 
 //FindByName
-function songFindByName(str) {
+function songFindByName() {
   var xhttp; 
+  var str = document.getElementsByName("songName")[0].value;
   if (str == "") {
     document.getElementById("show").innerHTML = "";
     return;
@@ -36,8 +37,9 @@ function songFindByName(str) {
 }
 
 //FindByDuration
-function songFindByDuration(str) {
+function songFindByDuration() {
 	  var xhttp; 
+	  var srt = document.getElementsByName("songDuration")[0].value;
 	  if (str == "") {
 	    document.getElementById("show").innerHTML = "";
 	    return;
@@ -70,8 +72,9 @@ function artistGetAll() {
 	}
 
 //FindByName
-function artistFindByName(str) {
+function artistFindByName() {
 	  var xhttp; 
+	  var srt = document.getElementsByName("artistName")[0].value;
 	  if (str == "") {
 	    document.getElementById("show").innerHTML = "";
 	    return;
@@ -88,8 +91,9 @@ function artistFindByName(str) {
 	}
 
 //FindByNickname
-function artistFindByNickname(str) {
+function artistFindByNickname() {
 	  var xhttp; 
+	  var srt = document.getElementsByName("artistNickname")[0].value;
 	  if (str == "") {
 	    document.getElementById("show").innerHTML = "";
 	    return;
@@ -106,8 +110,9 @@ function artistFindByNickname(str) {
 	}
 
 //FindBySurname
-function artistFindBySurname(str) {
+function artistFindBySurname() {
 	  var xhttp; 
+	  var srt = document.getElementsByName("artistSurname")[0].value;
 	  if (str == "") {
 	    document.getElementById("show").innerHTML = "";
 	    return;
@@ -142,6 +147,7 @@ function albumGetAll() {
 //FindByReleaseDate
 function albumFindByReleaseDate(str) {
 	  var xhttp; 
+	  var srt = document.getElementsByName("albumDate")[0].value;
 	  if (str == "") {
 	    document.getElementById("show").innerHTML = "";
 	    return;
@@ -158,8 +164,9 @@ function albumFindByReleaseDate(str) {
 	}
 
 //FindByTitle
-function albumFindByTitle(str) {
+function albumFindByTitle() {
 	  var xhttp; 
+	  var srt = document.getElementsByName("albumTitle")[0].value;
 	  if (str == "") {
 	    document.getElementById("show").innerHTML = "";
 	    return;
@@ -191,8 +198,10 @@ function bandGetAll() {
 	}
 
 //FindByName
-function bandFyndByName(str) {
+function bandFyndByName() {
 	  var xhttp; 
+	  var srt = document.getElementsByName("bandName")[0].value;
+	  var srt = str = document.getElementsByName("artistName")[0].value;
 	  if (str == "") {
 	    document.getElementById("show").innerHTML = "";
 	    return;
@@ -209,8 +218,9 @@ function bandFyndByName(str) {
 	}
 
 //FindByTGenre
-function bandFindByGenre(str) {
+function bandFindByGenre() {
 	  var xhttp; 
+	  var srt = document.getElementsByName("bandGenre")[0].value;
 	  if (str == "") {
 	    document.getElementById("show").innerHTML = "";
 	    return;

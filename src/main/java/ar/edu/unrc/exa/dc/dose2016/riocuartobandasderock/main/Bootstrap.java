@@ -132,9 +132,9 @@ public class Bootstrap {
 
         post("/songs/",(req,res)->songController.create(req, res));
 
-        get("/songs/findbyname/:name",(req,res)->songController.getByName(req,res));
+        get("/songs/findbyname/:name",(req,res)->songController.getByName(req,res),json());
         
-        get("/songs/findbyduration/:duration",(req,res)->songController.getByDuration(req,res));
+        get("/songs/findbyduration/:duration",(req,res)->songController.getByDuration(req,res),json());
         
         delete("/songs/:id",(req, res) -> songController.remove(req, res));
         

@@ -87,14 +87,16 @@
                 <section class="searchZone" style="width: 250px; height: 1058px;">
     	               <div style="width: 250px; ">
     	                    <legend>Search Songs</legend>
-                            <form action="songFindByName(this.value)">
+                            <form onsubmit="songFindByName()" >
     				            By name:<br>
-    				            <input type="text" name="name"><input type="submit" style="color: black">
+    				            <input type="text" name="songName">
+    				            <input type="submit" style="color: black">
     				            <br>
                             </form>
-    			            <form action="songFindByDuration(this.value)">
+    			            <form onsubmit="songFindByDuration()">
         				        By duration:<br>
-        				        <input type="text" name="duration"><input type="submit" style="color: black">
+        				        <input type="text" name="songDuration">
+        				        <input type="submit" style="color: black">
         				        <br>
     			            </form>		
     			            <br>
@@ -104,19 +106,22 @@
     	            <br>
                 	  <div style="width: 250px; ">
                 		<legend>Search Artists</legend>
-                			<form action="artistFindByName(this.value)">
+                			<form onsubmit="artistFindByName()"> 
                 				By name:<br>
-                				<input type="text" name="name"><input type="submit" style="color: black">
+                				<input type="text" name="artistName">
+                				<input type="submit" style="color: black">
                 				<br>
                 			</form>
-                			<form action="artistFindByNickname(this.value)">
+                			<form onsubmit="artistFindByNickname()">
                 				By nickname:<br>
-                				<input type="text" name="nickname"><input type="submit" style="color: black">
+                				<input type="text" name="artistNickname">
+                				<input type="submit" style="color: black">
                 				<br>
                 			</form>
-                				<form action="artistFindBySurname(this.value)">
+                				<form onsubmit="artistFindBySurname()">
                 				By surname:<br>
-                				<input type="text" name="surname"><input type="submit" style="color: black">
+                				<input type="text" name="artistSurname">
+                				<input type="submit" style="color: black">
                 			    <br>
                 			</form>	
                 			<br>
@@ -125,14 +130,16 @@
                 	  <br>
                 	  <div style="width: 250px; ">
                 		<legend>Search Albums</legend>
-                			<form action="albumFindByTitle(this.value)">
+                			<form onsubmit="albumFindByTitle()">
                 				By title:<br>
-                				<input type="text" name="title"><input type="submit" style="color: black">
+                				<input type="text" name="albumTitle">
+                				<input type="submit" style="color: black">
                 				<br>
                 			</form>
-                			<form action="albumFindByReleaseDate(this.value)">
+                			<form onsubmit="albumFindByReleaseDate()" >
                 				By ReleaseDate:<br>
-                				<input type="text" name="releasedate"><input type="submit" style="color: black">
+                				<input type="text" name="albumDate">
+                				<input type="submit" style="color: black">
                 				<br>
                 			</form>
                 			<br>
@@ -141,14 +148,16 @@
                 	  <br>
                 	  <div style="width: 250px; ">
                 		<legend>Search Bands</legend>
-                			<form action="bandFindByName(this.value)">
+                			<form onsubmit="bandFindByName()">
                 				By name:<br>
-                				<input type="text" name="name"><input type="submit" style="color: black">
+                				<input type="text" name="bandName">
+                				<input type="submit" style="color: black">
                 				<br>
                 			</form>
-                			<form action="bandFindByGenre(this.value)">
+                			<form onsubmit="bandFindByGenre()">
                 				By genre:<br>
-                				<input type="text" name="genre"><input type="submit" style="color: black">
+                				<input type="text" name="bandGenre">
+                				<input type="submit" style="color: black">
                 				<br>
                 			</form>
                 			<br>
