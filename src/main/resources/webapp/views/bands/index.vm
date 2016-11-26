@@ -9,28 +9,32 @@
           <div class="card-content table-responsive">
             <table class="table table-hover">
               <thead>
-                <th>ID</th>
                 <th>Nombre</th>
                 <th>Genero</th>
                 <th>Acciones</th>
               </thead>
               <tbody>
-                #foreach( $band in $bands )
+                #if ($bands != $null)
+                  #foreach( $band in $bands )
+                    <tr>
+                      <td>$band.getName()</td>
+                      <td>$band.getGenre()</td>
+                      <td>
+                        <a href="/bands/$!{band.getId()}">
+                          <i class="material-icons">remove_red_eye</i>
+                        </a>
+                        <a href="/bands/$!{band.getId()}/edit">
+                          <i class="material-icons">edit</i>
+                        </a>
+                        <a href="/bands/$!{band.getId()}" method="delete">
+                          <i class="material-icons">close</i>
+                        </a>
+                      </td>
+                    </tr>
+                  #end
+                #else
                   <tr>
-                    <td>$band.getId()</td>
-                    <td>$band.getName()</td>
-                    <td>$band.getGenre()</td>
-                    <td>
-                      <a href="/bands/$!{band.getId()}">
-                        <i class="material-icons">remove_red_eye</i>
-                      </a>
-                      <a href="/bands/$!{band.getId()}/edit">
-                        <i class="material-icons">edit</i>
-                      </a>
-                      <a href="/bands/$!{band.getId()}" method="delete">
-                        <i class="material-icons">close</i>
-                      </a>
-                    </td>
+                    <td colspan="3">No hay ninguna banda cargada en el sistema</td>
                   </tr>
                 #end
               </tbody>
@@ -41,3 +45,11 @@
     </div>
   </div>
 </div>
+
+<script>
+  #include("vendor/jquery/jquery.min.js")
+  $(document).ready(function() {
+    $('li').removeClass('active');
+    $('#band').addClass('active');
+  });
+</script>
