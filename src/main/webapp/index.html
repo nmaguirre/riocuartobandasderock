@@ -1,36 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <!-- Favicon -->
 	<link rel="shortcut icon" type="image/x-icon" href="img/nenene.jpg">
-
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
 
     <title>UI Example</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
-
-    <!-- Plugin CSS -->
-    <link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="vendor/simple-line-icons/css/simple-line-icons.css">
-    <link rel="stylesheet" href="vendor/device-mockups/device-mockups.min.css">
-
-        <!-- jQuery -->
+    <!-- jQuery -->
     <script src="vendor/jquery/jquery.min.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 
     <!-- Theme JavaScript -->
     <script type="text/javascript" src="javascript/arbor-tween.js"></script>
@@ -42,7 +23,7 @@
     <link href="css/new-age.min.css" rel="stylesheet">
     
     <!-- Our JavaScript -->
-    <script type="text/javascript" src="javascript/other.js"></script>
+    <script src="javascript/other.js"></script> 
     
     <style>
   		canvas.arbor{
@@ -60,7 +41,7 @@
   	</style>
 </head>
 
-<body id="page-top">
+<body id="page-to">
     <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -83,17 +64,32 @@
         </div>
         <!-- /.container-fluid -->
     </nav>
-
     <header>
         <div class="container">
             <div class="row">
                 <canvas class="arbor" id="viewport" width="680" height="800" style="border:1px solid #000000; width: 680px; height: 800px; background-image: url(img/bg-pattern.jpg); "></canvas>
                 <script type="text/javascript">
-                    var sys = arbor.ParticleSystem(500, 40,1); // create the system with sensible repulsion/stiffness/friction
-                    sys.parameters({gravity:true}) // use center-gravity to make the graph settle nicely (ymmv)
-                    sys.renderer = Renderer("#viewport") // our newly created renderer will have its .init() method called shortly by sys...
-                    var song = sys.addNode('song',{'color':'blue','shape':'dot','label':'Song'});
-                    
+                var sys = arbor.ParticleSystem(500, 40,1); // create the system with sensible repulsion/stiffness/friction
+                sys.parameters({gravity:true}) // use center-gravity to make the graph settle nicely (ymmv)
+                sys.renderer = Renderer("#viewport") // our newly created renderer will have its .init() method called shortly by sys...
+                var dose = sys.addNode('dose',{'color':'blue','shape':'dot','label':'Dose'});
+                var song = sys.addNode('song',{'color':'red','shape':'dot','label':'Song'});
+                sys.addEdge(dose, song);
+                
+                
+                   /* var sys = arbor.ParticleSystem(500, 40,1);
+                    sys.parameters({gravity:true});
+                    sys.renderer = Renderer("#viewport") ;
+                    var data = {
+                    nodes:{
+                    	song:{'color':'red','shape':'dot','label':'Song'},
+                    	dose:{'color':'green','shape':'dot','label':'Dose'},
+                    },
+                    edges:{
+                   		dose:{ song:{} }
+                    }
+                    };
+                    sys.graft(data);*/
                     
                 </script>
                             
@@ -104,8 +100,9 @@
                             <form onsubmit="songFindByName()" >
     				            By name:<br>
     				            <input type="text" name="songName">
-    				            <input type="submit" style="color: black">
+    				            <input type="submit" style="color: black" >
     				            <br>
+    				            <p id="show">TESTEANDO</p>
                             </form>
     			            <form onsubmit="songFindByDuration()">
         				        By duration:<br>
@@ -152,7 +149,7 @@
                 			</form>
                 			<form onsubmit="albumFindByReleaseDate()" >
                 				By ReleaseDate:<br>
-                				<input type="text" name="albumDate">
+                				<input type="date" name="albumDate" style="color: black">
                 				<input type="submit" style="color: black">
                 				<br>
                 			</form>
@@ -180,14 +177,9 @@
             	   </section>                            
                 </div>
             </div>
-        </div>
     </header>
     
-   
-	
-	
-	
-	
+
     <section id="Customer" class="download bg-primary text-center" style="height: 344px; ">
         <div class="container">
             <div class="row">
@@ -196,13 +188,10 @@
             </div>
         </div>
         
-        <div id="show">Customer info will be listed here...</div>
+       
         <!-- AudioTest (Se borrara) -->
         <audio id="nenene" src="sound/rockandrollnene.mp3" type="audio/mpeg"></audio>
-        <button style="color: #FF0000" onclick="document.getElementById('nenene').play()">Rock!!</button>
-        
-       
-       
+        <button style="color: #FF0000" onclick="document.getElementById('nenene').play()">Rock!!</button>   
     </section>
     
     <footer>
@@ -211,10 +200,6 @@
         </div>
     </footer>
 
-
- <!--   <script src="javascript/mainArbor.js"></script> -->
-    
-    
 </body>
 
 </html>

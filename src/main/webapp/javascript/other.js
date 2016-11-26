@@ -8,32 +8,42 @@ function songGetAll() {
 	  xhttp.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
 	    //document.getElementById("show").innerHTML = this.responseText;
-	    songResp = JSON.parse(xhttp.responseText);
+	    	var resp = JSON.parse(xhttp.responseText);
 	    }
-	  };
-	  
+	  }; 
 	  xhttp.open("GET", "/songs", true);
 	  xhttp.send();
-	}
+}
 
 //FindByName
 function songFindByName() {
   var xhttp; 
-  var str = document.getElementsByName("songName")[0].value;
+  var str = document.getElementsByName("songName")[0].value; 
   if (str == "") {
-    document.getElementById("show").innerHTML = "";
+    document.getElementById('show').innerHTML = "";
     return;
   }
+  
+  //AjaxJs
   xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
     document.getElementById("show").innerHTML = this.responseText;
-    songResp = JSON.parse(xhttp.responseText);
+    var resp = JSON.parse(xhttp.responseText);
     }
   };
   xhttp.open("GET", "/songs/findbyname/"+str, true);
   xhttp.send();
   
+  //ArborJs
+  var sys = arbor.ParticleSystem(500, 40,1); // create the system with sensible repulsion/stiffness/friction
+  sys.parameters({gravity:true}); // use center-gravity to make the graph settle nicely (ymmv)
+  sys.renderer = Renderer("#viewport"); // our newly created renderer will have its .init() method called shortly by sys...
+  var name = sys.addNode('name',{'color':'blue','shape':'dot','label':resp.name});
+  if(resp.duration != undefined){
+	  var duration = sys.addNode('duration',{'color':'red','shape':'dot','label':resp.duration});
+	  sys.addEdge(name, duration);
+  }
 }
 
 //FindByDuration
@@ -48,12 +58,19 @@ function songFindByDuration() {
 	  xhttp.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
 	    document.getElementById("show").innerHTML = this.responseText;
-	    songResp = JSON.parse(xhttp.responseText);
+	    var resp = JSON.parse(xhttp.responseText);
 	    }
 	  };
 	  xhttp.open("GET", "/songs/findbyduration/"+str, true);
 	  xhttp.send();
-	}
+	  
+	  var sys = arbor.ParticleSystem(500, 40,1); 
+	  sys.parameters({gravity:true}); 
+	  sys.renderer = Renderer("#viewport");
+	  var name = sys.addNode('name',{'color':'blue','shape':'dot','label':resp.name});
+	  var duration = sys.addNode('duration',{'color':'red','shape':'dot','label':resp.duration});
+	  sys.addEdge(name, duration);
+}
 
 
 //********** Artist **********
@@ -64,12 +81,12 @@ function artistGetAll() {
 	  xhttp.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
 	    //document.getElementById("show").innerHTML = this.responseText;
-	    artistResp = JSON.parse(xhttp.responseText);
+	    var resp = JSON.parse(xhttp.responseText);
 	    }
 	  };
 	  xhttp.open("GET", "/artist", true);
 	  xhttp.send();
-	}
+}
 
 //FindByName
 function artistFindByName() {
@@ -83,12 +100,27 @@ function artistFindByName() {
 	  xhttp.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
 	    document.getElementById("show").innerHTML = this.responseText;
-	    artistResp = JSON.parse(xhttp.responseText);
+	    var resp = JSON.parse(xhttp.responseText);
 	    }
 	  };
 	  xhttp.open("GET", "/artist/findbyname/"+str, true);
 	  xhttp.send();
-	}
+	  
+	  var sys = arbor.ParticleSystem(500, 40,1); 
+	  sys.parameters({gravity:true}); 
+	  sys.renderer = Renderer("#viewport"); 
+	  var name = sys.addNode('name',{'color':'blue','shape':'dot','label':resp.name});
+	  if(resp.surname != undefined){
+		  var surname = sys.addNode('surname',{'color':'red','shape':'dot','label':resp.surname});
+		  sys.addEdge(name, surname);
+	  }
+	  if(resp.nickname != undefined){
+		  var nickname = sys.addNode('nickname',{'color':'green','shape':'dot','label':resp.nickname});
+		  sys.addEdge(name, nickname);
+	  }
+	  sys.addEdge(surname, nickname);
+	  
+}
 
 //FindByNickname
 function artistFindByNickname() {
@@ -102,12 +134,27 @@ function artistFindByNickname() {
 	  xhttp.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
 	    document.getElementById("show").innerHTML = this.responseText;
-	    artistResp = JSON.parse(xhttp.responseText);
+	    var resp = JSON.parse(xhttp.responseText);
 	    }
 	  };
 	  xhttp.open("GET", "/artist/findbynickname/"+str, true);
 	  xhttp.send();
-	}
+	  
+	  var sys = arbor.ParticleSystem(500, 40,1); 
+	  sys.parameters({gravity:true}); 
+	  sys.renderer = Renderer("#viewport"); 
+	  var nickname = sys.addNode('nickname',{'color':'green','shape':'dot','label':resp.nickname});
+	  if(resp.surname != undefined){
+		  var surname = sys.addNode('surname',{'color':'red','shape':'dot','label':resp.surname});
+		  sys.addEdge(nickname, surname);
+	  }	 
+	  if(resp.name != undefined){
+		  var name = sys.addNode('name',{'color':'blue','shape':'dot','label':resp.name});
+		  sys.addEdge(nickname, name);
+	  }
+	  sys.addEdge(surname, name);
+}	  
+	  
 
 //FindBySurname
 function artistFindBySurname() {
@@ -121,12 +168,26 @@ function artistFindBySurname() {
 	  xhttp.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
 	    document.getElementById("show").innerHTML = this.responseText;
-	    artistResp = JSON.parse(xhttp.responseText);
+	    var resp = JSON.parse(xhttp.responseText);
 	    }
 	  };
 	  xhttp.open("GET", "/artist/findbysurname/"+str, true);
 	  xhttp.send();
-	}
+	  
+	  var sys = arbor.ParticleSystem(500, 40,1); 
+	  sys.parameters({gravity:true}); 
+	  sys.renderer = Renderer("#viewport"); 
+	  var surname = sys.addNode('surname',{'color':'red','shape':'dot','label':resp.surname});
+	  if(resp.nickname != undefined){
+		  var nickname = sys.addNode('nickname',{'color':'green','shape':'dot','label':resp.nickname});
+		  sys.addEdge(surname, nickname);
+	  }
+	  if(resp.name != undefined){
+		  var name = sys.addNode('name',{'color':'blue','shape':'dot','label':resp.name});
+		  sys.addEdge(name, surname);
+	  }
+	  sys.addEdge(name, nickname);
+}
 
 
 //********** Album **********
@@ -137,7 +198,7 @@ function albumGetAll() {
 	  xhttp.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
 	    //document.getElementById("show").innerHTML = this.responseText;
-	    albumResp = JSON.parse(xhttp.responseText);	
+	    var resp = JSON.parse(xhttp.responseText);	
 	    }
 	  };
 	  xhttp.open("GET", "/albums", true);
@@ -156,11 +217,18 @@ function albumFindByReleaseDate(str) {
 	  xhttp.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
 	    document.getElementById("show").innerHTML = this.responseText;
-	    albumResp = JSON.parse(xhttp.responseText);	
+	    var resp = JSON.parse(xhttp.responseText);	
 	    }
 	  };
 	  xhttp.open("GET", "albums/findByReleaseDate"+str, true);
 	  xhttp.send();
+	  
+	  var sys = arbor.ParticleSystem(500, 40,1); 
+	  sys.parameters({gravity:true}); 
+	  sys.renderer = Renderer("#viewport"); 
+	  var title = sys.addNode('title',{'color':'blue','shape':'dot','label':resp.title});
+	  var releasedate = sys.addNode('releasedate',{'color':'red','shape':'dot','label':resp.releasedate}); 
+	  sys.addEdge(title,releasedate);
 	}
 
 //FindByTitle
@@ -175,12 +243,21 @@ function albumFindByTitle() {
 	  xhttp.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
 	    document.getElementById("show").innerHTML = this.responseText;
-	    albumResp = JSON.parse(xhttp.responseText);	
+	    var resp = JSON.parse(xhttp.responseText);	
 	    }
 	  };
 	  xhttp.open("GET", "/albums/findByTitle/"+str, true);
 	  xhttp.send();
-	}
+	  
+	  var sys = arbor.ParticleSystem(500, 40,1); 
+	  sys.parameters({gravity:true}); 
+	  sys.renderer = Renderer("#viewport"); 
+	  var title = sys.addNode('title',{'color':'blue','shape':'dot','label':resp.title});
+	  if(resp.releasedate != undefined){
+	  	var releasedate = sys.addNode('releasedate',{'color':'red','shape':'dot','label':resp.releasedate}); 
+	  	sys.addEdge(title,releasedate);
+	  }  
+}
 
 //********** Band **********
 //GetAll
@@ -190,12 +267,12 @@ function bandGetAll() {
 	  xhttp.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
 	    //document.getElementById("show").innerHTML = this.responseText;
-	    bandResp = JSON.parse(xhttp.responseText);	
+	    var resp = JSON.parse(xhttp.responseText);	
 	    }
 	  };
 	  xhttp.open("GET", "/bands", true);
 	  xhttp.send();
-	}
+}
 
 //FindByName
 function bandFyndByName() {
@@ -210,12 +287,19 @@ function bandFyndByName() {
 	  xhttp.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
 	    document.getElementById("show").innerHTML = this.responseText;
-	    bandResp = JSON.parse(xhttp.responseText);
+	    var resp = JSON.parse(xhttp.responseText);
 	    }
 	  };
 	  xhttp.open("GET", "/bands/findbyname"+str, true);
 	  xhttp.send();
-	}
+	  
+	  var sys = arbor.ParticleSystem(500, 40,1); 
+	  sys.parameters({gravity:true}); 
+	  sys.renderer = Renderer("#viewport"); 
+	  var name = sys.addNode('name',{'color':'blue','shape':'dot','label':resp.name});
+	  var genre = sys.addNode('genre',{'color':'red','shape':'dot','label':resp.genre}); 
+	  sys.addEdge(name,genre);
+}
 
 //FindByTGenre
 function bandFindByGenre() {
@@ -229,9 +313,16 @@ function bandFindByGenre() {
 	  xhttp.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
 	    document.getElementById("show").innerHTML = this.responseText;
-	    bandResp = JSON.parse(xhttp.responseText);
+	    var resp = JSON.parse(xhttp.responseText);
 	    }
 	  };
 	  xhttp.open("GET", "/bands/findbygenre"+str, true);
 	  xhttp.send();
-	}
+	  
+	  var sys = arbor.ParticleSystem(500, 40,1); 
+	  sys.parameters({gravity:true}); 
+	  sys.renderer = Renderer("#viewport"); 
+	  var name = sys.addNode('name',{'color':'blue','shape':'dot','label':resp.name});
+	  var genre = sys.addNode('genre',{'color':'red','shape':'dot','label':resp.genre}); 
+	  sys.addEdge(name,genre);
+}
