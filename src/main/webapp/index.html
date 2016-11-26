@@ -13,9 +13,6 @@
     <!-- jQuery -->
     <script src="vendor/jquery/jquery.min.js"></script>
 
-        <!-- jQuery -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-
     <!-- Bootstrap Core JavaScript -->
     <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 
@@ -28,23 +25,11 @@
     <!-- Theme CSS -->
     <link href="css/new-age.min.css" rel="stylesheet">
     
+    <!-- Our CSS -->
+    <link href="css/our-css.css" rel="stylesheet">
+    
     <!-- Our JavaScript -->
     <script src="javascript/other.js"></script> 
-    
-    <style>
-  		canvas.arbor{
-  			position: absolute;
-  			top: 110px; 
-  			left:500px;
-  		}
-  		div.searchZone{
-  			position: absolute;
-  			top: 110px;
-  		}		 		
-  		input[type=text] {
-  			color: black;
-  		}	
-  	</style>
 </head>
 
 <body id="page-to">
@@ -72,11 +57,10 @@
     </nav>
     <header>
         <div class="container">
-            <div class="row">
+            <!--div class="row"-->
                 <canvas class="arbor" id="viewport" width="680" height="800" style="border:1px solid #000000; width: 680px; height: 800px; background-image: url(img/bg-pattern.jpg); "></canvas>
                 <script type="text/javascript">
-                
-                var sys = arbor.ParticleSystem(500, 40,1); // create the system with sensible repulsion/stiffness/friction
+				var sys = arbor.ParticleSystem(500, 40,1); // create the system with sensible repulsion/stiffness/friction
                 sys.parameters({gravity:true}) // use center-gravity to make the graph settle nicely (ymmv)
                 sys.renderer = Renderer("#viewport") // our newly created renderer will have its .init() method called shortly by sys...
                 var dose = sys.addNode('dose',{'color':'blue','shape':'dot','label':'Dose'});
@@ -84,7 +68,7 @@
                 sys.addEdge(dose, song);
                 
                 
-                   /* var sys = arbor.ParticleSystem(500, 40,1);
+                   /*var sys = arbor.ParticleSystem(500, 40,1);
                     sys.parameters({gravity:true});
                     sys.renderer = Renderer("#viewport") ;
                     var data = {
@@ -105,7 +89,7 @@
                 <section class="searchZone" style="width: 250px; height: 1058px;">
     	               <div style="width: 250px; ">
     	                    <legend>Search Songs</legend>
-                            <form onsubmit="songFindByName()" >
+                            <form onsubmit="test()" >
     				            By name:<br>
     				            <input type="text" name="songName">
     				            <input type="submit" style="color: black" >
@@ -119,8 +103,7 @@
         				        <br>
     			            </form>		
     			            <br>
-    			            <button style="color: black" onclick="songGetAll()">Search All</button>		
-    				
+    			            <button class="button" style="color: black" onclick="songGetAll()">Search All</button>						
                         </div>
     	            <br>
                 	  <div style="width: 250px; ">
@@ -144,7 +127,7 @@
                 			    <br>
                 			</form>	
                 			<br>
-                			<button style="color: black" onclick="artisGetAll()">Search All</button>				
+                			<button class="button" style="color: black" onclick="artisGetAll()">Search All</button>				
                 	  </div>
                 	  <br>
                 	  <div style="width: 250px; ">
@@ -162,7 +145,7 @@
                 				<br>
                 			</form>
                 			<br>
-                			<button style="color: black" onclick="albumGetAll()">Search All</button>			
+                			<button class="button" style="color: black" onclick="albumGetAll()">Search All</button>			
                 	  </div>
                 	  <br>
                 	  <div style="width: 250px; ">
@@ -180,21 +163,21 @@
                 				<br>
                 			</form>
                 			<br>
-                			<button style="color: black" onclick="bandGetAll()">Search All</button>			
+                			<button class="button" style="color: black" onclick="bandGetAll()">Search All</button>			
                 	   </div>    	  	
             	   </section>                            
-                </div>
+                <!--/div-->
             </div>
     </header>
     
 
     <section id="Customer" class="download bg-primary text-center" style="height: 344px; ">
-        <div class="container">
+        <!--div class="container">
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
                 </div>
             </div>
-        </div>
+        </div-->
         
        
         <!-- AudioTest (Se borrara) -->
@@ -207,14 +190,6 @@
             <p>&copy; 2016 DOSE UNRC. All Rights Reserved.</p>
         </div>
     </footer>
-
-<<<<<<< HEAD
-=======
-
- <!--   <script src="javascript/mainArbor.js"></script> -->
-    
-    
->>>>>>> 8dc0d9d00f0c2cced006bd3d8eff330538fa33af
 </body>
 
 </html>
