@@ -13,6 +13,12 @@
     <!-- jQuery -->
     <script src="vendor/jquery/jquery.min.js"></script>
 
+        <!-- jQuery -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
     <!-- Theme JavaScript -->
     <script type="text/javascript" src="javascript/arbor-tween.js"></script>
     <script type="text/javascript" src="javascript/arbor.js"></script>
@@ -69,6 +75,7 @@
             <div class="row">
                 <canvas class="arbor" id="viewport" width="680" height="800" style="border:1px solid #000000; width: 680px; height: 800px; background-image: url(img/bg-pattern.jpg); "></canvas>
                 <script type="text/javascript">
+                
                 var sys = arbor.ParticleSystem(500, 40,1); // create the system with sensible repulsion/stiffness/friction
                 sys.parameters({gravity:true}) // use center-gravity to make the graph settle nicely (ymmv)
                 sys.renderer = Renderer("#viewport") // our newly created renderer will have its .init() method called shortly by sys...
@@ -90,6 +97,7 @@
                     }
                     };
                     sys.graft(data);*/
+
                     
                 </script>
                             
@@ -200,6 +208,13 @@
         </div>
     </footer>
 
+<<<<<<< HEAD
+=======
+
+ <!--   <script src="javascript/mainArbor.js"></script> -->
+    
+    
+>>>>>>> 8dc0d9d00f0c2cced006bd3d8eff330538fa33af
 </body>
 
 </html>
