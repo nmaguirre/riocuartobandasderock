@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Mostrar Album</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<style type="text/css">
+    table tr th, table tr td{font-size: 1.2rem;}
+    .row{ margin:20px 20px 20px 20px;width: 100%;}
+    .glyphicon{font-size: 25px;}
+    .glyphicon-plus{float: right;}
+    a.glyphicon{text-decoration: none;}
+    a.glyphicon-trash{margin-left: 10px;}
+    .none{display: none;}
+    .table td{
+        text-align: center;
+    }
+    .table th{
+        text-align: center;
+    }
+    .table-row{
+        cursor:pointer;
+    }
+    /*.glyphicon-trash{
+        pointer-events: none;
+        cursor: default;
+        color: gray;
+    }
+    .glyphicon-edit{
+        pointer-events: none;
+        cursor: default;
+        color: gray;
+    }*/
+
+</style>
+
+<script>
+
+    var findResourceTag = '/albums/findByTitle/'; // Default value
+
+    function showAlbums(resourcelocation){
+        $("#userData").html('<table></table>'); // Clean table, need to refresh with non elements in db
+
+        //resourcelocation='/artists';
+        rl = 'https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/albums';
+        //Cuando funcionen las rutas sacar este comentario
+        //$.get(resourcelocation, function(data, status){
+        $.get(rl, function(data, status){
+            if (typeof data === "undefined") {
+                response = '<tr><td colspan="5"> No Albums found...</td></tr>'
+            }else{
+            	//CUANDO FUNCIONEN LAS RUTAS SACAR ESTE COMENTARIO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                //var request = JSON.parse(data);
+                response = '<table>';
+                itemindex = 1;
+                //CUANDO FUNCIONEN LAS RUTAS SACAR ESTE COMENTARIO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                //Y borrar la linea de abajo
+                //$.each(request, function(i, item) {
+                $.each(data, function(i, item) {
+                       response += '<tr onclick="showSongsMInDialog(\''+item.AlbumID+'\')">'+'<td>'+itemindex+'</td>'+'<td>'+item.title+'</td>'+'<td>'+item.releaseDate+'</td>'+ '<td> <a href="javascript:void(0);" class="glyphicon glyphicon-edit" onclick="showInEdit(\''+item.AlbumID+'\'); event.stopImmediatePropagation();"</a> <a href="javascript:void(0);" class="glyphicon glyphicon-trash" onclick="deleteAlbum(\''+item.AlbumID+'\'); event.stopImmediatePropagation();"</a> </td> </tr>';
+                        ++itemindex;
+                });
+                response += '</table>';
+            }
+
+            $("#userData").html(response);
+
+          });
+    }
+
+    function showSongsMInDialog(id){
+        $("#songMModal").modal()
+        $("#songMData").html('<table></table>'); // Clean table, need to refresh with non elements in db
+
+        //CUANDO FUNCIONEN LAS RUTAS SACAR ESTE COMENTARIO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //Y poner el correspondiente.
+        //resourcelocation='/albums/'+id;
+        resourcelocation='https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/albums/'+id+'/songs';
+        $.get(resourcelocation, function(data, status){
+            if (typeof data === "undefined") {
+                response = '<tr><td colspan="5"> No Songs found...</td></tr>'
+            }else{
+                //CUANDO FUNCIONEN LAS RUTAS SACAR ESTE COMENTARIO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                //var request = JSON.parse(data);
+                response = '<table>';
+                itemindex = 1;
+                //CUANDO FUNCIONEN LAS RUTAS SACAR ESTE COMENTARIO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                //$.each(request, function(i, item) {
+                $.each(data, function(i, item) {
+                       response += '<tr>'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.duration+'</td>'+'</tr>';
+                       ++itemindex;
+                });
+                response += '</table>';
+            }
+
+            $("#songMData").html(response);
+
+          });
+    }
+
+    function showInEdit(id){
+
+    	//CUANDO FUNCIONEN LAS RUTAS SACAR ESTE COMENTARIO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //var resourcelocation ='/album/'+id;
+        var resourcelocation ='https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/albums/'+id;
+        $.ajax({
+            type: 'GET',
+            url: resourcelocation,
+            data: '',
+            success:function(res){
+            	//CUANDO FUNCIONEN LAS RUTAS SACAR ESTE COMENTARIO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                //var request = JSON.parse(res);
+
+                //CUANDO FUNCIONEN LAS RUTAS SACAR ESTE COMENTARIO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                //$.each(request, function(i, item) {
+				$.each(res, function(i, item) {
+                    $('#titleEdit').val(item.title);
+                    $('#releaseDateEdit').val(item.releaseDate);
+                    $('#idEdit').val(item.AlbumID);
+                });
+
+                $('#editForm').slideDown();
+            }
+        });
+    }
+
+    function addAlbum() {
+        title=$('#title').val();
+        releaseDate=$('#releaseDate').val();
+        //console.log(releaseDate);
+
+        //CUANDO FUNCIONEN LAS RUTAS SACAR ESTE COMENTARIO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //var url = '/albums';
+        var url = 'https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/albums';
+        title=$('#titleEdit').val();
+        releaseDate=$('#releaseDateEdit').val();
+
+        if (title=='') {
+            alert("Debe rellenar al menos el campo 'Titulo'.");
+        } 
+        else {
+        	$.ajax({
+        	    type: "POST",
+            	url: url,
+	            data: $("#addForm").find('.form').serialize(), // Adjuntar los campos del formulario enviado.
+    	        success: function(data){
+        	        //CUANDO FUNCIONEN LAS RUTAS SACAR ESTE COMENTARIO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            	    //showAlbums('/albums'); //optional refresh list
+                	showAlbums('https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/albums');
+	                $('.form')[0].reset();
+    	            $('.formData').slideUp();
+        	    },
+            	error: function(x, e) {
+            		alert("error "+x+" "+e);
+        	    }
+        	});
+        }
+    }
+
+    function updateAlbum() {
+        id=$('#idEdit').val();
+        //CUANDO FUNCIONEN LAS RUTAS SACAR ESTE COMENTARIO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //var resourcelocation ='/albums/'+id;
+        var resourcelocation ='https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/albums/'+id;
+
+        title=$('#titleEdit').val();
+        releaseDate=$('#releaseDateEdit').val();
+        //console.log(releaseDate);
+
+        if (title=='') {
+            alert("Debe rellenar al menos el campo 'Titulo'.");
+        } 
+        else {
+            $.ajax({
+                type: "PUT",
+                url: resourcelocation,
+                data: $("#editForm").find('.form').serialize(), // Adjuntar los campos del formulario enviado.
+                success: function(data)
+                {
+                   //CUANDO FUNCIONEN LAS RUTAS SACAR ESTE COMENTARIO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                   //showAlbums('/albums'); //optional refresh list
+                   showAlbums('https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/albums');
+                   $('.form')[1].reset();
+                   $('.formData').slideUp();
+                },
+                error: function(x, e) {
+                    //$("#dataartisaddformstatus").html('<font color="red">Result: Error</font>'); //  Show response Api Rest
+                    alert('No ha realizado ninguna modificación en el registro');
+                    $('.form')[1].reset();
+                    $('.formData').slideUp();
+                }
+            });
+        }
+    }
+
+    function deleteAlbum(id) {
+
+        //CUANDO FUNCIONEN LAS RUTAS SACAR ESTE COMENTARIO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //resourcelocation ='/albums/'+id;
+        resourcelocation ='https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/albums/'+id;
+
+        $.ajax({
+            type: "DELETE",
+            url: resourcelocation,
+            data: '',
+            success: function(data)
+            {
+                //CUANDO FUNCIONEN LAS RUTAS SACAR ESTE COMENTARIO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                //showArtists('/albums'); //optional refresh list
+                alert("Esta seguro que desea borrar este album?");
+                showAlbums('https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/albums');
+            },
+            error: function(x, e) {
+
+            }
+        });
+
+    }
+
+   function showSearchMenu(by) {
+        $('.form')[2].reset();
+        $('#searchForm').slideToggle();
+        switch(by){
+            case "title":
+                document.getElementById("titleSearch").disabled = false;
+                document.getElementById("releaseDateSearch").disabled = true;
+                //findResourceTag = '/artists/findByTitle/';
+                findResourceTag = 'https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/albums/findByTitle/';
+                break;
+            case "releaseDate":
+                document.getElementById("titleSearch").disabled = true;
+                document.getElementById("releaseDateSearch").disabled = false;
+                //findResourceTag = '/artists/findByReleaseDate/';
+                findResourceTag = 'https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/albums/findByReleaseDate/';
+                break;
+        }
+
+   }
+
+   function executeSearch() {
+
+        switch(findResourceTag){
+            //case "/artists/findByTitle/":
+            case "https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/albums/findByTitle/":
+                var resourcelocation = findResourceTag+$('#titleSearch').val();
+                showAlbums(resourcelocation);
+                break;
+            //case "/artists/findByReleaseDate/":
+            case "https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/albums/findByReleaseDate/":
+                var resourcelocation = findResourceTag+$('#releaseDateSearch').val();
+                showAlbums(resourcelocation);
+                break;
+        }
+
+        $('.form')[2].reset();
+        $('#searchForm').slideToggle();
+   }
+
+    /**
+     * Vertically center Bootstrap 3 modals so they aren't always stuck at the top
+     */
+
+    $(function() {
+        function reposition() {
+            var modal = $(this),
+                dialog = modal.find('.modal-dialog');
+            modal.css('display', 'block');
+
+            // Dividing by two centers the modal exactly, but dividing by three
+            // or four works better for larger screens.
+            dialog.css("margin-top", Math.max(0, ($(window).height() - dialog.height()) / 2));
+        }
+        // Reposition when a modal is shown
+        $('.modal').on('show.bs.modal', reposition);
+        // Reposition when the window is resized
+        $(window).on('resize', function() {
+            $('.modal:visible').each(reposition);
+        });
+    });
+
+    $(document).ready(function() {
+        //showAlbums('/albums');
+        showAlbums('https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/albums');
+    });
+
+</script>
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Artist TEAM</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a href="http://localhost:4567/artistadmin/index.php">Home</a></li>
+          <li><a href="http://localhost:4567/artistadmin/artist.php">Artist</a></li>
+          <li class="active"><a href="http://localhost:4567/artistadmin/album.php">Album</a></li>
+          <li><a href="http://localhost:4567/artistadmin/band.php">Band</a></li>
+          <li><a href="http://localhost:4567/artistadmin/song.php">Song</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+    <div align="center">
+        <h2>
+            <i class="glyphicon glyphicon-th-list"></i> Admin - Albums
+            <span id=loader class="loader progress progress-striped active"><span class="bar"></span></span>
+        </h2>
+    </div>
+    <div class="row">
+        <div class="panel panel-default users-content">
+            <div class="panel-heading"><i class="glyphicon glyphicon-th-list"></i>  Albums list
+	<div class="btn-group pull-right" role="group">
+    <button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:showAlbums('/albums')">Show all</button>
+	<button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:$('#addForm').slideToggle(); $('.form')[0].reset();">Add</button>
+	  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	    Search <span class="caret"></span>
+	  </button>
+	  <ul class="dropdown-menu">
+	    <li><a href="javascript:void(0);" onclick="javascript:$(showSearchMenu('title'));">By title</a></li>
+	    <li><a href="javascript:void(0);" onclick="javascript:$(showSearchMenu('releaseDate'));">By release date</a></li>
+	  </ul>
+
+	</div>
+
+	    </div>
+            <div class="panel-body none formData" id="addForm">
+                <h2 id="actionLabel">Add Album</h2>
+                <form class="form" id="userForm">
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" class="form-control" name="title" id="title"/>
+                    </div>
+                    <div class="input-append date" data-date-format="yyyy-mm-dd">
+                        <!--<label>Release Date</label>
+                        <input type="text" class="form-control" name="releaseDate" id="releaseDate"/>-->
+                        <label>Release Date</label>
+                        <input type="date" class="form-control" id="releaseDate" name="releaseDate">
+                    </div>
+                    <br></br>
+                    <a href="javascript:void(0);" class="btn btn-warning" onclick="$('#addForm').slideUp();">Cancel</a>
+                    <a href="javascript:void(0);" class="btn btn-success" onclick="addAlbum()">Add Album</a>
+                </form>
+            </div>
+
+            <div class="panel-body none formData" id="editForm">
+                <h2 id="actionLabel">Edit Album</h2>
+                <form class="form" id="userForm">
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" class="form-control" name="title" id="titleEdit"/>
+                    </div>
+                    <div class="input-append date" data-date-format="yyyy-mm-dd">
+                        <!--<label>Release Date</label>
+                        <input type="text" class="form-control" name="releaseDate" id="releaseDateEdit"/>-->
+                        <label>Release Date</label>
+                        <input type="date" class="form-control" id="releaseDate" name="releaseDateEdit">
+                    </div>
+                    <br></br>
+                    <input type="hidden" class="form-control" name="id" id="idEdit"/>
+                    <a href="javascript:void(0);" class="btn btn-warning" onclick="$('#editForm').slideUp(); ; $('.form')[1].reset();">Cancel</a>
+                    <a href="javascript:void(0);" class="btn btn-success" onclick="updateAlbum() ; $('.form')[1].reset();">Update Album</a>
+                </form>
+            </div>
+
+	    <div class="panel-body none formData" id="searchForm">
+                <h2 id="actionLabel">Search Album</h2>
+                <form class="form" id="userForm">
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" class="form-control" name="title" id="titleSearch"/>
+                    </div>
+                    <div class="input-append date" data-date-format="yyyy-mm-dd">
+                        <!--<label>Release Date</label>
+                        <input type="text" class="form-control" name="releaseDate" id="releaseDateSearch
+                        "/>-->
+                        <label>Release Date</label>
+                        <input type="date" class="form-control" id="releaseDate" name="releaseDateSearch">
+                    </div>
+                    <br></br>
+                    <input type="hidden" class="form-control" name="id" id="idSearch"/>
+                    <a href="javascript:void(0);" class="btn btn-warning" onclick="$('#searchForm').slideUp();">Cancel</a>
+                    <a href="javascript:void(0);" class="btn btn-success" onclick="executeSearch()">Search Album</a>
+                </form>
+            </div>
+            <table class="table collection table table-bordered table-striped table-hover" id="mainTable">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Title</th>
+                        <th>Release Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="userData" class="table-row"></tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="songMModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Songs</h4>
+      </div>
+      <div class="modal-body">
+        <table class="table collection table table-bordered table-striped table-hover" id="bandMTable">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Title</th>
+                        <th>Duration</th>
+                    </tr>
+                </thead>
+                <tbody id="songMData"></tbody>
+            </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
