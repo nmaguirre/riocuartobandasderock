@@ -6,8 +6,7 @@
 		<div class="row">
 			<div class="col-xs-3 artist" ng-repeat="artist in artists | orderBy: 'ArtistID' | filter : artist_search">
 				<img src="/img/placeholder.png" class="img-fluid" alt="">
-				<p class="lead">{{artist.name}} {{artist.surname}}<br><small class="text-muted">{{artist.nickname}}</small></p>
-				<!--<a ng-href="/#/songs/{{song.idSong}}" ng-repeat="song in album.songs">{{song.name}}<br></a>-->
+				<p class="lead" ng-click="go_to(artist.ArtistID)">{{artist.name}} {{artist.surname}}<br><small class="text-muted">{{artist.nickname}}</small></p>
 			</div>
 		</div>
 	</div>

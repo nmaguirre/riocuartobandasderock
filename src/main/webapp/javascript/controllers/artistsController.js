@@ -18,8 +18,19 @@ angular.module('app')
 		$http.get("https://private-53163-riocuartobandasderock.apiary-mock.com/artists/"+id).then(function callback(response) {
 			if (response.status == 200) {
 				$scope.artist = response.data[0];
+				load_artist_bands($scope.artist.ArtistID);
 			} else {
-				alert("Oops, something went wrong, try again later!");	
+				alert("Oops, something went wrong, try again later!");
+			}
+		});
+	}
+
+	function load_artist_bands(id) {
+		$http.get("https://private-53163-riocuartobandasderock.apiary-mock.com/artists/getbands/"+id).then(function callback(response) {
+			if (response.status == 200) {
+				$scope.artist.bands = response.data;
+			} else {
+				$scope.songs[index].album_name = "Placeholder name";
 			}
 		});
 	}
