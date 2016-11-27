@@ -57,6 +57,25 @@ public class BandMemberDAOImpl implements BandMemberDAO {
 	}
 
 	/**
+	 * This method returns all the artist that has the band.
+	 * @param String bandId.
+	 * @return List of artist that belongs to the band with id 'bandId'.
+	*/
+	@Override
+	public List<Artist> findByBand(String bandId) {
+		if (bandId == null || bandId.equals("")) {
+			throw new IllegalArgumentException(
+					"the 'bandId' param for search a List of Artist can not be null or empty.");
+		} else {
+			Query<Artist> query = this.currentSession.createQuery(
+					"select a from Artist a, BandMember bm where bm.bandID = :aID and a.id = bm.artistID",
+					Artist.class);
+			query.setParameter("aID", bandId);
+			return query.getResultList();
+		}
+	}
+
+	 /**
 	 * This method create an bandMember in database.
 	 * @param String idBand, band ID.
 	 * @param String idArtist, artist ID.
@@ -82,7 +101,6 @@ public class BandMemberDAOImpl implements BandMemberDAO {
 			return result;
 		}
 	}
-
 	/**
 	 * This method delete an bandMember in database.
 	 * @param String idBand, band ID.
@@ -178,25 +196,6 @@ public class BandMemberDAOImpl implements BandMemberDAO {
 					"select b from Band b, BandMember bm where bm.artistID = :aID and b.id = bm.bandID",
 					Band.class);
 			query.setParameter("aID", artistId);
-			return query.getResultList();
-		}
-	}
-
-	/**
-	 * This method get all artist of a band.
-	 * @param String bandId.
-	 * @return List artist of a band, whit bandID.
-	*/
-	@Override
-	public List<Artist> findByBand(String bandId) {
-		if (bandId == null || bandId.equals("")) {
-			throw new IllegalArgumentException(
-					"the 'bandId' param for search an Artist List by Band can not be null or empty.");
-		} else {
-			Query<Artist> query = this.currentSession.createQuery(
-					"select a from Artist a, BandMember bm where bm.bandID = :bID and a.artistID = bm.artistID",
-					Artist.class);
-			query.setParameter("bID", bandId);
 			return query.getResultList();
 		}
 	}

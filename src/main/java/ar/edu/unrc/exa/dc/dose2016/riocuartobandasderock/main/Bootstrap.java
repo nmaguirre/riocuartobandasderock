@@ -1,6 +1,7 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
 import static spark.Spark.*;
+
 import static ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.JsonUtil.json;
 
 import java.nio.file.Files;
@@ -83,11 +84,11 @@ public class Bootstrap {
         userController = UserController.getInstance();
         port(Integer.parseInt(ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().getAppPort()));
 
-        before("/bands", (req, res) -> {
+        /*before("/bands", (req, res) -> {
             if (!userController.authenticated(req, res)) {
                 halt(401, "Access forbidden\n");
             }
-        });
+        });*/
 
         // List of route and verbs API REST
         
@@ -104,13 +105,15 @@ public class Bootstrap {
         /**
         *   Band routes
         */
-        get("/bands",(req, res) -> bands.getBands(req, res));
+        get("/bands",(req, res) -> bands.getBands(req, res),json());
 
-        get("/bands/findbyname/:name",(req, res) -> bands.getBandByName(req, res));
-        
-        get("/bands/findbygenre/:genre",(req, res) -> bands.getBandByGenre(req, res));
-        
-        get("/bands/find/",(req, res) -> bands.getBandByNameAndGenre(req, res));
+        get("/bands/findbyname/:name",(req, res) -> bands.getBandByName(req, res),json());
+
+        get("/bands/findbygenre/:genre",(req, res) -> bands.getBandByGenre(req, res),json());
+
+        get("/bands/find/",(req, res) -> bands.getBandByNameAndGenre(req, res),json());
+
+        get("/bands/getbandmember/:bandID",(req,res)-> bands.getBandMembers(req, res),json());
 
         post("/bands/",(req, res) -> bands.createBand(req, res));
 
@@ -172,9 +175,9 @@ public class Bootstrap {
         /**
          * BandMember routes
          */
-        post("/bandmembers/",(req,res)->bandMemberController.createBandMember(req, res));
+        post("/bandmembers",(req,res)->bandMemberController.createBandMember(req, res));
         
-        delete("/bandmembers/:artistID/:BandID",(req,res)->bandMemberController.deleteBandMember(req, res));
+        delete("/bandmembers/:artistID/:bandID",(req,res)->bandMemberController.deleteBandMember(req, res));
         
         /**
          * Users routes
@@ -188,9 +191,9 @@ public class Bootstrap {
         post("/songs/",(req,res)->songController.create(req, res));
 
         get("/songs/findbyname/:name",(req,res)->songController.getByName(req,res));
-        
+
         get("/songs/findbyduration/:duration",(req,res)->songController.getByDuration(req,res));
-        
+
         delete("/songs/:id",(req, res) -> songController.remove(req, res));
         
         after((req, res) -> {/*res.type("application/json");*/});

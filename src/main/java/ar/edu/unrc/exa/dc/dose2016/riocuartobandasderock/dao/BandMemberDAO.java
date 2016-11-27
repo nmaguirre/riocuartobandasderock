@@ -15,7 +15,7 @@ public interface BandMemberDAO {
 	 * @return List of bandMembers.
 	*/
 	public List<BandMember> getAllBandMembers();
-	
+
 	/**
 	 * This method get all bands where the artist belongs.
 	 * @param String artistId.

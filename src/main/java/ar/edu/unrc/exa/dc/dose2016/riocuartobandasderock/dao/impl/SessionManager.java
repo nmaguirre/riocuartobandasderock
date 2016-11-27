@@ -17,10 +17,10 @@ public class SessionManager{
 	/**
 	 * Constructor of the class
 	 */
+
 	private SessionManager() {
 		this.sfactory = getSessionFactory();
 	}
-	
 	/**
 	 * Singleton, on demand instance of ServerOptions.
 	 */

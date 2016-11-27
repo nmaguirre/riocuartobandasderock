@@ -26,7 +26,9 @@ end
 
 Given(/^that the song's database is empty$/) do
     result = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select count(*) from songDB;\" -t`
+
     result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+
     expect(result=="0")
 end
 
@@ -79,8 +81,10 @@ And(/^the album's database does not change and maintain (\d+) entry$/) do |entry
 end
 
 When(/^I add an album with name "([^"]*)" and release date "([^"]*)"$/) do |title,release_date|
+
   response = RestClient.post 'http://localhost:4567/albums', { :title => title, :release_date => release_date }, :content_type => 'text/plain'
   expect(response.code).to eq(201)
+
 end
 
 When(/^I search an album with "([^"]*)" "([^"]*)" , the result of the search should have (\d+) entry$/) do |atributo, valor, entradas|
@@ -98,7 +102,9 @@ When(/^I search an album with "([^"]*)" "([^"]*)" , the result of the search sho
 end
 
 When(/^I add a song with name "([^"]*)" and duration "([^"]*)"$/) do |name, duration|
+
      response = RestClient.post 'http://localhost:4567/songs/', { :name => name, :duration => duration }, :content_type => 'text/plain'
+
      expect(response.code).to eq(201)
 end
 
@@ -143,8 +149,10 @@ end
 Then(/^the song's database should have (\d+) entry$/) do |arg1|
     result = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select count(*) from SongDB;\" -t`
     result = result.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+
 	 HEAD
     expect(result).to eq("1")
+
 end
 
 Then(/^the entry should have name "([^"]*)" and release date "([^"]*)"$/) do |title,release_date|
@@ -160,6 +168,8 @@ end
 Then(/^the entry should have name "([^"]*)" and duration "([^"]*)"$/) do |name, duration|
     pending
 end
+
+
 
 
 When(/^I list all the albums the result of the search should have (\d+) entries$/) do |arg1|

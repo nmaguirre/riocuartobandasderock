@@ -6,18 +6,24 @@ Feature: The application responds appropriately to all events that correspond to
 
     Scenario: Remove a band on a not empty bands' database 
         Given that the bands' database have 3 entries
-        And the bands' database have a band with name "Band1" and genre "Nu Metal"
-        When I remove a band with name "Band1" and genre "Nu Metal"
+        And the bands' database have a band with name "Band1" and genre "Nu-Metal"
+        When I remove a band with name "Band1" and genre "Nu-Metal" that exists in bands' database
         Then the bands' database should have 2 entries
-        And the database shouldn't have a band with  name "Band1" and genre "Nu Metal"
+        And the database shouldn't have a band with  name "Band1" and genre "Nu-Metal"
 
     Scenario: Remove a band on a empty bands' database
     	Given that the bands' database is empty
-    	When I remove a band with name "Megadeth" and genre "Trash Metal"
+    	When I remove a band with name "Megadeth" and genre "Trash-Metal" that no exists in bands' database
     	Then the bands' database should have 0 entries
 
     Scenario: Remove a band that is not in the bands' database
     	Given that the bands' database have 7 entries
-    	And the band with name "Eruca Sativa" and genre "Rock Alternativo" is not in bands' datebase
-    	When I remove a band with name "Eruca Sativa" and genre "Rock Alternativo"
+    	And the band with name "Eruca-Sativa" and genre "Rock-Alternativo" is not in bands' datebase
+    	When I remove a band with name "Eruca-Sativa" and genre "Rock-Alternativo" that no exists in bands' database
     	Then the bands' database should have 7 entries
+
+    Scenario: Remove a band that are the bands' database
+        Given that the bands' database have 7 entries
+        And the bands' database have a band with name "Band1" and genre "Nu-Metal"
+        When I remove a band with name "Band1" and genre "Nu-Metal" that exists in bands' database
+        Then the bands' database should have 6 entries
