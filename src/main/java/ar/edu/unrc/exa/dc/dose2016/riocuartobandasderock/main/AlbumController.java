@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.AlbumDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.AlbumDaoImpl;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SessionManager;
 import spark.Request;
@@ -52,9 +53,14 @@ public class AlbumController {
         return new ModelAndView(attributes, Routes.layout_dashboard());
     }
 
-
     public ModelAndView showAlbum(Request req,Response res){
         Map<String, Object> attributes = new HashMap<>();
+
+        Session session = SessionManager.getInstance().openSession();
+        AlbumDAO albumDAO = new AlbumDaoImpl(session);
+
+        Album album = albumDAO.findById(req.params(":id"));
+        attributes.put("album", album);
 
         attributes.put("template", Routes.show_album());
         attributes.put("title", "Show");
@@ -78,11 +84,11 @@ public class AlbumController {
     }
 
 
-    
+
     public String create(Request req, Response res) {
     	Session session = SessionManager.getInstance().openSession();
     	AlbumDaoImpl adao = new AlbumDaoImpl(session);
-    	
+
         if (req.queryParams("title") == null || req.queryParams("title") == ""){
             res.status(400);
             res.body("Album title can't be null nor empty");
@@ -119,7 +125,7 @@ public class AlbumController {
     public List<Album> findByTitle(Request req, Response res) {
     	Session session = SessionManager.getInstance().openSession();
     	AlbumDaoImpl adao = new AlbumDaoImpl(session);
-    	
+
     	if (req.queryParams("title") == null){
             res.status(400);
             res.body("Title can't be null");
@@ -143,7 +149,7 @@ public class AlbumController {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
         try {
             Date release_date = sdf.parse(req.queryParams("release_date"));
-          
+
 
             List<Album> albums = adao.findByReleaseDate(release_date);
             session.close();
@@ -159,11 +165,11 @@ public class AlbumController {
 
 
     }
-    
+
     public String update(Request req, Response res) {
     	Session session = SessionManager.getInstance().openSession();
     	AlbumDaoImpl adao = new AlbumDaoImpl(session);
-    	
+
         if (req.queryParams("title") == null || req.queryParams("title") == ""){
             res.status(400);
             res.body("Album title can't be null nor empty");
@@ -201,7 +207,7 @@ public class AlbumController {
         }
 
     }
-    
+
     public String delete(Request req, Response res) {
     	Session session = SessionManager.getInstance().openSession();
     	AlbumDaoImpl adao = new AlbumDaoImpl(session);
@@ -210,7 +216,7 @@ public class AlbumController {
             res.body("Album id can't be null nor empty");
             return res.body();
         }
-        
+
         Transaction transaction = session.beginTransaction();
         boolean result = adao.delete(req.queryParams("id"));
         transaction.commit();
@@ -221,6 +227,6 @@ public class AlbumController {
         res.body("Album deleted");
         return res.body();
     }
-    
-    
+
+
 }

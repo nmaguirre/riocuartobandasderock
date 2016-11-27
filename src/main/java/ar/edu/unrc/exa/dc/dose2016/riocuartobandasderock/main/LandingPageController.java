@@ -54,17 +54,17 @@ public class LandingPageController {
    */
   public ModelAndView index(Request req ,Response res){
     Session session = SessionManager.getInstance().openSession();
-    // BandDAO bandDAO = new BandDaoImpl(session);
+    BandDAO bandDAO = new BandDaoImpl(session);
     AlbumDaoImpl albumDAO = new AlbumDaoImpl(session);
     SongDAO songDAO = new SongDaoImpl(session);
     ArtistDAO artistDAO = new ArtistDaoImpl(session);
     Map<String, Object> attributes = new HashMap<>();
-    // List<Band> bands= bandDAO.getAllBands();
+    List<Band> bands= bandDAO.getAllBands();
     List<Artist> artists = artistDAO.getAllArtists();
     List<Song> songs = songDAO.getAllSongs();
     List<Album> albums = albumDAO.getAll();
     attributes.put("template", Routes.landing_page());
-    // attributes.put("bands", bands);
+    attributes.put("bands", bands);
     attributes.put("artists", artists);
     attributes.put("songs",songs);
     attributes.put("albumns", albums);
