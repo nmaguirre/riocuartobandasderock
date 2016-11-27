@@ -23,38 +23,38 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *the ArtistController class treats http requests referred to the Artist model 
+ *the ArtistController class treats http requests referred to the Artist model
  */
-public class ArtistController {	
-	
+public class ArtistController {
+
 	/**
 	 * one implementation ArtistDao to connect to db
 	 */
 	private static ArtistController instance;
-    
+
 	/**
      * Constructor
      */
 	private  ArtistController(){
 	}
-	
+
 	/**
-	 *  Method return SingletonInstance of ArtistController 
+	 *  Method return SingletonInstance of ArtistController
 	 */
 	public static ArtistController getInstance() {
-		if (instance==null){ 
+		if (instance==null){
 			instance=new ArtistController();
 		}
 		return instance;
 	}
-	
+
 
 	/**
 	* Search artist by his Id
 	* @param req it contain id of the artist to search
 	* @param res (Response)
 	* @return one Artist with id parameters
-	*/	
+	*/
 	public List<Artist> getArtistById (Request req, Response res){
 		if (req.params(":id").isEmpty()){
 			res.status(400);
@@ -67,7 +67,7 @@ public class ArtistController {
 		res.status(status);
 		return artist;
 	}
-	
+
 	/**
 	* Search one artist
 	* @param req it contain id of the artist to search
@@ -100,11 +100,11 @@ public class ArtistController {
 			int status =(artist.size()>0)? 200:204;
 			res.status(status);
 			return artist;
-		}	
+		}
 	}
-	
+
 	/**
-	 * get all Artist 
+	 * get all Artist
 	 * @param req (Request)
 	 * @param res (Response)
 	 * @return  List of Artist
@@ -124,12 +124,18 @@ public class ArtistController {
     return new ModelAndView(attributes, Routes.layout_dashboard());
 
 	}
-	
+
 
 
 
   public ModelAndView showArtist(Request req,Response res){
     Map<String, Object> attributes = new HashMap<>();
+
+    Session session = SessionManager.getInstance().openSession();
+    ArtistDAO artistDAO = new ArtistDaoImpl(session);
+
+    Artist artist = artistDAO.findById(req.params(":id")).get(0);
+    attributes.put("artist", artist);
 
     attributes.put("template", Routes.show_artist());
     attributes.put("title", "Show");
@@ -152,7 +158,7 @@ public class ArtistController {
     return new ModelAndView(attributes, Routes.layout_dashboard());
   }
 
-	
+
 	/**
 	 * search for artists by name
 	 * @param req It contains the name to search for artists
@@ -172,7 +178,7 @@ public class ArtistController {
 		res.status(status);
 		return artists;
 	}
-	
+
 	/**
 	 * search for artists by surname
 	 * @param req It contains the surname to search for artists
@@ -192,7 +198,7 @@ public class ArtistController {
 		res.status(status);
 		return artists;
 	}
-	
+
 	/**
 	 * search for artists by nickname
 	 * @param req It contains the nickname to search for artists
@@ -214,7 +220,7 @@ public class ArtistController {
 	}
 
 	/**
-	 * creates an artist 
+	 * creates an artist
 	 * @param req It contains the attributes of the new artist
 	 * @param res (Response)
 	 * @return a string that describes the result of createArtist
@@ -255,7 +261,7 @@ public class ArtistController {
 		res.status(409);
 		return "Fail";
 	}
-	
+
 	/**
 	 * Update an artist in database
 	 * @param res (Response)
@@ -306,7 +312,7 @@ public class ArtistController {
 		res.status(409);
 		return "Fail";
 	}
-	 	
+
 	/**
 	* delete an artist by his Id
 	* @param req it contain id of the artist to delete
@@ -337,7 +343,7 @@ public class ArtistController {
 		res.status(409);
 		return "Fail";
 	}
-	
+
 	/**
 	 * search Artists of a Band by his name
 	 * @param req it contain name of the Band to search Artist
@@ -358,7 +364,7 @@ public class ArtistController {
 		res.status(status);
 		return bandMembers;
 	}
-	
+
 	/**
 	 * search BandMembers of a Artist by his name, surname and nickname
 	 * @param req it contain idArtist to search

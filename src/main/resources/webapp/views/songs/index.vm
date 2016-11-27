@@ -4,29 +4,29 @@
       <div class="col-md-12">
         <div class="card card-plain">
           <div class="card-header" data-background-color="purple">
-            <h4 class="title">Listado de todos los Albunes</h4>
+            <h4 class="title">Listado de todas las Canciones</h4>
           </div>
           <div class="card-content table-responsive">
             <table class="table table-hover">
               <thead>
-                <th>Titulo</th>
-                <th>Lanzamiento</th>
+                <th>Nombre</th>
+                <th>Genero</th>
                 <th>Acciones</th>
               </thead>
               <tbody>
-                #if($albums != $null)
-                  #foreach( $album in $albums )
+                #if ($bands != $null)
+                  #foreach( $band in $bands )
                     <tr>
-                      <td>$album.getTitle()</td>
-                      <td>$album.getReleaseDate()</td>
+                      <td>$band.getName()</td>
+                      <td>$band.getGenre()</td>
                       <td>
-                        <a href="/albums/$!{album.getId()}">
+                        <a href="/bands/$!{band.getId()}">
                           <i class="material-icons">remove_red_eye</i>
                         </a>
-                        <a href="/albums/$!{album.getId()}/edit">
+                        <a href="/bands/$!{band.getId()}/edit">
                           <i class="material-icons">edit</i>
                         </a>
-                        <a href="/albums/$!{album.getId()}" method="delete">
+                        <a href="/bands/$!{band.getId()}" method="delete">
                           <i class="material-icons">close</i>
                         </a>
                       </td>
@@ -34,7 +34,7 @@
                   #end
                 #else
                   <tr>
-                    <td colspan="4">No hay ningun album cargado en el sistema</td>
+                    <td colspan="3">No hay ninguna banda cargada en el sistema</td>
                   </tr>
                 #end
               </tbody>
@@ -50,6 +50,6 @@
   #include("vendor/jquery/jquery.min.js")
   $(document).ready(function() {
     $('li').removeClass('active');
-    $('#album').addClass('active');
+    $('#song').addClass('active');
   });
 </script>

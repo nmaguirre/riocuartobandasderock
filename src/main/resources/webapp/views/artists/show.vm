@@ -1,6 +1,37 @@
-<html>  
-  <body>
-    #set( $path = "src/main/webapp/band/show.vm" )
-    found me on $path
-  </body>
-</html>
+<div class="modal-dialog modal-lg" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <h4 class="modal-title" id="myModalLabel">información Personal</h4>
+    </div>
+    <div class="modal-body">
+      <strong>Nombre</strong>
+      <h5>$artist.getName()</h5>
+
+      <strong>Apellido</strong>
+      #if($artist.getSurname() != $null)
+        <h5>$artist.getSurname()</h5>
+      #else
+        <h5>El artista no contiene apellido</h5>
+      #end
+
+      <strong>Apodo</strong>
+      #if ($artist.getNickname() != $null)
+        <h5>$artist.getNickname()</h5>
+      #else
+        <h5>El artista no contiene apodo</h5>
+      #end
+    </div>
+    <div class="modal-footer">
+      <a href="/artists" type="button" class="btn btn-default" data-dismiss="modal">Volver</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  #include("vendor/jquery/jquery.min.js")
+  $(document).ready(function() {
+    $('li').removeClass('active');
+    $('#artist').addClass('active');
+  });
+</script>
