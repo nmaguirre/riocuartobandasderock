@@ -5,47 +5,47 @@ Feature: The application responds appropriately to all events that correspond to
 
 	Scenario: Add a new song on an empty song's database
         	Given that the song's database is empty
-        	When I add a song with name "Stairway to Heaven" and duration "400"
+        	When I add a song with name "Stairway to Heaven" and duration "400" and belongs to the album "IV"
         	Then the song's database should have 1 entry
         	And the entry should have name "Stairway to Heaven" and duration "400"
 
 	Scenario: Add a new song with the same name and different duration that a song stored in database
-        	Given that the song's database have one song with name "Jijiji" and duration "5"
-        	When I add a song with name "Jijiji" and duration "2"
+        	Given that the song's database have one song with name "Stairway to heaven" and duration "5" and belongs to the album "VI"
+        	When I add a song with name "Stairway to heaven" and duration "2" and belongs to the album "IV"
         	Then the song's database should have 2 entry
 
 	Scenario: Add a new song with the same name and duration that a song stored in the database
-	     	Given that the song's database have one song with name "Jijiji" and duration "5"
-	        When I add a song with name "Jijiji" and duration "5"
+	     	Given that the song's database have one song with name "Jijiji" and duration "5" and belongs to the album "VI"
+	        When I add a song with name "Jijiji" and duration "5" and belongs to the album "IV"
 	        Then the song's database should have 2 entry
 
 	Scenario: Add a new song without duration in a database empty
 			Given that the song's database is empty
-			When I add a song with name "Stairway to Heaven" and duration "" 
+			When I add a song with name "Stairway to Heaven" and duration "" and belongs to the album "IV"
 			Then the song's database should have 1 entry 
 
 	Scenario: Add a new song without name in a database empty
 			Given that the song's database is empty
-			When I add a song with name "" and duration "400"
+			When I add a song with name "" and duration "400" and belongs to the album "IV"
 			Then the song's database should have 0 entry  
 	
 	Scenario: Add a new song without name and duration in a the database empty
 			Given that the song's database is empty
-			When I add a song with name "" and duration ""
+			When I add a song with name "" and duration "" and belongs to the album "IV"
 			Then the song's database should have 0 entry
 
 	Scenario: Add a new song without duration in a database not empty
-			Given that the song's database have one song with name "Jijiji" and duration "5"
-			When I add a song with name "Stairway to Heaven" and duration "" 
+			Given that the song's database have one song with name "Jijiji" and duration "5" and belongs to the album "VI"
+			When I add a song with name "Stairway to Heaven" and duration "" and belongs to the album "IV"
 			Then the song's database should have 2 entry 
 
 	Scenario: Add a new song without name in a database not empty
-			Given that the song's database have one song with name "Jijiji" and duration "5"
-			When I add a song with name "" and duration "10"  
+			Given that the song's database have one song with name "Jijiji" and duration "5" and belongs to the album "VI"
+			When I add a song with name "" and duration "10" and belongs to the album "IV"  
 			Then the song's database should have 1 entry
 		
 	Scenario: Add a new song without name and duration in a database not empty
-			Given that the song's database have one song with name "Jijiji" and duration "5"
-			When I add a song with name "" and duration "" 
+			Given that the song's database have one song with name "Jijiji" and duration "5" and belongs to the album "VI"
+			When I add a song with name "" and duration "" and belongs to the album "IV"
 			Then the song's database should have 1 entry
 	

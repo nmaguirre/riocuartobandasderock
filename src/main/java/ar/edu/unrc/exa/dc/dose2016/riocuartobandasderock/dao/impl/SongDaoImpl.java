@@ -106,8 +106,8 @@ public class SongDaoImpl implements SongDAO{
 		} else {
 			AlbumDAO adao = new AlbumDaoImpl(this.currentSession);
 			List<Album> albumList = adao.findByTitle(albumTitle);
+			if (albumList.isEmpty()) return false;
 			Album alb = albumList.get(0);
-			if (alb == null) return false;
 			Song song = new Song(name,duration);
 			song.setAlbum(alb);
 			if (!song.repOk()) throw new IllegalArgumentException ("Bad representation of song");

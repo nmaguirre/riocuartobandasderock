@@ -33,8 +33,9 @@ Given(/^that the song's database is empty$/) do
     expect(result=="0")
 end
 
-Given(/^that the song's database have one song with name "([^"]*)" and duration "([^"]*)"$/) do |name, duration|
-  response = RestClient.post 'http://localhost:4567/songs/', { :name => name, :duration => duration }, :content_type => 'text/plain'
+Given(/^that the song's database have one song with name "([^"]*)" and duration "([^"]*)" and belongs to the album "([^"]*)"$/) do |name, duration, title|
+  `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"INSERT INTO AlbumDB VALUES ('1','VI');\" -t`
+  response = RestClient.post 'http://localhost:4567/songs/', { :name => name, :duration => duration , :albumTitle => title}, :content_type => 'text/plain'
   expect(response.code).to eq(201)
 end
 
@@ -43,9 +44,6 @@ Given(/^that the song's database have one song with UUID "([^"]*)"$/) do |id|
   expect(response.code).to eq(201)
 end
 
-Given(/^that the song's database have one song with name "([^"]*)" and duration "([^"]*)" and belong to the album "([^"]*)"$/) do |arg1, arg2, arg3|
-  pending # Write code here that turns the phrase above into concrete actions
-end
 
 Given(/^that the album's database contains an album named "([^"]*)" with the song "([^"]*)"$/) do |albumName, songName|
   pending # Write code here that turns the phrase above into concrete actions
@@ -133,9 +131,11 @@ When(/^I search an album with "([^"]*)" "([^"]*)" , the result of the search sho
   end
 end
 
-When(/^I add a song with name "([^"]*)" and duration "([^"]*)"$/) do |name, duration|
+When(/^I add a song with name "([^"]*)" and duration "([^"]*)" and belongs to the album "([^"]*)"$/) do |name, duration, title|
  begin
-     response = RestClient.post 'http://localhost:4567/songs/', { :name => name, :duration => duration }, :content_type => 'text/plain'
+    `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"INSERT INTO AlbumDB VALUES (' ','IV');\" -t`
+  
+     response = RestClient.post 'http://localhost:4567/songs/', { :name => name, :duration => duration, :albumTitle => title }, :content_type => 'text/plain'
      expect(response.code).to eq(201)
       rescue RestClient::Conflict => e
         rescue => e
