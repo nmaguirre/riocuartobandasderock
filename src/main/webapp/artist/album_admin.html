@@ -92,7 +92,7 @@
                 //CUANDO FUNCIONEN LAS RUTAS SACAR ESTE COMENTARIO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 //$.each(request, function(i, item) {
                 $.each(data, function(i, item) {
-                       response += '<tr>'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.duration+'</td>'+'</tr>';
+                       response += '<tr>'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.duration+'</td>'+'<td> <a href="javascript:void(0);" class="glyphicon glyphicon-trash" onclick="deleteSongFromAlbum(\''+id+'\',\''+item.idSong+'\'); event.stopImmediatePropagation();"</a> </td>'+'</tr>';
                        ++itemindex;
                 });
                 response += '</table>';
@@ -261,6 +261,34 @@
         $('#searchForm').slideToggle();
    }
 
+    function addSongToAlbum(){
+
+   	}
+
+	function deleteSongFromAlbum(idAlbum,idSong){
+		console.log(idAlbum);
+		console.log(idSong);
+		alert("Delete Song from Album: Missing Implementation");
+		/*Missing implementation
+
+        resourcelocation = "??";
+
+        $.ajax({
+            type: "DELETE",
+            url: resourcelocation,
+            data: '',
+            success: function(data)
+            {
+                showAlbums('https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/albums');
+            },
+            error: function(x, e) {
+
+            }
+        });
+
+        */
+	}
+
     /**
      * Vertically center Bootstrap 3 modals so they aren't always stuck at the top
      */
@@ -424,12 +452,14 @@
                         <th></th>
                         <th>Title</th>
                         <th>Duration</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody id="songMData"></tbody>
             </table>
       </div>
       <div class="modal-footer">
+      	<!--<button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:addSongToAlbum();">Add Song</button>-->
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
