@@ -56,7 +56,7 @@ public class BandController {
    */
   public ModelAndView getBands(Request req ,Response res){
       Map<String, Object> attributes = new HashMap<>();
-    
+
     Session session = SessionManager.getInstance().openSession();
     BandDAO bdao = new BandDaoImpl(session);
     List<Band> bands= bdao.getAllBands();
@@ -131,6 +131,12 @@ public class BandController {
 
   public ModelAndView showBand(Request req,Response res){
     Map<String, Object> attributes = new HashMap<>();
+
+    Session session = SessionManager.getInstance().openSession();
+    BandDAO bandDAO = new BandDaoImpl(session);
+
+    Band band = bandDAO.findById(req.params(":id"));
+    attributes.put("band", band);
 
     attributes.put("template", Routes.show_band());
     attributes.put("title", "show");

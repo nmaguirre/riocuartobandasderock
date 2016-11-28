@@ -3,34 +3,44 @@
     <div class="row">
       <div class="col-md-12">
         <div class="card card-plain">
-          <div class="card-header" data-background-color="purple">
-            <h4 class="title">Listado de todos los Albunes</h4>
+          <div class="card-header col-md-12" data-background-color="purple">
+            <div class="col-md-10">
+              <h4 class="title">Listado de todos los Albumes</h4>
+            </div>
+            <div class="col-md-2">
+              <a href="/albums/new" type="button" class="btn btn-default" data-dismiss="modal">
+                <i class="material-icons">playlist_add</i>Crear Album</a>
+            </div>
           </div>
           <div class="card-content table-responsive">
             <table class="table table-hover">
               <thead>
-                <th>ID</th>
                 <th>Titulo</th>
                 <th>Lanzamiento</th>
                 <th>Acciones</th>
               </thead>
               <tbody>
-                #foreach( $album in $albums )
+                #if($albums != $null)
+                  #foreach( $album in $albums )
+                    <tr>
+                      <td>$album.getTitle()</td>
+                      <td>$album.getReleaseDate()</td>
+                      <td>
+                        <a href="/albums/$!{album.getId()}">
+                          <i class="material-icons">remove_red_eye</i>
+                        </a>
+                        <a href="/albums/$!{album.getId()}/edit">
+                          <i class="material-icons">edit</i>
+                        </a>
+                        <a href="/albums/$!{album.getId()}" method="delete">
+                          <i class="material-icons">close</i>
+                        </a>
+                      </td>
+                    </tr>
+                  #end
+                #else
                   <tr>
-                    <td>$album.getId()</td>
-                    <td>$album.getTitle()</td>
-                    <td>$album.getReleaseDate()</td>
-                    <td>
-                      <a href="/albums/$!{album.getId()}">
-                        <i class="material-icons">remove_red_eye</i>
-                      </a>
-                      <a href="/albums/$!{album.getId()}/edit">
-                        <i class="material-icons">edit</i>
-                      </a>
-                      <a href="/albums/$!{album.getId()}" method="delete">
-                        <i class="material-icons">close</i>
-                      </a>
-                    </td>
+                    <td colspan="4">No hay ningun album cargado en el sistema</td>
                   </tr>
                 #end
               </tbody>
@@ -41,3 +51,11 @@
     </div>
   </div>
 </div>
+
+<script>
+  #include("vendor/jquery/jquery.min.js")
+  $(document).ready(function() {
+    $('li').removeClass('active');
+    $('#album').addClass('active');
+  });
+</script>

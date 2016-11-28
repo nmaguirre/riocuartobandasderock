@@ -3,36 +3,54 @@
     <div class="row">
       <div class="col-md-12">
         <div class="card card-plain">
-          <div class="card-header" data-background-color="purple">
-            <h4 class="title">Listado de todos los Artistas</h4>
+          <div class="card-header col-md-12" data-background-color="purple">
+            <div class="col-md-10">
+              <h4 class="title">Listado de todos los Artistas</h4>
+            </div>
+            <div class="col-md-2">
+              <a href="/artists/new" type="button" class="btn btn-default" data-dismiss="modal">
+                <i class="material-icons">playlist_add</i>Crear Artista</a>
+            </div>
           </div>
           <div class="card-content table-responsive">
-            <table class="table table-hover">
+            <table class="table table-hover" id="table">
               <thead>
-                <th>ID</th>
                 <th>Nombre</th>
                 <th>Apellido</th>
                 <th>Apodo</th>
                 <th>Acciones</th>
               </thead>
               <tbody>
-                #foreach( $artist in $artists )
+                #if ($artists != $null)
+                  #foreach( $artist in $artists )
+                    <tr>
+                      <td>$artist.getName()</td>
+                      #if($artist.getSurname() != $null)
+                        <td>$artist.getSurname()</td>
+                      #else
+                        <td>Sin Datos</td>
+                      #end
+                      #if($artist.getNickname() != $null)
+                        <td>$artist.getNickname()</td>
+                      #else
+                        <td>Sin Datos</td>
+                      #end
+                      <td>
+                        <a href="/artists/$!{artist.getId()}">
+                          <i class="material-icons">remove_red_eye</i>
+                        </a>
+                        <a href="/artists/$!{artist.getId()}/edit">
+                          <i class="material-icons">edit</i>
+                        </a>
+                        <a href="/artists/$!{artist.getId()}" method="delete">
+                          <i class="material-icons">close</i>
+                        </a>
+                      </td>
+                    </tr>
+                  #end
+                #else
                   <tr>
-                    <td>$artist.getId()</td>
-                    <td>$artist.getName()</td>
-                    <td>$artist.getSurname()</td>
-                    <td>$artist.getNickname()</td>
-                    <td>
-                      <a href="/artists/$!{artist.getId()}">
-                        <i class="material-icons">remove_red_eye</i>
-                      </a>
-                      <a href="/artists/$!{artist.getId()}/edit">
-                        <i class="material-icons">edit</i>
-                      </a>
-                      <a href="/artists/$!{artist.getId()}" method="delete">
-                        <i class="material-icons">close</i>
-                      </a>
-                    </td>
+                    <td colspan="4">No hay ningun artista cargado en el sistema</td>
                   </tr>
                 #end
               </tbody>
@@ -43,3 +61,25 @@
     </div>
   </div>
 </div>
+
+<script>
+  #include("vendor/jquery/jquery.min.js")
+  $(document).ready(function() {
+    $('li').removeClass('active');
+    $('#artist').addClass('active');
+
+    $('.btn-primary').on('click', function(){
+      id = this.id;
+      $('input#artistName').text($('#'+id).data('name'))
+      $('input#artistSurname').text($('#'+id).data('surname'))
+      $('input#artistNick').text($('#'+id).data('nick'))
+
+      $('#exampleModal').on('show.bs.modal', function (event) {
+        var modal = $(this)
+        modal.find('input#artistName').text($('#'+id).data('name'))
+        modal.find('input#artistSurname').text($('#'+id).data('surname'))
+        modal.find('input#artistNick').text($('#'+id).data('nick'))
+      })
+    })
+  });
+</script>
