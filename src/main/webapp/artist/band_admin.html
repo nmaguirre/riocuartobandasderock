@@ -46,8 +46,6 @@
     function showBands(resourcelocation){
         $("#userData").html('<table></table>'); // Clean table, need to refresh with non elements in db
 
-        //resourcelocation='/bands';
-        //console.log(resourcelocation);
          $.get(resourcelocation, function(data, status){
             if (typeof data === "undefined") {
                 response = '<tr><td colspan="5"> No Bands found...</td></tr>'
@@ -93,7 +91,7 @@
 
     function showInEdit(id){
             
-        var resourcelocation ='/bands';
+        var resourcelocation ='/bands'+id;
         $.ajax({
             type: 'GET',
             url: resourcelocation,
@@ -116,10 +114,7 @@
     	var url = '/bands/'; 
         name=$('#name').val();
         genre=$('#genre').val();
-            
-        //console.log(name);
-        //console.log(genre);    
-            
+    
         if (name+genre=='') {
             alert("Al menos debe rellenar un campo");
         }
@@ -208,6 +203,7 @@
                 document.getElementById("nameSearch").disabled = false;
                 document.getElementById("genreSearch").disabled = false;
                 findResourceTag = '/bands/find/';
+                break;
         }
         
    }
@@ -236,7 +232,7 @@
                             response = '<table>';
                             itemindex = 1;
                             $.each(request, function(i, item) {
-                                   response += '<tr onclick="showArtistMInDialog(\''+item.bandID+'\')">'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.genre+'</td>'+'<td>'+'<td> <a href="javascript:void(0);" class="glyphicon glyphicon-edit" onclick="showInEdit(\''+item.bandID+'\'); event.stopImmediatePropagation();"</a> <a href="javascript:void(0);" class="glyphicon glyphicon-trash" onclick="deleteBand(\''+item.bandID+'\'); event.stopImmediatePropagation();"</a> </td> </tr>';
+                                   response += '<tr onclick="showArtistMInDialog(\''+item.bandID+'\')">'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.genre+'</td>'+'<td>'+'<td> <a href="javascript:void(0);" class="glyphicon glyphicon-edit" onclick="showInEdit(\''+item.bandID+'\'); event.stopImmediatePropagation();"</a> <a href="javascript:void(0);" class="glyphicon glyphicon-trash" onclick="deleteBand(\''+item.name+'\'); event.stopImmediatePropagation();"</a> </td> </tr>';
                                     ++itemindex;
                             });           
                             response += '</table>';
