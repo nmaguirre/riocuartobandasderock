@@ -140,14 +140,15 @@ public class SongController {
     	
     	String songName = req.queryParams("name");
     	String dur = req.queryParams("duration");
-    	if( songName == null || songName.isEmpty() || dur == null) {
+    	String title = req.queryParams("albumTitle");
+    	if( songName == null || songName.isEmpty() || dur == null || title == null || title.isEmpty()) {
 			res.status(400);
 			res.body("Invalid content of parameters");
 			return res.body();
 		}
     	
     	Transaction transaction = session.beginTransaction();
-    	boolean result = sdao.addSong(songName, (dur.isEmpty()?  0 : Integer.parseInt(dur)));
+    	boolean result = sdao.addSong(songName, (dur.isEmpty()?  0 : Integer.parseInt(dur)), title);
     	transaction.commit();
     	session.close();
 

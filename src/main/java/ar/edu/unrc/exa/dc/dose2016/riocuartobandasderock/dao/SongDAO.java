@@ -12,7 +12,7 @@ public interface SongDAO {
 
 	public Boolean removeSong(String id);
 
-	public Boolean addSong(String name, Integer duration);
+	public Boolean addSong(String name, Integer duration, String albumTitle);
 
 	public Boolean addSongWithId(String id);
 

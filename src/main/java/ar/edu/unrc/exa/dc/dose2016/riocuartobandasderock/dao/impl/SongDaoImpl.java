@@ -1,12 +1,15 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl;
 
+
 import java.util.LinkedList;
 import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.AlbumDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.SongDAO;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 
 public class SongDaoImpl implements SongDAO{
@@ -78,17 +81,23 @@ public class SongDaoImpl implements SongDAO{
 	 * @param duration represents the name of the song to add in the database
 	 * @return true if the add was successful
 	 */
+	
 	@Override
-	public Boolean addSong(String name,Integer duration){
+	public Boolean addSong(String name,Integer duration, String albumTitle){
 		boolean result = false;
-		if ((name != null && !name.equals("")) && duration != null){
+		if (name == null || name.isEmpty() || duration == null || albumTitle == null || albumTitle.isEmpty()){
+			throw new IllegalArgumentException("Wrong parameters");
+		} else {
+			AlbumDAO adao = new AlbumDaoImpl(this.currentSession);
+			List<Album> albumList = adao.findByTitle(albumTitle);
+			Album alb = albumList.get(0);
+			if (alb == null) return false;
 			Song song = new Song(name,duration);
+			song.setAlbum(alb);
+			if (!song.repOk()) throw new IllegalArgumentException ("Bad representation of song");
 			this.currentSession.save(song);
 			result = true;
-		}
-		else {
-			throw new IllegalArgumentException("the parameters for creating a song can not all be empty or null");
-		}
+		}	
 		return result;
 	}
 
