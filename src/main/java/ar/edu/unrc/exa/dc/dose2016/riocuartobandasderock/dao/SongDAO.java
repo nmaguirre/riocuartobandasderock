@@ -8,7 +8,7 @@ public interface SongDAO {
 
 	public List<Song> getAllSongs();
 
-	public Boolean updateSong(Song song);
+	public Boolean updateSong(String id, String name, Integer duration, String albumTitle);
 
 	public Boolean removeSong(String id);
 

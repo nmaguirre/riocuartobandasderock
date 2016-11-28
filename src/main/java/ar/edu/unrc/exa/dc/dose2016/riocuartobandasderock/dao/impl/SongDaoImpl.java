@@ -43,15 +43,31 @@ public class SongDaoImpl implements SongDAO{
 	 * @return true if the update was successful
 	 */
 	@Override
-	public Boolean updateSong(Song song){
-		if (song != null) {
-			this.currentSession.update(song);
-			return true;
+	public Boolean updateSong(String id, String name, Integer dur, String albumTitle){
+		
+		boolean updated = false; 
+		if (id == null || id.isEmpty()) throw new IllegalArgumentException("Error: Song ID can't be null");
+		
+		if(name == null || name.isEmpty() || dur == null || albumTitle.isEmpty() || albumTitle == null) {
+			throw new IllegalArgumentException("Wrong parameters");
 		} else {
-			return false;
+			Song song = findById(id);
+			AlbumDAO adao = new AlbumDaoImpl(this.currentSession);
+			List<Album> albumList = adao.findByTitle(albumTitle);
+			Album alb = albumList.get(0);
+			if (alb == null) return false;
+			song.setName(name);
+			song.setDuration(dur);
+			song.setAlbum(alb);
+			if (!song.repOk()) throw new IllegalArgumentException ("Bad representation of song");
+			this.currentSession.save(song);
+			updated = true;
 		}
+		
+		return updated;
 	}
 
+		//this.currentSession.update(song)
 	/**
 	 * fn removeSong
 	 * description: The method search in the data base by id the song, and it's try to delete the song.
