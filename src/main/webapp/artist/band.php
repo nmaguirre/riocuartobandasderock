@@ -46,7 +46,8 @@
     function showBands(resourcelocation){
         $("#userData").html('<table></table>'); // Clean table, need to refresh with non elements in db
 
-        resourcelocation='/bands';
+        //resourcelocation='/bands';
+        //console.log(resourcelocation);
          $.get(resourcelocation, function(data, status){
             if (typeof data === "undefined") {
                 response = '<tr><td colspan="5"> No Bands found...</td></tr>'
@@ -55,7 +56,7 @@
                 response = '<table>';
                 itemindex = 1;
                 $.each(request, function(i, item) {
-                       response += '<tr onclick="showArtistMInDialog(\''+item.bandID+'\')">'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.genre+'</td>'+'<td> <a href="javascript:void(0);" class="glyphicon glyphicon-edit" onclick="showInEdit(\''+item.bandID+'\'); event.stopImmediatePropagation();"</a> <a href="javascript:void(0);" class="glyphicon glyphicon-trash" onclick="deleteBand(\''+item.bandID+'\'); event.stopImmediatePropagation();"</a> </td> </tr>';
+                       response += '<tr onclick="showArtistMInDialog(\''+item.bandID+'\')">'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.genre+'</td>'+'<td> <a href="javascript:void(0);" class="glyphicon glyphicon-edit" onclick="showInEdit(\''+item.bandID+'\'); event.stopImmediatePropagation();"</a> <a href="javascript:void(0);" class="glyphicon glyphicon-trash" onclick="deleteBand(\''+item.name+'\'); event.stopImmediatePropagation();"</a> </td> </tr>';
                         ++itemindex;
                 });           
                 response += '</table>';
@@ -116,8 +117,8 @@
         name=$('#name').val();
         genre=$('#genre').val();
             
-        console.log(name);
-        console.log(genre);    
+        //console.log(name);
+        //console.log(genre);    
             
         if (name+genre=='') {
             alert("Al menos debe rellenar un campo");
@@ -163,7 +164,7 @@
                 },
                 error: function(x, e) {
                     //$("#dataartisaddformstatus").html('<font color="red">Result: Error</font>'); //  Show response Api Rest
-                    alert('No ha realizado ninguna modificación en el registro');
+                    alert('Error '+x+" "+e);
                     $('.form')[1].reset();
                     $('.formData').slideUp();
                 }
@@ -184,7 +185,6 @@
                 showBands('/bands'); //optional refresh list
             },
             error: function(x, e) {
-                     
             }
         });
 
