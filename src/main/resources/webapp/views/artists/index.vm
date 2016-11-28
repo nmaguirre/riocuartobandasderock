@@ -3,8 +3,14 @@
     <div class="row">
       <div class="col-md-12">
         <div class="card card-plain">
-          <div class="card-header" data-background-color="purple">
-            <h4 class="title">Listado de todos los Artistas</h4>
+          <div class="card-header col-md-12" data-background-color="purple">
+            <div class="col-md-10">
+              <h4 class="title">Listado de todos los Artistas</h4>
+            </div>
+            <div class="col-md-2">
+              <a href="/artists/new" type="button" class="btn btn-default" data-dismiss="modal">
+                <i class="material-icons">playlist_add</i>Crear Artista</a>
+            </div>
           </div>
           <div class="card-content table-responsive">
             <table class="table table-hover" id="table">
