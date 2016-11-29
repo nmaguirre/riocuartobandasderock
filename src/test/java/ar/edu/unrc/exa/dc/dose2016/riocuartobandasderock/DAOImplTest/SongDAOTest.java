@@ -11,10 +11,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.SongDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SessionManager;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SongDaoImpl;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 
 
@@ -22,11 +23,20 @@ public class SongDAOTest {
 	
 	private SongDAO songDao;
 	private Session session;
+	private Album alb;
+	private Band band;
 	
 	@Before
 	public void setUp(){
 		session = SessionManager.getInstance().openSession();
 		songDao = new SongDaoImpl(session);
+		alb = new Album("albName");
+		band = new Band("bandName","Rock");
+    	session.beginTransaction();
+    	session.save(band);
+    	alb.setBand(band);
+    	session.save(alb);
+    	session.getTransaction().commit();
 	}
 	
 	@After
@@ -83,8 +93,10 @@ public class SongDAOTest {
     @Test
     public void addTest(){
     	
+    	String albumName = alb.getTitle();    	
+    	
     	session.beginTransaction();
-		boolean created = songDao.addSong("name", 100);
+		boolean created = songDao.addSong("name", 100, albumName);
 		session.getTransaction().commit();
 		
 		assertTrue(created);    	
@@ -99,12 +111,13 @@ public class SongDAOTest {
 	 @Test
 	 public void updateTest(){
 	    	
+		 	String albumName = alb.getTitle();  
+		 	
 	    	session.beginTransaction();
 	    	Song s = new Song("name", 100);
 	    	session.save(s);
-	    	s.setName("eman");
-	    	s.setDuration(10);
-			boolean updated = songDao.updateSong(s);
+	    	String id = s.getId();
+			boolean updated = songDao.updateSong(id, "eman", 10, albumName);
 			session.getTransaction().commit();
 			
 			assertTrue(updated);
