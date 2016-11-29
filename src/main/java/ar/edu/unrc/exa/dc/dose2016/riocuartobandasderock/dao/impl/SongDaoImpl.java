@@ -10,14 +10,14 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.SongDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 
 public class SongDaoImpl implements SongDAO{
-	
+
 	private Session currentSession=null;
-	
-	
+
+
 	public SongDaoImpl(Session session) {
 		this.currentSession = session;
 	}
-	
+
 	/**
 	 * fn getAllSongs
 	 * description: Get all songs from the database
@@ -31,7 +31,7 @@ public class SongDaoImpl implements SongDAO{
 		songList.addAll(query.getResultList());
 		return songList;
 	}
-	
+
 
 	/**
 	 * fn updateSong
@@ -48,23 +48,28 @@ public class SongDaoImpl implements SongDAO{
 			return false;
 		}
 	}
-	
+
 	/**
 	 * fn removeSong
 	 * description: The method search in the data base by id the song, and it's try to delete the song.
 	 * @param id represents the id of the song to search and delete
 	 * @return true if the delete was successful
  	 */
-	@Override   
+	@Override
 	public Boolean removeSong(String id){
 		if (id != null) {
-			this.currentSession.delete(id);
-			return true;
-		} else {
-			return false;
+			Song s = findById(id);
+			if (s != null){
+				this.currentSession.delete(s);
+				return true;
+			} else {
+				return false;
+			}
 		}
+
+		return false;
 	}
-	
+
 	/**
 	 * fn addSong
 	 * description: The method allows add a new song in the database
@@ -73,7 +78,7 @@ public class SongDaoImpl implements SongDAO{
 	 * @param duration represents the name of the song to add in the database
 	 * @return true if the add was successful
 	 */
-	@Override   
+	@Override
 	public Boolean addSong(String name,Integer duration){
 		boolean result = false;
 		if ((name != null && !name.equals("")) && duration != null){
@@ -86,7 +91,27 @@ public class SongDaoImpl implements SongDAO{
 		}
 		return result;
 	}
-	
+
+	/**
+	 * fn addSong
+	 * Method for acceptance tests. Implments the creation of a song with id
+	 * @param id represents the id of the song to add in the database
+	 * @return true if the add was successful
+	 */
+	@Override
+	public Boolean addSongWithId(String id){
+		boolean result = false;
+		if (id != null && !id.equals("")){
+			Song song = new Song(id, "Jijiji", 339);
+			this.currentSession.save(song);
+			result = true;
+		}
+		else {
+			throw new IllegalArgumentException("the parameters for creating a song can not all be empty or null");
+		}
+		return result;
+	}
+
 	/**
 	 * fn findById
 	 * description: The method allows to get a song found by a id
@@ -95,20 +120,16 @@ public class SongDaoImpl implements SongDAO{
 	 */
 	@Override
 	public Song findById(String id){
-		if (id != null && id != "") {
+		
+		if (id == null || id == "") {
+			throw new IllegalArgumentException("The param 'id' for search a song can't be null or empty.");
+		} else {
 			Song song = this.currentSession.find(Song.class, id);
 			return song;
-		} else {
-			return null;
 		}
 	}
-	
-	/*
-	@Override
-	public List<Song> findByAuthor(String author){
-		return null;
-	}*/
-	
+
+
 	/**
 	 * fn findByName
 	 * description: The method allows to get a song found by a name
@@ -126,16 +147,16 @@ public class SongDaoImpl implements SongDAO{
 		}
 	}
 
-    
 	/**
 	 * fn findByDuration
 	 * description: The method allows to get a song found by a duration
 	 * @param duration represents the duration of the song to search.
 	 * @return the list of songs found or null if the song does not exist
 	 */
+
 	@Override
 	public List<Song> findByDuration(Integer duration){
-		if (duration != null && duration.equals("")) {
+		if (duration != null && !duration.equals("")) {
 			Query<Song> query = this.currentSession.createQuery("from Song where duration=:n", Song.class);
 			query.setParameter("n", duration);
 			return query.getResultList();
