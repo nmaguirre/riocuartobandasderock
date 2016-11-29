@@ -26,7 +26,8 @@ angular.module('app')
 			if (response.status == 200){
 				$scope.songs[index].album_name = response.data[index].title;
 				$scope.songs[index].id_album = response.data[index].AlbumID;
-				load_songs_band(response.data[index].band);
+				$scope.songs[index].id_band = response.data[index].band;
+				load_songs_band(response.data[index].band,index);
 			} else {
 				alert("Oops, something went wrong, try again later!")
 			}
@@ -34,15 +35,14 @@ angular.module('app')
 	}
 
 
-	function load_songs_band(id){
-		/*$http.get("https://private-53163-riocuartobandasderock.apiary-mock.com/bands/"+id).then(function callback(response){
+	function load_songs_band(id,index){
+		$http.get("https://private-53163-riocuartobandasderock.apiary-mock.com/artists/getbands/"+id).then(function callback(response){
 			if (response.status == 200){
-				$scope.album.band_name = response.data[0].name;
+				$scope.songs[index].band_name = response.data[0].name;
 			} else {
 				alert("Oops, something went wrong, try again later!");		
 			}
-		});*/
-		$scope.songs[0].band_name = "The Strokes";
+		});
 	}
 
 	$scope.song_search = '';
