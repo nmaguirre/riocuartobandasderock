@@ -1,0 +1,13 @@
+<div class="col-lg-6 input-group nav navbar-left panel_toolbox">
+  <input type="text" id="search-band" class="form-control" placeholder="Buscar banda por nombre o genero">
+</div>
+<table id="index-band" data-url="/bands/datatable" class="table table-striped table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Genero</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
