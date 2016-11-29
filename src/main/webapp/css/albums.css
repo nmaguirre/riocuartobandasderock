@@ -12,6 +12,15 @@
 .album-song {
 	color: white;
 	text-decoration: none;
+	font-size: 1.1em;
+}
+
+.album-song:hover{
+	color: white;
+}
+
+.album-release {
+	font-size: 0.75em;
 }
 
 .album {
