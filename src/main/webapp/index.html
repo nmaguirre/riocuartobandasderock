@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Favicon -->
+	<link rel="shortcut icon" type="image/x-icon" href="img/nenene.jpg">
+
+    <title>UI Example</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- jQuery -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Theme JavaScript -->
+    <script type="text/javascript" src="javascript/arbor-tween.js"></script>
+    <script type="text/javascript" src="javascript/arbor.js"></script>
+    <script type="text/javascript" src="javascript/graphics.js"></script>
+    <script type="text/javascript" src="javascript/renderer.js"></script>
+
+    <!-- Theme CSS -->
+    <link href="css/new-age.min.css" rel="stylesheet">
+    
+    <!-- Our CSS -->
+    <link href="css/our-css.css" rel="stylesheet">
+    
+    <!-- Our JavaScript -->
+    <script src="javascript/other.js"></script> 
+</head>
+
+<body id="page-to">
+    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top">SongGroup Interface</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <button id="admin" type="button" style="color: #FF0000; position: absolute; top: 20px;" onclick="document.getElementById('admin')">Login</button>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+    <header>
+        <div class="container">
+            <!--div class="row"-->
+                <canvas class="arbor" id="viewport" width="680" height="800" style="border:1px solid #000000; width: 680px; height: 800px; background-image: url(img/bg-pattern.jpg); "></canvas>
+                <script type="text/javascript">
+				var sys = arbor.ParticleSystem(500, 40,1); // create the system with sensible repulsion/stiffness/friction
+                sys.parameters({gravity:true}) // use center-gravity to make the graph settle nicely (ymmv)
+                sys.renderer = Renderer("#viewport") // our newly created renderer will have its .init() method called shortly by sys...
+                var dose = sys.addNode('dose',{'color':'blue','shape':'dot','label':'Dose'});
+                var song = sys.addNode('song',{'color':'red','shape':'dot','label':'Song'});
+                sys.addEdge(dose, song);
+                
+                
+                   /*var sys = arbor.ParticleSystem(500, 40,1);
+                    sys.parameters({gravity:true});
+                    sys.renderer = Renderer("#viewport") ;
+                    var data = {
+                    nodes:{
+                    	song:{'color':'red','shape':'dot','label':'Song'},
+                    	dose:{'color':'green','shape':'dot','label':'Dose'},
+                    },
+                    edges:{
+                   		dose:{ song:{} }
+                    }
+                    };
+                    sys.graft(data);*/
+
+                    
+                </script>
+                            
+            <!-- Search Zone-->
+                <section class="searchZone" style="width: 250px; height: 1058px;">
+    	               <div style="width: 250px; ">
+    	                    <legend>Search Songs</legend>
+                            <form onsubmit="test()" >
+    				            By name:<br>
+    				            <input type="text" name="songName">
+    				            <input type="submit" style="color: black" >
+    				            <br>
+    				            <p id="show">TESTEANDO</p>
+                            </form>
+    			            <form onsubmit="songFindByDuration()">
+        				        By duration:<br>
+        				        <input type="text" name="songDuration">
+        				        <input type="submit" style="color: black">
+        				        <br>
+    			            </form>		
+    			            <br>
+    			            <button class="button" style="color: black" onclick="songGetAll()">Search All</button>						
+                        </div>
+    	            <br>
+                	  <div style="width: 250px; ">
+                		<legend>Search Artists</legend>
+                			<form onsubmit="artistFindByName()"> 
+                				By name:<br>
+                				<input type="text" name="artistName">
+                				<input type="submit" style="color: black">
+                				<br>
+                			</form>
+                			<form onsubmit="artistFindByNickname()">
+                				By nickname:<br>
+                				<input type="text" name="artistNickname">
+                				<input type="submit" style="color: black">
+                				<br>
+                			</form>
+                				<form onsubmit="artistFindBySurname()">
+                				By surname:<br>
+                				<input type="text" name="artistSurname">
+                				<input type="submit" style="color: black">
+                			    <br>
+                			</form>	
+                			<br>
+                			<button class="button" style="color: black" onclick="artisGetAll()">Search All</button>				
+                	  </div>
+                	  <br>
+                	  <div style="width: 250px; ">
+                		<legend>Search Albums</legend>
+                			<form onsubmit="albumFindByTitle()">
+                				By title:<br>
+                				<input type="text" name="albumTitle">
+                				<input type="submit" style="color: black">
+                				<br>
+                			</form>
+                			<form onsubmit="albumFindByReleaseDate()" >
+                				By ReleaseDate:<br>
+                				<input type="date" name="albumDate" style="color: black">
+                				<input type="submit" style="color: black">
+                				<br>
+                			</form>
+                			<br>
+                			<button class="button" style="color: black" onclick="albumGetAll()">Search All</button>			
+                	  </div>
+                	  <br>
+                	  <div style="width: 250px; ">
+                		<legend>Search Bands</legend>
+                			<form onsubmit="bandFindByName()">
+                				By name:<br>
+                				<input type="text" name="bandName">
+                				<input type="submit" style="color: black">
+                				<br>
+                			</form>
+                			<form onsubmit="bandFindByGenre()">
+                				By genre:<br>
+                				<input type="text" name="bandGenre">
+                				<input type="submit" style="color: black">
+                				<br>
+                			</form>
+                			<br>
+                			<button class="button" style="color: black" onclick="bandGetAll()">Search All</button>			
+                	   </div>    	  	
+            	   </section>                            
+                <!--/div-->
+            </div>
+    </header>
+    
+
+    <section id="Customer" class="download bg-primary text-center" style="height: 344px; ">
+        <!--div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                </div>
+            </div>
+        </div-->
+        
+       
+        <!-- AudioTest (Se borrara) -->
+        <audio id="nenene" src="sound/rockandrollnene.mp3" type="audio/mpeg"></audio>
+        <button style="color: #FF0000" onclick="document.getElementById('nenene').play()">Rock!!</button>   
+    </section>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2016 DOSE UNRC. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+
+</html>
