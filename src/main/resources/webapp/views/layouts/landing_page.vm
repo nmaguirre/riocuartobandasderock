@@ -15,9 +15,12 @@
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
 
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-  <link href="assets/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-  <link href="assets/css/grayscale.min.css" rel="stylesheet" type="text/css">
 
+  <link href="vendor/data-table/css/query.dataTables.min.css" rel="stylesheet" type="text/css">
+
+  <link href="assets/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+  <link href="assets/css/grayscale.min.css" rel="stylesheet" type="text/css">
 
   <!-- carousel-->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
@@ -58,21 +61,6 @@
           <li>
             <a class="page-scroll" href="#mycarousel">Bandas</a>
           </li>
-          <li>
-            <a class="page-scroll" href="#artistas">Artistas</a>
-          </li>
-          <li>
-            <a class="page-scroll" href="#canciones">Canciones</a>
-          </li>
-          <li>
-            <a class="page-scroll" href="#albumes">Álbumes</a>
-          </li>
-          <li>
-            <a class="page-scroll" href="#registrarse">Registrarse</a>
-          </li>
-          <li>
-            <a class="page-scroll" href="#iniciar_sesion">Iniciar Sesión</a>
-          </li>
            <li>
             <a class="page-scroll" href="#a_cerca_de">A cerca de</a>
           </li>
@@ -106,6 +94,9 @@
   <!-- carousel -->
   <script type="text/javascript" src="vendor/carousel/js/index.js"></script>
 
+  <script type="text/javascript" src="assets/js/landing_page/band.js"></script>
+
+  <script type="text/javascript" src="vendor/data-table/js/jquery.dataTables.min.js"></script>
 
 </body>
 
