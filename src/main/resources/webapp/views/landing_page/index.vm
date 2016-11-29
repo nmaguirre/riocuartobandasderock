@@ -15,203 +15,35 @@
   </div>
 </header>
 
-  <!-- Bands Section -->
-<section id="mycarousel" class="carousel slide" data-ride="carousel">
-  
-  <!-- Wrapper for slides -->
-  <div class="carousel-inner" role="listbox">
-    <div class="item">
-        <img src="https://unsplash.it/2000/1250?image=397" data-color="lightblue" alt="First Image">
-        <div class="carousel-caption">
-            <h3>First Image</h3>
-        </div>
-        #parse("views/landing_page/_search.vm")
-    </div>
-    <div class="item">
-        <img src="https://unsplash.it/2000/1250?image=397" data-color="lightblue" alt="First Image">
-        <div class="carousel-caption">
-            <h3>First Image</h3>
-        </div>
-    </div>
-    <div class="item">
-        <img src="https://unsplash.it/2000/1250?image=689" data-color="firebrick" alt="Second Image">
-        <div class="carousel-caption">
-            <h3>Second Image</h3>
-        </div>
-        #parse("views/landing_page/_band.vm")
-    </div>
-    <div class="item">
-        <img src="https://unsplash.it/2000/1250?image=675" data-color="violet" alt="Third Image">
-        <div class="carousel-caption">
-            <h3>Third Image</h3>
-        </div>
-        #parse("views/landing_page/_album.vm")
-    </div>
-    <div class="item">
-        <img src="https://unsplash.it/2000/1250?image=658" data-color="lightgreen" alt="Fourth Image">
-        <div class="carousel-caption">
-            <h3>Fourth Image</h3>
-        </div>
-        #parse("views/landing_page/_song.vm")
-    </div>
-    <div class="item">
-        <img src="https://unsplash.it/2000/1250?image=638" data-color="tomato" alt="Fifth Image">
-        <div class="carousel-caption">
-            <h3>Fifth Image</h3>
-        </div>
-        #parse("views/landing_page/_artist.vm")
-    </div>
-  </div>
 
-  <!-- Controls -->
-  <a class="left carousel-control" href="#mycarousel" role="button" data-slide="prev">
-    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="right carousel-control" href="#mycarousel" role="button" data-slide="next">
-    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
-</section>
 
-  <!-- Artist Section -->
-<section id="artistas" class="container content-section text-center">
-  <div class="row">
-    <div class="col-lg-8 col-lg-offset-2">
-      <h2>ARTISTAS</h2>
-        <div class="content">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-md-12">
-                <div class="card card-plain">
-                  <div class="card-header" data-background-color="purple">
-                    <h4 class="title">Listado de todos los Artistas</h4>
-                  </div>
-                  <div class="card-content table-responsive">
-                    <table class="table table-hover">
-                      <thead>
-                        <th>Nombre</th>
-                        <th>Apellido</th>
-                        <th>Apodo</th>
-                      </thead>
-                      <tbody>
-                        #foreach( $artist in $artists )
-                          <tr>
-                            <td>$artist.getName()</td>
-                            <td>$artist.getSurname()</td>
-                            <td>$artist.getNickname()</td>
-                          </tr>
-                        #end
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-  </div>
-</section>
-
-  <!-- Songs Section --> 
-<section id="canciones" class="container content-section text-center">
-  <div class="row">
-    <div class="col-lg-8 col-lg-offset-2">
-      <h2>CANCIONES</h2>
-        <div class="content">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-md-12">
-                <div class="card card-plain">
-                  <div class="card-header" data-background-color="purple">
-                    <h4 class="title">Listado de todas las Canciones</h4>
-                  </div>
-                  <div class="card-content table-responsive">
-                    <table class="table table-hover">
-                      <thead>
-                        <th>Nombre</th>
-                        <th>Duración</th>
-                        <th>Álbum</th>
-                      </thead>
-                      <tbody>
-                        #foreach( $song in $songs )
-                          <tr>
-                            <td>$song.getName()</td>
-                            <td>$song.getDuration()</td>
-                            <td>$song.getAlbum().getTitle()</td>
-                          </tr>
-                        #end
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-</section>
-
-  <!-- Albums Section -->
-<section id="albumes" class="container content-section text-center">
-  <div class="row">
-    <div class="col-lg-8 col-lg-offset-2">
-      <h2>ÁLBUMES</h2>
-        <div class="content">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-md-12">
-                <div class="card card-plain">
-                  <div class="card-header" data-background-color="purple">
-                    <h4 class="title">Listado de todos los Álbumes</h4>
-                  </div>
-                  <div class="card-content table-responsive">
-                    <table class="table table-hover">
-                      <thead>
-                        <th>Titulo</th>
-                        <th>Lanzamiento</th>
-                      </thead>
-                      <tbody>
-                        #foreach( $album in $albums )
-                          <tr>
-                            <td>$album.getTitle()</td>
-                            <td>$album.toString()</td>
-                          </tr>
-                        #end
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-</section>
-
-  <!-- Sing_in Section -->
-<section id="iniciar_sesion" class="container content-section text-center">
-  <div class="row">
-    <div class="col-lg-8 col-lg-offset-2">
-      <h2><a href="/dashboard">INICIAR SESIÓN</a></h2>
-      <p></p>
-    </div>
-  </div>
-</section>
-
-  <!-- About Section -->
 <section id="a_cerca_de" class="container content-section text-center">
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2">
-      <h2>Acerca de Rock en Rio Cuarto</h2>
+      <h2>A cerca de Rock en Rio Cuarto</h2>
       <p>Rock en Rio Cuarto es una página web ingeniada por estudiantes de Licenciatura en Ciencias de la Computación de la Universidad Nacional de Río Cuarto para lograr recopilar todos los talentos rockeros de Río Cuarto, organizando así las diferentes bandas, con sus respectivos artistas, álbumes y canciones.</p>
     </div>
   </div>
 </section>
 
 
-<!-- Map Section -->
-<div id="map"></div>
+  <!-- Bands Section -->
+<section id="mycarousel" class="carousel slide" data-ride="carousel">
+  
+  <!-- Wrapper for slides -->
+  <div class="carousel-inner" role="listbox">
+
+    <div class="item">
+        <img src="https://unsplash.it/2000/1250?image=689" data-color="firebrick" alt="Second Image">
+        <div class="carousel-caption">
+            <h3>Second Image</h3>
+        </div>
+        #parse("views/landing_page/_index_band.vm")
+    </div>
+
+
+  </div>
+
+  <!-- Controls -->
+
+</section>
