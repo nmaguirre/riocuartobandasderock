@@ -79,13 +79,20 @@ function songFindByName() {
    }
 	//AjaxJs
    xhttp = new XMLHttpRequest();
-   xhttp.open("GET", "/songs/findbyname/"+str, true);
+   xhttp.open("GET", "http://localhost:4567/songs/findbyname/"+str, true);
    xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
          document.getElementById("show").innerHTML = this.responseText;
 		 var resp = JSON.parse(xhttp.responseText);
 	  
-		 //ArborJs
+		 for (elem in resp)
+	    	  str = str + elem + ': ' + resp[elem]+'<br>';
+	    	  
+	    //window.alert(str);	  
+	    document.getElementById('show').innerHTML = str;
+		 
+		 
+		 /*ArborJs
 	     var sys = arbor.ParticleSystem(500, 40,1); // create the system with sensible repulsion/stiffness/friction
 		 sys.parameters({gravity:true}); // use center-gravity to make the graph settle nicely (ymmv)
 		 sys.renderer = Renderer("#viewport"); // our newly created renderer will have its .init() method called shortly by sys...
@@ -102,7 +109,7 @@ function songFindByName() {
 			   sys.addNode('duration',{'color':'red','shape':'dot','label':resp.duration});
 			   sys.addEdge(name, duration);
 			}
-		 }
+		 }*/
       }
    };
    xhttp.send();  
