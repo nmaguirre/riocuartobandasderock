@@ -187,7 +187,7 @@
 <section id="iniciar_sesion" class="container content-section text-center">
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2">
-      <h2>INICIAR SESIÓN</h2>
+      <h2><a href="/dashboard">INICIAR SESIÓN</a></h2>
       <p></p>
     </div>
   </div>
@@ -197,7 +197,7 @@
 <section id="a_cerca_de" class="container content-section text-center">
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2">
-      <h2>A cerca de Rock en Rio Cuarto</h2>
+      <h2>Acerca de Rock en Rio Cuarto</h2>
       <p>Rock en Rio Cuarto es una página web ingeniada por estudiantes de Licenciatura en Ciencias de la Computación de la Universidad Nacional de Río Cuarto para lograr recopilar todos los talentos rockeros de Río Cuarto, organizando así las diferentes bandas, con sus respectivos artistas, álbumes y canciones.</p>
     </div>
   </div>

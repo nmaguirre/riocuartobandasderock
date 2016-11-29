@@ -90,18 +90,17 @@ public class Bootstrap {
         albumController  = AlbumController.getInstance();
         artistController = ArtistController.getInstance();
         bandMemberController = BandMemberController.getInstance();
-        bands = BandController.getInstance();
+        bands = BandController.getInstance(); 
         songController = new SongController();
         userController = UserController.getInstance();
         landingPageController = LandingPageController.getInstance();
         dashboardController = DashboardController.getInstance();
         port(Integer.parseInt(ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().getAppPort()));
 
-        // before("/bands", (req, res) -> {
-        //     if (!userController.authenticated(req, res)) {
-        //         halt(401, "Access forbidden\n");
-        //     }
-        // });
+        before("/dashboard", (req, res) -> {
+            if (!userController.authenticated(req, res))
+                res.redirect("/login");
+        });
 
         /**
         * LANDING PAGE
@@ -210,22 +209,42 @@ public class Bootstrap {
 
         delete("/users/:name", (req, res) -> userController.delete(req, res));
 
+        get("/login", (req, res)  -> userController.getLogin(req, res), new VelocityTemplateEngine());
+
         post("/login", (req, res) -> userController.login(req, res));
 
-        post("/logout", (req, res) -> userController.logout(req, res));
+        get("/logout", (req, res) -> userController.logout(req, res));
 
         /**
-        * SONG 
+        * SONG
         **/
-        post("/songs/",(req,res)->songController.create(req, res));
+        post("/songs",(req,res)-> songController.create(req, res));
 
-        get("/songs/findbyname/:name",(req,res)->songController.getByName(req,res));
+        get("/songs/findById/:id",(req,res)-> songController.getById(req,res), json());
 
-        get("/songs/findbyduration/:duration",(req,res)->songController.getByDuration(req,res));
+        get("/songs/findbyname/:name",(req,res)-> songController.getByName(req,res), json());
+
+        get("/songs/findbyduration/:duration",(req,res)-> songController.getByDuration(req,res), json());
+
+        get("/songs",(req, res) -> songController.getAll(req, res), new VelocityTemplateEngine());
+
+        get("/songs/new",(req, res) -> songController.newSong(req, res), new VelocityTemplateEngine());
+
+        get("/songs/:id/edit",(req, res) -> songController.editSong(req, res), new VelocityTemplateEngine());
+
+        get("/songs/:id",(req, res) -> songController.showSong(req, res), new VelocityTemplateEngine());
+
+        get("/songs",(req, res) -> songController.create(req, res));
+
+        put("/songs/:id",(req, res) -> songController.update(req, res));
 
         delete("/songs/:id",(req, res) -> songController.remove(req, res));
+    
 
-        after((req, res) -> {res.type("text/html");});
+        
+
+       
+        
 
     }
 }

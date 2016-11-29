@@ -4,9 +4,14 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.UserDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SessionManager;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.UserDAOImpl;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.User;
+
 import spark.Request;
 import spark.Response;
 import spark.Session;
+import spark.ModelAndView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class UserController {
     private static UserController instance;
@@ -102,6 +107,7 @@ public class UserController {
             session.maxInactiveInterval(120);
             res.status(200);
             sessionManager.close();
+            res.redirect("/dashboard");
             return "Logged in successfully\n";
         } else {
             res.status(403);
@@ -118,6 +124,7 @@ public class UserController {
         } else {
             session.invalidate();
             res.status(200);
+            res.redirect("/");
             return "Logged out successfully\n";
         }
     }
@@ -131,5 +138,20 @@ public class UserController {
                 dao.find(session.attribute("name")).password().equals(session.attribute("password"));
         sessionManager.close();
         return result;
+    }
+
+    public ModelAndView getLogin(Request req, Response res){
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put("title", "Login");
+        if (authenticated(req, res)) {
+            attributes.put("template", Routes.already_logged());
+            attributes.put("name", req.session().attribute("name"));
+            return new ModelAndView(attributes, Routes.layout_sessions());
+        } else {
+            attributes.put("post_login_path", "/login");
+            attributes.put("form_method", "POST");
+            attributes.put("template", Routes.login());
+            return new ModelAndView(attributes, Routes.layout_sessions());
+        }
     }
 }
