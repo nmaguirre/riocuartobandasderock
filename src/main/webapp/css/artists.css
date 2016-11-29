@@ -19,12 +19,17 @@
 }
 
 .artist-band {
-	color: red;
+	color: white;
 	text-decoration: none;
 }
 
 .center-block {
-  display: block;
-  margin-right: auto;
-  margin-left: auto;
+	display: block;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+a:hover {
+	color: red;
+	text-decoration: none;
 }
