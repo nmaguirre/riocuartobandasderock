@@ -22,6 +22,8 @@ edge = sys.addEdge(node1, node2, {length:.75, pointSize:3})
 
 
 function test(){
+	var st = document.getElementsByName("songName")[0].value;
+	window.alert(st);
 	var sys = arbor.ParticleSystem(500, 40,1); 
     sys.parameters({gravity:true}); 
     sys.renderer = Renderer("#viewport");
