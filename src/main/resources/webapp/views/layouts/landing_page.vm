@@ -61,8 +61,11 @@
           <li>
             <a class="page-scroll" href="#mycarousel">Bandas</a>
           </li>
-           <li>
-            <a class="page-scroll" href="#a_cerca_de">A cerca de</a>
+          <li>
+            <a class="page-scroll" href="/dashboard">Iniciar Sesión</a>
+          </li>
+          <li>
+            <a class="page-scroll" href="#a_cerca_de">Acerca de</a>
           </li>
         </ul>
       </div>
