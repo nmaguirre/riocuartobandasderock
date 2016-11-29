@@ -1,0 +1,35 @@
+<div class="row">
+	<div class="col-xs-12 song-container">
+		<div class="row info">
+			<div class="offset-xs-1 col-xs-3">
+				<img src="img/placeholder.png" class="img-fluid">
+			</div>
+			<div class="col-xs-7">
+				<p>CANCION</p>
+				<h1>{{songs[0].name}}</h1>
+				<a class="link" ng-href="http://www.google.com"><h3>{{songs[0].band_name}}</h3></a>
+				<a class="link2" ng-href="/#/albums/{{songs[0].id_album}}"><i><h5>{{songs[0].album_name}}</h5></i></a>
+				<br>
+				<h5>Duracion {{songs[0].duration}} seg<h5>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">	
+				<table class="table table-striped table-hover">
+					<h1>
+				<thead>
+					<tr>
+						<th> Cancion: {{songs[0].name}}</th>
+						<th> Duracion: {{songs[0].duration}}</th>
+						<th> Album: {{songs[0].album_name}}</th>
+						<th> Banda: {{songs[0].band_name}}</th>
+					</tr>
+					<h1>
+				</thead>
+				<tbody>
+				</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

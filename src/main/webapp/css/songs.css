@@ -4,3 +4,13 @@
 	padding-top: 4%;
 	margin-top: 1%;
 }
+
+.link {
+	color: red;
+	text-decoration: none;
+}
+
+.link2 {
+	color: grey;
+	text-decoration: none;
+}

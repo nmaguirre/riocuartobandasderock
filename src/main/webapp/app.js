@@ -28,4 +28,8 @@ angular["module"]("app", ["ngRoute"])
 				controller: "SongsController",
 				templateUrl: "views/songs.html"
 			})
+			["when"]("/songs/:id",{
+				controller: "SongsController",
+				templateUrl: "views/song.html"
+			})
 }]);
