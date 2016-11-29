@@ -1,12 +1,15 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl;
 
+
 import java.util.LinkedList;
 import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.AlbumDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.SongDAO;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 
 public class SongDaoImpl implements SongDAO{
@@ -40,15 +43,31 @@ public class SongDaoImpl implements SongDAO{
 	 * @return true if the update was successful
 	 */
 	@Override
-	public Boolean updateSong(Song song){
-		if (song != null) {
-			this.currentSession.update(song);
-			return true;
+	public Boolean updateSong(String id, String name, Integer dur, String albumTitle){
+		
+		boolean updated = false; 
+		if (id == null || id.isEmpty()) throw new IllegalArgumentException("Error: Song ID can't be null");
+		
+		if(name == null || name.isEmpty() || dur == null || albumTitle.isEmpty() || albumTitle == null) {
+			throw new IllegalArgumentException("Wrong parameters");
 		} else {
-			return false;
+			Song song = findById(id);
+			AlbumDAO adao = new AlbumDaoImpl(this.currentSession);
+			List<Album> albumList = adao.findByTitle(albumTitle);
+			Album alb = albumList.get(0);
+			if (alb == null) return false;
+			song.setName(name);
+			song.setDuration(dur);
+			song.setAlbum(alb);
+			if (!song.repOk()) throw new IllegalArgumentException ("Bad representation of song");
+			this.currentSession.save(song);
+			updated = true;
 		}
+		
+		return updated;
 	}
 
+		//this.currentSession.update(song)
 	/**
 	 * fn removeSong
 	 * description: The method search in the data base by id the song, and it's try to delete the song.
@@ -78,39 +97,26 @@ public class SongDaoImpl implements SongDAO{
 	 * @param duration represents the name of the song to add in the database
 	 * @return true if the add was successful
 	 */
+	
 	@Override
-	public Boolean addSong(String name,Integer duration){
+	public Boolean addSong(String name,Integer duration, String albumTitle){
 		boolean result = false;
-		if ((name != null && !name.equals("")) && duration != null){
+		if (name == null || name.isEmpty() || duration == null || albumTitle == null || albumTitle.isEmpty()){
+			throw new IllegalArgumentException("Wrong parameters");
+		} else {
+			AlbumDAO adao = new AlbumDaoImpl(this.currentSession);
+			List<Album> albumList = adao.findByTitle(albumTitle);
+			if (albumList.isEmpty()) return false;
+			Album alb = albumList.get(0);
 			Song song = new Song(name,duration);
+			song.setAlbum(alb);
+			if (!song.repOk()) throw new IllegalArgumentException ("Bad representation of song");
 			this.currentSession.save(song);
 			result = true;
-		}
-		else {
-			throw new IllegalArgumentException("the parameters for creating a song can not all be empty or null");
-		}
+		}	
 		return result;
 	}
 
-	/**
-	 * fn addSong
-	 * Method for acceptance tests. Implments the creation of a song with id
-	 * @param id represents the id of the song to add in the database
-	 * @return true if the add was successful
-	 */
-	@Override
-	public Boolean addSongWithId(String id){
-		boolean result = false;
-		if (id != null && !id.equals("")){
-			Song song = new Song(id, "Jijiji", 339);
-			this.currentSession.save(song);
-			result = true;
-		}
-		else {
-			throw new IllegalArgumentException("the parameters for creating a song can not all be empty or null");
-		}
-		return result;
-	}
 
 	/**
 	 * fn findById
@@ -138,12 +144,12 @@ public class SongDaoImpl implements SongDAO{
 	 */
 	@Override
 	public List<Song> findByName(String name){
-		if (name != null && name != "") {
+		if (name == null || name.isEmpty()) {
+			throw new IllegalArgumentException("Parameter name can't be null or empty");
+		} else {
 			Query<Song> query = this.currentSession.createQuery("from Song where name=:n", Song.class);
 			query.setParameter("n", name);
 			return query.getResultList();
-		} else {
-			throw new IllegalArgumentException("the 'name' param for search an song can not be null or empty.");
 		}
 	}
 
@@ -156,12 +162,12 @@ public class SongDaoImpl implements SongDAO{
 
 	@Override
 	public List<Song> findByDuration(Integer duration){
-		if (duration != null && !duration.equals("")) {
-			Query<Song> query = this.currentSession.createQuery("from Song where duration=:n", Song.class);
-			query.setParameter("n", duration);
-			return query.getResultList();
+		if (duration == null) {
+			throw new IllegalArgumentException("Parameter duration can't be null");
 		} else {
-			throw new IllegalArgumentException("the 'duration' param for search an song can not be null or empty.");
+			Query<Song> query = this.currentSession.createQuery("from Song where duration=:d", Song.class);
+			query.setParameter("d", duration);
+			return query.getResultList();
 		}
 	}
 

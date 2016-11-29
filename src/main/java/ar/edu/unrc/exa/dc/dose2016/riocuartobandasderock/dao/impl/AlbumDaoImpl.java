@@ -25,6 +25,14 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
  *
  */
 public class AlbumDaoImpl implements AlbumDAO{
+//	/**
+//	 * this.currentSession represents a Session.
+//	 */
+//	private SessionManager SessionManager;
+//	/*
+//	 * currentTransaction represents a Session with Transaction.
+//	 */
+//	private Transaction currentTransaction;
 	
 	private Session currentSession=null;
 	
@@ -41,6 +49,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 		if((id!=null)&&(id!="")){
 			Album a = new Album();
 			a = this.currentSession.find(Album.class, id);
+			a.setSongs(this.findSongs(a.getId()));
 			return a;
 		}else{
 			return null;
@@ -53,6 +62,9 @@ public class AlbumDaoImpl implements AlbumDAO{
 	public List<Album> getAll(){
 		List<Album> l = new LinkedList<Album>();
 		l.addAll(this.currentSession.createQuery("from Album", Album.class).getResultList());
+		for (int i = 0; i < l.size(); i++) {
+			l.get(i).setSongs(this.findSongs(l.get(i).getId()));
+		}
 		return l;
 	}	
 	
@@ -67,6 +79,9 @@ public class AlbumDaoImpl implements AlbumDAO{
 			Query<Album> query = this.currentSession.createQuery("from Album where title = :title ");
 			query.setParameter("title", title);
 			byNameList.addAll(query.getResultList());
+			for (int i = 0; i < byNameList.size(); i++) {
+				byNameList.get(i).setSongs(this.findSongs(byNameList.get(i).getId()));
+			}
 		}
 		return byNameList;
 	}
@@ -82,20 +97,21 @@ public class AlbumDaoImpl implements AlbumDAO{
 			Query<Album> query = this.currentSession.createQuery("from Album where releaseDate =:date ");
 			query.setParameter("date", releaseDate);
 			byReleaseDateList.addAll(query.getResultList());
+			for (int i = 0; i < byReleaseDateList.size(); i++) {
+				byReleaseDateList.get(i).setSongs(this.findSongs(byReleaseDateList.get(i).getId()));
+			}
 		}		
 		return byReleaseDateList;		
 	}
 	
-	/**
-	 * @param id_album
-	 * @return Song list founds by album id.
-	 */
 	public List<Song> findSongs(String id_album){
 		List<Song> songs = new LinkedList<Song>();
 		if(id_album==null || id_album.equals("")){
 			return null;
 		}
-		Query<Song> query = this.currentSession.createQuery("from Album inner join Song where AlbumID=:id and AlbumID=albumId");
+		Query<Song> query = this.currentSession.createQuery("FROM Album INNER JOIN Song WHERE AlbumID =:id and AlbumID = albumId");
+//		query.setParameter("id", id_album);
+//		songs.addAll(query.getResultList());
 		return songs;
 	}
 	
@@ -109,62 +125,42 @@ public class AlbumDaoImpl implements AlbumDAO{
 	public boolean create(String title, Date releaseDate, List<Object> songs, String id_band){
 		if(title==null || title.equals("") ) throw new IllegalArgumentException("Error: AlbumDaoImpl.createAlbum() : Database doesnt support null or empty title");
 		if(id_band==null) throw new IllegalArgumentException("Error: AlbumDaoImpl.createAlbum() : Database doesnt support null Band");
-		boolean isCreated=false;
-		if(releaseDate!=null){
-			//then the title and the day should not be in db. 
-			List<Album> byTitle = this.findByTitle(title);
-			List<Album> byReleaseDate = this.findByReleaseDate(releaseDate);
-			
-			boolean exist=false;
-			for (int i = 0; i < byTitle.size(); i++) {
-				if (byTitle.get(i).getTitle().compareTo(title)==0){
-					exist=true;
-				}
-			}			
-			if(exist){
-				//then releaseDate not be in db
-				for(int i=0;i<byReleaseDate.size();i++){
-					try {
-						if(releaseDate.compareTo(byReleaseDate.get(i).getReleaseDate()) == 0){
-							return false;
-						}	
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
-				}
-				isCreated=true;				
-			}
-			else{				
-				isCreated=true;
-			}
-		}else if(releaseDate==null){
-			//then the title not be in db.
+		
+		if(releaseDate == null){
 			List<Album> byTitle = this.findByTitle(title);
 			for(int i=0;i<byTitle.size();i++){
 				if(byTitle.get(i).getTitle().compareTo(title) == 0){
 					return false;
 				}
 			}
-			isCreated=true;
-		}
-		if (isCreated){
-			Album album = new Album(title,releaseDate);
-			if (songs!=null){
-				if (this.castSongsList(songs)==null) return false;//because Songs repOK not correct
+		}else if(releaseDate != null){
+			List<Album> byTitle = this.findByTitle(title);
+			for (int i = 0; i < byTitle.size(); i++) {
+				try {
+					if((byTitle.get(i).getTitle().compareTo(title)==0)&&(byTitle.get(i).getReleaseDate().compareTo(releaseDate)==0)){
+						return false;
+					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
-			album.setSongs(this.castSongsList(songs));//Album support null list songs	
-			
-			BandDAO bdao = new BandDaoImpl(this.currentSession);
-			try{
-				Band b = bdao.findById(id_band); 
-				album.setBand(b);
-			}catch(IllegalArgumentException e){
-				System.out.println("ERROR: "+ e);
-			}
-			if (!album.repOk()) throw new IllegalArgumentException ("Bad representation of album");
-			this.currentSession.save(album);
 		}
-		return isCreated;
+		if(this.castSongsList(songs)==null){
+			return false;
+		}
+		Album album = new Album(title,releaseDate);
+		album.setSongs(this.castSongsList(songs));
+		BandDAO bdao = new BandDaoImpl(this.currentSession);
+		try{
+			Band b = bdao.findById(id_band);
+			album.setBand(b);
+		}catch(IllegalArgumentException e){
+			System.out.println("ERROR: "+ e);
+		}
+		if (!album.repOk()) throw new IllegalArgumentException ("Bad representation of album");
+		this.currentSession.save(album);
+		return true;
 	} 
 	/**
 	 * This method deletes an album found by id
@@ -172,7 +168,6 @@ public class AlbumDaoImpl implements AlbumDAO{
 	 * @return true iff album was delete
 	 */
 	public boolean delete(String id){
-		if (id==null || id.equals("")) return false;
 		Album toDelete = this.findById(id);
 		if (toDelete!= null) {
 			this.currentSession.delete(toDelete); 
@@ -215,16 +210,57 @@ public class AlbumDaoImpl implements AlbumDAO{
 		  Album toUpdate = this.findById(id);
 		  if (toUpdate==null) return false;
 		  if (title==null && releaseDate==null && songs==null && id_band==null) return true;
-
-		  if(title!=null){
+		  
+		  if(title!=null && releaseDate!=null){
 			if(title.equals("")){
 				return false;
 			}
+			List<Album> byTitle = this.findByTitle(title);
+			for (int i = 0; i < byTitle.size(); i++) {
+				try {
+					if ((byTitle.get(i).getTitle().compareTo(title)==0)&&(byTitle.get(i).getReleaseDate().compareTo(releaseDate)==0)){
+						return false;
+					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		    toUpdate.setTitle(title);
-		  }
-
-		  if(releaseDate!=null){
 		    toUpdate.setReleaseDate(releaseDate);
+		  }
+		  
+		  if(title==null && releaseDate!=null){
+			  List<Album> byTitle = this.findByTitle(toUpdate.getTitle());
+			  for (int i = 0; i < byTitle.size(); i++) {
+				try {
+					if ((byTitle.get(i).getTitle().compareTo(toUpdate.getTitle())==0)&&(byTitle.get(i).getReleaseDate().compareTo(releaseDate)==0)){
+						return false;
+					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			  }
+			  toUpdate.setReleaseDate(releaseDate);
+		  }
+		  
+		  if(title!=null && releaseDate==null){
+			  if(title.equals("")){
+				  return false;
+			  }
+			  try {
+				  List<Album> byDate = this.findByReleaseDate(toUpdate.getReleaseDate());
+				  for (int i = 0; i < byDate.size(); i++) {
+					  if ((byDate.get(i).getTitle().compareTo(title)==0)&&(byDate.get(i).getReleaseDate().compareTo(toUpdate.getReleaseDate())==0)){
+						  return false;
+					  }
+				  }
+			  } catch (Exception e1) {
+				// TODO Auto-generated catch block
+				  e1.printStackTrace();
+			  }
+			  toUpdate.setTitle(title);
 		  }
 
 		  if(songs!=null){
@@ -235,15 +271,10 @@ public class AlbumDaoImpl implements AlbumDAO{
 		  }
 		  
 		  if(id_band!=null){
-			  BandDAO bdao = new BandDaoImpl(this.currentSession);
-			  try{
-					Band b = bdao.findById(id_band); 
-					toUpdate.setBand(bdao.findById(id_band));
-				}catch(IllegalArgumentException e){
-					System.out.println("ERROR: "+ e);
-				}		    
+			BandDAO bdao = new BandDaoImpl(this.currentSession);
+		    toUpdate.setBand(bdao.findById(id_band));
 		  }
-
+		  
 		  this.currentSession.saveOrUpdate(toUpdate);
 		  return true;
 	}
