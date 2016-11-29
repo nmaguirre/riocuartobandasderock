@@ -2,6 +2,12 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
 import static spark.Spark.*;
 import static ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.JsonUtil.json;
+import static ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.JsonUtil.jsonAlbum;
+
+import java.lang.reflect.Type;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -9,7 +15,12 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandDaoImpl;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 
 /**
  *
@@ -89,11 +100,11 @@ public class Bootstrap {
 
         post("/albums", (req, res) -> albumController.create(req, res));
 
-        get("/albums", (req, res) -> albumController.getAll(req, res));
+        get("/albums", (req, res) ->  albumController.getAll(req, res),jsonAlbum() );
 
-        get("/albums/findByTitle/:title", (req, res) -> albumController.findByTitle(req, res));
+        get("/albums/findByTitle/:title", (req, res) -> albumController.findByTitle(req, res),json());
 
-        get("/albums/findByReleaseDate/:release_date", (req, res) -> albumController.findByReleaseDate(req, res));
+        get("/albums/findByReleaseDate/:release_date", (req, res) -> albumController.findByReleaseDate(req, res),json());
 
         put("/albums/:id", (req, res) -> albumController.update(req, res));
 

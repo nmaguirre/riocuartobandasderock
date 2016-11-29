@@ -1,5 +1,6 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
+import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -9,7 +10,12 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+
+
+
+
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.AlbumDaoImpl;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SessionManager;
 import spark.Request;
@@ -32,25 +38,15 @@ public class AlbumController {
     	AlbumDaoImpl adao = new AlbumDaoImpl(session);
 
     	List<Album> albums = adao.getAll();
+     	
     	session.close();
     	int status = albums.size() > 0 ? 200 : 204;
 		res.status(status);
+		
 		res.body(albums.toString());
-		return albums;
-//    	try {
-//    		sessionManager.openCurrentSession();
-//    		List<Album> albums = dao.getAll();
-//    		sessionManager.closeCurrentSession();
-//    		int status = albums.size() > 0 ? 200 : 204;
-//    		res.status(status);
-//    		res.body(albums.toString());
-//    		return albums;
-//    	} catch (Exception e) {
-//			e.printStackTrace();
-//			res.status(500);
-//			res.body("Internal server error");
-//			return null;
-//    	}
+			
+		return albums;	
+
     }
     
     public String create(Request req, Response res) {
@@ -70,7 +66,7 @@ public class AlbumController {
         	
         	//TODO: set correct values
         	List<Object> songs = new LinkedList<Object>();
-        	String bandId = " ";
+        	String bandId = req.queryParams("band_id");
         	//
         	
             boolean result = adao.create(req.queryParams("title"), release_date, songs, bandId);
@@ -99,12 +95,12 @@ public class AlbumController {
     	Session session = SessionManager.getInstance().openSession();
     	AlbumDaoImpl adao = new AlbumDaoImpl(session);
     	
-    	if (req.queryParams("title") == null){
+    	if (req.params("title") == null){
             res.status(400);
             res.body("Title can't be null");
             return null;
         }
-        List<Album> albums = adao.findByTitle(req.queryParams("title"));
+        List<Album> albums = adao.findByTitle(req.params("title"));
         session.close();
         int http_status = albums.size() > 0 ? 200 : 204;
         res.status(http_status);
@@ -114,14 +110,14 @@ public class AlbumController {
     public List<Album> findByReleaseDate(Request req, Response res){
     	Session session = SessionManager.getInstance().openSession();
     	AlbumDaoImpl adao = new AlbumDaoImpl(session);
-    	if (req.queryParams("release_date") == null) {
+    	if (req.params("release_date") == null) {
             res.status(400);
             res.body("Release date can't be null");
             return null;
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            Date release_date = sdf.parse(req.queryParams("release_date"));
+            Date release_date = sdf.parse(req.params("release_date"));
           
 
             List<Album> albums = adao.findByReleaseDate(release_date);
@@ -143,7 +139,7 @@ public class AlbumController {
     	Session session = SessionManager.getInstance().openSession();
     	AlbumDaoImpl adao = new AlbumDaoImpl(session);
     	
-        if (req.queryParams("title") == null || req.queryParams("title") == ""){
+        if ( req.queryParams("title") == ""){
             res.status(400);
             res.body("Album title can't be null nor empty");
             return res.body();
@@ -153,7 +149,7 @@ public class AlbumController {
             res.body("Album id can't be null nor empty");
             return res.body();
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
             //Date should be in the next pattern: yyyy-mm-dd
         	Date release_date = req.queryParams("release_date") != null ? sdf.parse(req.queryParams("release_date")) : null;
@@ -169,8 +165,12 @@ public class AlbumController {
             session.close();
             int http_status = result ? 201 : 409;
             res.status(http_status);
-            if (!result) res.body("Duplicate album"); //If the result of the creation was false, it means that there is a duplicate
-            res.body("Album updated");
+            if (!result){
+            	res.body("Duplicate album"); //If the result of the creation was false, it means that there is a duplicate
+            }else{
+            	res.body("Album updated");
+            }
+            
             return res.body();
         } catch (ParseException | IllegalArgumentException e) {
             //If an exception was thrown, then there was a problem with the parameters.
@@ -202,8 +202,12 @@ public class AlbumController {
         session.close();
         int http_status = result ? 201 : 409;
         res.status(http_status);
-        if (!result) res.body("Album doesn't exist");
-        res.body("Album deleted");
+        if (!result) {
+        	res.body("Album doesn't exist");
+        }else{
+        	res.body("Album deleted");
+        }
+        
         return res.body();
     }
     
