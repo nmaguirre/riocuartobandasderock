@@ -1,1 +1,31 @@
-este es el show the una cancion
+<div class="modal-dialog modal-lg" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <h4 class="modal-title" id="myModalLabel">Datos de la Canción</h4>
+    </div>
+    <div class="modal-body">
+      <strong>Nombre</strong>
+      <h5>$song.getName()</h5>
+
+      <strong>Duración</strong>
+      #if($song.getDuration() != $null)
+        <h5>$song.getDuration()</h5>
+      #else
+        <h5>La canción no tiene tiempo de duración</h5>
+      #end
+
+    </div>
+    <div class="modal-footer">
+      <a href="/bands" type="button" class="btn btn-default" data-dismiss="modal">Volver</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  #include("vendor/jquery/jquery.min.js")
+  $(document).ready(function() {
+    $('li').removeClass('active');
+    $('#song').addClass('active');
+  });
+</script>

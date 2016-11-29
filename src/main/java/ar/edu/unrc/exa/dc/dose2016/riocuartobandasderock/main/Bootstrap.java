@@ -127,7 +127,7 @@ public class Bootstrap {
 
         get("/albums/findByReleaseDate/:release_date", (req, res) -> albumController.findByReleaseDate(req, res));
 
-        post("/albums", (req, res) -> albumController.create(req, res));
+        post("/albums", (req, res) -> albumController.create(req, res), new VelocityTemplateEngine());
 
 
 
@@ -154,7 +154,7 @@ public class Bootstrap {
 
         get("/bands/",(req, res) -> bands.createBand(req, res));// for test the add bands
 
-        post("/bands/",(req, res) -> bands.createBand(req, res));
+        post("/bands/",(req, res) -> bands.createBand(req, res), new VelocityTemplateEngine());
 
         put("/bands",(req, res) -> bands.updateBand(req, res));
 
@@ -185,7 +185,7 @@ public class Bootstrap {
 
         get("/artists/getbandsbyId/:artistID",(req,res)->artistController.getBandMembersByArtistId(req, res),json());
 
-        post("/artists",(req,res)->artistController.createArtist(req,res));
+        post("/artists",(req,res)->artistController.createArtist(req,res), new VelocityTemplateEngine());
 
         put("/artists/:id",(req,res)->artistController.updateArtist(req,res));
 
@@ -212,7 +212,7 @@ public class Bootstrap {
         post("/logout", (req, res) -> userController.logout(req, res));
 
         /**
-        * SONG 
+        * SONG
         **/
         post("/songs/",(req,res)->songController.create(req, res));
 

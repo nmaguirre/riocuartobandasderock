@@ -85,14 +85,16 @@ public class AlbumController {
 
 
 
-    public String create(Request req, Response res) {
+    public ModelAndView create(Request req, Response res) {
+        Map<String, Object> attributes = new HashMap<>();
+
     	Session session = SessionManager.getInstance().openSession();
     	AlbumDaoImpl adao = new AlbumDaoImpl(session);
 
         if (req.queryParams("title") == null || req.queryParams("title") == ""){
             res.status(400);
-            res.body("Album title can't be null nor empty");
-            return res.body();
+            // res.body("Album title can't be null nor empty");
+            // return res.body();
         }
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
         try {
@@ -104,20 +106,31 @@ public class AlbumController {
             session.close();
             int http_status = result ? 201 : 409;
             res.status(http_status);
-            if (!result) res.body("Duplicate album"); //If the result of the creation was false, it means that there is a duplicate
+            if (!result){
+                res.body("Duplicate album"); //If the result of the creation was false, it means that there is a duplicate
+                attributes.put("error", "El Album no puede tener el nombre en blanco");
+                attributes.put("template", Routes.new_album());
+                return new ModelAndView(attributes, Routes.layout_dashboard());
+            }
             res.body("Album created");
-            return res.body();
+            attributes.put("success", "El Album se creo con exito");
+            attributes.put("template", Routes.index_album());
+            return new ModelAndView(attributes, Routes.layout_dashboard());
+            // return res.body();
         } catch (ParseException | IllegalArgumentException e) {
             //If an exception was thrown, then there was a problem with the parameters.
             e.printStackTrace();
             res.status(400);
-            res.body("Bad parameters. "+e.getMessage()+" \n" );
-            return res.body();
+            // res.body("Bad parameters. "+e.getMessage()+" \n" );
+            // return res.body();
+            attributes.put("error", "El Album no puede tener el nombre en blanco");
+            attributes.put("template", Routes.new_album());
+            return new ModelAndView(attributes, Routes.layout_dashboard());
         } catch (Exception e){
             e.printStackTrace();
             res.status(500);
-            res.body("Internal server error");
-            return res.body();
+            // res.body("Internal server error");
+            // return res.body();
         }
 
     }

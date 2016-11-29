@@ -165,10 +165,14 @@ public class BandController {
    * @param res
    * @return the object of the band created.
    */
-  public String createBand(Request req,Response res){
+  public ModelAndView createBand(Request req,Response res){
+    Map<String, Object> attributes = new HashMap<>();
     if((req.queryParams("name")=="") || (req.queryParams("genre")=="")){
       res.status(400);
-      return "Request invalid";
+      // return "Request invalid";
+      attributes.put("error", "El nombre no puede estar en blanco");
+      attributes.put("template", Routes.new_band());
+      return new ModelAndView(attributes, Routes.layout_dashboard());
     }
     Session session = SessionManager.getInstance().openSession();
     BandDAO bdao = new BandDaoImpl(session);
@@ -186,10 +190,16 @@ public class BandController {
       session.close();
       if (status){
         res.status(201);
-        return "Success";
+        // return "Success";
+        attributes.put("Success", "La banda se creo con exito");
+        attributes.put("template", Routes.index_band());
+        return new ModelAndView(attributes, Routes.layout_dashboard());
       }
       res.status(409);
-      return "Fail";
+      // return "Fail";
+      attributes.put("error", "El nombre no puede estar en blanco");
+      attributes.put("template", Routes.new_band());
+      return new ModelAndView(attributes, Routes.layout_dashboard());
     }
   }
 

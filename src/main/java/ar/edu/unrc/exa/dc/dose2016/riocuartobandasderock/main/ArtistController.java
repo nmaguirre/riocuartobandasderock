@@ -225,13 +225,14 @@ public class ArtistController {
 	 * @param res (Response)
 	 * @return a string that describes the result of createArtist
 	 */
-	public String createArtist(Request req,Response res){
+	public ModelAndView createArtist(Request req,Response res){
 		//Not Implemented yet
 		/*String user = req.session().attribute("name");
 			if ((user==null)||(!(user.equals("admin")))){
 			res.status(401);
 			return "Forbidden Access";
 		}*/
+		Map<String, Object> attributes = new HashMap<>();
 		String name = req.queryParams("name");
 		if (name==null){
 			name="";
@@ -246,7 +247,10 @@ public class ArtistController {
 		}
 		if((name.isEmpty()) && (surname.isEmpty()) && (nickname.isEmpty())){
 			res.status(400);
-			return "Request invalid";
+			// return "Request invalid";
+	    attributes.put("error", "El nombre no puede estar en blanco");
+			attributes.put("template", Routes.new_artist());
+	    return new ModelAndView(attributes, Routes.layout_dashboard());
 		}
 		Session session = SessionManager.getInstance().openSession();
 		ArtistDAO artistDAO=new ArtistDaoImpl(session);
@@ -256,10 +260,16 @@ public class ArtistController {
 		session.close();
 		if (status){
 			res.status(201);
-			return "Success";
+			attributes.put("success", "El Artista se creo con exito");
+			attributes.put("template", Routes.index_artist());
+    	return new ModelAndView(attributes, Routes.layout_dashboard());
+			// return "Success";
 		}
 		res.status(409);
-		return "Fail";
+    attributes.put("error", "El nombre no puede estar en blanco");
+		attributes.put("template", Routes.new_artist());
+    return new ModelAndView(attributes, Routes.layout_dashboard());
+		// return "Fail";
 	}
 
 	/**

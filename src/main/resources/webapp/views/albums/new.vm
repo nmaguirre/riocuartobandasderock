@@ -2,6 +2,12 @@
   <div class="row">
     <div class="col-md-8">
       <div class="card">
+        #if ($error != $null)
+          <div class="alert alert-danger" role="alert">
+            <strong>Error!</strong> $error
+          </div>
+          <br>
+        #end
         <div class="card-header" data-background-color="purple">
           <h4 class="title">Nuevo Album</h4>
           <p class="category">Complete el formulario</p>
