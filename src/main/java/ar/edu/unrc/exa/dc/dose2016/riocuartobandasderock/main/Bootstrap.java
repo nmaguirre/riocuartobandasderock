@@ -96,11 +96,10 @@ public class Bootstrap {
         dashboardController = DashboardController.getInstance();
         port(Integer.parseInt(ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().getAppPort()));
 
-        // before("/bands", (req, res) -> {
-        //     if (!userController.authenticated(req, res)) {
-        //         halt(401, "Access forbidden\n");
-        //     }
-        // });
+        before("/dashboard", (req, res) -> {
+            if (!userController.authenticated(req, res))
+                res.redirect("/login");
+        });
 
         /**
         * LANDING PAGE
@@ -207,12 +206,14 @@ public class Bootstrap {
 
         delete("/users/:name", (req, res) -> userController.delete(req, res));
 
+        get("/login", (req, res)  -> userController.getLogin(req, res), new VelocityTemplateEngine());
+
         post("/login", (req, res) -> userController.login(req, res));
 
-        post("/logout", (req, res) -> userController.logout(req, res));
+        get("/logout", (req, res) -> userController.logout(req, res));
 
         /**
-        * SONG 
+        * SONG
         **/
         post("/songs/",(req,res)->songController.create(req, res));
 
