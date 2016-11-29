@@ -15,6 +15,7 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 
 import java.util.List;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -75,17 +76,32 @@ public class BandMemberController {
 			res.status(400);
 			return "Request Invalid";
 		}
-		Transaction transaction = session.beginTransaction();
 		BandMemberDAO bmDAO = new BandMemberDAOImpl(session);
-		boolean status = (bmDAO.createBandMember(req.queryParams("bandID"),req.queryParams("artistID")));
-		transaction.commit();
-		session.close();
-		if (status){
-			res.status(201);
-			return "Success";
+		Transaction transaction = null;
+		boolean status = false;
+		String result = "Fail";
+		try{
+			transaction = session.beginTransaction();
+			status = (bmDAO.createBandMember(req.queryParams("bandID"),req.queryParams("artistID")));
+			transaction.commit();
 		}
-		res.status(409);
-		return "Fail";		
+		catch (HibernateException e) {
+			transaction.rollback();
+			status = false;
+			e.printStackTrace();
+		}
+		finally{
+			session.close();
+			if (status){
+				res.status(201);
+				result = "Success";
+			}
+			else{
+				res.status(409);
+				result = "Fail";
+			}
+		}
+		return result;
 	}
 		
 	/**
@@ -107,15 +123,30 @@ public class BandMemberController {
 		}
 		Session session = SessionManager.getInstance().openSession();
 		BandMemberDAO bmDAO = new BandMemberDAOImpl(session);
-		Transaction transaction = session.beginTransaction();
-	 	boolean status = bmDAO.deleteBandMember(req.params(":bandID"),req.params(":artistID"));
+		Transaction transaction = null;
+		boolean status = false;
+		String result = "Fail";
+		try{
+		transaction = session.beginTransaction();
+	 	status = bmDAO.deleteBandMember(req.params(":bandID"),req.params(":artistID"));
 	 	transaction.commit();
-		session.close();
-	 	if (status){
-	 		res.status(200);
-	 		return "Success";
+		}
+		catch (HibernateException e) {
+			transaction.rollback();
+			status = false;
+			e.printStackTrace();
+		}
+		finally{
+			session.close();
+	 		if (status){
+	 			res.status(200);
+	 			result = "Success";
+	 		}
+			else{
+				res.status(409);
+				result = "Fail";
+			}
 	 	}
-	 	res.status(409);
-	 	return "Fail";
+		return result;
 	}
 }
