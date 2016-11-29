@@ -32,7 +32,7 @@
     <script src="javascript/other.js"></script> 
 </head>
 
-<body id="page-to">
+<body id="page-top">
     <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -60,12 +60,12 @@
             <!--div class="row"-->
                 <canvas class="arbor" id="viewport" width="680" height="800" style="border:1px solid #000000; width: 680px; height: 800px; background-image: url(img/bg-pattern.jpg); "></canvas>
                 <script type="text/javascript">
-				var sys = arbor.ParticleSystem(500, 40,1); // create the system with sensible repulsion/stiffness/friction
+				var sys = arbor.ParticleSystem(5000, 40,1); // create the system with sensible repulsion/stiffness/friction
                 sys.parameters({gravity:true}) // use center-gravity to make the graph settle nicely (ymmv)
                 sys.renderer = Renderer("#viewport") // our newly created renderer will have its .init() method called shortly by sys...
                 var dose = sys.addNode('dose',{'color':'blue','shape':'dot','label':'Dose'});
                 var song = sys.addNode('song',{'color':'red','shape':'dot','label':'Song'});
-                sys.addEdge(dose, song);
+                sys.addEdge(dose, song,{'color':'black'});
                 
                 
                    /*var sys = arbor.ParticleSystem(500, 40,1);
@@ -89,17 +89,17 @@
                 <section class="searchZone" style="width: 250px; height: 1058px;">
     	               <div style="width: 250px; ">
     	                    <legend>Search Songs</legend>
-                            <form onsubmit="test()" >
+                            <form>
     				            By name:<br>
     				            <input type="text" name="songName">
-    				            <input type="submit" style="color: black" >
+    				            <input type="button" style="color: black" onclick="songFindByName()" value="Send">
     				            <br>
-    				            <p id="show">TESTEANDO</p>
+    				            
                             </form>
-    			            <form onsubmit="songFindByDuration()">
+    			            <form>
         				        By duration:<br>
         				        <input type="text" name="songDuration">
-        				        <input type="submit" style="color: black">
+        				        <input type="button" style="color: black" onclick="songFindByDuration()" value="Send">
         				        <br>
     			            </form>		
     			            <br>
@@ -108,22 +108,22 @@
     	            <br>
                 	  <div style="width: 250px; ">
                 		<legend>Search Artists</legend>
-                			<form onsubmit="artistFindByName()"> 
+                			<form> 
                 				By name:<br>
                 				<input type="text" name="artistName">
-                				<input type="submit" style="color: black">
+                				<input type="button" style="color: black" onclick="artistFindByName()" value="Send">
                 				<br>
                 			</form>
-                			<form onsubmit="artistFindByNickname()">
+                			<form>
                 				By nickname:<br>
                 				<input type="text" name="artistNickname">
-                				<input type="submit" style="color: black">
+                			    <input type="button" style="color: black" onclick="artistFindByNickname()" value="Send">
                 				<br>
                 			</form>
-                				<form onsubmit="artistFindBySurname()">
+                				<form>
                 				By surname:<br>
                 				<input type="text" name="artistSurname">
-                				<input type="submit" style="color: black">
+                				<input type="button" style="color: black" onclick="artistFindBySurname()" value="Send">
                 			    <br>
                 			</form>	
                 			<br>
@@ -132,16 +132,16 @@
                 	  <br>
                 	  <div style="width: 250px; ">
                 		<legend>Search Albums</legend>
-                			<form onsubmit="albumFindByTitle()">
+                			<form>
                 				By title:<br>
                 				<input type="text" name="albumTitle">
-                				<input type="submit" style="color: black">
+                				<input type="button" style="color: black" onclick="albumFindByTitle()" value="Send">
                 				<br>
                 			</form>
-                			<form onsubmit="albumFindByReleaseDate()" >
+                			<form>
                 				By ReleaseDate:<br>
                 				<input type="date" name="albumDate" style="color: black">
-                				<input type="submit" style="color: black">
+                				<input type="button" style="color: black" onclick="albumFindByReleaseDate()" value="Send">
                 				<br>
                 			</form>
                 			<br>
@@ -150,16 +150,16 @@
                 	  <br>
                 	  <div style="width: 250px; ">
                 		<legend>Search Bands</legend>
-                			<form onsubmit="bandFindByName()">
+                			<form>
                 				By name:<br>
                 				<input type="text" name="bandName">
-                				<input type="submit" style="color: black">
+                				<input type="button" style="color: black" onclick="bandFindByName()" value="Send">
                 				<br>
                 			</form>
-                			<form onsubmit="bandFindByGenre()">
+                			<form>
                 				By genre:<br>
                 				<input type="text" name="bandGenre">
-                				<input type="submit" style="color: black">
+                				<input type="button" style="color: black" onclick="bandFindByGenre()" value="Send">
                 				<br>
                 			</form>
                 			<br>
@@ -172,17 +172,12 @@
     
 
     <section id="Customer" class="download bg-primary text-center" style="height: 344px; ">
-        <!--div class="container">
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2">
-                </div>
-            </div>
-        </div-->
         
-       
+        <p id='show'>TESTEANDO</p>
+ 
         <!-- AudioTest (Se borrara) -->
         <audio id="nenene" src="sound/rockandrollnene.mp3" type="audio/mpeg"></audio>
-        <button style="color: #FF0000" onclick="document.getElementById('nenene').play()">Rock!!</button>   
+        <button class="button" style="color: #FF0000;"" onclick="document.getElementById('nenene').play()">Rock!!</button>
     </section>
     
     <footer>

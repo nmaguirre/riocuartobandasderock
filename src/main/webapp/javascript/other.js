@@ -1,8 +1,29 @@
-//---AJAX Methods---
+/*The parameters of arborJs
+repulsion 1,000 the force repelling nodes from each other
+stiffness 600 the rigidity of the edges
+friction 0.5 the amount of damping in the system
+gravity false an additional force attracting nodes to the origin
+fps 55 frames per second
+dt 0.02 timestep to use for stepping the simulation
+precision 0.6 accuracy vs. speed in force calculations
+
+arbor.ParticleSystem({friction:.5, stiffness:600, repulsion:1000})
+sys.parameters({gravity:true, dt:0.005})
+
+Nodos
+sys.addNode("mynode", {mass:2, myColor:"goldenrod"})
+mass 1.0 the node’s resistance to movement and repulsive power
+fixed false if true, the node will be unaffected by other particles
+
+Edge
+edge = sys.addEdge(node1, node2, {length:.75, pointSize:3})
+*/
 
 
 
 function test(){
+	var st = document.getElementsByName("songName")[0].value;
+	window.alert(st);
 	var sys = arbor.ParticleSystem(500, 40,1); 
     sys.parameters({gravity:true}); 
     sys.renderer = Renderer("#viewport");
@@ -10,9 +31,20 @@ function test(){
     for (var i=0; i<resp.length; i++){
        sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
        sys.addNode('duration'+i,{'color':'red','shape':'dot','label':resp[i].duration});
-       sys.addEdge('name'+i, 'duration'+i);
+       sys.addEdge('name'+i, 'duration'+i,{'color':'black'});
+       
     }
+    
+    var resp ={name:'Juan',apellido:'Diaz',edad:'28'};
+    var str = "";
+    for (elem in resp)
+    	  str = str + elem + ': ' + resp[elem]+'<br>';
+    	  
+    //window.alert(str);	  
+    document.getElementById('show').innerHTML = str;	
+    	  
 }
+//---AJAX Methods---
 //******************** SONG ********************
 
 //GetAll
@@ -30,7 +62,7 @@ function songGetAll() {
 	     for (var i=0; i<resp.length; i++){
 	        sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
 	        sys.addNode('duration'+i,{'color':'red','shape':'dot','label':resp[i].duration});
-	        sys.addEdge('name'+i, 'duration'+i);
+	        sys.addEdge('name'+i, 'duration'+i,{'color':'black'});
 	     }
       }
    }; 
@@ -47,13 +79,20 @@ function songFindByName() {
    }
 	//AjaxJs
    xhttp = new XMLHttpRequest();
-   xhttp.open("GET", "/songs/findbyname/"+str, true);
+   xhttp.open("GET", "http://localhost:4567/songs/findbyname/"+str, true);
    xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
          document.getElementById("show").innerHTML = this.responseText;
 		 var resp = JSON.parse(xhttp.responseText);
 	  
-		 //ArborJs
+		 for (elem in resp)
+	    	  str = str + elem + ': ' + resp[elem]+'<br>';
+	    	  
+	    //window.alert(str);	  
+	    document.getElementById('show').innerHTML = str;
+		 
+		 
+		 /*ArborJs
 	     var sys = arbor.ParticleSystem(500, 40,1); // create the system with sensible repulsion/stiffness/friction
 		 sys.parameters({gravity:true}); // use center-gravity to make the graph settle nicely (ymmv)
 		 sys.renderer = Renderer("#viewport"); // our newly created renderer will have its .init() method called shortly by sys...
@@ -61,7 +100,7 @@ function songFindByName() {
 			 for (var i=0; i<resp.length; i++){
 			    sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
 			    sys.addNode('duration'+i,{'color':'red','shape':'dot','label':resp[i].duration});
-			    sys.addEdge('name'+i, 'duration'+i);
+			    sys.addEdge('name'+i, 'duration'+i,{'color':'black'});
 			 }
          }
 		 else{	
@@ -70,7 +109,7 @@ function songFindByName() {
 			   sys.addNode('duration',{'color':'red','shape':'dot','label':resp.duration});
 			   sys.addEdge(name, duration);
 			}
-		 }
+		 }*/
       }
    };
    xhttp.send();  
@@ -98,13 +137,13 @@ function songFindByDuration() {
 			 for (var i=0; i<resp.length; i++){
 			    sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
 			    sys.addNode('duration'+i,{'color':'red','shape':'dot','label':resp[i].duration});
-			    sys.addEdge('name'+i, 'duration'+i);
+			    sys.addEdge('name'+i, 'duration'+i,{'color':'black'});
 			 }
          }
 		 else{
 		    sys.addNode('name',{'color':'blue','shape':'dot','label':resp.name});
 		    sys.addNode('duration',{'color':'red','shape':'dot','label':resp.duration});
-		    sys.addEdge(name, duration);
+		    sys.addEdge(name, duration,{'color':'black'});
 		 }   
       }
    };
