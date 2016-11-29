@@ -13,6 +13,7 @@
 	<link rel="stylesheet" type="text/css" href="/css/artists.css">
 	<link rel="stylesheet" type="text/css" href="/css/bands.css">
 	<link rel="stylesheet" type="text/css" href="/css/songs.css">
+	<link rel="stylesheet" type="text/css" href="/css/login.css">
 
 	<!--JS-->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7" crossorigin="anonymous"></script>
@@ -27,35 +28,35 @@
 	<script type="text/javascript" src="/javascript/controllers/artistsController.js"></script>
 	<script type="text/javascript" src="/javascript/controllers/bandsController.js"></script>
 	<script type="text/javascript" src="/javascript/controllers/homeController.js"></script>
-	<script type="text/javascript" src="/javascript/controllers/searchController.js"></script>
 	<script type="text/javascript" src="/javascript/controllers/songsController.js"></script>
-
+	<script type="text/javascript" src="/javascript/controllers/loginController.js"></script>
 </head>
 <body ng-app="app">
-	<div class="container" ng-controller="SearchController">
+	<div class="container">
 		<nav class="navbar navbar-fixed-top navbar-light bg-faded">
-				<a class="navbar-brand" href="#/">RCBR</a>
-				<ul class="nav navbar-nav">
-					<li class="nav-item">
-						<a class="nav-link" href="#/bands">Bandas <span class="sr-only">(current)</span></a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#/albums">Albums</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#/songs">Canciones</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#/artists">Artistas</a>
-					</li>
-				</ul>
-				<div>
-					<form class="form-inline float-xs-right" ng-submit="go_search()">
-						<input class="form-control" type="text" ng-model="value" placeholder="Buscar">
+					<a class="navbar-brand" href="#">RCBR</a>
+					<ul class="nav navbar-nav">
+						<li class="nav-item active">
+							<a class="nav-link" href="#/bands">Bandas <span class="sr-only">(current)</span></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#/albums">Albums</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#/songs">Canciones</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#/artists">Artistas</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#/login"><font color = green><strong>LOGIN</strong></font></a>
+						</li>
+					</ul>
+					<form class="form-inline float-xs-right">
+						<input class="form-control" type="text" placeholder="Buscar">
 						<button class="btn btn-success-outline" type="submit">Buscar</button>
 					</form>
-				</div>
-			</nav>
+		</nav>
 		<div ng-view>
 		</div>
 	</div>
