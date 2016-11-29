@@ -1,6 +1,7 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
 import static spark.Spark.*;
+
 import static ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.JsonUtil.json;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -173,6 +174,13 @@ public class Bootstrap {
 
         get("/artists/:id",(req, res) -> artistController.showArtist(req, res), new VelocityTemplateEngine());
 
+        
+        /** returns an artist whose id = :id the output is json format
+         * example:   Request: GET /artist/10
+         *            Output : {name: Matias, surname: Cerra, nickname: }
+         * 
+         * **/    
+        
         get("/artists/findbyallattributes/",(req,res)->artistController.getOneArtist(req,res),json());
 
         get("/artists/:id",(req,res)->artistController.getArtistById(req,res));
@@ -197,9 +205,9 @@ public class Bootstrap {
          * BAND MEMEBER
          **/
         post("/bandmembers",(req,res)->bandMemberController.createBandMember(req, res));
-
-        delete("/bandmembers/:artistID/:BandID",(req,res)->bandMemberController.deleteBandMember(req, res));
-
+        
+        delete("/bandmembers/:artistID/:bandID",(req,res)->bandMemberController.deleteBandMember(req, res));
+        
         /**
          * USER
          **/
