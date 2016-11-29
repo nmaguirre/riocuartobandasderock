@@ -124,11 +124,12 @@ function songFindByDuration() {
       return;
    }
    xhttp = new XMLHttpRequest();
-   xhttp.open("GET", "/songs/findbyduration/"+str, true);
+   xhttp.open("GET", "http://localhost:4567/songs/findbyduration/"+str, true);
    xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
 	     document.getElementById("show").innerHTML = this.responseText;
 		 var resp = JSON.parse(xhttp.responseText);
+		 
 		  
 		 var sys = arbor.ParticleSystem(500, 40,1); 
 		 sys.parameters({gravity:true}); 
