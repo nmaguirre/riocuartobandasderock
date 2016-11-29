@@ -76,7 +76,7 @@ public class Bootstrap {
         artistController = ArtistController.getInstance();
         bandMemberController = BandMemberController.getInstance();
         bands = BandController.getInstance();
-        songController = new SongController();
+        songController = SongController.getInstance();
         userController = UserController.getInstance();
         port(Integer.parseInt(ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().getAppPort()));
 
@@ -87,14 +87,18 @@ public class Bootstrap {
         });*/
 
         // List of route and verbs API REST
-        
+
         post("/albums", (req, res) -> albumController.create(req, res));
-               
+
         get("/albums", (req, res) -> albumController.getAll(req, res));
-              
+
         get("/albums/findByTitle/:title", (req, res) -> albumController.findByTitle(req, res));
-                
+
         get("/albums/findByReleaseDate/:release_date", (req, res) -> albumController.findByReleaseDate(req, res));
+
+        put("/albums/:id", (req, res) -> albumController.update(req, res));
+
+        delete("/albums/:id", (req, res) -> albumController.delete(req, res));
 
         get("/hello", (req, res) -> "Hello World");
 
@@ -161,15 +165,21 @@ public class Bootstrap {
         delete("/users/:name", (req, res) -> userController.delete(req, res));
         post("/login", (req, res) -> userController.login(req, res));
         post("/logout", (req, res) -> userController.logout(req, res));
+        
+        
+        /**
+         * Song routes
+         */
 
         post("/songs/",(req,res)->songController.create(req, res));
-
-        get("/songs/findbyname/:name",(req,res)->songController.getByName(req,res));
-
-        get("/songs/findbyduration/:duration",(req,res)->songController.getByDuration(req,res));
-
+        get ("/songs", (req,res)->songController.getAll(req,res),json());
+        get("/songs/findbyname/:name",(req,res)->songController.getByName(req,res),json());
+        get("/songs/findbyduration/:duration",(req,res)->songController.getByDuration(req,res),json());
         delete("/songs/:id",(req, res) -> songController.remove(req, res));
-
+        put("/songs/:id",(req,res)->songController.update(req,res));
+        
+        //Route for acceptance test (Delete song)
+        post("/songs/:id", (req,res) -> songController.createWithId(req,res));
 
         after((req, res) -> {res.type("application/json");});
 
