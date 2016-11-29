@@ -18,16 +18,15 @@ angular.module('app')
 		
 	load_songs();
 	
-
-
-
 	function load_album(id, index) { 
 		$http.get("https://private-53163-riocuartobandasderock.apiary-mock.com/albums/"+id).then(function callback(response) {
 			if (response.status == 200){
-				$scope.songs[index].album_name = response.data[index].title;
-				$scope.songs[index].id_album = response.data[index].AlbumID;
-				$scope.songs[index].id_band = response.data[index].band;
-				load_songs_band(response.data[index].band,index);
+				console.log(response);
+				console.log(index);
+				$scope.songs[index].album_name = response.data[0].title;
+				$scope.songs[index].id_album = response.data[0].AlbumID;
+				$scope.songs[index].id_band = response.data[0].band;
+				load_songs_band(response.data[0].band,index);
 			} else {
 				alert("Oops, something went wrong, try again later!")
 			}
