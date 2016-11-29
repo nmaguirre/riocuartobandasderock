@@ -28,7 +28,7 @@ public class Album {
 
 	/** The Album ID. */
 	@Id
-	@Column(name = "AlbumID")
+	@Column(name = "albumID")
 	private String id;
 
 	/** The Album title. */

@@ -117,25 +117,6 @@ public class SongDaoImpl implements SongDAO{
 		return result;
 	}
 
-	/**
-	 * fn addSong
-	 * Method for acceptance tests. Implments the creation of a song with id
-	 * @param id represents the id of the song to add in the database
-	 * @return true if the add was successful
-	 */
-	@Override
-	public Boolean addSongWithId(String id){
-		boolean result = false;
-		if (id != null && !id.equals("")){
-			Song song = new Song(id, "Jijiji", 339);
-			this.currentSession.save(song);
-			result = true;
-		}
-		else {
-			throw new IllegalArgumentException("the parameters for creating a song can not all be empty or null");
-		}
-		return result;
-	}
 
 	/**
 	 * fn findById
@@ -163,12 +144,12 @@ public class SongDaoImpl implements SongDAO{
 	 */
 	@Override
 	public List<Song> findByName(String name){
-		if (name != null && name != "") {
+		if (name == null || name.isEmpty()) {
+			throw new IllegalArgumentException("Parameter name can't be null or empty");
+		} else {
 			Query<Song> query = this.currentSession.createQuery("from Song where name=:n", Song.class);
 			query.setParameter("n", name);
 			return query.getResultList();
-		} else {
-			throw new IllegalArgumentException("the 'name' param for search an song can not be null or empty.");
 		}
 	}
 
@@ -181,12 +162,12 @@ public class SongDaoImpl implements SongDAO{
 
 	@Override
 	public List<Song> findByDuration(Integer duration){
-		if (duration != null && !duration.equals("")) {
-			Query<Song> query = this.currentSession.createQuery("from Song where duration=:n", Song.class);
-			query.setParameter("n", duration);
-			return query.getResultList();
+		if (duration == null) {
+			throw new IllegalArgumentException("Parameter duration can't be null");
 		} else {
-			throw new IllegalArgumentException("the 'duration' param for search an song can not be null or empty.");
+			Query<Song> query = this.currentSession.createQuery("from Song where duration=:d", Song.class);
+			query.setParameter("d", duration);
+			return query.getResultList();
 		}
 	}
 

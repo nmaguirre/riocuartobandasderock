@@ -188,8 +188,6 @@ public class Bootstrap {
         delete("/songs/:id",(req, res) -> songController.remove(req, res));
         put("/songs/:id",(req,res)->songController.update(req,res));
         
-        //Route for acceptance test (Delete song)
-        post("/songs/:id", (req,res) -> songController.createWithId(req,res));
 
         after((req, res) -> {res.type("application/json");});
 

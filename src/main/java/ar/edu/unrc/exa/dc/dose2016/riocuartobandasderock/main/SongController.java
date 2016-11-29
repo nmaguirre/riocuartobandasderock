@@ -90,7 +90,7 @@ public class SongController {
     	
        	String songName = req.params(":name");
 
-    	if (songName == null || songName == ""){
+    	if (songName == null || songName.isEmpty()){
     		res.status(400);
     		return null;
     	}
@@ -113,7 +113,7 @@ public class SongController {
     	
     	String duration = req.params(":duration");
 
-    	if (duration == null || duration == ""){
+    	if (duration == null || duration.isEmpty()){
     		res.status(400);
     		return null;
     	}
@@ -161,40 +161,6 @@ public class SongController {
     	}
     	return res.body();
     }
-
-    /**
-     * Method for acceptance tests. Implments the creation of a song with id
-     * @param req contains the attributes of the new artist
-     * @param res
-     * @return a string that describes the result of create
-     */
-    public String createWithId (Request req, Response res){
-    	
-    	Session session = SessionManager.getInstance().openSession();
-    	SongDAO sdao = new SongDaoImpl(session);
-    	String id = req.params(":id");
-    	
-		if ((id == "") ||(id == null)) {
-			res.status(400);
-			res.body("Invalid request");
-			return res.body();
-		}
-    	
-    	Transaction transaction = session.beginTransaction();
-    	boolean result = sdao.addSongWithId(id);
-    	transaction.commit();
-    	session.close();
-
-    	if(result){
-    	res.body("Song created");
-    	res.status(201);
-    	} else{
-    		res.status(409);
-    		res.body("Operation failed");
-    	}
-    	return res.body();    		
-    }
-
 
 
     /***
