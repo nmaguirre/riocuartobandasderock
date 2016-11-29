@@ -34,14 +34,14 @@ Given(/^that the song's database is empty$/) do
 end
 
 Given(/^that the song's database have one song with name "([^"]*)" and duration "([^"]*)" and belongs to the album "([^"]*)"$/) do |name, duration, title|
-  `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"INSERT INTO AlbumDB VALUES ('1','VI');\" -t`
+  `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"INSERT INTO BandDB VALUES ('7','nam','Reggae');\" -t`
+  `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"INSERT INTO AlbumDB VALUES ('1','#{title}','2010-12-27','7');\" -t`
   response = RestClient.post 'http://localhost:4567/songs/', { :name => name, :duration => duration , :albumTitle => title}, :content_type => 'text/plain'
   expect(response.code).to eq(201)
 end
 
 Given(/^that the song's database have one song with UUID "([^"]*)"$/) do |id|
-  response = RestClient.post 'http://localhost:4567/songs/'+id, { :id => id}, :content_type => 'text/plain'
-  expect(response.code).to eq(201)
+    `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"INSERT INTO SongDB VALUES ('#{id}','Jijiji',400);\" -t`
 end
 
 
@@ -133,26 +133,37 @@ end
 
 When(/^I add a song with name "([^"]*)" and duration "([^"]*)" and belongs to the album "([^"]*)"$/) do |name, duration, title|
  begin
-    `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"INSERT INTO AlbumDB VALUES (' ','IV');\" -t`
+    `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"INSERT INTO BandDB VALUES ('10','name','Rock');\" -t`
+    `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"INSERT INTO AlbumDB VALUES ('2','#{title}','2000-12-27','10');\" -t`
   
      response = RestClient.post 'http://localhost:4567/songs/', { :name => name, :duration => duration, :albumTitle => title }, :content_type => 'text/plain'
      expect(response.code).to eq(201)
-      rescue RestClient::Conflict => e
-        rescue => e
-          expect(e.response.code).to eq(400)
-        end
+     rescue RestClient::Conflict => e
+           rescue => e
+             expect(e.response.code).to eq(400)
+     end
+end
+
+When(/^I try to add a song with name "([^"]*)" and duration "([^"]*)"$/) do |name, duration|
+ begin
+     response = RestClient.post 'http://localhost:4567/songs/', { :name => name, :duration => duration}, :content_type => 'text/plain'
+     expect(response.code).to eq(201)
+   rescue RestClient::Conflict => e
+    rescue => e
+      expect(e.response.code).to eq(400)
+  end
 end
 
 When(/^I search a song with name "([^"]*)" , the result of the search should have (\d+) entry$/) do |value, entries|
   begin
-      String s = 'http://localhost:4567/songs/findbyname/'+ value.gsub(/[^[:print:]]|\s/,'')
+      String s = 'http://localhost:4567/songs/findbyname/'+value.gsub(/[^[:print:]]|\s/,'')
       response = RestClient.get s
       if entries != "0"
         expect(response.code).to eq(200)
       else
         expect(response.code).to eq(204)
       end
-    rescue RestClient::NotFound => e
+    rescue RestClient::Conflict => e
         expect(e.response.code).to eq(400)
     end
 end
@@ -166,7 +177,7 @@ When(/^I search a song with duration "([^"]*)" , the result of the search should
       else
         expect(response.code).to eq(204)
       end
-    rescue RestClient::NotFound => e
+    rescue RestClient::Conflict => e
         expect(e.response.code).to eq(400)
     end
 end
