@@ -95,6 +95,7 @@
                        response += '<tr>'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.duration+'</td>'+'<td> <a href="javascript:void(0);" class="glyphicon glyphicon-trash" onclick="deleteSongFromAlbum(\''+id+'\',\''+item.idSong+'\'); event.stopImmediatePropagation();"</a> </td>'+'</tr>';
                        ++itemindex;
                 });
+                response += '<tr><td colspan=4><button onclick="addSongToAlbum(\''+id+'\');">Add Song</button></td></tr>';
                 response += '</table>';
             }
 
