@@ -1,0 +1,12 @@
+.login-container {
+	background-color: #181818;
+	height: auto;
+	padding-top: 4%;
+	margin-top: 1%;
+}
+
+.center-block {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+}
