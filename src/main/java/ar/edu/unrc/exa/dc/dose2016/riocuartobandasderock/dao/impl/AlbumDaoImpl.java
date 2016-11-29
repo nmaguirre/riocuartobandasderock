@@ -63,7 +63,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 		List<Album> l = new LinkedList<Album>();
 		l.addAll(this.currentSession.createQuery("from Album", Album.class).getResultList());
 		for (int i = 0; i < l.size(); i++) {
-			l.get(i).setSongs(this.findSongs(l.get(i).getId()));
+			l.get(i).setSongs(this.findSongs(l.get(i).getId()));		
 		}
 		return l;
 	}	
@@ -107,11 +107,13 @@ public class AlbumDaoImpl implements AlbumDAO{
 	public List<Song> findSongs(String id_album){
 		List<Song> songs = new LinkedList<Song>();
 		if(id_album==null || id_album.equals("")){
-			return null;
+			return songs;
 		}
-		Query<Song> query = this.currentSession.createQuery("FROM Album INNER JOIN Song WHERE AlbumID =:id and AlbumID = albumId");
-//		query.setParameter("id", id_album);
-//		songs.addAll(query.getResultList());
+		Query<Song> query = this.currentSession.createQuery("Select s FROM Song as s INNER JOIN Album as a ON a.id =:id and a.id = s.album");
+			
+		query.setParameter("id", id_album);
+		
+		songs.addAll(query.getResultList());
 		return songs;
 	}
 	
