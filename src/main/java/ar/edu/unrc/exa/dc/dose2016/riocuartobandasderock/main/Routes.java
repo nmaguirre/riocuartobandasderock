@@ -100,4 +100,8 @@ public class Routes {
     return "views/users/sign_in.vm";
   }
 
+  public static String already_logged(){
+    return "views/users/already_logged.vm";
+  }
+
 }

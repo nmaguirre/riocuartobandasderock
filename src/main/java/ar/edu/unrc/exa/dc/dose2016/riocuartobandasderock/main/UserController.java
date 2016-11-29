@@ -107,6 +107,7 @@ public class UserController {
             session.maxInactiveInterval(120);
             res.status(200);
             sessionManager.close();
+            res.redirect("/dashboard");
             return "Logged in successfully\n";
         } else {
             res.status(403);
@@ -123,6 +124,7 @@ public class UserController {
         } else {
             session.invalidate();
             res.status(200);
+            res.redirect("/");
             return "Logged out successfully\n";
         }
     }
@@ -141,9 +143,15 @@ public class UserController {
     public ModelAndView getLogin(Request req, Response res){
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("title", "Login");
-        attributes.put("post_login_path", "/login");
-        attributes.put("form_method", "POST");
-        attributes.put("template", Routes.login());
-        return new ModelAndView(attributes, Routes.layout_sessions());
+        if (authenticated(req, res)) {
+            attributes.put("template", Routes.already_logged());
+            attributes.put("name", req.session().attribute("name"));
+            return new ModelAndView(attributes, Routes.layout_sessions());
+        } else {
+            attributes.put("post_login_path", "/login");
+            attributes.put("form_method", "POST");
+            attributes.put("template", Routes.login());
+            return new ModelAndView(attributes, Routes.layout_sessions());
+        }
     }
 }

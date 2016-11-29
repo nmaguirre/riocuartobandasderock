@@ -65,7 +65,7 @@
             <a class="page-scroll" href="#registrarse">Registrarse</a>
           </li>
           <li>
-            <a class="page-scroll" href="#iniciar_sesion">Iniciar Sesión</a>
+            <a class="page-scroll" href="/dashboard">Iniciar Sesión</a>
           </li>
            <li>
             <a class="page-scroll" href="#a_cerca_de">A cerca de</a>
