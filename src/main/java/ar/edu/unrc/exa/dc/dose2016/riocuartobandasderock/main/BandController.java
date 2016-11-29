@@ -103,7 +103,7 @@ public class BandController {
     }
     Session session = SessionManager.getInstance().openSession();
     BandDAO bdao = new BandDaoImpl(session);
-    List<Band> bands = bdao.findByName(req.params(":genre"));
+    List<Band> bands = bdao.findByGenre(req.params(":genre"));
     session.close();
     int status = (bands.size()!=0)? 200:204;
     res.status(status);
