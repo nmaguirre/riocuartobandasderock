@@ -252,4 +252,15 @@ public class BandDaoImpl implements BandDAO {
 			}
 		}
 
+		public List<Band> ilike(String name){
+			if(name == null || name.equals("")){
+					throw new IllegalArgumentException("the 'name' param for search a band can not be null or empty.");
+				} else {
+					Query<Band> query = this.currentSession.createQuery("from Band where name like ?", Band.class);
+					query.setString(0, '%' + name.toLowerCase() + '%');
+					return query.getResultList();
+				}
+		}
+
+
 }
