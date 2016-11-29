@@ -1,5 +1,5 @@
 angular.module('app')
-.controller('SongsController', ['$scope', '$http', function($scope,$http){
+.controller('SongsController', ['$scope', '$http','$location','$routeParams', function($scope,$http,$location, $routeParams){
 		
 	$scope.songs = [];
 
@@ -18,16 +18,32 @@ angular.module('app')
 		
 	load_songs();
 	
+
+
+
 	function load_album(id, index) { 
 		$http.get("https://private-53163-riocuartobandasderock.apiary-mock.com/albums/"+id).then(function callback(response) {
 			if (response.status == 200){
-				$scope.songs[index].album_name = response.data.title;
+				$scope.songs[index].album_name = response.data[index].title;
+				$scope.songs[index].id_album = response.data[index].AlbumID;
+				load_songs_band(response.data[index].band);
 			} else {
-				$scope.songs[index].album_name = "Placeholder name";
+				alert("Oops, something went wrong, try again later!")
 			}
-		})
+		});
 	}
-	
+
+
+	function load_songs_band(id){
+		/*$http.get("https://private-53163-riocuartobandasderock.apiary-mock.com/bands/"+id).then(function callback(response){
+			if (response.status == 200){
+				$scope.album.band_name = response.data[0].name;
+			} else {
+				alert("Oops, something went wrong, try again later!");		
+			}
+		});*/
+		$scope.songs[0].band_name = "The Strokes";
+	}
 
 	$scope.song_search = '';
 }]);
