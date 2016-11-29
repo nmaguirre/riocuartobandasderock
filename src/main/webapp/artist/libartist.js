@@ -8,7 +8,8 @@
         action     : null,   // action FIND SHOW CREATE UPDATE
         config     :null,    //configuration 
         resource   : null,   // resource FIND | SHOW
-        resourceindex: 0,
+        resourceindex: 0,   // number of find in findlist
+        activeUniqueRegister: null, // for view of one register only rowindex
         generateform : function () {
           autogenerate='<form id="formulario">';
           ind=0;
@@ -180,18 +181,24 @@
                           response+='<th>Relation</th>';
                         response+='<th>Action</th></tr>';
                    }
-                   response += '<tr>';
-                   idvalue=null;
-                   $.each(item, function(name,value) { // fill rows
-                   	     if (idvalue!=null) {response+='<td>'+value+'</td>';}
-	           			     	 else {idvalue=value;response+='<td>'+(i+1)+'</td>';} 
-                   });
-                   if (lybartist.config.relationship.length>0) //only one relation many to many
-                       response +='<td><input type="button" class="btn btn-primary" value="'+lybartist.config.relationship[0]+'" onclick="lybartist.showManyToMany(\''+lybartist.config.entitie+'\',\''+idvalue+'\',\''+lybartist.config.relationship[0]+'\');"></td>';
-                   response +='<td><input type="button" class="btn btn-warning" value="Edit" onclick="lybartist.updateregister(\''+idvalue+'\','+i+');">';
-                   response += '&nbsp;<input type="button" class="btn btn-danger" value="Delete" onclick="lybartist.deleteregister(\''+idvalue+'\');"></td></tr>';
+
+                   if (lybartist.activeUniqueRegister==null ||  (lybartist.activeUniqueRegister==i )) {
+
+                       response += '<tr>';
+                       idvalue=null;
+                       $.each(item, function(name,value) { // fill rows
+                       	     if (idvalue!=null) {response+='<td>'+value+'</td>';}
+    	           			     	 else {idvalue=value;response+='<td>'+(i+1)+'</td>';} 
+                       });
+                       if (lybartist.config.relationship.length>0) //only one relation many to many
+                           response +='<td><input type="button" class="btn btn-primary" value="'+lybartist.config.relationship[0]+'" onclick="lybartist.showManyToMany(\''+lybartist.config.entitie+'\',\''+idvalue+'\',\''+lybartist.config.relationship[0]+'\',\''+i+'\');"></td>';
+                       response +='<td><input type="button" class="btn btn-warning" value="Edit" onclick="lybartist.updateregister(\''+idvalue+'\','+i+');">';
+                       response += '&nbsp;<input type="button" class="btn btn-danger" value="Delete" onclick="lybartist.deleteregister(\''+idvalue+'\');"></td></tr>';
+                     }
 
             });
+            lybartist.activeUniqueRegister = null;
+
             response += '</table>'; // note lybartist is necesary reference, this is one pointer ajax object
             $("#datacount").html('<hr class="hrclass"><b>Match '+lybartist.cachejson.length+' registers.' +((lybartist.action=='FIND')? ' filters options ': '' )+'</b><hr class="hrclass">');
             if (lybartist.cachejson.length>0) {
@@ -202,13 +209,20 @@
           }); // end object ajax
          return false;
         },
-        showManyToMany: function (origin,id,destine) {
+        showManyToMany: function (origin,id,destine,rowindex) {
+          this.activeUniqueRegister = rowindex;
+          this.showRegisters();
           $("#datacount").html('');
           $("#statusactionform").html('');
-          console.log('Many to many of '+origin+'('+id+') to '+destine);
+
+          numcicle = 0;
+          for (numcicle=0;numcicle < 1;numcicle++) {
+                 resourceaux = (numcicle==0)? '/artists/getbandsbyId/'+id : '/bands';
+
+
                  $.ajax({ // Note in body "this" not is one pointer lybartist exept in parameters
                  type: 'GET',
-                 url: '/artists/getbandsbyId/'+id,
+                 url: resourceaux,
                  success: function(data)
                  {
                    myjson='';
@@ -218,7 +232,7 @@
                         $("#datatable2").html('<div class="col-xs-6 col-md-4">List Empty</div>');
                         return false;
                     }
-                    response = '<div class="col-xs-6 col-md-4"><h2> In Relation Table </h2></div><table class="table collection table table-bordered table-striped table-hover"><tr><th>N</th>'; 
+                    response = '<p class="bg-primary">In Relation Table </p><table class="table collection table table-bordered table-striped table-hover"><tr><th>N</th>'; 
                     getHeaders = true;
                     $.each(myjson, function(i, item) {
                        if (getHeaders) { // get Header Names
@@ -238,12 +252,18 @@
                     });
                     response +='</tr>';
                     response += '</table>';
+                    if (numcicle==0)
+                      alert(numcicle);
                     $("#datatable2").html(response); // Show response Api Rest
+                    if (numcicle==1)
+                    $("#datatable3").html(response); // Show response Api Rest
+
                  },
                  error: function(x, e) {
                      $("#statusactionform").html('<font color="red"><b>Error</b></font>'); //  Show response Api Rest
                  }
               }); // end ajax
+          } // end cicle only two cicle one for relation and other for show items for adds
  
 
           return false;
