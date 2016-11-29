@@ -5,6 +5,10 @@ angular["module"]("app", ["ngRoute"])
 				templateUrl: "views/home.html",
 				controller: "HomeController"
 			})
+			["when"]("/login",{
+				controller: "LoginController",
+				templateUrl: "views/login.html"
+			})
 			["when"]("/albums",{
 				controller: "AlbumsController",
 				templateUrl: "views/albums.html"

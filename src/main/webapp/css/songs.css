@@ -5,12 +5,17 @@
 	margin-top: 1%;
 }
 
-.link {
+.song-band {
 	color: white;
 	text-decoration: none;
 }
 
-.link2 {
+.song-album {
 	color: white;
 	text-decoration: none;
+}
+
+a:hover {
+	color: red;
+	text-decoration: none
 }
