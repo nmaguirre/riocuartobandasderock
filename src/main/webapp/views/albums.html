@@ -6,7 +6,7 @@
 		<div class="row">
 			<div class="col-xs-3 album" ng-repeat="album in albums | orderBy: 'title' | filter : album_search">
 				<img src="/img/placeholder.png" class="img-fluid" alt="">
-				<p class="lead" ng-click="go_to(album.AlbumID)">{{album.title}}<br><small class="text-muted">{{album.releaseDate}}</small></p>
+				<p class="lead" ng-click="go_to(album.AlbumID)">{{album.title}}<br><small class="text-muted album-release">{{album.releaseDate}}</small></p>
 				<a class="album-song" ng-href="/#/songs/{{song.idSong}}" ng-repeat="song in album.songs">{{song.name}}<br></a>
 			</div>
 		</div>

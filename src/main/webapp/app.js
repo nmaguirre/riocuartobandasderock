@@ -2,6 +2,7 @@ angular["module"]("app", ["ngRoute"])
 	["config"](['$locationProvider','$routeProvider', function($locationProvider, $routeProvider){
 		$routeProvider
 			["when"]("/",{
+				templateUrl: "views/home.html",
 				controller: "HomeController"
 			})
 			["when"]("/albums",{
