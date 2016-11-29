@@ -18,8 +18,3 @@ $(window).on('resize', function (){
   $wHeight = $(window).height();
   $item.height($wHeight);
 });
-
-$('.carousel').carousel({
-  interval: 6000,
-  pause: "false"
-});
