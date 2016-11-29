@@ -89,7 +89,7 @@ public class Bootstrap {
         albumController  = AlbumController.getInstance();
         artistController = ArtistController.getInstance();
         bandMemberController = BandMemberController.getInstance();
-        bands = BandController.getInstance();
+        bands = BandController.getInstance(); 
         songController = new SongController();
         userController = UserController.getInstance();
         landingPageController = LandingPageController.getInstance();
@@ -214,15 +214,33 @@ public class Bootstrap {
         /**
         * SONG 
         **/
-        post("/songs/",(req,res)->songController.create(req, res));
+        post("/songs",(req,res)-> songController.create(req, res));
 
-        get("/songs/findbyname/:name",(req,res)->songController.getByName(req,res));
+        get("/songs/findById/:id",(req,res)-> songController.getById(req,res), json());
 
-        get("/songs/findbyduration/:duration",(req,res)->songController.getByDuration(req,res));
+        get("/songs/findbyname/:name",(req,res)-> songController.getByName(req,res), json());
+
+        get("/songs/findbyduration/:duration",(req,res)-> songController.getByDuration(req,res), json());
+
+        get("/songs",(req, res) -> songController.getAll(req, res), new VelocityTemplateEngine());
+
+        get("/songs/new",(req, res) -> songController.newSong(req, res), new VelocityTemplateEngine());
+
+        get("/songs/:id/edit",(req, res) -> songController.editSong(req, res), new VelocityTemplateEngine());
+
+        get("/songs/:id",(req, res) -> songController.showSong(req, res), new VelocityTemplateEngine());
+
+        get("/songs",(req, res) -> songController.create(req, res));
+
+        put("/songs/:id",(req, res) -> songController.update(req, res));
 
         delete("/songs/:id",(req, res) -> songController.remove(req, res));
+    
 
-        after((req, res) -> {res.type("text/html");});
+        
+
+       
+        
 
     }
 }

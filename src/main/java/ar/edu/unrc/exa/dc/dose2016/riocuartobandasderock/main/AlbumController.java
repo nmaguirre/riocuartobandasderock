@@ -48,7 +48,7 @@ public class AlbumController {
 		res.status(status);
 		res.body(albums.toString());
 		// return albums;
-        attributes.put("albumns", albums);
+        attributes.put("albums", albums);
         attributes.put("template", Routes.index_album());
         return new ModelAndView(attributes, Routes.layout_dashboard());
     }
