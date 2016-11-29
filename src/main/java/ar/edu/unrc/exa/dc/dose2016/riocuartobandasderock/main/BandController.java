@@ -85,9 +85,10 @@ public class BandController {
 		if (req.params(":genre")==""){
 			res.status(400);
 		}
+		String genero = req.params(":genre");
 		Session session = SessionManager.getInstance().openSession();
 		BandDAO bdao = new BandDaoImpl(session);
-		List<Band> bands = bdao.findByName(req.params(":genre"));
+		List<Band> bands = bdao.findByGenre(req.params(":genre"));
 		session.close();
 		int status = (bands.size()!=0)? 200:204;
 		res.status(status);
@@ -154,6 +155,9 @@ public class BandController {
 	 * @return a String that describes the result of update a band.
 	 */
 	public String updateBand(Request req,Response res){
+		String name = req.queryParams("name");
+		String genre = req.queryParams("genre");
+		String bandID = req.params(":id");
 
 		if((req.queryParams("name")=="") && (req.queryParams("genre")=="")){
 			res.status(400);
