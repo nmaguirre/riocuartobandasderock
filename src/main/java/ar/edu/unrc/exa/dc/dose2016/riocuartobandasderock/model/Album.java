@@ -107,6 +107,12 @@ public class Album {
 		return releaseDate;
 	}
 
+	public String toString(){
+		if (releaseDate != null)
+			return releaseDate.toString();
+		else return " ";
+	} 
+
 	/**
 	 * Sets the Album field releaseDate with the parameter releaseDate.
 	 *

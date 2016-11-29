@@ -93,7 +93,7 @@
   </div>
 </section>
 
-  <!-- Songs Section -->
+  <!-- Songs Section --> 
 <section id="canciones" class="container content-section text-center">
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2">
@@ -114,11 +114,11 @@
                         <th>Álbum</th>
                       </thead>
                       <tbody>
-                        #foreach( $album in $albums )
+                        #foreach( $song in $songs )
                           <tr>
-                            <td>$album.getName()</td>
-                            <td>$album.getDuration()</td>
-                            <td>$album.getAlbum()</td>
+                            <td>$song.getName()</td>
+                            <td>$song.getDuration()</td>
+                            <td>$song.getAlbum()</td>
                           </tr>
                         #end
                       </tbody>
@@ -144,21 +144,19 @@
               <div class="col-md-12">
                 <div class="card card-plain">
                   <div class="card-header" data-background-color="purple">
-                    <h4 class="title">Listado de todos los Albunes</h4>
+                    <h4 class="title">Listado de todos los Álbumes</h4>
                   </div>
                   <div class="card-content table-responsive">
                     <table class="table table-hover">
                       <thead>
                         <th>Titulo</th>
                         <th>Lanzamiento</th>
-                        <th>Acciones</th>
                       </thead>
                       <tbody>
                         #foreach( $album in $albums )
                           <tr>
-                            <td>$album.getId()</td>
                             <td>$album.getTitle()</td>
-                            <td>$album.getReleaseDate()</td>
+                            <td>$album.toString()</td>
                           </tr>
                         #end
                       </tbody>
@@ -171,16 +169,6 @@
         </div>
       </div>
     </div>
-</section>
-
-  <!-- Sing_up Section -->
-<section id="registrarse" class="container content-section text-center">
-  <div class="row">
-    <div class="col-lg-8 col-lg-offset-2">
-      <h2>REGISTRARSE</h2>
-      <p></p>
-    </div>
-  </div>
 </section>
 
   <!-- Sing_in Section -->

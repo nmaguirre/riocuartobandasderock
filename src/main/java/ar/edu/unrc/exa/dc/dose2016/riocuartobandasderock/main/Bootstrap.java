@@ -1,6 +1,7 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
 import static spark.Spark.*;
+
 import static ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.JsonUtil.json;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -41,7 +42,8 @@ public class Bootstrap {
 
     public static void main(String[] args) {
 
-        staticFileLocation("/webapp");
+    	staticFileLocation("/webapp");
+
 
     	CommandLineParser parser = new DefaultParser();
 
@@ -106,6 +108,7 @@ public class Bootstrap {
         **/
         get("/", (req, res) -> landingPageController.index(req,res), new VelocityTemplateEngine());
 
+
         /**
         * DASHBOARD
         **/
@@ -121,6 +124,7 @@ public class Bootstrap {
         get("/albums/:id/edit",(req, res) -> albumController.editAlbum(req, res), new VelocityTemplateEngine());
 
         get("/albums/:id",(req, res) -> albumController.showAlbum(req, res), new VelocityTemplateEngine());
+
 
         get("/albums/findByTitle/:title", (req, res) -> albumController.findByTitle(req, res));
 
@@ -170,6 +174,13 @@ public class Bootstrap {
 
         get("/artists/:id",(req, res) -> artistController.showArtist(req, res), new VelocityTemplateEngine());
 
+        
+        /** returns an artist whose id = :id the output is json format
+         * example:   Request: GET /artist/10
+         *            Output : {name: Matias, surname: Cerra, nickname: }
+         * 
+         * **/    
+        
         get("/artists/findbyallattributes/",(req,res)->artistController.getOneArtist(req,res),json());
 
         get("/artists/:id",(req,res)->artistController.getArtistById(req,res));
@@ -194,9 +205,9 @@ public class Bootstrap {
          * BAND MEMEBER
          **/
         post("/bandmembers",(req,res)->bandMemberController.createBandMember(req, res));
-
-        delete("/bandmembers/:artistID/:BandID",(req,res)->bandMemberController.deleteBandMember(req, res));
-
+        
+        delete("/bandmembers/:artistID/:bandID",(req,res)->bandMemberController.deleteBandMember(req, res));
+        
         /**
          * USER
          **/

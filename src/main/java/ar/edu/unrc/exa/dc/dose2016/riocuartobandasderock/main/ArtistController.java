@@ -1,7 +1,6 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
-
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.ArtistDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandMemberDAO;
@@ -12,6 +11,7 @@ import spark.Response;
 import spark.Request;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.HibernateException;
 import java.util.List;
 
 import spark.ModelAndView;
@@ -75,6 +75,8 @@ public class ArtistController {
 	* @return one Artist.
 	*/
 	public List<Artist> getOneArtist (Request req, Response res){
+
+		System.out.println(req.pathInfo());
 		String name = req.queryParams("name");
 		if (name==null){
 			name="";
@@ -311,16 +313,31 @@ public class ArtistController {
 		}
 		session = SessionManager.getInstance().openSession();
 		artistDAO=new ArtistDaoImpl(session);
-		Transaction transaction = session.beginTransaction();
-		boolean status = artistDAO.updateArtist(artist.getId(),name,surname,nickname);
-		transaction.commit();
-		session.close();
-		if (status){
-			res.status(200);
-			return "Success";
+		Transaction transaction = null;
+		boolean status = false;
+		String result = "Fail";
+		try{
+			transaction = session.beginTransaction();
+			status = artistDAO.updateArtist(artist.getId(),name,surname,nickname);
+			transaction.commit();
 		}
-		res.status(409);
-		return "Fail";
+		catch (HibernateException e) {
+			transaction.rollback();
+			status = false;
+			e.printStackTrace();
+		}
+		finally{
+			session.close();
+			if (status){
+				res.status(200);
+				result = "Success";
+			}
+			else{
+				res.status(409);
+				result = "Fail";
+			}
+		}
+		return result;
 	}
 
 	/**
@@ -342,16 +359,31 @@ public class ArtistController {
 		}
 		Session session = SessionManager.getInstance().openSession();
 		ArtistDAO artistDAO=new ArtistDaoImpl(session);
-		Transaction transaction = session.beginTransaction();
-		boolean status = artistDAO.deleteArtist(req.params(":id"));
+		Transaction transaction = null;
+		boolean status = false;
+		String result = "Fail";
+		try{
+		transaction = session.beginTransaction();
+		status = artistDAO.deleteArtist(req.params(":id"));
 		transaction.commit();
-		session.close();
-		if (status){
-			res.status(200);
-			return "Success";
 		}
-		res.status(409);
-		return "Fail";
+		catch (HibernateException e) {
+			transaction.rollback();
+			status = false;
+			e.printStackTrace();
+		}
+		finally{
+			session.close();
+			if (status){
+				res.status(200);
+				result = "Success";
+			}
+			else{
+				res.status(409);
+				result = "Fail";
+			}
+		}
+		return result;
 	}
 
 	/**
