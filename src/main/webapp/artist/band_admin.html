@@ -78,7 +78,7 @@
                 response = '<table>';
                 itemindex = 1;
                 $.each(request, function(i, item) {
-                       response += '<tr>'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.genre+'</td> </tr>';
+                       response += '<tr>'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.genre+'</td>' +'</tr>';  //'<td> <a href="javascript:void(0);" class="glyphicon glyphicon-trash" onclick="deleteArtistFromBand(\''+item.idArtist+'\',\''+id+'\'); event.stopImmediatePropagation();"</a> </td>'+'</tr>';
                         ++itemindex;
                 });           
                 response += '</table>';    
@@ -91,7 +91,7 @@
 
     function showInEdit(id){
             
-        var resourcelocation ='/bands'+id;
+        var resourcelocation ='/bands';
         $.ajax({
             type: 'GET',
             url: resourcelocation,
@@ -180,6 +180,7 @@
                 showBands('/bands'); //optional refresh list
             },
             error: function(x, e) {
+            	alert("Lo sentimos, ha ocurrido un error");
             }
         });
 
@@ -232,12 +233,11 @@
                             response = '<table>';
                             itemindex = 1;
                             $.each(request, function(i, item) {
-                                   response += '<tr onclick="showArtistMInDialog(\''+item.bandID+'\')">'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.genre+'</td>'+'<td>'+'<td> <a href="javascript:void(0);" class="glyphicon glyphicon-edit" onclick="showInEdit(\''+item.bandID+'\'); event.stopImmediatePropagation();"</a> <a href="javascript:void(0);" class="glyphicon glyphicon-trash" onclick="deleteBand(\''+item.name+'\'); event.stopImmediatePropagation();"</a> </td> </tr>';
+                                   response += '<tr onclick="showArtistMInDialog(\''+item.bandID+'\')">'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.genre+'</td>' +'</tr>';
                                     ++itemindex;
                             });           
                             response += '</table>';
                         }
-                        
                         $("#userData").html(response);
                      },
                      error: function(x, e) {
@@ -249,6 +249,52 @@
         $('.form')[2].reset();
         $('#searchForm').slideToggle(); 
    }
+   
+	function addArtistToBand() {
+		
+		/* Missing Implementation");
+    	var url = '/bandmembers'; 
+        name=$('#name').val();
+        surname=$('#surname').val();
+        nickname=$('#nickname').val();
+    
+        if (name+surname+nickname=='') {
+            alert("Al menos debe rellenar un campo");
+        }
+        else {
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: $("#addForm").find('.form').serialize(), // Adjuntar los campos del formulario enviado.
+                success: function(data)
+                {
+                    ???  showBands('/bands'); //optional refresh list
+                    $('.form')[0].reset();
+                    $('.formData').slideUp();
+                 },
+                 error: function(x, e) {
+                 	alert("error "+x+" "+e);
+                 }
+            });
+        } */
+    }
+
+	function deleteArtisFromBand(idBand,idArtist){
+		alert("Missing Implementation");
+ 		/* resourcelocation = '/bandmembers/'+idArtist+'/'+idBand';
+		
+		$.ajax({
+			type: "DELETE",
+			url: resourcelocation,
+			data: '',
+			success: function(data){
+				showBands('/bands'); //optional refresh list
+			},
+			error: function(x, e) {
+				alert("Lo sentimos, ha ocurrido un error.");
+			}
+		}); */
+	}
 
     /**
      * Vertically center Bootstrap 3 modals so they aren't always stuck at the top
@@ -403,17 +449,19 @@
                     <tr>
                         <th></th>
                         <th>Name</th>
-                        <th>Genre</th>
+                        <th>Surname</th>
+                        <th>Nickname</th>
+                        <th></th>
                     </tr>
                 </thead>
-                <tbody id="bandMData"></tbody>
+                <tbody id="artistMData"></tbody>
             </table>
       </div>
       <div class="modal-footer">
+      	<!--<button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:addArtistToBand();">Add Artist</button>-->
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
-
   </div>
 </div>
 
