@@ -61,13 +61,12 @@ public class BandController {
     BandDAO bdao = new BandDaoImpl(session);
     List<Band> bands= bdao.getAllBands();
     session.close();
-    int status = (bands.size()>0)? 200:204;
-    res.status(status);
+    // int status = (bands.size()>0)? 200:204;
+    // res.status(status);
     // return bands;
-
-      attributes.put("bands", bands);
-      attributes.put("template", Routes.index_band());
-      return new ModelAndView(attributes, Routes.layout_dashboard());
+    attributes.put("bands", bands);
+    attributes.put("template", Routes.index_band());
+    return new ModelAndView(attributes, Routes.layout_dashboard());
   }
 
   /***

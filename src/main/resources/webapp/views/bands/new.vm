@@ -13,7 +13,7 @@
           <p class="category">Complete el formulario</p>
         </div>
         <div class="card-content">
-          <form action="" method="post">
+          <form action="/bands" method="post">
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group label-floating">

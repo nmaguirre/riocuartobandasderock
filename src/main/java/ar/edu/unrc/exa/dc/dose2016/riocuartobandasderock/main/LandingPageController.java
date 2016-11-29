@@ -67,7 +67,7 @@ public class LandingPageController {
     attributes.put("bands", bands);
     attributes.put("artists", artists);
     attributes.put("songs",songs);
-    attributes.put("albumns", albums);
+    attributes.put("albums", albums);
     return new ModelAndView(attributes, Routes.layout_landing_page());
   }
 }

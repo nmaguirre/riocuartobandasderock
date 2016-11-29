@@ -48,7 +48,7 @@ public class AlbumController {
 		res.status(status);
 		res.body(albums.toString());
 		// return albums;
-        attributes.put("albumns", albums);
+        attributes.put("albums", albums);
         attributes.put("template", Routes.index_album());
         return new ModelAndView(attributes, Routes.layout_dashboard());
     }
@@ -93,6 +93,9 @@ public class AlbumController {
 
         if (req.queryParams("title") == null || req.queryParams("title") == ""){
             res.status(400);
+            attributes.put("error", "El Album no puede tener el nombre en blanco");
+            attributes.put("template", Routes.new_album());
+            return new ModelAndView(attributes, Routes.layout_dashboard());
             // res.body("Album title can't be null nor empty");
             // return res.body();
         }
@@ -108,7 +111,7 @@ public class AlbumController {
             res.status(http_status);
             if (!result){
                 res.body("Duplicate album"); //If the result of the creation was false, it means that there is a duplicate
-                attributes.put("error", "El Album no puede tener el nombre en blanco");
+                attributes.put("error", "El Album ya existe");
                 attributes.put("template", Routes.new_album());
                 return new ModelAndView(attributes, Routes.layout_dashboard());
             }
@@ -132,7 +135,9 @@ public class AlbumController {
             // res.body("Internal server error");
             // return res.body();
         }
-
+        attributes.put("success", "El Album se creo con exito");
+        attributes.put("template", Routes.index_album());
+        return new ModelAndView(attributes, Routes.layout_dashboard());
     }
 
     public List<Album> findByTitle(Request req, Response res) {

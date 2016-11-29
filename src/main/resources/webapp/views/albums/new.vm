@@ -13,12 +13,18 @@
           <p class="category">Complete el formulario</p>
         </div>
         <div class="card-content">
-          <form>
+          <form action="/albums" method="post">
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group label-floating">
                   <label class="control-label">Título</label>
-                  <input type="text" class="form-control" >
+                  <input type="text" class="form-control" name="title">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group label-floating">
+                  <label class="control-label">Lanzamiento</label>
+                  <input type="text" class="form-control" name="release_date">
                 </div>
               </div>
             </div>

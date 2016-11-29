@@ -7,11 +7,14 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SessionManager
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SongDaoImpl;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
@@ -43,13 +46,18 @@ public class SongController {
      * @param res
      * @return a list of all bands songs
      */
-    public List<Song> getAll(Request req, Response res){
+    public ModelAndView getAll(Request req, Response res){
+      Map<String, Object> attributes = new HashMap<>();
     	Session session = SessionManager.getInstance().openSession();
     	SongDAO sdao = new SongDaoImpl(session);
     	List<Song> songs = sdao.getAllSongs();
     	session.close();
-    	res.status(songs.size() > 0 ? 200 : 204);
-        return songs;
+    	// res.status(songs.size() > 0 ? 200 : 204);
+        //return songs;
+
+      attributes.put("songs", songs);
+      attributes.put("template", Routes.index_song());
+      return new ModelAndView(attributes, Routes.layout_dashboard());
     }
 
 
@@ -138,10 +146,10 @@ public class SongController {
 			res.status(400);
 			// res.body("Invalid content of parameters");
 			// return res.body();
-            attributes.put("error", "El nombre no puede estar en blanco");
-            attributes.put("template", Routes.new_song());
-            return new ModelAndView(attributes, Routes.layout_dashboard());
-		}
+        attributes.put("error", "El nombre no puede estar en blanco");
+        attributes.put("template", Routes.new_song());
+        return new ModelAndView(attributes, Routes.layout_dashboard());
+		  }
     	boolean result = sdao.addSong(songName,Integer.parseInt(dur));
     	transaction.commit();
     	session.close();
@@ -153,6 +161,9 @@ public class SongController {
         attributes.put("template", Routes.index_song());
         return new ModelAndView(attributes, Routes.layout_dashboard());
     	}
+      attributes.put("success", "La canción se creo con exito");
+      attributes.put("template", Routes.index_song());
+      return new ModelAndView(attributes, Routes.layout_dashboard());
     	// return res.body();
     }
 
@@ -237,6 +248,33 @@ public class SongController {
 		return res.body();
     }
 
+    public ModelAndView showSong(Request req,Response res){
+    Map<String, Object> attributes = new HashMap<>();
 
+    Session session = SessionManager.getInstance().openSession();
+    SongDAO songDAO = new SongDaoImpl(session);
 
+    Song song = songDAO.findById(req.params(":id"));
+    attributes.put("song", song);
+
+    attributes.put("template", Routes.show_song());
+    attributes.put("title", "show");
+    return new ModelAndView(attributes, Routes.layout_dashboard());
+  }
+
+  public ModelAndView newSong(Request req,Response res){
+    Map<String, Object> attributes = new HashMap<>();
+
+    attributes.put("template", Routes.new_song());
+    attributes.put("title", "new");
+    return new ModelAndView(attributes, Routes.layout_dashboard());
+  }
+
+  public ModelAndView editSong(Request req,Response res){
+    Map<String, Object> attributes = new HashMap<>();
+
+    attributes.put("template", Routes.edit_song());
+    attributes.put("title", "edit");
+    return new ModelAndView(attributes, Routes.layout_dashboard());
+  }
 }
