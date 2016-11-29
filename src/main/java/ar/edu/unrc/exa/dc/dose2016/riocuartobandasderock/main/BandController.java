@@ -6,6 +6,12 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import java.io.*;
+import java.sql.*;
+// import org.json.*;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.*;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
@@ -36,6 +42,7 @@ public class BandController {
    * check that have only one instance of class
    */
   private static BandController instance = null;
+  private static LandingBandsIndexDataTable bandDatatable = new LandingBandsIndexDataTable();
 
   /***
    * Constructor of class BandController
@@ -70,15 +77,21 @@ public class BandController {
       return new ModelAndView(attributes, Routes.layout_dashboard());
   }
 
+  
+  public JSONObject datatable(Request req,Response res){
+    return bandDatatable.landing(req, res);
+  }
+
   /***
    * This method takes a band name, and returns a list of bands with this name
    * @param req
    * @param res
    * @return a list of bands with the name of the request
    */
+  
+
   public List<Band> getBandByName(Request req,Response res){
     if (req.params(":name")==""){
-      System.out.println("ENTREEE AACACACACACACACACACACA");
       res.status(400);
       return null;
     }
