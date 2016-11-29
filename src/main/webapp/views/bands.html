@@ -1,9 +1,12 @@
 <div class="row">
-	<div class="col-xs-12 albums-container">
+	<div class="col-xs-3">
+		<input class="form-control" type="" name="" ng-model="band_search" placeholder="Filtrar">
+	</div>
+	<div class="col-xs-12 bands-container">
 		<div class="row">
-			<div class="col-xs-3 album" ng-repeat="album in albums | orderBy: 'title'">
-				<p class="lead">{{album.title}}<br><small class="text-muted">{{album.releaseDate}}</small></p>
-				<a ng-href="/#/songs/{{song.idSong}}" ng-repeat="song in album.songs">{{song.name}}<br></a>
+			<div class="col-xs-3 band" ng-repeat="band in bands | orderBy:'name' | filter:band_search">
+				<img src="/img/placeholder.png" class="img-fluid" alt="">
+				<p class="lead" ng-click="go_to(band.BandID)">{{band.name}}<br><small class="text-muted">{{band.genre}}</small></p>
 			</div>
 		</div>
 	</div>

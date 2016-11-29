@@ -19,9 +19,8 @@
 					</tr>
 				</thead>
 				<tbody>
-				<a class="artist-band" ng-href="/#/artists/{{band.BandID}}" ng-repeat="song in album.songs">{{song.name}}<br></a>
 					<tr ng-repeat="band in artist.bands">
-						<td><a class="artist-band" ng-href="/#/artists/{{band.BandID}}">{{band.name}}</td>
+						<td><a class="artist-band" ng-href="/#/bands/{{band.BandID}}">{{band.name}}</td>
 					</tr>
 				</tbody>
 				</table>
