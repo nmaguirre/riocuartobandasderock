@@ -207,12 +207,14 @@ public class Bootstrap {
 
         delete("/users/:name", (req, res) -> userController.delete(req, res));
 
+        get("/login", (req, res)  -> userController.getLogin(req, res), new VelocityTemplateEngine());
+
         post("/login", (req, res) -> userController.login(req, res));
 
         post("/logout", (req, res) -> userController.logout(req, res));
 
         /**
-        * SONG 
+        * SONG
         **/
         post("/songs/",(req,res)->songController.create(req, res));
 

@@ -11,6 +11,10 @@ public class Routes {
     return "views/layouts/dashboard.vm";
   }
 
+  public static String layout_sessions(){
+    return "views/layouts/sessions.vm";
+  }
+
   // Routes to resource Band
   public static String edit_band(){
     return "views/bands/edit.vm";
@@ -89,6 +93,11 @@ public class Routes {
   // Routes to Dashboard
   public static String dashboard_index(){
     return "views/dashboard/index.vm";
+  }
+
+  // Routes to Login
+  public static String login(){
+    return "views/users/sign_in.vm";
   }
 
 }
