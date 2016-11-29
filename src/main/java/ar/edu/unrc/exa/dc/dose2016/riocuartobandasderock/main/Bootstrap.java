@@ -19,6 +19,8 @@ import spark.TemplateEngine;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.gson.Gson;
+
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandDaoImpl;
 
 /**
@@ -29,7 +31,8 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandDaoImpl;
 public class Bootstrap {
 
 
-	private static BandController bands;
+    private static BandController bands;
+	private static LandingBandsIndexDataTable bandDatatable;
 	private static ArtistController artistController;
 	private static AlbumController albumController;
     private static UserController userController;
@@ -85,7 +88,7 @@ public class Bootstrap {
          */
 
         // List of controller
-
+        bandDatatable = new LandingBandsIndexDataTable();
         albumController  = AlbumController.getInstance();
         artistController = ArtistController.getInstance();
         bandMemberController = BandMemberController.getInstance();
@@ -123,28 +126,20 @@ public class Bootstrap {
 
         get("/albums/:id",(req, res) -> albumController.showAlbum(req, res), new VelocityTemplateEngine());
 
-        get("/albums/findByTitle/:title", (req, res) -> albumController.findByTitle(req, res));
+        delete("/albums/:id",(req, res) -> albumController.showAlbum(req, res), new VelocityTemplateEngine());
 
-        get("/albums/findByReleaseDate/:release_date", (req, res) -> albumController.findByReleaseDate(req, res));
+        put("/albums/:id",(req, res) -> albumController.showAlbum(req, res), new VelocityTemplateEngine());
 
         post("/albums", (req, res) -> albumController.create(req, res));
 
 
-
-        get("/hello", (req, res) -> "Hello World");
-
         /**
         * BAND
         **/
+
+        Gson gson = new Gson();
+        
         get("/bands",(req, res) -> bands.getBands(req, res), new VelocityTemplateEngine());
-
-        get("/bands/findbyname/:name",(req, res) -> bands.getBandByName(req, res), json());
-
-        get("/bands/findbygenre/:genre",(req, res) -> bands.getBandByGenre(req, res),json());
-
-        get("/bands/find/",(req, res) -> bands.getBandByNameAndGenre(req, res),json());
-
-        get("/bands/getbandmember/:bandID",(req,res)-> bands.getBandMembers(req, res),json());
 
         get("/bands/new",(req, res) -> bands.newBand(req, res), new VelocityTemplateEngine());
 
@@ -152,13 +147,15 @@ public class Bootstrap {
 
         get("/bands/:id",(req, res) -> bands.showBand(req, res), new VelocityTemplateEngine());
 
-        get("/bands/",(req, res) -> bands.createBand(req, res));// for test the add bands
+        delete("/bands/:id",(req, res) -> bands.showBand(req, res), new VelocityTemplateEngine());
 
-        post("/bands/",(req, res) -> bands.createBand(req, res));
+        post("/bands",(req, res) -> bands.createBand(req, res));
 
         put("/bands",(req, res) -> bands.updateBand(req, res));
 
-        delete("/bands/:name",(req, res) -> bands.deleteBand(req, res));
+        delete("/bands/:id",(req, res) -> bands.deleteBand(req, res));
+
+        post("/bands/datatable",(req, res) -> bands.datatable(req, res), gson::toJson);
 
         /**
         * ARTIST
@@ -222,7 +219,7 @@ public class Bootstrap {
 
         delete("/songs/:id",(req, res) -> songController.remove(req, res));
 
-        after((req, res) -> {res.type("text/html");});
+        // after((req, res) -> {res.type("text/html");});
 
     }
 }
