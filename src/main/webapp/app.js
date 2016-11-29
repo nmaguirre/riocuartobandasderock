@@ -29,6 +29,9 @@ angular["module"]("app", ["ngRoute"])
 				controller: "BandsController",
 				templateUrl: "views/band.html"
 			})
+			["when"]("/search_results",{
+				templateUrl: "views/results.html"
+			})
 			["when"]("/songs",{
 				controller: "SongsController",
 				templateUrl: "views/songs.html"
