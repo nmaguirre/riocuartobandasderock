@@ -1,0 +1,32 @@
+<div class="row">
+	<div class="col-xs-12 bands-container">
+		<div class="row band-info">
+			<div class="offset-xs-1 col-xs-3">
+				<img src="img/placeholder.png" class="img-fluid">
+			</div>
+			<div class="col-xs-7">
+				<p>BANDA</p>
+				<hr>
+				
+				<h1>{{band.name}}<br><i>{{band.genre}}</i></h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">	
+				<table class="table table-striped table-hover">
+				<thead>
+					<tr>
+						<th>DISCOGRAFIA</th>
+						<th>INTEGRANTES?</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="album in band.albums">
+						<td><a class="band-album" ng-href="/#/albums/{{album.AlbumID}}">{{album.title}}</td>
+					</tr>
+				</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
