@@ -3,16 +3,8 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao;
 import java.util.Date;
 import java.util.List;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
-
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions;
 //import java.util.Date;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 
 /**

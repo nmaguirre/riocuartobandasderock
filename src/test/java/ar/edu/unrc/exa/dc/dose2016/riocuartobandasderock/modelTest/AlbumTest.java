@@ -4,16 +4,13 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.BandMember;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 
 import java.text.ParseException;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.UUID;
 
 // TODO: Auto-generated Javadoc
 /**

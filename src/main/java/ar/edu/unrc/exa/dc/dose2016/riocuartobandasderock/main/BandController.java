@@ -12,13 +12,10 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandMemberDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandMemberDAOImpl;
+
 import spark.Request;
 import spark.Response;
-
 import spark.ModelAndView;
-
-import spark.ModelAndView;
-import spark.TemplateEngine;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -165,7 +162,8 @@ public class BandController {
    * @return the object of the band created.
    */
   public ModelAndView createBand(Request req,Response res){
-    Map<String, Object> attributes = new HashMap<>();
+	ModelAndView result;
+	Map<String, Object> attributes = new HashMap<>();
     if((req.queryParams("name")=="") || (req.queryParams("genre")=="")){
       res.status(400);
       // return "Request invalid";
@@ -192,14 +190,15 @@ public class BandController {
         // return "Success";
         attributes.put("success", "La banda se creo con exito");
         attributes.put("template", Routes.index_band());
-        return new ModelAndView(attributes, Routes.layout_dashboard());
+        result = new ModelAndView(attributes, Routes.layout_dashboard());
       }
       res.status(409);
       // return "Fail";
       attributes.put("error", "El nombre no puede estar en blanco");
       attributes.put("template", Routes.new_band());
-      return new ModelAndView(attributes, Routes.layout_dashboard());
+      result= new ModelAndView(attributes, Routes.layout_dashboard());
     }
+    return result;
   }
 
   /***
@@ -209,7 +208,7 @@ public class BandController {
    * @return a String that describes the result of update a band.
    */
   public String updateBand(Request req,Response res){
-
+	String result;
     if((req.queryParams("name")=="") && (req.queryParams("genre")=="")){
       res.status(400);
       return "Request invalid";
@@ -237,11 +236,12 @@ public class BandController {
       session.close();
       if (status){
         res.status(200);
-        return "Success";
+        result = "Success";
       }
       res.status(409);
-      return "Fail";
+      result = "Fail";
     }
+    return result;
   }
 
   /***
@@ -251,7 +251,8 @@ public class BandController {
    * @return true if the the band was created. Otherwise, false.
    */
   public String deleteBand(Request req,Response res){
-    if ((req.params(":name"))==""){
+    String result;
+	  if ((req.params(":name"))==""){
       res.status();
       return "Request invalid";
     }
@@ -277,11 +278,12 @@ public class BandController {
       session.close();
       if (status){
         res.status(200);
-        return "Success";
+        result = "Success";
       }
       res.status(409);
-      return "Fail";
+      result = "Fail";
     }
+    return result; 
   }
 
   /**

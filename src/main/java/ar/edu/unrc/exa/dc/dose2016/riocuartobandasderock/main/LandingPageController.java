@@ -3,18 +3,10 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 import java.util.List;
 
 import org.hibernate.Session;
-import org.hibernate.Transaction;
-
-import static spark.Spark.*;
-// import static spark.Spark.staticFileLocation;
 
 import spark.ModelAndView;
-
 import spark.Request;
 import spark.Response;
-
-import spark.ModelAndView;
-import spark.TemplateEngine;
 
 import java.util.HashMap;
 import java.util.Map;

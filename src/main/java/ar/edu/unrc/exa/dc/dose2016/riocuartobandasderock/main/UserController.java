@@ -1,6 +1,5 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.UserDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SessionManager;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.UserDAOImpl;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.User;

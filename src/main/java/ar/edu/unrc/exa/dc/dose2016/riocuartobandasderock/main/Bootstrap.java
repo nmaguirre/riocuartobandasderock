@@ -3,11 +3,6 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 import static spark.Spark.*;
 
 import static ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.JsonUtil.json;
-import static ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.JsonUtil.jsonAlbum;
-
-import java.lang.reflect.Type;
-import java.util.LinkedList;
-import java.util.List;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -17,21 +12,6 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 // import src.main.WebApp.Views;
 
-import spark.Request;
-import spark.Response;
-
-import spark.ModelAndView;
-import spark.TemplateEngine;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandDaoImpl;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 
 /**
  *

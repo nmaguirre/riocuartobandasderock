@@ -1,6 +1,5 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
-import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,14 +15,12 @@ import org.hibernate.Transaction;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.AlbumDAO;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.AlbumDaoImpl;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SessionManager;
 import spark.Request;
 import spark.Response;
 
 import spark.ModelAndView;
-import spark.TemplateEngine;
 
 import java.util.HashMap;
 import java.util.Map;
