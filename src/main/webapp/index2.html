@@ -20,7 +20,7 @@
 
 <body id="page-top">
     
-    <section id="Customer" class="download bg-primary text-center" style="height: 1000px; ">
+    <section id="Customer" class="download bg-primary text-center" style="height: 1500px; ">
         <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
             <div class="container">
                 <!-- Brand and toggle get grouped for better mobile display -->
@@ -35,7 +35,7 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <button id="admin" type="button" style="color: #FF0000; position: absolute; top: 20px;">Login</button>
+                            <button id="admin" type="button" onclick="location.href='index.html'" style="color: #FF0000; position: absolute; top: 20px;">Back</button>
                         </li>
                     </ul>
                 </div>
@@ -43,8 +43,81 @@
             </div>
         <!-- /.container-fluid -->
         </nav>
-
+        <div class="container">
+            <section class="searchZone" style="width: 250px; height: 800px;">
+                <div style="width: 250px; ">
+                    <legend>Add Songs</legend>
+                        <form>
+                            Name:<br>
+                            <input type="text" name="songName">
+                            <br>
+                            
+                        </form>
+                        <form>
+                            Duration:<br>
+                            <input type="text" name="songDuration">
+                            <br>
+                        </form>
+                        <form>
+                            Album:<br>
+                            <input type="text" name="songAlbum">
+                            <br>
+                            
+                        </form>
+                        <br>
+                        <button class="button" style="color: black" onclick="songAdd()">Add Song</button>                   
+                </div>
+                <br>
+                <div style="width: 250px; ">
+                    <legend>Delete Songs</legend>
+                    <form>
+                        Name:<br>
+                        <input type="text" name="songName">
+                        <br>
+                        
+                    </form>
+                    <form>
+                        Duration:<br>
+                        <input type="text" name="songDuration">
+                        <br>
+                    </form>
+                    <form>
+                        Album:<br>
+                        <input type="text" name="songAlbum">
+                        <br>
+                        
+                    </form>
+                    <br>
+                    <button class="button" style="color: black" onclick="songDelete()">Delete Song</button>                     
+                </div>
+                  <br>
+                <div style="width: 250px; ">
+                    <legend>Modify Songs</legend>
+                    <form>
+                        Name:<br>
+                        <input type="text" name="songName">
+                        <br>
+                        
+                    </form>
+                    <form>
+                        Duration:<br>
+                        <input type="text" name="songDuration">
+                        <br>
+                    </form>
+                    <form>
+                        Album:<br>
+                        <input type="text" name="songAlbum">
+                        <br>
+                        
+                    </form>
+                    <br>
+                    <button class="button" style="color: black" onclick="songModify()">Modify Song</button>                     
+                </div>     
+                   </section>
+        </div>
     </section>
+
+
     
     <footer>
         <div class="container">
