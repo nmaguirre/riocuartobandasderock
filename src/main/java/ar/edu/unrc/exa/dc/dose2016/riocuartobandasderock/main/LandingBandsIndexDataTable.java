@@ -95,8 +95,8 @@ public class LandingBandsIndexDataTable{
     return aux;
   }
 
-  public String link_to(String name, String path){
-    return "<a class='bands-item'id='"+path+"' href='/bands/"+path+"'>"+name+"</a>";
+  public String link_to(String name, String id){
+    return "<a class='bands-item' id='"+id+"' href=''>"+name+"</a>";
   }
  
  }

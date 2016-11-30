@@ -40,7 +40,7 @@ $(document).ready(function() {
     }).done(function(data) {  
       $('#band-name').text(data.name);
       $('#band-genre').text(data.genre);
-      $("#mycarousel").carousel("next");
+      $("#mycarousel").carousel(2);
     });
   })
 
