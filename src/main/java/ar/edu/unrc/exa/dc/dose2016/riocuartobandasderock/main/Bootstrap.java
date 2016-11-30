@@ -34,44 +34,45 @@ public class Bootstrap {
 
 
     private static BandController bands;
-	private static LandingBandsIndexDataTable bandDatatable;
-	private static ArtistController artistController;
-	private static AlbumController albumController;
+    private static LandingBandsIndexDataTable bandDatatable;
+    private static ArtistController artistController;
+    private static AlbumController albumController;
     private static UserController userController;
-	private static SongController songController;
-	private static BandMemberController bandMemberController;
-	private static String view = "src/main/WebApp/views/";
+    private static SongController songController;
+    private static BandMemberController bandMemberController;
+    private static String view = "src/main/WebApp/views/";
     private static LandingPageController landingPageController;
     private static DashboardController dashboardController;
 
     public static void main(String[] args) {
 
-    	staticFileLocation("/webapp");
+        staticFileLocation("/webapp");
+        
+        Gson gson = new Gson();
 
+        CommandLineParser parser = new DefaultParser();
 
-    	CommandLineParser parser = new DefaultParser();
+        Option dbHost = new Option("dbh","dbHost",true,"use given host as database host");
+        Option dbPort = new Option("dbp","dbPort",true,"use given port as database port");
+        Option appPort =  new Option("ap","appPort",true,"use given port as application port");
+        appPort.setRequired(false);
 
-    	Option dbHost = new Option("dbh","dbHost",true,"use given host as database host");
-    	Option dbPort = new Option("dbp","dbPort",true,"use given port as database port");
-    	Option appPort =  new Option("ap","appPort",true,"use given port as application port");
-    	appPort.setRequired(false);
-
-    	Options options = new Options();
-    	options.addOption(dbHost);
-    	options.addOption(dbPort);
-    	options.addOption(appPort);
+        Options options = new Options();
+        options.addOption(dbHost);
+        options.addOption(dbPort);
+        options.addOption(appPort);
         try {
             // parse the command line arguments
             CommandLine line = parser.parse( options, args );
             if (line.hasOption("dbHost")) {
-            		ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().setDbHost(line.getOptionValue("dbHost"));
+                    ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().setDbHost(line.getOptionValue("dbHost"));
             }
             if (line.hasOption("dbPort")) {
-            	ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().setDbPort(line.getOptionValue("dbPort"));
+                ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().setDbPort(line.getOptionValue("dbPort"));
             }
 
             if (line.hasOption("appPort")) {
-            	ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().setAppPort(line.getOptionValue("appPort"));
+                ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().setAppPort(line.getOptionValue("appPort"));
             }
         }
         catch( ParseException exp ) {
@@ -156,6 +157,10 @@ public class Bootstrap {
         * LANDING PAGE
         **/
         get("/", (req, res) -> landingPageController.index(req,res), new VelocityTemplateEngine());
+        
+        post("/bands/datatable",(req, res) -> landingPageController.datatable(req, res), gson::toJson);
+
+        get("/band/show",(req, res) -> landingPageController.bandID(req, res), gson::toJson);
 
         /**
         * DASHBOARD
@@ -186,7 +191,6 @@ public class Bootstrap {
         * BAND
         **/
 
-        Gson gson = new Gson();
         
         get("/bands",(req, res) -> bands.getBands(req, res), new VelocityTemplateEngine());
 
@@ -204,9 +208,6 @@ public class Bootstrap {
 
         delete("/bands/:id",(req, res) -> bands.deleteBand(req, res));
 
-        post("/bands/datatable",(req, res) -> bands.datatable(req, res), gson::toJson);
-
-        get("/band/show",(req, res) -> bands.bandID(req, res), gson::toJson);
 
 
         /**
