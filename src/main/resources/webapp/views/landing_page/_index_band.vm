@@ -1,3 +1,9 @@
+<div class="col-lg-1 input-group nav navbar-left panel_toolbox">
+  <a class="slide-0" href="" role="button">
+    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+  </a>
+</div>
+
 <div class="col-lg-6 input-group nav navbar-left panel_toolbox">
   <input type="text" id="search-band" class="form-control" placeholder="Buscar banda por nombre o genero">
 </div>
