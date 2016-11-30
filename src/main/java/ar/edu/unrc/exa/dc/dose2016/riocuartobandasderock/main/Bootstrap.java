@@ -207,6 +207,6 @@ public class Bootstrap {
         //Route for acceptance test (Delete song)
         post("/songs/:id", (req,res) -> songController.createWithId(req,res));
 
-        after((req, res) -> {res.type("application/json");});
+        after((req, res) -> {/*res.type("application/json");*/});
     }
 }
