@@ -156,6 +156,9 @@ public class Bootstrap {
 
         post("/bands/datatable",(req, res) -> bands.datatable(req, res), gson::toJson);
 
+        get("/band/show",(req, res) -> bands.bandID(req, res), gson::toJson);
+
+
         /**
         * ARTIST
         **/
