@@ -1,0 +1,14 @@
+<table class="table table-hover" id="artist-table">
+  <thead>
+    <th>Nombre</th>
+    <th>Apellido</th>
+    <th>Apodo</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="artist-name"></td>
+      <td id="artist-surname"></td>
+      <td id="artist-nickname"></td>
+    </tr>
+  </tbody>
+</table>
