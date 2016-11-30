@@ -89,7 +89,7 @@ public class Bootstrap {
             if (!userController.authenticated(req, res)) {
                 halt(401, "Access forbidden\n");
             }
-        });*/
+        });
 
         // List of route and verbs API REST
 
