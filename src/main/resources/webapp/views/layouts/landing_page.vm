@@ -97,6 +97,7 @@
   <!-- carousel -->
   <script type="text/javascript" src="vendor/carousel/js/index.js"></script>
 
+  <script type="text/javascript" src="assets/js/landing_page/landing_page.js"></script>
   <script type="text/javascript" src="assets/js/landing_page/band.js"></script>
 
   <script type="text/javascript" src="vendor/data-table/js/jquery.dataTables.min.js"></script>
