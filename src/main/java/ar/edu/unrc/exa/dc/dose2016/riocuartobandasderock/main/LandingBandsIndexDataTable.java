@@ -65,8 +65,12 @@ public class LandingBandsIndexDataTable{
     // make the data Json result for datable
     for (Band band : bands) {
       JSONObject row = new JSONObject();
-      row.put("name", band.getName());
+      JSONObject url = new JSONObject();
+      row.put("name", link_to(band.getName(), band.getId()));
       row.put("genre", band.getGenre());
+      // row.put("DT_RowClass", "dt-link");
+      // url.put("url", "href='/bands/"+band.getId()+"'");
+      // row.put("DT_RowData", url);
       array.add(row); 
     }
 
@@ -89,6 +93,10 @@ public class LandingBandsIndexDataTable{
       from ++;
     }
     return aux;
+  }
+
+  public String link_to(String name, String path){
+    return "<a class='bands-item'id='"+path+"' href='/bands/"+path+"'>"+name+"</a>";
   }
  
  }

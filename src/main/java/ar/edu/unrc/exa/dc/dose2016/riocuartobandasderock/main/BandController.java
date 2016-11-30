@@ -78,6 +78,27 @@ public class BandController {
     return bandDatatable.landing(req, res);
   }
 
+  
+
+  public JSONObject bandID(Request req, Response res){
+    Band band;
+    JSONObject result = new JSONObject();
+
+    Session session = SessionManager.getInstance().openSession();
+    BandDAO bdao = new BandDaoImpl(session);
+    System.out.println("ID: "+req.queryParams("id"));
+    band = bdao.getBand(req.queryParams("id"));
+
+    if(band != null){
+      result.put("name", band.getName());
+      result.put("genre", band.getGenre());
+    }
+
+    res.type("application/json");
+    res.header("Cache-Control", "no-store");
+    return result;
+  }
+
   /***
    * This method takes a band name, and returns a list of bands with this name
    * @param req
