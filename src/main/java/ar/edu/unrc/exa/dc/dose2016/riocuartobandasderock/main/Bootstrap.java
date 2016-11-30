@@ -113,7 +113,7 @@ public class Bootstrap {
             if (!userController.authenticated(req, res))
                 res.redirect("/login");
         });
-        
+
         before("/bands", (req, res) -> {
             if (!userController.authenticated(req, res))
                 res.redirect("/login");
