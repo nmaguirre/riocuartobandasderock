@@ -68,14 +68,16 @@ function songGetAll() {
 		 if(Array.isArray(resp)){  //there are many songs
 			 for (var i=0; i<resp.length; i++){
 			    sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
-			    sys.addNode('duration'+i,{'color':'red','shape':'dot','label':resp[i].duration});
-			    sys.addEdge('name'+i, 'duration'+i,{'color':'black'});
+			    if(resp.duration != undefined){
+			       sys.addNode('duration'+i,{'color':'red','shape':'square','label':resp[i].duration});
+			       sys.addEdge('name'+i, 'duration'+i,{'color':'black'});  
+			    }   
 			 }
          }
 		 else{  //there is only one song	
 	        sys.addNode('name',{'color':'blue','shape':'dot','label':resp.name});
 		    if(resp.duration != undefined){
-			   sys.addNode('duration',{'color':'red','shape':'dot','label':resp.duration});
+			   sys.addNode('duration',{'color':'red','shape':'square','label':resp.duration});
 			   sys.addEdge('name', 'duration',{'color':'black'});
 			}
 		 }
@@ -103,12 +105,19 @@ function songFindByName() {
       if (this.readyState == 4 && this.status == 200) {
          document.getElementById("show").innerHTML = this.responseText;
 		 var resp = JSON.parse(xhttp.responseText);
-	  
-		 for (elem in resp)
+		 
+		 //request of album
+		 var xhttp2 = new XMLHttpRequest();
+		 xhttp2.open("GET", "http://"+host+":"+port+"/albums", true);
+		 xhttp2.onreadystatechange = function() {
+	        if (this.readyState == 4 && this.status == 200){var album = JSON.parse(xhttp2.responseText);}
+		 };
+		 
+		/*for (elem in resp)
 	    	  str = str + elem + ': ' + resp[elem]+'<br>';
 	    	  
-	    window.alert(str);	  
-	    document.getElementById('show').innerHTML = str;
+	     window.alert(str);	  
+	     document.getElementById('show').innerHTML = str;*/
 		 
 		 
 		 //ArborJs
@@ -117,19 +126,49 @@ function songFindByName() {
 		 sys.renderer = Renderer("#viewport"); 
 		 if(Array.isArray(resp)){  //there are many songs
 			 for (var i=0; i<resp.length; i++){
-			    sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
-			    sys.addNode('duration'+i,{'color':'red','shape':'dot','label':resp[i].duration});
-			    sys.addEdge('name'+i, 'duration'+i,{'color':'black'});
+				    sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
+				    if(resp.duration != undefined){
+				       sys.addNode('duration'+i,{'color':'red','shape':'square','label':resp[i].duration});
+				       sys.addEdge('name'+i, 'duration'+i,{'color':'black'});
+				    }   
+				    if(Array.isArray(album)){  //there are many albums
+				    	for (var j=0; (j<album.length); j++){
+				    	   if(album[j].albumid == resp[i].albumid){
+				    		   sys.addNode('album'+j,{'color':'green','shape':'dot','label':album[j].title});
+				    		   sys.addEdge('name'+i, 'album'+j,{'color':'black'});
+				    	   }
+				    	}	
+				    }
+				    else{  //there is only one album
+				       if(album[j].albumid == resp[i].albumid){
+				          sys.addNode('album',{'color':'green','shape':'dot','label':album.title});
+		    		      sys.addEdge('name'+i, 'album',{'color':'black'});
+				       }
+				    } 
 			 }
          }
-		 else{	//there is only one song	
-	        sys.addNode('name',{'color':'blue','shape':'dot','label':resp.name});
-		    if(resp.duration != undefined){
-			   sys.addNode('duration',{'color':'red','shape':'dot','label':resp.duration});
-			   sys.addEdge('name', 'duration',{'color':'black'});
-			}
-		 }
-      }
+		 else{	//there is only one song			
+			    sys.addNode('name',{'color':'blue','shape':'dot','label':resp.name});
+			    if(resp.duration != undefined){
+					   sys.addNode('duration',{'color':'red','shape':'dot','label':resp.duration});
+					   sys.addEdge('name', 'duration',{'color':'black'});
+			    }	       
+			    if(Array.isArray(album)){  //there are many albums
+			    	for (var j=0; (j<album.length); j++){
+			    	   if(album[j].albumid == resp[i].albumid){
+			    		   sys.addNode('album'+j,{'color':'green','shape':'dot','label':album[j].title});
+			    		   sys.addEdge('name', 'album'+j,{'color':'black'});
+			    	   }
+			    	}	
+			    }
+			    else{  //there is only one album
+			       if(album[j].albumid == resp[i].albumid){
+			          sys.addNode('album',{'color':'green','shape':'dot','label':album.title});
+	    		      sys.addEdge('name', 'album',{'color':'black'});
+			       }
+			    }     
+		}//else
+      }     
    };
    xhttp.send();  
 }
@@ -153,6 +192,13 @@ function songFindByDuration() {
 	     document.getElementById("show").innerHTML = this.responseText;
 		 var resp = JSON.parse(xhttp.responseText);
 		 
+		 //request of album
+		 var xhttp2 = new XMLHttpRequest();
+		 xhttp2.open("GET", "http://"+host+":"+port+"/albums", true);
+		 xhttp2.onreadystatechange = function() {
+	        if (this.readyState == 4 && this.status == 200){var album = JSON.parse(xhttp2.responseText);}
+		 };
+		 
 		 //ArborJs 
 		 var sys = arbor.ParticleSystem(500, 40,1); 
 		 sys.parameters({gravity:true}); 
@@ -160,22 +206,52 @@ function songFindByDuration() {
 		 if(Array.isArray(resp)){  //there are many songs
 			 for (var i=0; i<resp.length; i++){
 			    sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
-			    sys.addNode('duration'+i,{'color':'red','shape':'dot','label':resp[i].duration});
+			    sys.addNode('duration'+i,{'color':'red','shape':'square','label':resp[i].duration});
 			    sys.addEdge('name'+i, 'duration'+i,{'color':'black'});
+			    if(Array.isArray(album)){  //there are many albums
+			    	for (var j=0; (j<album.length); j++){
+			    	   if(album[j].albumid == resp[i].albumid){
+			    		   sys.addNode('album'+j,{'color':'green','shape':'dot','label':album[j].title});
+			    		   sys.addEdge('name'+i, 'album'+j,{'color':'black'});
+			    	   }
+			    	}	
+			    }
+			    else{  //there is only one album
+			       if(album[j].albumid == resp[i].albumid){
+			          sys.addNode('album',{'color':'green','shape':'dot','label':album.title});
+	    		      sys.addEdge('name'+i, 'album',{'color':'black'});
+			       }
+			    }  
 			 }
          }
 		 else{  //there is only one song	
 		    sys.addNode('name',{'color':'blue','shape':'dot','label':resp.name});
 		    sys.addNode('duration',{'color':'red','shape':'dot','label':resp.duration});
 		    sys.addEdge('name', 'duration',{'color':'black'});
+		    
+		    if(Array.isArray(album)){  //there are many albums
+		    	for (var j=0; (j<album.length); j++){
+		    	   if(album[j].albumid == resp[i].albumid){
+		    		   sys.addNode('album'+j,{'color':'green','shape':'dot','label':album[j].title});
+		    		   sys.addEdge('name', 'album'+j,{'color':'black'});
+		    	   }
+		    	}	
+		    }
+		    else{  //there is only one album
+		       if(album[j].albumid == resp[i].albumid){
+		          sys.addNode('album',{'color':'green','shape':'dot','label':album.title});
+    		      sys.addEdge('name', 'album',{'color':'black'});
+		       }
+		    }     
 		 }   
       }
    };
    xhttp.send(); 
 }
 
-
+//************************************************
 //******************** ARTIST ********************
+//************************************************
 
 /** 
  * artistGetAll
@@ -243,13 +319,16 @@ function artistFindByName() {
 	     if(Array.isArray(resp)){  //there are many artists
 		    for (var i=0; i<resp.length; i++){
 			   sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
-			   sys.addNode('nickname'+i,{'color':'red','shape':'dot','label':resp[i].nickname});
-			   sys.addNode('surname'+i,{'color':'green','shape':'dot','label':resp[i].surname});
-			   sys.addEdge('name'+i, 'nickname'+i,{'color':'black'});
-			   sys.addEdge('name'+i, 'surname'+i,{'color':'black'});
-			   sys.addEdge('nickname'+i, 'surname'+i,{'color':'black'});
-			}
-         }
+			   if(resp.nickname != undefined){
+				   sys.addNode('nickname'+i,{'color':'red','shape':'dot','label':resp[i].nickname});
+				   sys.addEdge('name'+i, 'nickname'+i,{'color':'black'});
+			   }	   
+			   if(resp.surname != undefined){
+				   sys.addNode('surname'+i,{'color':'green','shape':'dot','label':resp[i].surname});
+				   sys.addEdge('name'+i, 'surname'+i,{'color':'black'});
+			   }	      
+			}//for
+         }//iff
 		 else{  //there is only one artist
 		    sys.addNode('name',{'color':'blue','shape':'dot','label':resp.name});
 			if(resp.surname != undefined){
@@ -292,12 +371,15 @@ function artistFindByNickname() {
 		 sys.renderer = Renderer("#viewport"); 
 		 if(Array.isArray(resp)){  //there are many artists
 		    for (var i=0; i<resp.length; i++){
-			   sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
-			   sys.addNode('nickname'+i,{'color':'red','shape':'dot','label':resp[i].nickname});
-			   sys.addNode('surname'+i,{'color':'green','shape':'dot','label':resp[i].surname});
-			   sys.addEdge('name'+i, 'nickname'+i,{'color':'black'});
-			   sys.addEdge('name'+i, 'surname'+i,{'color':'black'});
-			   sys.addEdge('nickname'+i, 'surname'+i,{'color':'black'});
+		       sys.addNode('nickname'+i,{'color':'red','shape':'dot','label':resp[i].nickname});
+		       if(resp.surname != undefined){	
+		    	   sys.addNode('surname'+i,{'color':'green','shape':'dot','label':resp[i].surname});
+		    	   sys.addEdge('nickname'+i, 'surname'+i,{'color':'black'});
+		       } 
+			   if(resp.name != undefined){
+				   sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
+				   sys.addEdge('name'+i, 'nickname'+i,{'color':'black'});
+			   }
 			}
 	     }
 		 else{  //there is only one artist
@@ -310,7 +392,6 @@ function artistFindByNickname() {
 		       sys.addNode('name',{'color':'blue','shape':'dot','label':resp.name});
 		       sys.addEdge('nickname', 'name',{'color':'black'});
 		    }
-		    sys.addEdge('surname', 'name',{'color':'black'});
 		 }   
       }
    };
@@ -343,12 +424,15 @@ function artistFindBySurname() {
 		 sys.renderer = Renderer("#viewport"); 
 		 if(Array.isArray(resp)){  //there are many artists 
 		    for (var i=0; i<resp.length; i++){
-		 	   sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
-		 	   sys.addNode('nickname'+i,{'color':'red','shape':'dot','label':resp[i].nickname});
-		 	   sys.addNode('surname'+i,{'color':'green','shape':'dot','label':resp[i].surname});
-		 	   sys.addEdge('name'+i, 'nickname'+i,{'color':'black'});
-		 	   sys.addEdge('name'+i, 'surname'+i,{'color':'black'});
-		 	   sys.addEdge('nickname'+i, 'surname'+i,{'color':'black'});
+		       sys.addNode('surname'+i,{'color':'green','shape':'dot','label':resp[i].surname});
+		       if(resp.name != undefined){
+		    	   sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name}); 
+		    	   sys.addEdge('name'+i, 'surname'+i,{'color':'black'});
+		       }
+		       if(resp.nickname != undefined){
+		    	   sys.addNode('nickname'+i,{'color':'red','shape':'dot','label':resp[i].nickname});
+		    	   sys.addEdge('nickname'+i, 'surname'+i,{'color':'black'});
+		       }
 		 	}
 		 }
 		 else{  //there is only one artist
@@ -361,15 +445,15 @@ function artistFindBySurname() {
 		       sys.addNode('name',{'color':'blue','shape':'dot','label':resp.name});
 		       sys.addEdge('name', 'surname',{'color':'black'});
 		    }
-		    sys.addEdge('name', 'nickname',{'color':'black'});
 		 }		    
 	  }
    };
    xhttp.send();	  
 }
 
-
+//***********************************************
 //******************** ALBUM ********************
+/************************************************
 
 /** 
  * albumGetAll
@@ -487,8 +571,9 @@ function albumFindByTitle() {
    xhttp.send();
 }
 
-
+//**********************************************
 //******************** BAND ********************
+//**********************************************
 
 /** 
  * bandGetAll
@@ -573,7 +658,7 @@ function bandFyndByName() {
 						  sys.addEdge('bmember'+i,'member',{'color':'black'}); 	   
 					   }
 				   }
-	            }		   
+	            };		   
 			}
 		 }
 		 else{  //there is only one band
@@ -601,7 +686,7 @@ function bandFyndByName() {
 					  sys.addEdge('bmember','member',{'color':'black'}); 	   
 				   }
 			   }
-            }
+            };
 		 }
 	  }
    };
@@ -657,7 +742,7 @@ function bandFindByGenre() {
 						  sys.addEdge('bmember'+i,'member',{'color':'black'}); 	   
 					   }
 				   }
-	            }  
+	            };  
 			}
 		 }
 		 else{  //there is only one band
@@ -685,13 +770,13 @@ function bandFindByGenre() {
 					 sys.addEdge('bmember','member',{'color':'black'}); 	   
 				  }
 			   }
-	        }
+	        };
 		 }
       }
    };
    xhttp.send();
 }
-
+//********************************************************
 //*************************CREATE*************************
 function createSong() {
 	   var xhttp; 
