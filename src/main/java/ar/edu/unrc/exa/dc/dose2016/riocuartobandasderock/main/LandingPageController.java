@@ -19,6 +19,9 @@ import spark.TemplateEngine;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.*;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.*;
@@ -47,27 +50,71 @@ public class LandingPageController {
       return instance;
   }
 
+
   /***
-   * This method returns a index view
-   * @param req
-   * @param res
-   */
+  * * * * * * * * *
+  * INDEX METHOD  *
+  * * * * * * * * *
+  */
+
   public ModelAndView index(Request req ,Response res){
     Session session = SessionManager.getInstance().openSession();
     BandDAO bandDAO = new BandDaoImpl(session);
-    AlbumDaoImpl albumDAO = new AlbumDaoImpl(session);
-    SongDAO songDAO = new SongDaoImpl(session);
-    ArtistDAO artistDAO = new ArtistDaoImpl(session);
     Map<String, Object> attributes = new HashMap<>();
-    List<Band> bands= bandDAO.getAllBands();
-    List<Artist> artists = artistDAO.getAllArtists();
-    List<Song> songs = songDAO.getAllSongs();
-    List<Album> albums = albumDAO.getAll();
     attributes.put("template", Routes.landing_page());
-    attributes.put("bands", bands);
-    attributes.put("artists", artists);
-    attributes.put("songs",songs);
-    attributes.put("albumns", albums);
     return new ModelAndView(attributes, Routes.layout_landing_page());
   }
+
+  /***
+  * * * * * * * * *
+  * BAND METHODS  *
+  * * * * * * * * *
+  */
+
+  public JSONObject datatable(Request req,Response res){
+    LandingBandsIndexDataTable bandDatatable = new LandingBandsIndexDataTable();
+    return bandDatatable.landing(req, res);
+  }
+
+  public JSONObject bandID(Request req, Response res){
+    Band band;
+    JSONObject result = new JSONObject();
+
+    Session session = SessionManager.getInstance().openSession();
+    BandDAO bdao = new BandDaoImpl(session);
+    System.out.println("ID: "+req.queryParams("id"));
+    band = bdao.getBand(req.queryParams("id"));
+
+    if(band != null){
+      result.put("name", band.getName());
+      result.put("genre", band.getGenre());
+    }
+
+    res.type("application/json");
+    res.header("Cache-Control", "no-store");
+    return result;
+  }
+
+
+  /***
+  * * * * * * * * * *
+  * ARTIST METHODS  *
+  * * * * * * * * * *
+  */
+
+
+  /***
+  * * * * * * * * *
+  * ALBUM METHODS *
+  * * * * * * * * *
+  */
+
+
+  /***
+  * * * * * * * * *
+  * SONG METHODS  *
+  * * * * * * * * *
+  */
+
+
 }

@@ -8,9 +8,6 @@ import org.hibernate.Transaction;
 
 import java.io.*;
 import java.sql.*;
-// import org.json.*;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.*;
@@ -75,32 +72,6 @@ public class BandController {
       attributes.put("bands", bands);
       attributes.put("template", Routes.index_band());
       return new ModelAndView(attributes, Routes.layout_dashboard());
-  }
-
-  
-  public JSONObject datatable(Request req,Response res){
-    return bandDatatable.landing(req, res);
-  }
-
-  
-
-  public JSONObject bandID(Request req, Response res){
-    Band band;
-    JSONObject result = new JSONObject();
-
-    Session session = SessionManager.getInstance().openSession();
-    BandDAO bdao = new BandDaoImpl(session);
-    System.out.println("ID: "+req.queryParams("id"));
-    band = bdao.getBand(req.queryParams("id"));
-
-    if(band != null){
-      result.put("name", band.getName());
-      result.put("genre", band.getGenre());
-    }
-
-    res.type("application/json");
-    res.header("Cache-Control", "no-store");
-    return result;
   }
 
   /***
