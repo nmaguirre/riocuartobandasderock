@@ -95,7 +95,7 @@
                        response += '<tr>'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.duration+'</td>'+'<td> <a href="javascript:void(0);" class="glyphicon glyphicon-trash" onclick="deleteSongFromAlbum(\''+id+'\',\''+item.idSong+'\'); event.stopImmediatePropagation();"</a> </td>'+'</tr>';
                        ++itemindex;
                 });
-                response += '<tr><td colspan=4><button onclick="addSongToAlbum(\''+id+'\');">Add Song</button></td></tr>';
+                response += '<tr><td colspan=4><button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:addSongToAlbum(\''+id+'\');">Add Song</button> <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button></td></tr>';
                 response += '</table>';
             }
 
@@ -262,8 +262,8 @@
         $('#searchForm').slideToggle();
    }
 
-    function addSongToAlbum(){
-
+    function addSongToAlbum(idAlbum){
+        //missing implementation
    	}
 
 	function deleteSongFromAlbum(idAlbum,idSong){
@@ -271,6 +271,7 @@
 		console.log(idSong);
 		alert("Delete Song from Album: Missing Implementation");
 		/*Missing implementation
+        esto es borrar directamente la cancion ! ver como mierda lo hago S
 
         resourcelocation = "??";
 
@@ -459,10 +460,10 @@
                 <tbody id="songMData"></tbody>
             </table>
       </div>
-      <div class="modal-footer">
-      	<!--<button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:addSongToAlbum();">Add Song</button>-->
+      <!--<div class="modal-footer">
+      	<button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:addSongToAlbum();">Add Song</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
+      </div>-->
     </div>
 
   </div>
