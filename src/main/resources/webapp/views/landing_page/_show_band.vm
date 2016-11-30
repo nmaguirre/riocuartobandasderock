@@ -1,6 +1,10 @@
+<a class="slide-1" href="" role="button">
+  <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+</a>
+
 <table class="table table-hover" id="show-band-table">
   <thead>
-    <th>Nombre</th>
+    <th>Nombre</th> 
     <th>Genero</th>
   </thead>
   <tbody>
