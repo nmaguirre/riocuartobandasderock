@@ -190,7 +190,7 @@ public class BandController {
       if (status){
         res.status(201);
         // return "Success";
-        attributes.put("Success", "La banda se creo con exito");
+        attributes.put("success", "La banda se creo con exito");
         attributes.put("template", Routes.index_band());
         return new ModelAndView(attributes, Routes.layout_dashboard());
       }

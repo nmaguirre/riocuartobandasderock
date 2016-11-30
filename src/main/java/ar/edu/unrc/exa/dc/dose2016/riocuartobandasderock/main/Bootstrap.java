@@ -157,7 +157,7 @@ public class Bootstrap {
 
         get("/bands/",(req, res) -> bands.createBand(req, res));// for test the add bands
 
-        post("/bands/",(req, res) -> bands.createBand(req, res), new VelocityTemplateEngine());
+        post("/bands",(req, res) -> bands.createBand(req, res), new VelocityTemplateEngine());
 
         put("/bands",(req, res) -> bands.updateBand(req, res));
 
