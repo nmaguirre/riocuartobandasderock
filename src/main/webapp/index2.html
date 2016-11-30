@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Favicon -->
+	<link rel="shortcut icon" type="image/x-icon" href="img/nenene.jpg">
+
+    <title>UI Example</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Theme CSS -->
+    <link href="css/new-age.min.css" rel="stylesheet">
+    
+    <!-- Our CSS -->
+    <link href="css/our-css.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+    
+    <section id="Customer" class="download bg-primary text-center" style="height: 1500px; ">
+        <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+                    </button>
+                    <a class="navbar-brand page-scroll" href="#page-top">SongGroup Interface</a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <button id="admin" type="button" onclick="location.href='index.html'" style="color: #FF0000; position: absolute; top: 20px;">Back</button>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+        <!-- /.container-fluid -->
+        </nav>
+        <div class="container">
+            <section class="searchZone" style="width: 250px; height: 800px;">
+                <div style="width: 250px; ">
+                    <legend>Add Songs</legend>
+                        <form>
+                            Name:<br>
+                            <input type="text" name="songName">
+                            <br>
+                            
+                        </form>
+                        <form>
+                            Duration:<br>
+                            <input type="text" name="songDuration">
+                            <br>
+                        </form>
+                        <form>
+                            Album:<br>
+                            <input type="text" name="songAlbum">
+                            <br>
+                            
+                        </form>
+                        <br>
+                        <button class="button" style="color: black" onclick="songAdd()">Add Song</button>                   
+                </div>
+                <br>
+                <div style="width: 250px; ">
+                    <legend>Delete Songs</legend>
+                    <form>
+                        Name:<br>
+                        <input type="text" name="songName">
+                        <br>
+                        
+                    </form>
+                    <form>
+                        Duration:<br>
+                        <input type="text" name="songDuration">
+                        <br>
+                    </form>
+                    <form>
+                        Album:<br>
+                        <input type="text" name="songAlbum">
+                        <br>
+                        
+                    </form>
+                    <br>
+                    <button class="button" style="color: black" onclick="songDelete()">Delete Song</button>                     
+                </div>
+                  <br>
+                <div style="width: 250px; ">
+                    <legend>Modify Songs</legend>
+                    <form>
+                        Name:<br>
+                        <input type="text" name="songName">
+                        <br>
+                        
+                    </form>
+                    <form>
+                        Duration:<br>
+                        <input type="text" name="songDuration">
+                        <br>
+                    </form>
+                    <form>
+                        Album:<br>
+                        <input type="text" name="songAlbum">
+                        <br>
+                        
+                    </form>
+                    <br>
+                    <button class="button" style="color: black" onclick="songModify()">Modify Song</button>                     
+                </div>     
+                   </section>
+        </div>
+    </section>
+
+
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2016 DOSE UNRC. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+
+</html>

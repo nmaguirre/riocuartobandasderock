@@ -47,7 +47,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <button id="admin" type="button" style="color: #FF0000; position: absolute; top: 20px;" onclick="document.getElementById('admin')">Login</button>
+                        <button id="admin" type="button" style="color: #FF0000; position: absolute; top: 20px;" onclick="location.href='index2.html'">Login</button>
                     </li>
                 </ul>
             </div>
@@ -63,9 +63,9 @@
 				var sys = arbor.ParticleSystem(5000, 40,1); // create the system with sensible repulsion/stiffness/friction
                 sys.parameters({gravity:true}) // use center-gravity to make the graph settle nicely (ymmv)
                 sys.renderer = Renderer("#viewport") // our newly created renderer will have its .init() method called shortly by sys...
-                var dose = sys.addNode('dose',{'color':'blue','shape':'dot','label':'Dose'});
-                var song = sys.addNode('song',{'color':'red','shape':'dot','label':'Song'});
-                sys.addEdge(dose, song,{'color':'black'});
+                sys.addNode('dose',{'color':'blue','shape':'dot','label':'Dose'});
+                sys.addNode('song',{'color':'red','shape':'dot','label':'Song'});
+                sys.addEdge('dose', 'song',{'color':'black'});
                 
                 
                    /*var sys = arbor.ParticleSystem(500, 40,1);
@@ -127,7 +127,7 @@
                 			    <br>
                 			</form>	
                 			<br>
-                			<button class="button" style="color: black" onclick="artisGetAll()">Search All</button>				
+                			<button class="button" style="color: black" onclick="artistGetAll()">Search All</button>				
                 	  </div>
                 	  <br>
                 	  <div style="width: 250px; ">
