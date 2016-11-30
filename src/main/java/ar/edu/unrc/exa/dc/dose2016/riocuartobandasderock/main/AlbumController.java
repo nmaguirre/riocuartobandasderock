@@ -3,6 +3,7 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -61,18 +62,24 @@ public class AlbumController {
             res.body("Album title can't be null nor empty");
             return res.body();
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
             //Date should be in the next pattern: yyyy-mm-dd
         	Date release_date = req.queryParams("release_date") != null ? sdf.parse(req.queryParams("release_date")) : null;
         	Transaction transaction = session.beginTransaction();
-            boolean result = adao.create(req.queryParams("title"), release_date);
+        	
+        	//TODO: set correct values
+        	List<Object> songs = new LinkedList<Object>();
+        	String bandId = " ";
+        	//
+        	
+            boolean result = adao.create(req.queryParams("title"), release_date, songs, bandId);
             transaction.commit();
             session.close();
             int http_status = result ? 201 : 409;
             res.status(http_status);
+            res.body("Album Created");
             if (!result) res.body("Duplicate album"); //If the result of the creation was false, it means that there is a duplicate
-            res.body("Album created");
             return res.body();
         } catch (ParseException | IllegalArgumentException e) {
             //If an exception was thrown, then there was a problem with the parameters.
@@ -86,7 +93,6 @@ public class AlbumController {
             res.body("Internal server error");
             return res.body();
         }
-
     }
 
     public List<Album> findByTitle(Request req, Response res) {
@@ -142,7 +148,7 @@ public class AlbumController {
             res.body("Album title can't be null nor empty");
             return res.body();
         }
-        if (req.queryParams("id") == null || req.queryParams("id") == ""){
+        if (req.params("id") == null || req.params("id") == ""){
             res.status(400);
             res.body("Album id can't be null nor empty");
             return res.body();
@@ -152,7 +158,13 @@ public class AlbumController {
             //Date should be in the next pattern: yyyy-mm-dd
         	Date release_date = req.queryParams("release_date") != null ? sdf.parse(req.queryParams("release_date")) : null;
         	Transaction transaction = session.beginTransaction();
-            boolean result = adao.update(req.queryParams("id"), req.queryParams("title"), release_date);
+        	
+        	//TODO: set correct values
+        	List<Object> songs = new LinkedList<Object>();
+        	String bandId = " ";
+        	//
+        	
+            boolean result = adao.update(req.params("id"), req.queryParams("title"), release_date, songs, bandId);
             transaction.commit();
             session.close();
             int http_status = result ? 201 : 409;
@@ -178,14 +190,14 @@ public class AlbumController {
     public String delete(Request req, Response res) {
     	Session session = SessionManager.getInstance().openSession();
     	AlbumDaoImpl adao = new AlbumDaoImpl(session);
-        if (req.queryParams("id") == null || req.queryParams("id") == ""){
+       if ((req.params("id") == null) || (req.params("id").equals(""))){
             res.status(400);
             res.body("Album id can't be null nor empty");
             return res.body();
         }
         
         Transaction transaction = session.beginTransaction();
-        boolean result = adao.delete(req.queryParams("id"));
+        boolean result = adao.delete(req.params("id"));
         transaction.commit();
         session.close();
         int http_status = result ? 201 : 409;

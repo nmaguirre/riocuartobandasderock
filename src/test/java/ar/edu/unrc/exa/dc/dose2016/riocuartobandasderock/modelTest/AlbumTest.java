@@ -9,6 +9,7 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.BandMember;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -43,9 +44,10 @@ public class AlbumTest {
 	
 	/**
 	 * Full parameters constructor test.
+	 * @throws ParseException 
 	 */
 	@Test
-	public void fullParametersConstructorTest() {
+	public void fullParametersConstructorTest() throws ParseException {
 		String title = "Disraeli Gears";
 		Date releaseDate = new Date(1967,11,2);
 		Album albumTest = new Album(title, releaseDate);
