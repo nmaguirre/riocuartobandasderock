@@ -99,17 +99,37 @@ public class Bootstrap {
                 res.redirect("/login");
         });
         
+        before("/albums/*", (req, res) -> {
+            if (!userController.authenticated(req, res))
+                res.redirect("/login");
+        });
+        
+        before("/artists", (req, res) -> {
+            if (!userController.authenticated(req, res))
+                res.redirect("/login");
+        });
+        
+        before("/artists/*", (req, res) -> {
+            if (!userController.authenticated(req, res))
+                res.redirect("/login");
+        });
+        
         before("/bands", (req, res) -> {
             if (!userController.authenticated(req, res))
                 res.redirect("/login");
         });
 
-        before("/artists", (req, res) -> {
+        before("/bands/*", (req, res) -> {
             if (!userController.authenticated(req, res))
                 res.redirect("/login");
         });
 
         before("/songs", (req, res) -> {
+            if (!userController.authenticated(req, res))
+                res.redirect("/login");
+        });
+
+        before("/songs/*", (req, res) -> {
             if (!userController.authenticated(req, res))
                 res.redirect("/login");
         });
