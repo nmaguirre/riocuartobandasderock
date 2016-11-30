@@ -1,23 +1,3 @@
-/*The parameters of arborJs
-repulsion 1,000 the force repelling nodes from each other
-stiffness 600 the rigidity of the edges
-friction 0.5 the amount of damping in the system
-gravity false an additional force attracting nodes to the origin
-fps 55 frames per second
-dt 0.02 timestep to use for stepping the simulation
-precision 0.6 accuracy vs. speed in force calculations
-
-arbor.ParticleSystem({friction:.5, stiffness:600, repulsion:1000})
-sys.parameters({gravity:true, dt:0.005})
-
-Nodos
-sys.addNode("mynode", {mass:2, myColor:"goldenrod"})
-mass 1.0 the node’s resistance to movement and repulsive power
-fixed false if true, the node will be unaffected by other particles
-
-Edge
-edge = sys.addEdge(node1, node2, {length:.75, pointSize:3})
-*/
 var host ='localhost';
 var port ='4567';
 
@@ -327,8 +307,8 @@ function artistFindByName() {
 				   sys.addNode('surname'+i,{'color':'green','shape':'dot','label':resp[i].surname});
 				   sys.addEdge('name'+i, 'surname'+i,{'color':'black'});
 			   }	      
-			}//for
-         }//iff
+			}
+         }
 		 else{  //there is only one artist
 		    sys.addNode('name',{'color':'blue','shape':'dot','label':resp.name});
 			if(resp.surname != undefined){
@@ -453,7 +433,7 @@ function artistFindBySurname() {
 
 //***********************************************
 //******************** ALBUM ********************
-/************************************************
+//***********************************************
 
 /** 
  * albumGetAll
@@ -775,144 +755,5 @@ function bandFindByGenre() {
       }
    };
    xhttp.send();
-}
-//********************************************************
-//*************************CREATE*************************
-function createSong() {
-	   var xhttp; 
-	   var str = document.getElementsByName("")[0].value;
-	   if (str == "") {
-	      document.getElementById("show").innerHTML = "";
-		  return;
-	   }
-	   xhttp = new XMLHttpRequest();
-	   xhttp.open("POST", "http://"+host+":"+port+"/songs/"+str, true);
-	   xhttp.onreadystatechange = function() {
-	      if (this.readyState == 4 && this.status == 200) {
-
-	      }
-	   };
-	   xhttp.send();
-}
-
-function createArtist() {
-	   var xhttp; 
-	   var str = document.getElementsByName("")[0].value;
-	   if (str == "") {
-	      document.getElementById("show").innerHTML = "";
-		  return;
-	   }
-	   xhttp = new XMLHttpRequest();
-	   xhttp.open("POST", "http://"+host+":"+port+"/artists/"+str, true);
-	   xhttp.onreadystatechange = function() {
-	      if (this.readyState == 4 && this.status == 200) {
-
-	      }
-	   };
-	   xhttp.send();
-}
-
-function createAlbum() {
-	   var xhttp; 
-	   var str = document.getElementsByName("")[0].value;
-	   if (str == "") {
-	      document.getElementById("show").innerHTML = "";
-		  return;
-	   }
-	   xhttp = new XMLHttpRequest();
-	   xhttp.open("POST", "http://"+host+":"+port+"/albums/"+str, true);
-	   xhttp.onreadystatechange = function() {
-	      if (this.readyState == 4 && this.status == 200) {
-	    	  
-	      }
-	   };
-	   xhttp.send();
-}
-
-function createBand() {
-	   var xhttp; 
-	   var str = document.getElementsByName("")[0].value;
-	   if (str == "") {
-	      document.getElementById("show").innerHTML = "";
-		  return;
-	   }
-	   xhttp = new XMLHttpRequest();
-	   xhttp.open("POST", "http://"+host+":"+port+"/bands/"+str, true);
-	   xhttp.onreadystatechange = function() {
-	      if (this.readyState == 4 && this.status == 200) {
-
-	      }
-	   };
-	   xhttp.send();
-}
-
-//*************************DELETE*************************
-
-function deleteSong() {
-	   var xhttp; 
-	   var str = document.getElementsByName("")[0].value;
-	   if (str == "") {
-	      document.getElementById("show").innerHTML = "";
-		  return;
-	   }
-	   xhttp = new XMLHttpRequest();
-	   xhttp.open("POST", "http://"+host+":"+port+"/songs/"+str, true);
-	   xhttp.onreadystatechange = function() {
-	      if (this.readyState == 4 && this.status == 200) {
-
-	      }
-	   };
-	   xhttp.send();
-}
-
-function deleteArtist() {
-	   var xhttp; 
-	   var str = document.getElementsByName("")[0].value;
-	   if (str == "") {
-	      document.getElementById("show").innerHTML = "";
-		  return;
-	   }
-	   xhttp = new XMLHttpRequest();
-	   xhttp.open("POST", "http://"+host+":"+port+"/artists/"+str, true);
-	   xhttp.onreadystatechange = function() {
-	      if (this.readyState == 4 && this.status == 200) {
-
-	      }
-	   };
-	   xhttp.send();
-}
-
-function deleteAlbum() {
-	   var xhttp; 
-	   var str = document.getElementsByName("")[0].value;
-	   if (str == "") {
-	      document.getElementById("show").innerHTML = "";
-		  return;
-	   }
-	   xhttp = new XMLHttpRequest();
-	   xhttp.open("POST", "http://"+host+":"+port+"/albums/"+str, true);
-	   xhttp.onreadystatechange = function() {
-	      if (this.readyState == 4 && this.status == 200) {
-	    	  
-	      }
-	   };
-	   xhttp.send();
-}
-
-function deleteBand() {
-	   var xhttp; 
-	   var str = document.getElementsByName("")[0].value;
-	   if (str == "") {
-	      document.getElementById("show").innerHTML = "";
-		  return;
-	   }
-	   xhttp = new XMLHttpRequest();
-	   xhttp.open("POST", "http://"+host+":"+port+"/bands/"+str, true);
-	   xhttp.onreadystatechange = function() {
-	      if (this.readyState == 4 && this.status == 200) {
-
-	      }
-	   };
-	   xhttp.send();
 }
 
