@@ -198,6 +198,7 @@ When(/^I list all the albums the result of the search should have (\d+) entries$
   end
 end
 
+
 When(/^I try to update an album with name "([^"]*)" and release date "([^"]*)" to name "([^"]*)" and release date "([^"]*)"$/) do |oldTitle, oldReleaseDate, newTitle, newReleaseDate|
     queryResult = `psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"select albumID from AlbumDB where title = '#{oldTitle}' and releaseDate = '#{oldReleaseDate}';\" -t`
     puts("http://localhost:4567/albums/#{queryResult}")
@@ -303,18 +304,7 @@ Then(/^the album's database contains an album named "([^"]*)" with release date 
 end
 
 
-When(/^I list all the albums the result of the search should have (\d+) entries$/) do |arg1|
-  begin
-    response = RestClient.get "http://localhost:4567/albums"
-    puts("Response: "+response)
-    if (arg1 == "0")
-      expect(response.code).to eq(204)
-    else
-      expect(response.code).to eq(200)
-    end
-  end
 
-end
 
 #------------------------------------------------------------------
 
