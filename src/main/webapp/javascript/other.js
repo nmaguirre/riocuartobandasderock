@@ -48,7 +48,11 @@ function test(){
 //---AJAX Methods---
 //******************** SONG ********************
 
-//GetAll
+/** 
+ * songGetAll
+ * This method allows to make a request to the database, searching and bringing all the songs found.
+ * Subsequently this information will be used for its representation (ArborJs, and more).
+ */
 function songGetAll() {
    var xhttp; 
    xhttp = new XMLHttpRequest();
@@ -61,18 +65,18 @@ function songGetAll() {
 	     var sys = arbor.ParticleSystem(500, 40,1); // create the system with sensible repulsion/stiffness/friction
 		 sys.parameters({gravity:true}); // use center-gravity to make the graph settle nicely (ymmv)
 		 sys.renderer = Renderer("#viewport"); // our newly created renderer will have its .init() method called shortly by sys...
-		 if(Array.isArray(resp)){
+		 if(Array.isArray(resp)){  //there are many songs
 			 for (var i=0; i<resp.length; i++){
 			    sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
 			    sys.addNode('duration'+i,{'color':'red','shape':'dot','label':resp[i].duration});
 			    sys.addEdge('name'+i, 'duration'+i,{'color':'black'});
 			 }
          }
-		 else{	
+		 else{  //there is only one song	
 	        sys.addNode('name',{'color':'blue','shape':'dot','label':resp.name});
 		    if(resp.duration != undefined){
 			   sys.addNode('duration',{'color':'red','shape':'dot','label':resp.duration});
-			   sys.addEdge(name, duration);
+			   sys.addEdge('name', 'duration',{'color':'black'});
 			}
 		 }
       }
@@ -80,12 +84,16 @@ function songGetAll() {
    xhttp.send();
 }
 
-//FindByName
+/** 
+ * songFindByName
+ * This method allows to make a request to the database, searching and bringing all the songs found with the requested name.
+ * Subsequently this information will be used for its representation (ArborJs, and more).
+ */
 function songFindByName() {
    var xhttp; 
    var str = document.getElementsByName("songName")[0].value; 
    if (str == "") {
-      document.getElementById('show').innerHTML = "";
+      window.alert("You have not entered data into the search box!");
       return;
    }
    //AjaxJs
@@ -104,21 +112,21 @@ function songFindByName() {
 		 
 		 
 		 //ArborJs
-	     var sys = arbor.ParticleSystem(500, 40,1); // create the system with sensible repulsion/stiffness/friction
-		 sys.parameters({gravity:true}); // use center-gravity to make the graph settle nicely (ymmv)
-		 sys.renderer = Renderer("#viewport"); // our newly created renderer will have its .init() method called shortly by sys...
-		 if(Array.isArray(resp)){
+	     var sys = arbor.ParticleSystem(500, 40,1); 
+		 sys.parameters({gravity:true}); 
+		 sys.renderer = Renderer("#viewport"); 
+		 if(Array.isArray(resp)){  //there are many songs
 			 for (var i=0; i<resp.length; i++){
 			    sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
 			    sys.addNode('duration'+i,{'color':'red','shape':'dot','label':resp[i].duration});
 			    sys.addEdge('name'+i, 'duration'+i,{'color':'black'});
 			 }
          }
-		 else{	
+		 else{	//there is only one song	
 	        sys.addNode('name',{'color':'blue','shape':'dot','label':resp.name});
 		    if(resp.duration != undefined){
 			   sys.addNode('duration',{'color':'red','shape':'dot','label':resp.duration});
-			   sys.addEdge(name, duration);
+			   sys.addEdge('name', 'duration',{'color':'black'});
 			}
 		 }
       }
@@ -126,12 +134,16 @@ function songFindByName() {
    xhttp.send();  
 }
 
-//FindByDuration
+/** 
+ * songFindByDuration
+ * This method allows to make a request to the database, searching and bringing all the songs found with the requested duration(In seconds format).
+ * Subsequently this information will be used for its representation (ArborJs, and more).
+ */
 function songFindByDuration() {
    var xhttp; 
    var str = document.getElementsByName("songDuration")[0].value;
    if (str == "") {
-      document.getElementById("show").innerHTML = "";
+	  window.alert("You have not entered data into the search box!");
       return;
    }
    xhttp = new XMLHttpRequest();
@@ -145,17 +157,17 @@ function songFindByDuration() {
 		 var sys = arbor.ParticleSystem(500, 40,1); 
 		 sys.parameters({gravity:true}); 
 		 sys.renderer = Renderer("#viewport");
-		 if(Array.isArray(resp)){
+		 if(Array.isArray(resp)){  //there are many songs
 			 for (var i=0; i<resp.length; i++){
 			    sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
 			    sys.addNode('duration'+i,{'color':'red','shape':'dot','label':resp[i].duration});
 			    sys.addEdge('name'+i, 'duration'+i,{'color':'black'});
 			 }
          }
-		 else{
+		 else{  //there is only one song	
 		    sys.addNode('name',{'color':'blue','shape':'dot','label':resp.name});
 		    sys.addNode('duration',{'color':'red','shape':'dot','label':resp.duration});
-		    sys.addEdge(name, duration,{'color':'black'});
+		    sys.addEdge('name', 'duration',{'color':'black'});
 		 }   
       }
    };
@@ -165,7 +177,11 @@ function songFindByDuration() {
 
 //******************** ARTIST ********************
 
-//GetAll
+/** 
+ * artistGetAll
+ * This method allows to make a request to the database, searching and bringing all the artists found.
+ * Subsequently this information will be used for its representation (ArborJs, and more).
+ */
 function artistGetAll() {
    var xhttp; 
    xhttp = new XMLHttpRequest();
@@ -178,7 +194,7 @@ function artistGetAll() {
 		 var sys = arbor.ParticleSystem(500, 40,1); 
 		 sys.parameters({gravity:true}); 
 		 sys.renderer = Renderer("#viewport");
-	     if(Array.isArray(resp)){
+	     if(Array.isArray(resp)){  //there are many artists
 		    for (var i=0; i<resp.length; i++){
 			   sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
 			   sys.addNode('nickname'+i,{'color':'red','shape':'dot','label':resp[i].nickname});
@@ -188,29 +204,29 @@ function artistGetAll() {
 			   sys.addEdge('nickname'+i, 'surname'+i,{'color':'black'});
 			}
 		 }
-		 else{
+		 else{  //there is only one artist
 		    sys.addNode('nickname',{'color':'green','shape':'dot','label':resp.nickname});
-			if(resp.surname != undefined){
-			  sys.addNode('surname',{'color':'red','shape':'dot','label':resp.surname});
-			  sys.addEdge(nickname, surname);
-			}	 
-			if(resp.name != undefined){
-			   sys.addNode('name',{'color':'blue','shape':'dot','label':resp.name});
-			   sys.addEdge(nickname, name);
-			}
-			sys.addEdge(surname, name);
+			sys.addNode('surname',{'color':'red','shape':'dot','label':resp.surname});
+			sys.addEdge('nickname', 'surname',{'color':'black'});
+			sys.addNode('name',{'color':'blue','shape':'dot','label':resp.name});
+			sys.addEdge('nickname', 'name',{'color':'black'});
+			sys.addEdge('surname', 'name',{'color':'black'});
 		}     
 	  }
    };
    xhttp.send();
 }
 
-//FindByName
+/** 
+ * artistFindByName
+ * This method allows to make a request to the database, searching and bringing all the artists found with the requested name.
+ * Subsequently this information will be used for its representation (ArborJs, and more).
+ */
 function artistFindByName() {
    var xhttp; 
    var str = document.getElementsByName("artistName")[0].value;
    if (str == "") {
-      document.getElementById("show").innerHTML = "";
+	  window.alert("You have not entered data into the search box!");
 	  return;
    }
    xhttp = new XMLHttpRequest();
@@ -224,7 +240,7 @@ function artistFindByName() {
 		 var sys = arbor.ParticleSystem(500, 40,1); 
 		 sys.parameters({gravity:true}); 
 	     sys.renderer = Renderer("#viewport"); 
-	     if(Array.isArray(resp)){
+	     if(Array.isArray(resp)){  //there are many artists
 		    for (var i=0; i<resp.length; i++){
 			   sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
 			   sys.addNode('nickname'+i,{'color':'red','shape':'dot','label':resp[i].nickname});
@@ -234,29 +250,33 @@ function artistFindByName() {
 			   sys.addEdge('nickname'+i, 'surname'+i,{'color':'black'});
 			}
          }
-		 else{
+		 else{  //there is only one artist
 		    sys.addNode('name',{'color':'blue','shape':'dot','label':resp.name});
 			if(resp.surname != undefined){
 			   sys.addNode('surname',{'color':'red','shape':'dot','label':resp.surname});
-			   sys.addEdge(name, surname);
+			   sys.addEdge('name', 'surname',{'color':'black'});
 			}
 			if(resp.nickname != undefined){
 			   sys.addNode('nickname',{'color':'green','shape':'dot','label':resp.nickname});
-			   sys.addEdge(name, nickname);
+			   sys.addEdge('name', 'nickname',{'color':'black'});
 			}
-			sys.addEdge(surname, nickname);
+			sys.addEdge('surname', 'nickname',{'color':'black'});
 		 }  
       }
    };
    xhttp.send();	  
 }
 
-//FindByNickname
+/** 
+ * artistFindByNickname
+ * This method allows to make a request to the database, searching and bringing all the artists found with the requested nickname.
+ * Subsequently this information will be used for its representation (ArborJs, and more).
+ */
 function artistFindByNickname() {
    var xhttp; 
    var str = document.getElementsByName("artistNickname")[0].value;
    if (str == "") {
-      document.getElementById("show").innerHTML = "";
+	  window.alert("You have not entered data into the search box!");
 	  return;
    }
    xhttp = new XMLHttpRequest();
@@ -270,7 +290,7 @@ function artistFindByNickname() {
     	 var sys = arbor.ParticleSystem(500, 40,1); 
 		 sys.parameters({gravity:true}); 
 		 sys.renderer = Renderer("#viewport"); 
-		 if(Array.isArray(resp)){
+		 if(Array.isArray(resp)){  //there are many artists
 		    for (var i=0; i<resp.length; i++){
 			   sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
 			   sys.addNode('nickname'+i,{'color':'red','shape':'dot','label':resp[i].nickname});
@@ -280,17 +300,17 @@ function artistFindByNickname() {
 			   sys.addEdge('nickname'+i, 'surname'+i,{'color':'black'});
 			}
 	     }
-		 else{
+		 else{  //there is only one artist
 		    sys.addNode('nickname',{'color':'green','shape':'dot','label':resp.nickname});
 		    if(resp.surname != undefined){
 		       sys.addNode('surname',{'color':'red','shape':'dot','label':resp.surname});
-		       sys.addEdge(nickname, surname);
+		       sys.addEdge('nickname', 'surname',{'color':'black'});
 		    }	 
 		    if(resp.name != undefined){
 		       sys.addNode('name',{'color':'blue','shape':'dot','label':resp.name});
-		       sys.addEdge(nickname, name);
+		       sys.addEdge('nickname', 'name',{'color':'black'});
 		    }
-		    sys.addEdge(surname, name);
+		    sys.addEdge('surname', 'name',{'color':'black'});
 		 }   
       }
    };
@@ -298,12 +318,16 @@ function artistFindByNickname() {
 }	  
 	  
 
-//FindBySurname
+/** 
+ * artistFindBySurname
+ * This method allows to make a request to the database, searching and bringing all the artists found with the requested surname.
+ * Subsequently this information will be used for its representation (ArborJs, and more).
+ */
 function artistFindBySurname() {
    var xhttp; 
    var str = document.getElementsByName("artistSurname")[0].value;
    if (str == "") {
-      document.getElementById("show").innerHTML = "";
+	  window.alert("You have not entered data into the search box!");
 	  return;
    }
    xhttp = new XMLHttpRequest();
@@ -317,7 +341,7 @@ function artistFindBySurname() {
 		 var sys = arbor.ParticleSystem(500, 40,1); 
 		 sys.parameters({gravity:true}); 
 		 sys.renderer = Renderer("#viewport"); 
-		 if(Array.isArray(resp)){
+		 if(Array.isArray(resp)){  //there are many artists 
 		    for (var i=0; i<resp.length; i++){
 		 	   sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
 		 	   sys.addNode('nickname'+i,{'color':'red','shape':'dot','label':resp[i].nickname});
@@ -327,17 +351,17 @@ function artistFindBySurname() {
 		 	   sys.addEdge('nickname'+i, 'surname'+i,{'color':'black'});
 		 	}
 		 }
-		 else{
+		 else{  //there is only one artist
 		    sys.addNode('surname',{'color':'red','shape':'dot','label':resp.surname});
 		    if(resp.nickname != undefined){
 		       sys.addNode('nickname',{'color':'green','shape':'dot','label':resp.nickname});
-		       sys.addEdge(surname, nickname);
+		       sys.addEdge(surname, nickname,{'color':'black'});
 		    }
 		    if(resp.name != undefined){
 		       sys.addNode('name',{'color':'blue','shape':'dot','label':resp.name});
-		       sys.addEdge(name, surname);
+		       sys.addEdge('name', 'surname',{'color':'black'});
 		    }
-		    sys.addEdge(name, nickname);
+		    sys.addEdge('name', 'nickname',{'color':'black'});
 		 }		    
 	  }
    };
@@ -347,7 +371,11 @@ function artistFindBySurname() {
 
 //******************** ALBUM ********************
 
-//GetAll
+/** 
+ * albumGetAll
+ * This method allows to make a request to the database, searching and bringing all the albums found.
+ * Subsequently this information will be used for its representation (ArborJs, and more).
+ */
 function albumGetAll() {
    var xhttp; 
    xhttp = new XMLHttpRequest();
@@ -355,17 +383,38 @@ function albumGetAll() {
    xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
          var resp = JSON.parse(xhttp.responseText);	
+         
+         //ArborJs
+		 var sys = arbor.ParticleSystem(500, 40,1); 
+    	 sys.parameters({gravity:true}); 
+		 sys.renderer = Renderer("#viewport"); 
+         if(Array.isArray(resp)){  //there are many albums 
+ 		    for (var i=0; i<resp.length; i++){
+ 		    	sys.addNode('title'+i,{'color':'blue','shape':'dot','label':resp[i].title});
+ 				sys.addNode('releasedate'+i,{'color':'red','shape':'square','label':resp[i].releasedate}); 
+ 				sys.addEdge('title'+i,'releasedate'+i);;
+ 			}
+ 		 }
+ 	     else{  //there is only one album
+ 	    	sys.addNode('title',{'color':'blue','shape':'dot','label':resp.title});
+ 			sys.addNode('releasedate',{'color':'red','shape':'square','label':resp.releasedate}); 
+ 			sys.addEdge('title','releasedate',{'color':'black'});
+ 		}
       }
    };
    xhttp.send();
 }
 
-//FindByReleaseDate
+/** 
+ * albumFindByReleaseDate
+ * This method allows to make a request to the database, searching and bringing all the albums found with the requested release date.
+ * Subsequently this information will be used for its representation (ArborJs, and more).
+ */
 function albumFindByReleaseDate() {
    var xhttp; 
    var str = document.getElementsByName("albumDate")[0].value;
    if (str == "") {
-      document.getElementById("show").innerHTML = "";
+	  window.alert("You have not entered data into the search box!");
 	  return;
    }
    xhttp = new XMLHttpRequest();
@@ -379,29 +428,33 @@ function albumFindByReleaseDate() {
 		 var sys = arbor.ParticleSystem(500, 40,1); 
     	 sys.parameters({gravity:true}); 
 		 sys.renderer = Renderer("#viewport"); 
-		 if(Array.isArray(resp)){
+		 if(Array.isArray(resp)){  //there are many albums
 		    for (var i=0; i<resp.length; i++){
 		    	sys.addNode('title'+i,{'color':'blue','shape':'dot','label':resp[i].title});
-				sys.addNode('releasedate'+i,{'color':'red','shape':'dot','label':resp[i].releasedate}); 
-				sys.addEdge('title'+i,'releasedate'+i);;
+				sys.addNode('releasedate'+i,{'color':'red','shape':'square','label':resp[i].releasedate}); 
+				sys.addEdge('title'+i,'releasedate'+i,{'color':'black'});
 			}
-		}
-	    else{
+		 }
+	     else{  //there is only one album
 	    	sys.addNode('title',{'color':'blue','shape':'dot','label':resp.title});
-			sys.addNode('releasedate',{'color':'red','shape':'dot','label':resp.releasedate}); 
-			sys.addEdge(title,releasedate);
+			sys.addNode('releasedate',{'color':'red','shape':'square','label':resp.releasedate}); 
+			sys.addEdge('title','releasedate',{'color':'black'});
 		}   
 	  }
    };
    xhttp.send();
 }
 
-//FindByTitle
+/** 
+ * albumFindByTitle
+ * This method allows to make a request to the database, searching and bringing all the albums found with the requested title.
+ * Subsequently this information will be used for its representation (ArborJs, and more).
+ */
 function albumFindByTitle() {
    var xhttp; 
    var str = document.getElementsByName("albumTitle")[0].value;
    if (str == "") {
-      document.getElementById("show").innerHTML = "";
+	  window.alert("You have not entered data into the search box!");
       return;
    }
    xhttp = new XMLHttpRequest();
@@ -415,18 +468,18 @@ function albumFindByTitle() {
 		 var sys = arbor.ParticleSystem(500, 40,1); 
     	 sys.parameters({gravity:true}); 
 		 sys.renderer = Renderer("#viewport"); 
-		 if(Array.isArray(resp)){
+		 if(Array.isArray(resp)){  //there are many albums
 		    for (var i=0; i<resp.length; i++){
 		    	sys.addNode('title'+i,{'color':'blue','shape':'dot','label':resp[i].title});
-				sys.addNode('releasedate'+i,{'color':'red','shape':'dot','label':resp[i].releasedate}); 
-				sys.addEdge('title'+i,'releasedate'+i);;
+				sys.addNode('releasedate'+i,{'color':'red','square':'dot','label':resp[i].releasedate}); 
+				sys.addEdge('title'+i,'releasedate'+i,{'color':'black'});
 			}
 		 }
-	     else{
+	     else{  //there is only one album
 	        sys.addNode('title',{'color':'blue','shape':'dot','label':resp.title});
 		    if(resp.releasedate != undefined){
-		       sys.addNode('releasedate',{'color':'red','shape':'dot','label':resp.releasedate}); 
-			   sys.addEdge(title,releasedate);
+		       sys.addNode('releasedate',{'color':'red','shape':'square','label':resp.releasedate}); 
+			   sys.addEdge('title','releasedate',{'color':'black'});
 		    } 
 		 }
       }
@@ -437,25 +490,50 @@ function albumFindByTitle() {
 
 //******************** BAND ********************
 
-//GetAll
+/** 
+ * bandGetAll
+ * This method allows to make a request to the database, searching and bringing all the bands found.
+ * Subsequently this information will be used for its representation (ArborJs, and more).
+ */
 function bandGetAll() {
    var xhttp; 
    xhttp = new XMLHttpRequest();
    xhttp.open("GET", "http://"+host+":"+port+"/bands", true);
    xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
-         var resp = JSON.parse(xhttp.responseText);	
+         var resp = JSON.parse(xhttp.responseText);
+         
+         //ArborJs
+		 var sys = arbor.ParticleSystem(500, 40,1); 
+		 sys.parameters({gravity:true}); 
+    	 sys.renderer = Renderer("#viewport");
+		 if(Array.isArray(resp)){  //there are many bands
+		    for (var i=0; i<resp.length; i++){
+			   sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
+			   sys.addNode('genre'+i,{'color':'red','shape':'dot','label':resp[i].genre}); 
+			   sys.addEdge('name'+i,'genre'+i,{'color':'black'});
+			}
+		 }
+		 else{  //there is only one band
+		    sys.addNode('name',{'color':'blue','shape':'dot','label':resp.name});
+			sys.addNode('genre',{'color':'red','shape':'dot','label':resp.genre}); 
+			sys.addEdge('name','genre',{'color':'black'});
+		 }
 	  }
    };
    xhttp.send();
 }
 
-//FindByName
+/** 
+ * bandFyndByName
+ * This method allows to make a request to the database, searching and bringing all the bands found with the requested name.
+ * Subsequently this information will be used for its representation (ArborJs, and more).
+ */
 function bandFyndByName() {
    var xhttp; 
    var str = document.getElementsByName("bandName")[0].value;
    if (str == "") {
-      document.getElementById("show").innerHTML = "";
+	  window.alert("You have not entered data into the search box!");
 	  return;
    }
    xhttp = new XMLHttpRequest();
@@ -465,23 +543,81 @@ function bandFyndByName() {
 	     document.getElementById("show").innerHTML = this.responseText;
 		 var resp = JSON.parse(xhttp.responseText);
 	    
-   	     var sys = arbor.ParticleSystem(500, 40,1); 
+		 //ArborJs
+		 var sys = arbor.ParticleSystem(500, 40,1); 
 		 sys.parameters({gravity:true}); 
-		 sys.renderer = Renderer("#viewport"); 
-		 sys.addNode('name',{'color':'blue','shape':'dot','label':resp.name});
-		 sys.addNode('genre',{'color':'red','shape':'dot','label':resp.genre}); 
-		 sys.addEdge(name,genre);
+    	 sys.renderer = Renderer("#viewport");
+		 if(Array.isArray(resp)){  //there are many bands
+		    for (var i=0; i<resp.length; i++){
+			   sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
+			   sys.addNode('genre'+i,{'color':'red','shape':'dot','label':resp[i].genre}); 
+			   sys.addEdge('name'+i,'genre'+i,{'color':'black'});
+			   
+			   //request of band members
+			   var xhttp2 = new XMLHttpRequest();
+			   xhttp2.open("GET", "http://"+host+":"+port+"/bands/getbandmember/"+resp[i].bandid, true);
+			   xhttp2.onreadystatechange = function() {
+				   if (this.readyState == 4 && this.status == 200) {
+					   var resp2 = JSON.parse(xhttp2.responseText);			   
+					   if(Array.isArray(resp2)){  //there are many band members
+						  sys.addNode('bmember'+i,{'color':'green','shape':'dot','label':'Band Members'});
+						  sys.addEdge('bmember'+i,'name'+i,{'color':'black'}); 
+					      for (var j=0; j<resp2.length; j++){
+						      sys.addNode('member'+j,{'color':'orange','shape':'dot','label':resp2[j].name});
+						      sys.addEdge('bmember'+i,'member'+j,{'color':'black'});   					      
+					      }
+					   }
+					   else{  //there is only one band member 
+					      sys.addNode('bmember',{'color':'green','shape':'dot','label':'Band Members'});
+	                      sys.addNode('member',{'color':'orange','shape':'dot','label':resp2.name});
+						  sys.addEdge('bmember'+i,'member',{'color':'black'}); 	   
+					   }
+				   }
+	            }		   
+			}
+		 }
+		 else{  //there is only one band
+		    sys.addNode('name',{'color':'blue','shape':'dot','label':resp.name});
+			sys.addNode('genre',{'color':'red','shape':'dot','label':resp.genre}); 
+			sys.addEdge('name','genre',{'color':'black'});
+			
+			//request of band members
+			var xhttp2 = new XMLHttpRequest();
+			xhttp2.open("GET", "http://"+host+":"+port+"/bands/getbandmember/"+resp.bandid, true);
+			xhttp2.onreadystatechange = function() {
+			   if (this.readyState == 4 && this.status == 200) {
+				   var resp2 = JSON.parse(xhttp2.responseText);
+				   sys.addNode('bmember',{'color':'green','shape':'dot','label':'Band Members'});
+				   sys.addEdge('bmember','name',{'color':'black'});
+				   if(Array.isArray(resp2)){  //there are many band members
+				      for (var j=0; j<resp2.length; j++){
+					      sys.addNode('member'+j,{'color':'orange','shape':'dot','label':resp2[j].name});
+					      sys.addEdge('bmember','member'+j,{'color':'black'});   					      
+				      }
+				   }
+				   else{  //there is only one band member 
+				      sys.addNode('bmember',{'color':'green','shape':'dot','label':'Band Members'});
+                      sys.addNode('member',{'color':'orange','shape':'dot','label':resp2.name});
+					  sys.addEdge('bmember','member',{'color':'black'}); 	   
+				   }
+			   }
+            }
+		 }
 	  }
    };
    xhttp.send();
 }
 
-//FindByTGenre
+/** 
+ * bandFindByGenre
+ * This method allows to make a request to the database, searching and bringing all the bands found with the requested genre.
+ * Subsequently this information will be used for its representation (ArborJs, and more).
+ */
 function bandFindByGenre() {
    var xhttp; 
    var str = document.getElementsByName("bandGenre")[0].value;
    if (str == "") {
-      document.getElementById("show").innerHTML = "";
+	  window.alert("You have not entered data into the search box!");
 	  return;
    }
    xhttp = new XMLHttpRequest();
@@ -491,13 +627,207 @@ function bandFindByGenre() {
 	     document.getElementById("show").innerHTML = this.responseText;
 		 var resp = JSON.parse(xhttp.responseText);
 	    
+		 //ArborJs
 		 var sys = arbor.ParticleSystem(500, 40,1); 
 		 sys.parameters({gravity:true}); 
-    	 sys.renderer = Renderer("#viewport"); 
-	     sys.addNode('name',{'color':'blue','shape':'dot','label':resp.name});
-		 sys.addNode('genre',{'color':'red','shape':'dot','label':resp.genre}); 
-		 sys.addEdge(name,genre);
+    	 sys.renderer = Renderer("#viewport");
+		 if(Array.isArray(resp)){  //there are many bands
+		    for (var i=0; i<resp.length; i++){  
+			   sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
+			   sys.addNode('genre'+i,{'color':'red','shape':'dot','label':resp[i].genre}); 
+			   sys.addEdge('name'+i,'genre'+i,{'color':'black'});
+			   
+			   //request of band members
+			   var xhttp2 = new XMLHttpRequest();
+			   xhttp2.open("GET", "http://"+host+":"+port+"/bands/getbandmember/"+resp[i].bandid, true);
+			   xhttp2.onreadystatechange = function() {
+				   if (this.readyState == 4 && this.status == 200) {
+					   var resp2 = JSON.parse(xhttp2.responseText);			   
+					   if(Array.isArray(resp2)){  //there are many band members
+						  sys.addNode('bmember'+i,{'color':'green','shape':'dot','label':'Band Members'});
+						  sys.addEdge('bmember'+i,'name'+i,{'color':'black'}); 
+					      for (var j=0; j<resp2.length; j++){
+						      sys.addNode('member'+j,{'color':'orange','shape':'dot','label':resp2[j].name});
+						      sys.addEdge('bmember'+i,'member'+j,{'color':'black'});   					      
+					      }
+					   }
+					   else{  //there is only one band member 
+					      sys.addNode('bmember',{'color':'green','shape':'dot','label':'Band Members'});
+	                      sys.addNode('member',{'color':'orange','shape':'dot','label':resp2.name});
+						  sys.addEdge('bmember'+i,'member',{'color':'black'}); 	   
+					   }
+				   }
+	            }  
+			}
+		 }
+		 else{  //there is only one band
+		    sys.addNode('name',{'color':'blue','shape':'dot','label':resp.name});
+			sys.addNode('genre',{'color':'red','shape':'dot','label':resp.genre}); 
+			sys.addEdge(name,genre,{'color':'black'});
+			
+			//request of band members
+			var xhttp2 = new XMLHttpRequest();
+			xhttp2.open("GET", "http://"+host+":"+port+"/bands/getbandmember/"+resp.bandid, true);
+			xhttp2.onreadystatechange = function() {
+			   if (this.readyState == 4 && this.status == 200) {
+			      var resp2 = JSON.parse(xhttp2.responseText);			   
+				  if(Array.isArray(resp2)){  //there are many band members
+				     sys.addNode('bmember',{'color':'green','shape':'dot','label':'Band Members'});
+					 sys.addEdge('bmember','name'+i,{'color':'black'}); 
+					 for (var j=0; j<resp2.length; j++){
+					    sys.addNode('member'+j,{'color':'orange','shape':'dot','label':resp2[j].name});
+						sys.addEdge('bmember','member'+j,{'color':'black'});   					      
+					 }
+				  }
+				  else{  //there is only one band member 
+				     sys.addNode('bmember',{'color':'green','shape':'dot','label':'Band Members'});
+	                 sys.addNode('member',{'color':'orange','shape':'dot','label':resp2.name});
+					 sys.addEdge('bmember','member',{'color':'black'}); 	   
+				  }
+			   }
+	        }
+		 }
       }
    };
    xhttp.send();
 }
+
+//*************************CREATE*************************
+function createSong() {
+	   var xhttp; 
+	   var str = document.getElementsByName("")[0].value;
+	   if (str == "") {
+	      document.getElementById("show").innerHTML = "";
+		  return;
+	   }
+	   xhttp = new XMLHttpRequest();
+	   xhttp.open("POST", "http://"+host+":"+port+"/songs/"+str, true);
+	   xhttp.onreadystatechange = function() {
+	      if (this.readyState == 4 && this.status == 200) {
+
+	      }
+	   };
+	   xhttp.send();
+}
+
+function createArtist() {
+	   var xhttp; 
+	   var str = document.getElementsByName("")[0].value;
+	   if (str == "") {
+	      document.getElementById("show").innerHTML = "";
+		  return;
+	   }
+	   xhttp = new XMLHttpRequest();
+	   xhttp.open("POST", "http://"+host+":"+port+"/artists/"+str, true);
+	   xhttp.onreadystatechange = function() {
+	      if (this.readyState == 4 && this.status == 200) {
+
+	      }
+	   };
+	   xhttp.send();
+}
+
+function createAlbum() {
+	   var xhttp; 
+	   var str = document.getElementsByName("")[0].value;
+	   if (str == "") {
+	      document.getElementById("show").innerHTML = "";
+		  return;
+	   }
+	   xhttp = new XMLHttpRequest();
+	   xhttp.open("POST", "http://"+host+":"+port+"/albums/"+str, true);
+	   xhttp.onreadystatechange = function() {
+	      if (this.readyState == 4 && this.status == 200) {
+	    	  
+	      }
+	   };
+	   xhttp.send();
+}
+
+function createBand() {
+	   var xhttp; 
+	   var str = document.getElementsByName("")[0].value;
+	   if (str == "") {
+	      document.getElementById("show").innerHTML = "";
+		  return;
+	   }
+	   xhttp = new XMLHttpRequest();
+	   xhttp.open("POST", "http://"+host+":"+port+"/bands/"+str, true);
+	   xhttp.onreadystatechange = function() {
+	      if (this.readyState == 4 && this.status == 200) {
+
+	      }
+	   };
+	   xhttp.send();
+}
+
+//*************************DELETE*************************
+
+function deleteSong() {
+	   var xhttp; 
+	   var str = document.getElementsByName("")[0].value;
+	   if (str == "") {
+	      document.getElementById("show").innerHTML = "";
+		  return;
+	   }
+	   xhttp = new XMLHttpRequest();
+	   xhttp.open("POST", "http://"+host+":"+port+"/songs/"+str, true);
+	   xhttp.onreadystatechange = function() {
+	      if (this.readyState == 4 && this.status == 200) {
+
+	      }
+	   };
+	   xhttp.send();
+}
+
+function deleteArtist() {
+	   var xhttp; 
+	   var str = document.getElementsByName("")[0].value;
+	   if (str == "") {
+	      document.getElementById("show").innerHTML = "";
+		  return;
+	   }
+	   xhttp = new XMLHttpRequest();
+	   xhttp.open("POST", "http://"+host+":"+port+"/artists/"+str, true);
+	   xhttp.onreadystatechange = function() {
+	      if (this.readyState == 4 && this.status == 200) {
+
+	      }
+	   };
+	   xhttp.send();
+}
+
+function deleteAlbum() {
+	   var xhttp; 
+	   var str = document.getElementsByName("")[0].value;
+	   if (str == "") {
+	      document.getElementById("show").innerHTML = "";
+		  return;
+	   }
+	   xhttp = new XMLHttpRequest();
+	   xhttp.open("POST", "http://"+host+":"+port+"/albums/"+str, true);
+	   xhttp.onreadystatechange = function() {
+	      if (this.readyState == 4 && this.status == 200) {
+	    	  
+	      }
+	   };
+	   xhttp.send();
+}
+
+function deleteBand() {
+	   var xhttp; 
+	   var str = document.getElementsByName("")[0].value;
+	   if (str == "") {
+	      document.getElementById("show").innerHTML = "";
+		  return;
+	   }
+	   xhttp = new XMLHttpRequest();
+	   xhttp.open("POST", "http://"+host+":"+port+"/bands/"+str, true);
+	   xhttp.onreadystatechange = function() {
+	      if (this.readyState == 4 && this.status == 200) {
+
+	      }
+	   };
+	   xhttp.send();
+}
+
