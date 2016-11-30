@@ -3,6 +3,12 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 import static spark.Spark.*;
 
 import static ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.JsonUtil.json;
+import static ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.JsonUtil.jsonAlbum;
+
+import java.lang.reflect.Type;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -20,7 +26,12 @@ import spark.TemplateEngine;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandDaoImpl;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 
 /**
  *
@@ -91,8 +102,8 @@ public class Bootstrap {
         albumController  = AlbumController.getInstance();
         artistController = ArtistController.getInstance();
         bandMemberController = BandMemberController.getInstance();
-        bands = BandController.getInstance(); 
-        songController = new SongController();
+        bands = BandController.getInstance();
+        songController = SongController.getInstance();
         userController = UserController.getInstance();
         landingPageController = LandingPageController.getInstance();
         dashboardController = DashboardController.getInstance();
@@ -104,10 +115,14 @@ public class Bootstrap {
         });
 
         /**
+        * HELLO WORLD PAGE
+        **/
+        get("/hello", (req, res) -> "Hello World");
+
+        /**
         * LANDING PAGE
         **/
         get("/", (req, res) -> landingPageController.index(req,res), new VelocityTemplateEngine());
-
 
         /**
         * DASHBOARD
@@ -125,16 +140,15 @@ public class Bootstrap {
 
         get("/albums/:id",(req, res) -> albumController.showAlbum(req, res), new VelocityTemplateEngine());
 
+        get("/albums/findByTitle/:title", (req, res) -> albumController.findByTitle(req, res),json());
 
-        get("/albums/findByTitle/:title", (req, res) -> albumController.findByTitle(req, res));
-
-        get("/albums/findByReleaseDate/:release_date", (req, res) -> albumController.findByReleaseDate(req, res));
+        get("/albums/findByReleaseDate/:release_date", (req, res) -> albumController.findByReleaseDate(req, res),json());
 
         post("/albums", (req, res) -> albumController.create(req, res), new VelocityTemplateEngine());
 
+        put("/albums/:id", (req, res) -> albumController.update(req, res));
 
-
-        get("/hello", (req, res) -> "Hello World");
+        delete("/albums/:id", (req, res) -> albumController.delete(req, res));
 
         /**
         * BAND
@@ -227,6 +241,7 @@ public class Bootstrap {
         * SONG
         **/
         post("/songs",(req,res)-> songController.create(req, res));
+//        post("/songs/",(req,res)->songController.create(req, res));
 
         get("/songs/findById/:id",(req,res)-> songController.getById(req,res), json());
 
@@ -248,11 +263,5 @@ public class Bootstrap {
 
         delete("/songs/:id",(req, res) -> songController.remove(req, res));
     
-
-        
-
-       
-        
-
     }
 }
