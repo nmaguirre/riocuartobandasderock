@@ -1,4 +1,12 @@
-.login-container {
+.internal-login-container {
+	background-color: #121212;
+	height: auto;
+	padding-top: 4%;
+	margin-top: 1%;
+	margin-bottom: 4%;
+}
+
+.external-login-container {
 	background-color: #181818;
 	height: auto;
 	padding-top: 4%;
@@ -9,4 +17,8 @@
   display: block;
   margin-right: auto;
   margin-left: auto;
+}
+
+.pull-right {
+  float: right !important;
 }
