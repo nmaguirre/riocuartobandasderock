@@ -1,0 +1,12 @@
+<table class="table table-hover" id="show-band-table">
+  <thead>
+    <th>Nombre</th>
+    <th>Genero</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="band-name"></td>
+      <td id="band-genre"></td>
+    </tr>
+  </tbody>
+</table>

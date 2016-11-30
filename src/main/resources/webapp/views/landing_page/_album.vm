@@ -1,0 +1,12 @@
+<table class="table table-hover" id="album-table">
+  <thead>
+    <th>Titulo</th>
+    <th>Lanzamiento</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="album-title"></td>
+      <td id="album-release"></td>
+    </tr>
+  </tbody>
+</table>
