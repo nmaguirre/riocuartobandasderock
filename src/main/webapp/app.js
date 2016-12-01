@@ -7,7 +7,8 @@ angular["module"]("app", ["ngRoute","angularSlideables"])
 			})
 			["when"]("/form",{
 				templateUrl: "views/albumForm.html",
-				controller: "albumFormController"
+				controller: "AlbumFormController"
+			})
 			["when"]("/admin",{
 				controller: "AdminController",
 				templateUrl: "views/admin.html"
