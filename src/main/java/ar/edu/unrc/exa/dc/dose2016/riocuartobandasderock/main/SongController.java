@@ -134,10 +134,10 @@ public class SongController {
      * @return a string that describes the result of create
      */
     public String create (Request req, Response res){
-
+    	//Create and get a session and a songdao
     	Session session = SessionManager.getInstance().openSession();
     	SongDAO sdao = new SongDaoImpl(session);
-    	
+    	//We assign all the required parameters to each property of the song
     	String songName = req.queryParams("name");
     	String dur = req.queryParams("duration");
     	String title = req.queryParams("albumTitle");
@@ -180,7 +180,7 @@ public class SongController {
 			res.body("Invalid request");
 			return res.body();
 		}
-
+		//create the transaction
 		Transaction transaction = session.beginTransaction();
 	 	boolean status = sdao.removeSong(id);
 	 	transaction.commit();

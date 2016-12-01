@@ -46,7 +46,7 @@ public class SongDAOTest {
 
             
     @Test
-	public void findByIdTest() {
+	public void findById() {
     	
     	Song song = new Song("name",100);
     	session.beginTransaction();
@@ -59,8 +59,19 @@ public class SongDAOTest {
 	}
         
     
+    @Test(expected = IllegalArgumentException.class)
+	public void findByNullId() {
+    	songDao.findById(null);
+	}
+    
+	@Test(expected = IllegalArgumentException.class)
+	public void findByEmptyId() {
+		songDao.findById("");
+	}
+        
+    
     @Test
-	public void findByNameTest() {
+	public void findByName() {
     	
        	Song song = new Song("name",100);
     	session.beginTransaction();
@@ -73,9 +84,20 @@ public class SongDAOTest {
 			assertEquals("name", s.getName());
 		} 
 	}
+    
+	@Test(expected = IllegalArgumentException.class)
+	public void findByNullName() {
+		songDao.findByName(null);
+	}
+	
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void findByEmptyName() {
+		songDao.findByName("");
+	}
         
     @Test
-	public void findByDurationTest() {
+	public void findByDuration() {
     	Song song = new Song("name",100);
     	session.beginTransaction();
 		session.save(song);
@@ -89,9 +111,14 @@ public class SongDAOTest {
 
 	}
     
+	@Test(expected = IllegalArgumentException.class)
+	public void findByNullDuration() {
+		songDao.findByDuration(null);
+	}
+    
     
     @Test
-    public void addTest(){
+    public void addSongWithCorrectParameters(){
     	
     	String albumName = alb.getTitle();    	
     	
@@ -103,18 +130,76 @@ public class SongDAOTest {
     	
     }	
     
-	@Test(expected = IllegalArgumentException.class)
-	public void findByEmptyId() {
-		songDao.findById("");
-	}
+    @Test
+    public void addSongWithInexistentAlbum(){
+    	
+    	session.beginTransaction();
+		boolean created = songDao.addSong("name", 100, "malbum");
+		session.getTransaction().commit();
+		
+		assertFalse(created);    	
+    	
+    }
+    
+    
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void addSongWithNullName(){
+    	
+    	String albumName = alb.getTitle();    	
+    	
+    	session.beginTransaction();
+		songDao.addSong(null, 100, albumName);
+		session.getTransaction().commit();
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void addSongWithEmptyName(){
+    	
+    	String albumName = alb.getTitle();    	
+    	
+    	session.beginTransaction();
+		songDao.addSong("", 100, albumName);
+		session.getTransaction().commit();
+    }	
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void addSongWithNullDuration(){
+    	
+    	String albumName = alb.getTitle();    	
+    	
+    	session.beginTransaction();
+		songDao.addSong("name", null, albumName);
+		session.getTransaction().commit();
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void addSongWithNullAlbumName(){   	
+    	
+    	session.beginTransaction();
+		songDao.addSong("name", 100, null);
+		session.getTransaction().commit();
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void addSongWithEmptyAlbumName(){   	
+    	
+    	session.beginTransaction();
+		songDao.addSong("name", 100, "");
+		session.getTransaction().commit();
+    }
+
+
+    
 	
-	 @Test
-	 public void updateTest(){
+	@Test
+	public void updateSongWithCorrectParameters(){
 	    	
 		 	String albumName = alb.getTitle();  
 		 	
 	    	session.beginTransaction();
 	    	Song s = new Song("name", 100);
+	    	s.setAlbum(alb);
 	    	session.save(s);
 	    	String id = s.getId();
 			boolean updated = songDao.updateSong(id, "eman", 10, albumName);
@@ -126,9 +211,136 @@ public class SongDAOTest {
 	    	
 	 }	
 	 
+	 @Test(expected = IllegalArgumentException.class)
+	 public void updateSongWithNullName(){
+	    	
+		 	String albumName = alb.getTitle();  
+		 	
+	    	session.beginTransaction();
+	    	Song s = new Song("name", 100);
+	    	s.setAlbum(alb);
+	    	session.save(s);
+	    	String id = s.getId();
+			songDao.updateSong(id, null, 10, albumName);
+			session.getTransaction().commit();
+			    	
+	    	
+	 }	
+	 
+	 @Test(expected = IllegalArgumentException.class)
+	 public void updateSongWithEmptyName(){
+	    	
+		 	String albumName = alb.getTitle();  
+		 	
+	    	session.beginTransaction();
+	    	Song s = new Song("name", 100);
+	    	s.setAlbum(alb);
+	    	session.save(s);
+	    	String id = s.getId();
+			songDao.updateSong(id, "", 10, albumName);
+			session.getTransaction().commit();
+			    	
+	    	
+	 }
+	 
+	 @Test(expected = IllegalArgumentException.class)
+	 public void updateSongWithNullDuration(){
+	    	
+		 	String albumName = alb.getTitle();  
+		 	
+	    	session.beginTransaction();
+	    	Song s = new Song("name", 100);
+	    	s.setAlbum(alb);
+	    	session.save(s);
+	    	String id = s.getId();
+			songDao.updateSong(id, "eman", null , albumName);
+			session.getTransaction().commit();
+			    	
+	    	
+	 }
+	 
+	 @Test(expected = NullPointerException.class)
+	 public void updateSongWithNullAlbumName(){
+	    	  
+		 	
+	    	session.beginTransaction();
+	    	Song s = new Song("name", 100);
+	    	s.setAlbum(alb);
+	    	session.save(s);
+	    	String id = s.getId();
+			songDao.updateSong(id, "eman", 10 ,null);
+			session.getTransaction().commit();
+			    	
+	    	
+	 }
+	 
+	 @Test(expected = IllegalArgumentException.class)
+	 public void updateSongWithEmptyAlbumName(){
+	    	  
+		 	
+	    	session.beginTransaction();
+	    	Song s = new Song("name", 100);
+	    	s.setAlbum(alb);
+	    	session.save(s);
+	    	String id = s.getId();
+			songDao.updateSong(id, "eman", 10 , "");
+			session.getTransaction().commit();
+			    	
+	    	
+	 }
+	 
+	 
+	 @Test(expected = IllegalArgumentException.class)
+	 public void updateSongWithNullId(){
+	    	
+		 	String albumName = alb.getTitle();  
+		 	
+	    	session.beginTransaction();
+	    	Song s = new Song("name", 100);
+	    	s.setAlbum(alb);
+	    	session.save(s);
+			songDao.updateSong(null, "eman", 10, albumName);
+			session.getTransaction().commit();
+			    	
+	    	
+	 }	
+	 
+	 @Test(expected = IllegalArgumentException.class)
+	 public void updateSongWithEmptyId(){
+	    	
+		 	String albumName = alb.getTitle();  
+		 	
+	    	session.beginTransaction();
+	    	Song s = new Song("name", 100);
+	    	s.setAlbum(alb);
+	    	session.save(s);
+			songDao.updateSong("", "eman", 10, albumName);
+			session.getTransaction().commit();
+			    	
+	    	
+	 }
+	 
+
+	 public void updateSongWithInexistentId(){
+	    	
+		 	String albumName = alb.getTitle();  
+		 	
+	    	session.beginTransaction();
+	    	Song s = new Song("name", 100);
+	    	s.setAlbum(alb);
+	    	session.save(s);
+	    	String id = s.getId();
+			boolean updated = songDao.updateSong(id+"a", "eman", 10, albumName);
+			session.getTransaction().commit();
+			
+			assertFalse(updated);
+			    	
+	    	
+	 }
+	 
 	 
 	 @Test
-	 public void removeTest(){
+	 public void removeExistentSong(){
 	    	
 	    	session.beginTransaction();
 	    	Song s = new Song("name", 100);
@@ -138,6 +350,35 @@ public class SongDAOTest {
 			session.getTransaction().commit();
 			
 			assertTrue(removed);
+   	
+	    	
+	 }
+	 
+	 @Test
+	 public void removeInexistentSong(){
+	    	
+	    	session.beginTransaction();
+	    	Song s = new Song("name", 100);
+	    	session.save(s);
+	    	String id = s.getId();
+			boolean removed = songDao.removeSong(id+"a");
+			session.getTransaction().commit();
+			
+			assertFalse(removed);
+   	
+	    	
+	 }
+	 
+	 @Test
+	 public void removeSongWithNullId(){
+	    	
+	    	session.beginTransaction();
+	    	Song s = new Song("name", 100);
+	    	session.save(s);
+			boolean removed = songDao.removeSong(null);
+			session.getTransaction().commit();
+			
+			assertFalse(removed);
    	
 	    	
 	 }
