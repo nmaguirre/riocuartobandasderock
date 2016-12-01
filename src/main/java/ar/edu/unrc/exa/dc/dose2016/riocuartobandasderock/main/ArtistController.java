@@ -118,6 +118,7 @@ public class ArtistController {
 		int status = (artists.size()>0)? 200:204;
 		res.status(status);
 		// return artists;
+		attributes.put("title", "Artistas");
   	attributes.put("artists", artists);
   	attributes.put("template", Routes.index_artist());
     return new ModelAndView(attributes, Routes.layout_dashboard());
@@ -135,7 +136,7 @@ public class ArtistController {
 
     Artist artist = artistDAO.findById(req.params(":id")).get(0);
     attributes.put("artist", artist);
-
+    attributes.put("title", "Artista");
     attributes.put("template", Routes.show_artist());
     attributes.put("title", "Show");
     return new ModelAndView(attributes, Routes.layout_dashboard());
@@ -143,9 +144,8 @@ public class ArtistController {
 
   public ModelAndView newArtist(Request req,Response res){
     Map<String, Object> attributes = new HashMap<>();
-
     attributes.put("template", Routes.new_artist());
-    attributes.put("title", "New");
+    attributes.put("title", "Crear");
     return new ModelAndView(attributes, Routes.layout_dashboard());
   }
 
@@ -153,7 +153,7 @@ public class ArtistController {
     Map<String, Object> attributes = new HashMap<>();
 
     attributes.put("template", Routes.edit_artist());
-    attributes.put("title", "Edit");
+    attributes.put("title", "Editar");
     return new ModelAndView(attributes, Routes.layout_dashboard());
   }
 
@@ -247,6 +247,7 @@ public class ArtistController {
 		if((name.isEmpty()) && (surname.isEmpty()) && (nickname.isEmpty())){
 			res.status(400);
 			// return "Request invalid";
+			attributes.put("title", "Crear");
 	    attributes.put("error", "El nombre no puede estar en blanco");
 			attributes.put("template", Routes.new_artist());
 	    return new ModelAndView(attributes, Routes.layout_dashboard());
@@ -259,12 +260,14 @@ public class ArtistController {
 		session.close();
 		if (status){
 			res.status(201);
+			attributes.put("title", "Artistas");
 			attributes.put("success", "El Artista se creo con exito");
 			attributes.put("template", Routes.index_artist());
     	return new ModelAndView(attributes, Routes.layout_dashboard());
 			// return "Success";
 		}
 		res.status(409);
+		attributes.put("title", "Crear");
     attributes.put("error", "El nombre no puede estar en blanco");
 		attributes.put("template", Routes.new_artist());
     return new ModelAndView(attributes, Routes.layout_dashboard());
@@ -274,6 +277,7 @@ public class ArtistController {
 	public ModelAndView updateView(Request req, Response res){
 		Map<String, Object> attributes = new HashMap<>();
 		String id = req.queryParams("id");
+		attributes.put("title", "Actualizar");
 		attributes.put("id", id);
 		attributes.put("template", Routes.edit_artist());
     return new ModelAndView(attributes, Routes.layout_dashboard_update());

@@ -2,10 +2,11 @@
   <div class="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 vcenter">
     <div class="card text-center">
       <div class="card-header" data-background-color="red">
-        <h4 class="title">Already logged in as "$name"</h4>
+        <h4 class="title">Ya ha iniciado sesión como: <b>$name</b></h4>
       </div>
       <div class="card-content">
-        <p>You have to log out before you can login as another user</p>
+        <p>Debe cerrar la sesión antes de iniciar como otro usuario.</p>
+        <a href="/dashboard" class="btn btn-primary">Ir al dashboard</a>
       </div>
     </div>
   </div>

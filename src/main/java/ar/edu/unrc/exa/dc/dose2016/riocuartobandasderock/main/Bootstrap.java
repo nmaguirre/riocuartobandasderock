@@ -89,50 +89,50 @@ public class Bootstrap {
         dashboardController = DashboardController.getInstance();
         port(Integer.parseInt(ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().getAppPort()));
 
-        before("/dashboard", (req, res) -> {
-            if (!userController.authenticated(req, res))
-                res.redirect("/login");
-        });
+        // before("/dashboard", (req, res) -> {
+        //     if (!userController.authenticated(req, res))
+        //         res.redirect("/login");
+        // });
 
-        before("/albums", (req, res) -> {
-            if (!userController.authenticated(req, res))
-                res.redirect("/login");
-        });
+        // before("/albums", (req, res) -> {
+        //     if (!userController.authenticated(req, res))
+        //         res.redirect("/login");
+        // });
 
-        before("/albums/*", (req, res) -> {
-            if (!userController.authenticated(req, res))
-                res.redirect("/login");
-        });
+        // before("/albums/*", (req, res) -> {
+        //     if (!userController.authenticated(req, res))
+        //         res.redirect("/login");
+        // });
 
-        before("/artists", (req, res) -> {
-            if (!userController.authenticated(req, res))
-                res.redirect("/login");
-        });
+        // before("/artists", (req, res) -> {
+        //     if (!userController.authenticated(req, res))
+        //         res.redirect("/login");
+        // });
 
-        before("/artists/*", (req, res) -> {
-            if (!userController.authenticated(req, res))
-                res.redirect("/login");
-        });
+        // before("/artists/*", (req, res) -> {
+        //     if (!userController.authenticated(req, res))
+        //         res.redirect("/login");
+        // });
 
-        before("/bands", (req, res) -> {
-            if (!userController.authenticated(req, res))
-                res.redirect("/login");
-        });
+        // before("/bands", (req, res) -> {
+        //     if (!userController.authenticated(req, res))
+        //         res.redirect("/login");
+        // });
 
-        before("/bands/*", (req, res) -> {
-            if (!userController.authenticated(req, res))
-                res.redirect("/login");
-        });
+        // before("/bands/*", (req, res) -> {
+        //     if (!userController.authenticated(req, res))
+        //         res.redirect("/login");
+        // });
 
-        before("/songs", (req, res) -> {
-            if (!userController.authenticated(req, res))
-                res.redirect("/login");
-        });
+        // before("/songs", (req, res) -> {
+        //     if (!userController.authenticated(req, res))
+        //         res.redirect("/login");
+        // });
 
-        before("/songs/*", (req, res) -> {
-            if (!userController.authenticated(req, res))
-                res.redirect("/login");
-        });
+        // before("/songs/*", (req, res) -> {
+        //     if (!userController.authenticated(req, res))
+        //         res.redirect("/login");
+        // });
 
         /**
         * HELLO WORLD PAGE
@@ -255,9 +255,9 @@ public class Bootstrap {
 
         get("/login", (req, res)  -> userController.getLogin(req, res), new VelocityTemplateEngine());
 
-        post("/login", (req, res) -> userController.login(req, res));
+        post("/login", (req, res) -> userController.postLogin(req, res), new VelocityTemplateEngine());
 
-        get("/logout", (req, res) -> userController.logout(req, res));
+        get("/logout", (req, res) -> userController.getLogout(req, res));
 
         /**
         * SONG

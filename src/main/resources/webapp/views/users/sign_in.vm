@@ -1,9 +1,15 @@
 <div class="container-fluid">
   <div class="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 vcenter">
+    #if ($error != $null)
+      <div class="alert alert-danger" role="alert">
+        <strong>Error!</strong> $error
+      </div>
+    #end
     <div class="card">
       <div class="card-header" data-background-color="purple">
-        <h4 class="title">Ingresar</h4>
-        <p class="category">Complete los datos de inicio de Sesion</p>
+
+        <h4 class="title">Iniciar sesión</h4>
+        <p class="category">Ingrese su nombre de usuario y contraseña</p>
       </div>
       <div class="card-content">
         <form action="$post_login_path" method="$form_method" autocomplete="off">
@@ -25,7 +31,7 @@
           </div>
           <div class="row">
             <div class="text-center">
-              <button type="submit" class="btn btn-primary">Entrar</button>
+              <button type="submit" class="btn btn-primary">Iniciar</button>
             </div>
           </div>
         </form>
