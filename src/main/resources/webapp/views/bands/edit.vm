@@ -13,18 +13,18 @@
           <p class="category">Complete el formulario</p>
         </div>
         <div class="card-content">
-          <form action="/bands" method="put">
+          <form action="/bands" method="put" id="form" class="$!{id}">
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group label-floating">
                   <label class="control-label">Nombre</label>
-                  <input type="text" class="form-control" name="name">
+                  <input type="text" class="form-control" name="name" id="name" value="$!{name}">
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group label-floating">
                   <label class="control-label">Género</label>
-                  <input type="text" class="form-control" name="genre">
+                  <input type="text" class="form-control" name="genre" id="genre" value="$!{genre}">
                 </div>
               </div>
             </div>
@@ -58,6 +58,22 @@
   $(document).ready(function() {
     $('li').removeClass('active');
     $('#band').addClass('active');
+    var id = $('#form').attr('class');
+
+    $('#submit').on('click', function(event){
+      event.preventDefault();
+      var input_name = $('#name').val();
+      var input_genre = $('#genre').val();
+      $.ajax({
+        url: "/bands/"+id,
+        method: "put",
+        data: {
+          name: input_name,
+          genre: input_genre }
+      }).done(function() {
+        window.location.replace("/bands/"+id);
+      });
+    })
   });
 </script>
 

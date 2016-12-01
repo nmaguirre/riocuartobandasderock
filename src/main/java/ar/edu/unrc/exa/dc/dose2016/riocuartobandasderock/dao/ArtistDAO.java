@@ -89,4 +89,6 @@ public interface ArtistDAO {
 	 * @return list with the artist wanted, null if artist not found.
 	*/
 	public List<Artist> getArtist(String name, String surname, String nickname);
+
+	public int cantArtists();
 }

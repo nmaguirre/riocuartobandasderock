@@ -152,6 +152,17 @@ public class ArtistController {
   public ModelAndView editArtist(Request req,Response res){
     Map<String, Object> attributes = new HashMap<>();
 
+    String id = req.params(":id");
+		attributes.put("id", id);
+
+		Session session = SessionManager.getInstance().openSession();
+    ArtistDAO artistDAO = new ArtistDaoImpl(session);
+		List<Artist> artists = artistDAO.findById(req.params(":id"));
+
+		attributes.put("name", artists.get(0).getName());
+		attributes.put("surname", artists.get(0).getSurname());
+		attributes.put("nickname", artists.get(0).getNickname());
+
     attributes.put("template", Routes.edit_artist());
     attributes.put("title", "Editar");
     return new ModelAndView(attributes, Routes.layout_dashboard());
@@ -276,7 +287,7 @@ public class ArtistController {
 
 	public ModelAndView updateView(Request req, Response res){
 		Map<String, Object> attributes = new HashMap<>();
-		String id = req.queryParams("id");
+		String id = req.attribute(":id");
 		attributes.put("title", "Actualizar");
 		attributes.put("id", id);
 		attributes.put("template", Routes.edit_artist());

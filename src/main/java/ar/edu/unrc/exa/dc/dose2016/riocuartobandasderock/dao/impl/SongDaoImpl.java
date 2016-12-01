@@ -21,6 +21,15 @@ public class SongDaoImpl implements SongDAO{
 		this.currentSession = session;
 	}
 
+	
+	
+	public int cantSongs() {
+		List<Song> songList = new LinkedList<>();
+		Query<Song> query;
+		query = this.currentSession.createQuery("from Song", Song.class);
+		songList.addAll(query.getResultList());
+		return songList.size();
+	}
 	/**
 	 * fn getAllSongs
 	 * description: Get all songs from the database
