@@ -37,6 +37,14 @@ public class AlbumDaoImpl implements AlbumDAO{
 		this.currentSession = session;
 	}
 
+	public int cantAlbums() {
+		List<Album> albumList = new LinkedList<>();
+		Query<Album> query;
+		query = this.currentSession.createQuery("from Album", Album.class);
+		albumList.addAll(query.getResultList());
+		return albumList.size();
+	}
+
 	/**
 	 * Find one album by id
 	 * @param id

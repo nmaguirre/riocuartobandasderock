@@ -11,7 +11,7 @@
       <li id="dashboard">
         <a href="/dashboard">
           <i class="material-icons">dashboard</i>
-          <p>Dashboard</p>
+          <p>Panel de administrador</p>
         </a>
       </li>
       <li id="band">

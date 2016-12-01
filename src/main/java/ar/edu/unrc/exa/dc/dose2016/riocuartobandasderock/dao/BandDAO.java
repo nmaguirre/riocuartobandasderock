@@ -92,5 +92,7 @@ public interface BandDAO {
 		 * @return Band that have a particular id	
 		 */
 	   public Band findById(String id);
+
+	   public int cantBands();
 }
 
