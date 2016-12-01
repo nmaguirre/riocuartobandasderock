@@ -62,7 +62,7 @@
                 //Y borrar la linea de abajo
                 //$.each(request, function(i, item) {
                 $.each(data, function(i, item) {
-                       response += '<tr onclick="showSongsMInDialog(\''+item.AlbumID+'\')">'+'<td>'+itemindex+'</td>'+'<td>'+item.title+'</td>'+'<td>'+item.releaseDate+'</td>'+ '<td> <a href="javascript:void(0);" class="glyphicon glyphicon-edit" onclick="showInEdit(\''+item.AlbumID+'\'); event.stopImmediatePropagation();"</a> <a href="javascript:void(0);" class="glyphicon glyphicon-trash" onclick="deleteAlbum(\''+item.AlbumID+'\'); event.stopImmediatePropagation();"</a> </td> </tr>';
+                       response += '<tr onclick="showSongsMInDialog(\''+item.AlbumID+'\')">'+'<td>'+itemindex+'</td>'+'<td>'+item.title+'</td>'+'<td>'+item.releaseDate+'</td>' +'<td>'+item.band.name+'</td>'  + '<td> <a href="javascript:void(0);" class="glyphicon glyphicon-edit" onclick="showInEdit(\''+item.AlbumID+'\'); event.stopImmediatePropagation();"</a> <a href="javascript:void(0);" class="glyphicon glyphicon-trash" onclick="deleteAlbum(\''+item.AlbumID+'\'); event.stopImmediatePropagation();"</a> </td> </tr>';
                         ++itemindex;
                 });
                 response += '</table>';
@@ -451,6 +451,7 @@
                         <th></th>
                         <th>Title</th>
                         <th>Release Date</th>
+                        <th>Band</th>
                         <th>Action</th>
                     </tr>
                 </thead>
