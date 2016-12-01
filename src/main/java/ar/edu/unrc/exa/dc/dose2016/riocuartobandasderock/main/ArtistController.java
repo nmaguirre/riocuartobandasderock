@@ -1,7 +1,6 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
-
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.ArtistDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandMemberDAO;
@@ -12,12 +11,10 @@ import spark.Response;
 import spark.Request;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.HibernateException;
 import java.util.List;
 
 import spark.ModelAndView;
-
-import spark.ModelAndView;
-import spark.TemplateEngine;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -75,6 +72,8 @@ public class ArtistController {
 	* @return one Artist.
 	*/
 	public List<Artist> getOneArtist (Request req, Response res){
+
+		System.out.println(req.pathInfo());
 		String name = req.queryParams("name");
 		if (name==null){
 			name="";
@@ -225,13 +224,14 @@ public class ArtistController {
 	 * @param res (Response)
 	 * @return a string that describes the result of createArtist
 	 */
-	public String createArtist(Request req,Response res){
+	public ModelAndView createArtist(Request req,Response res){
 		//Not Implemented yet
 		/*String user = req.session().attribute("name");
 			if ((user==null)||(!(user.equals("admin")))){
 			res.status(401);
 			return "Forbidden Access";
 		}*/
+		Map<String, Object> attributes = new HashMap<>();
 		String name = req.queryParams("name");
 		if (name==null){
 			name="";
@@ -246,7 +246,10 @@ public class ArtistController {
 		}
 		if((name.isEmpty()) && (surname.isEmpty()) && (nickname.isEmpty())){
 			res.status(400);
-			return "Request invalid";
+			// return "Request invalid";
+	    attributes.put("error", "El nombre no puede estar en blanco");
+			attributes.put("template", Routes.new_artist());
+	    return new ModelAndView(attributes, Routes.layout_dashboard());
 		}
 		Session session = SessionManager.getInstance().openSession();
 		ArtistDAO artistDAO=new ArtistDaoImpl(session);
@@ -256,10 +259,16 @@ public class ArtistController {
 		session.close();
 		if (status){
 			res.status(201);
-			return "Success";
+			attributes.put("success", "El Artista se creo con exito");
+			attributes.put("template", Routes.index_artist());
+    	return new ModelAndView(attributes, Routes.layout_dashboard());
+			// return "Success";
 		}
 		res.status(409);
-		return "Fail";
+    attributes.put("error", "El nombre no puede estar en blanco");
+		attributes.put("template", Routes.new_artist());
+    return new ModelAndView(attributes, Routes.layout_dashboard());
+		// return "Fail";
 	}
 
 	/**
@@ -301,16 +310,31 @@ public class ArtistController {
 		}
 		session = SessionManager.getInstance().openSession();
 		artistDAO=new ArtistDaoImpl(session);
-		Transaction transaction = session.beginTransaction();
-		boolean status = artistDAO.updateArtist(artist.getId(),name,surname,nickname);
-		transaction.commit();
-		session.close();
-		if (status){
-			res.status(200);
-			return "Success";
+		Transaction transaction = null;
+		boolean status = false;
+		String result = "Fail";
+		try{
+			transaction = session.beginTransaction();
+			status = artistDAO.updateArtist(artist.getId(),name,surname,nickname);
+			transaction.commit();
 		}
-		res.status(409);
-		return "Fail";
+		catch (HibernateException e) {
+			transaction.rollback();
+			status = false;
+			e.printStackTrace();
+		}
+		finally{
+			session.close();
+			if (status){
+				res.status(200);
+				result = "Success";
+			}
+			else{
+				res.status(409);
+				result = "Fail";
+			}
+		}
+		return result;
 	}
 
 	/**
@@ -332,16 +356,31 @@ public class ArtistController {
 		}
 		Session session = SessionManager.getInstance().openSession();
 		ArtistDAO artistDAO=new ArtistDaoImpl(session);
-		Transaction transaction = session.beginTransaction();
-		boolean status = artistDAO.deleteArtist(req.params(":id"));
+		Transaction transaction = null;
+		boolean status = false;
+		String result = "Fail";
+		try{
+		transaction = session.beginTransaction();
+		status = artistDAO.deleteArtist(req.params(":id"));
 		transaction.commit();
-		session.close();
-		if (status){
-			res.status(200);
-			return "Success";
 		}
-		res.status(409);
-		return "Fail";
+		catch (HibernateException e) {
+			transaction.rollback();
+			status = false;
+			e.printStackTrace();
+		}
+		finally{
+			session.close();
+			if (status){
+				res.status(200);
+				result = "Success";
+			}
+			else{
+				res.status(409);
+				result = "Fail";
+			}
+		}
+		return result;
 	}
 
 	/**

@@ -99,6 +99,10 @@
 
   <script type="text/javascript" src="assets/js/landing_page/landing_page.js"></script>
   <script type="text/javascript" src="assets/js/landing_page/band.js"></script>
+  <script type="text/javascript" src="assets/js/landing_page/artist.js"></script>
+  <script type="text/javascript" src="assets/js/landing_page/album.js"></script>
+  <script type="text/javascript" src="assets/js/landing_page/song.js"></script>
+  <script type="text/javascript" src="assets/js/landing_page/search.js"></script>
 
   <script type="text/javascript" src="vendor/data-table/js/jquery.dataTables.min.js"></script>
 

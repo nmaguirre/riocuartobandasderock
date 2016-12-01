@@ -6,11 +6,13 @@
   <thead>
     <th>Titulo</th>
     <th>Lanzamiento</th>
+    <th>Caciones</th>
   </thead>
   <tbody>
     <tr>
       <td id="album-title"></td>
       <td id="album-release"></td>
+      <td id="album-song"></td>
     </tr>
   </tbody>
 </table>

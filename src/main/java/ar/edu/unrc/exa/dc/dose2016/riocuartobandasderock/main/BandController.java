@@ -15,13 +15,10 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandMemberDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandMemberDAOImpl;
+
 import spark.Request;
 import spark.Response;
-
 import spark.ModelAndView;
-
-import spark.ModelAndView;
-import spark.TemplateEngine;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -65,13 +62,12 @@ public class BandController {
     BandDAO bdao = new BandDaoImpl(session);
     List<Band> bands= bdao.getAllBands();
     session.close();
-    int status = (bands.size()>0)? 200:204;
-    res.status(status);
+    // int status = (bands.size()>0)? 200:204;
+    // res.status(status);
     // return bands;
-
-      attributes.put("bands", bands);
-      attributes.put("template", Routes.index_band());
-      return new ModelAndView(attributes, Routes.layout_dashboard());
+    attributes.put("bands", bands);
+    attributes.put("template", Routes.index_band());
+    return new ModelAndView(attributes, Routes.layout_dashboard());
   }
 
   /***
@@ -108,7 +104,7 @@ public class BandController {
     }
     Session session = SessionManager.getInstance().openSession();
     BandDAO bdao = new BandDaoImpl(session);
-    List<Band> bands = bdao.findByName(req.params(":genre"));
+    List<Band> bands = bdao.findByGenre(req.params(":genre"));
     session.close();
     int status = (bands.size()!=0)? 200:204;
     res.status(status);
@@ -170,10 +166,15 @@ public class BandController {
    * @param res
    * @return the object of the band created.
    */
-  public String createBand(Request req,Response res){
+  public ModelAndView createBand(Request req,Response res){
+	ModelAndView result;
+	Map<String, Object> attributes = new HashMap<>();
     if((req.queryParams("name")=="") || (req.queryParams("genre")=="")){
       res.status(400);
-      return "Request invalid";
+      // return "Request invalid";
+      attributes.put("error", "El nombre no puede estar en blanco");
+      attributes.put("template", Routes.new_band());
+      return new ModelAndView(attributes, Routes.layout_dashboard());
     }
     Session session = SessionManager.getInstance().openSession();
     BandDAO bdao = new BandDaoImpl(session);
@@ -191,11 +192,18 @@ public class BandController {
       session.close();
       if (status){
         res.status(201);
-        return "Success";
+        // return "Success";
+        attributes.put("success", "La banda se creo con exito");
+        attributes.put("template", Routes.index_band());
+        result = new ModelAndView(attributes, Routes.layout_dashboard());
       }
       res.status(409);
-      return "Fail";
+      // return "Fail";
+      attributes.put("error", "El nombre no puede estar en blanco");
+      attributes.put("template", Routes.new_band());
+      result= new ModelAndView(attributes, Routes.layout_dashboard());
     }
+    return result;
   }
 
   /***
@@ -205,7 +213,7 @@ public class BandController {
    * @return a String that describes the result of update a band.
    */
   public String updateBand(Request req,Response res){
-
+	String result;
     if((req.queryParams("name")=="") && (req.queryParams("genre")=="")){
       res.status(400);
       return "Request invalid";
@@ -233,11 +241,12 @@ public class BandController {
       session.close();
       if (status){
         res.status(200);
-        return "Success";
+        result = "Success";
       }
       res.status(409);
-      return "Fail";
+      result = "Fail";
     }
+    return result;
   }
 
   /***
@@ -247,7 +256,8 @@ public class BandController {
    * @return true if the the band was created. Otherwise, false.
    */
   public String deleteBand(Request req,Response res){
-    if ((req.params(":name"))==""){
+    String result;
+	  if ((req.params(":name"))==""){
       res.status();
       return "Request invalid";
     }
@@ -273,11 +283,12 @@ public class BandController {
       session.close();
       if (status){
         res.status(200);
-        return "Success";
+        result = "Success";
       }
       res.status(409);
-      return "Fail";
+      result = "Fail";
     }
+    return result; 
   }
 
   /**

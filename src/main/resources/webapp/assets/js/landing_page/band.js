@@ -15,8 +15,8 @@ $(document).ready(function() {
         { 'data': 'genre' }
       ],
       "ajax": {
-        'data': {
-          "search": $('#search-band').val()
+        "data": function ( d ) {
+          d.search = $('#search-band').val()
         },
         "url": $('#index-band-table').data("url"),
         method: "POST"
@@ -32,14 +32,25 @@ $(document).ready(function() {
   $('#mycarousel').on("click",'.bands-item', function(event){
     event.preventDefault();
     $.ajax({
-      'url': '/band/show',
+      'url': '/landing/band/show',
       'method': "GET",
       'data': {
         "id": this.id
       }
     }).done(function(data) {  
+      $('#band-name').empty();
+      $('#band-genre').empty();
+      $('#band-member').empty();
+      $('#band-album').empty();
+
       $('#band-name').text(data.name);
       $('#band-genre').text(data.genre);
+      for (var i = 0; i < data.members.length; i++) {
+        $('#band-member').append(data.members[i].name+"<br>");
+      }
+      for (var i = 0; i < data.albums.length; i++) {
+        $('#band-album').append(data.albums[i].title+"<br>");
+      }
       $("#mycarousel").carousel(2);
     });
   })

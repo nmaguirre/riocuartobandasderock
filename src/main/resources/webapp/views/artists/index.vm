@@ -13,6 +13,12 @@
             </div>
           </div>
           <div class="card-content table-responsive">
+            #if ($success != $null)
+              <div class="alert alert-success" role="alert">
+                <strong>Nuevo Artista</strong> $success
+              </div>
+              <br>
+            #end
             <table class="table table-hover" id="table">
               <thead>
                 <th>Nombre</th>

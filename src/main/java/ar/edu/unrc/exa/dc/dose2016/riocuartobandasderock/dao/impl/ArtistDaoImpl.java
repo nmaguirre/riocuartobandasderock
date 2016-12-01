@@ -262,7 +262,17 @@ public class ArtistDaoImpl implements ArtistDAO {
 			return result;
 		}
 	}
-	
+
+
+	@Override
+	public Artist getArtist(String id){
+		if (id != null && id != "") {
+			Artist artist = this.currentSession.find(Artist.class, id);
+			return artist;
+		} else {
+			return null;
+		}
+	}
 	
 
 }
