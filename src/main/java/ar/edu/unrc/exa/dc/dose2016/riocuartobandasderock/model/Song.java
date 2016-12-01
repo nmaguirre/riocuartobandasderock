@@ -32,7 +32,7 @@ public class Song {
 	private String name;
 
 	@Column(name = "duration")
-	private int duration;
+	private Integer duration;
 
 	@ManyToOne(optional = true)
 	@JoinColumn(name = "albumID")
@@ -53,20 +53,8 @@ public class Song {
 	 * @param alb represent the album to assign
 	 */
 
-	public Song(String nsong, int dur){
+	public Song(String nsong, Integer dur){
 		this.idSong = UUID.randomUUID().toString();
-		this.name = nsong;
-		this.duration = dur;
-	}
-	/**
-	 * Constructor of the class Song with uses in acceptance tests
-	 * @param id represent the id of the song to assign
-	 * @param nsong represents the name of the song to assign
-	 * @param dur represents the duration of the song to assign
-	 * @param alb represent the album to assign
-	 */
-	public Song(String id,String nsong, int dur){
-		this.idSong = id;
 		this.name = nsong;
 		this.duration = dur;
 	}
@@ -123,7 +111,7 @@ public class Song {
 	 * description: Sets a duration for the song
 	 * @param dur represents the duration to assign
 	 */
-	public void setDuration(int dur){
+	public void setDuration(Integer dur){
 		duration = dur;
 	}
 
@@ -163,7 +151,7 @@ public class Song {
 	 * @return true if the representation is ok, else return false
 	 */
 	public boolean repOk() {
-		return (this.name != null && this.name != "");
+		return (this.name != null && this.name != "" && this.duration != null && this.getAlbum() != null);
 	}
 
 }
