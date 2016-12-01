@@ -151,6 +151,16 @@ public class BandController {
   public ModelAndView editBand(Request req,Response res){
     Map<String, Object> attributes = new HashMap<>();
 
+    String id = req.params(":id");
+    attributes.put("id", id);
+
+    Session session = SessionManager.getInstance().openSession();
+    BandDAO bandDAO = new BandDaoImpl(session);
+    Band band = bandDAO.findById(req.params(":id"));
+
+    attributes.put("name", band.getName());
+    attributes.put("genre", band.getGenre());
+
     attributes.put("template", Routes.edit_band());
     attributes.put("title", "Editar");
     return new ModelAndView(attributes, Routes.layout_dashboard());
