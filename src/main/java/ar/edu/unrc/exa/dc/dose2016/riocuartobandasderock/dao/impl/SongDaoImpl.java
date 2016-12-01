@@ -171,4 +171,15 @@ public class SongDaoImpl implements SongDAO{
 		}
 	}
 
+
+	@Override
+	public Song getSong(String id){
+		if (id != null && id != "") {
+			Song song = this.currentSession.find(Song.class, id);
+			return song;
+		} else {
+			return null;
+		}
+	}
+
 }

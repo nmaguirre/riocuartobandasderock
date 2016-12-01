@@ -20,4 +20,6 @@ public interface SongDAO {
 
 	public List<Song> findByDuration(Integer duration);
 
+  public Song getSong(String id);
+
 }

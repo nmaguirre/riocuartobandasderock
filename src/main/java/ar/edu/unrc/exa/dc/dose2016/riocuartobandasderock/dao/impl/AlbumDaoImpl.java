@@ -277,4 +277,14 @@ public class AlbumDaoImpl implements AlbumDAO{
 		  this.currentSession.saveOrUpdate(toUpdate);
 		  return true;
 	}
+
+	@Override
+	public Album getAlbum(String id){
+		if (id != null && id != "") {
+			Album album = this.currentSession.find(Album.class, id);
+			return album;
+		} else {
+			return null;
+		}
+	}
 }
