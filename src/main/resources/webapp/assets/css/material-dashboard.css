@@ -3652,6 +3652,9 @@ footer .btn {
 .card .card-footer .author {
   color: #999999;
 }
+a:visited.orange-font{
+  color:#fb8c00 !important;
+}
 .card .card-footer .stats {
   line-height: 22px;
   color: #999999;

@@ -27,6 +27,14 @@ public class ArtistDaoImpl implements ArtistDAO {
 	public ArtistDaoImpl(Session session) {
 		this.currentSession = session;
 	}
+
+	public int cantArtists() {
+		List<Artist> artistList = new LinkedList<>();
+		Query<Artist> query;
+		query = this.currentSession.createQuery("from Artist", Artist.class);
+		artistList.addAll(query.getResultList());
+		return artistList.size();
+	}
 	
 	/**
 	 * This method get all artists

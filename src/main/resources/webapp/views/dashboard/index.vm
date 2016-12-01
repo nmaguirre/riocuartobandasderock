@@ -1,1 +1,71 @@
-este es el dashboard
+<div class="col-lg-3 col-md-6 col-sm-6">
+    <div class="card card-stats">
+      <div class="card-header" data-background-color="orange">
+        <i class="material-icons">content_copy</i>
+      </div>
+      <div class="card-content">
+        <p class="category">BANDAS</p>
+        <h3 class="title">$cantidadBandas</h3>
+      </div>
+      <div class="card-footer">
+        <div class="stats">
+          <a class="orange-font" href="/bands/new">Agregar banda</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-6 col-sm-6">
+    <div class="card card-stats">
+      <div class="card-header" data-background-color="green">
+        <i class="material-icons">store</i>
+      </div>
+      <div class="card-content">
+        <p class="category">ARTISTAS</p>
+        <h3 class="title">$cantidadArtistas</h3>
+      </div>
+      <div class="card-footer">
+        <div class="stats">
+          <a href="/artists/new">Agregar artista</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-6 col-sm-6">
+    <div class="card card-stats">
+      <div class="card-header" data-background-color="red">
+        <i class="material-icons">info_outline</i>
+      </div>
+      <div class="card-content">
+        <p class="category">CANCIONES</p>
+        <h3 class="title">$cantidadCanciones</h3>
+      </div>
+      <div class="card-footer">
+        <div class="stats">
+          <a href="/songs/new">Agregar canción</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-3 col-md-6 col-sm-6">
+    <div class="card card-stats">
+      <div class="card-header" data-background-color="blue">
+        <i class="fa fa-twitter"></i>
+      </div>
+      <div class="card-content">
+        <p class="category">ÁLBUMES</p>
+        <h3 class="title">$cantidadAlbumes</h3>
+      </div>
+      <div class="card-footer">
+        <div class="stats">
+          <a href="/albums/new">Agregar álbum</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
+<div class="col-lg-3 col-md-6 col-sm-6">
+    <div class="card card-stats">
+      <div class="card-content">
+        <p class="category">BANDAS</p>
+         <h3 class="title"></h3>
