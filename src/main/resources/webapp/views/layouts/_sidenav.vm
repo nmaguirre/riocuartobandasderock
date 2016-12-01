@@ -16,25 +16,26 @@
       </li>
       <li id="band">
         <a href="/bands">
-          <i class="material-icons">person</i>
+          <i class="fa fa-microphone" aria-hidden="true"></i>
+
           <p>Bandas</p>
         </a>
       </li>
       <li id="album">
         <a href="/albums">
-          <i class="material-icons">content_paste</i>
+          <i class="fa fa-headphones" aria-hidden="true"></i>
           <p>Albumes</p>
         </a>
       </li>
       <li id="song">
         <a href="/songs">
-          <i class="material-icons">library_books</i>
+          <i class="fa fa-music"></i> 
           <p>Canciones</p>
         </a>
       </li>
       <li id="artist">
         <a href="/artists">
-          <i class="material-icons">bubble_chart</i>
+          <i class="fa fa-users" aria-hidden="true"></i>
           <p>Artistas</p>
         </a>
       </li>
