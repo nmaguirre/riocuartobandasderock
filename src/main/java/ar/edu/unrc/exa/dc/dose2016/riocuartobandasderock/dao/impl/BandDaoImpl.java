@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandDAO;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 
 public class BandDaoImpl implements BandDAO {
@@ -249,6 +250,17 @@ public class BandDaoImpl implements BandDAO {
 				query.setParameter("id", id);
 				return query.getSingleResult();
 			}
+		}
+
+		public List<Album> findAlbums(String bandID){
+			if(bandID == null || bandID.equals("")){
+				throw new IllegalArgumentException("the 'id' param can not be null or empty.");
+			} else {
+				Query<Album> query = this.currentSession.createQuery("from Artist where bandID=:id", Album.class);
+				query.setParameter("id", bandID);
+				List<Album> result = query.getResultList();
+				return result;
+			}	
 		}
 
 }
