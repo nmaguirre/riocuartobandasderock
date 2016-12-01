@@ -112,9 +112,10 @@
         	return false;
         },
         createRegister : function() { // form create register
-            this.changeContext("CREATE","POST");
-            this.formResource='/'+this.config.entitie;
-
+            if (this.logAsAdmin){ 
+                this.changeContext("CREATE","POST");
+                this.formResource='/'+this.config.entitie;
+            }
             return false;
         },
         updateregister: function (id,indexofcache) { // form update register
@@ -292,10 +293,13 @@
                                if (idvalue!=null) {response+='<td>'+value+'</td>';}
                                else {idvalue=value;}
                             });
-                            if (currentAjax==1)
-	                            response+='<td><button class="btn btn-danger" onclick="lybartist.addto2(\''+id+'\',\''+idvalue+'\',\'DEL\');">Delete</button></td>';
-                            if (currentAjax==2)
-	                            response+='<td><button class="btn btn-success" onclick="lybartist.addto2(\''+id+'\',\''+idvalue+'\',\'ADD\');">Add</button></td>';
+
+                            if (lybartist.logAsAdmin){
+                                  if (currentAjax==1)
+      	                            response+='<td><button class="btn btn-danger" onclick="lybartist.addto2(\''+id+'\',\''+idvalue+'\',\'DEL\');">Delete</button></td>';
+                                  if (currentAjax==2)
+      	                            response+='<td><button class="btn btn-success" onclick="lybartist.addto2(\''+id+'\',\''+idvalue+'\',\'ADD\');">Add</button></td>';
+                            } else {response+='<td></td>';}
                     });
                     response +='</tr>';
                     response += '</table>';
