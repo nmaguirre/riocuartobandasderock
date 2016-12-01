@@ -2,57 +2,36 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.SessionManager;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.BandMember;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.User;
 
-public class SessionManagerHibernate implements SessionManager{
-
-	private Session currentSession;
-
-	private Transaction currentTransaction;
-	
+public class SessionManager{
 	/**
-	 * Empty, private default constructor.
+	 * Constructor of the class
 	 */
-	private SessionManagerHibernate() { }
-	
+
+	private SessionManager() {
+		this.sfactory = getSessionFactory();
+	}
 	/**
 	 * Singleton, on demand instance of ServerOptions.
 	 */
-	private static SessionManagerHibernate instance = null;
-	@Override
-	public Session openCurrentSession() {
-		currentSession = getSessionFactory().openSession();
-		return currentSession;
+	private static SessionManager instance = null;
+	private SessionFactory sfactory = null;
+	
+	public Session openSession() {
+		return this.sfactory.openSession(); 
 	}
 
-	@Override
-	public Session openCurrentSessionwithTransaction() {
-		currentSession = getSessionFactory().openSession();
-		currentTransaction = currentSession.beginTransaction();
-		return currentSession;
-	}
-
-	@Override
-	public void closeCurrentSession() {
-		currentSession.close();
-	}
-
-	@Override
-	public void closeCurrentSessionwithTransaction() {
-		currentTransaction.commit();
-		currentSession.close();
-	}
-
-	private static SessionFactory getSessionFactory() {
+	private SessionFactory getSessionFactory() {
 		String dbHost = ServerOptions.getInstance().getDbHost();
 		String dbPort = ServerOptions.getInstance().getDbPort();
 		// Configuration configuration = new Configuration().addPackage("models").configure("hibernate.cfg.xml").addAnnotatedClass(Artist.class);
@@ -71,31 +50,14 @@ public class SessionManagerHibernate implements SessionManager{
 		configuration.addAnnotatedClass(Album.class);
 		configuration.addAnnotatedClass(Band.class);
 		configuration.addAnnotatedClass(Song.class);
+		configuration.addAnnotatedClass(User.class);
+		configuration.addAnnotatedClass(BandMember.class);
 		StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
 				.applySettings(configuration.getProperties());
 		SessionFactory sf = configuration.buildSessionFactory(builder.build());
 		return sf;
 	}
 
-	@Override
-	public Session getCurrentSession() {
-		return currentSession;
-	}
-
-	@Override
-	public void setCurrentSession(Session currentSession) {
-		this.currentSession = currentSession;
-	}
-
-	@Override
-	public Transaction getCurrentTransaction() {
-		return currentTransaction;
-	}
-
-	@Override
-	public void setCurrentTransaction(Transaction currentTransaction) {
-		this.currentTransaction = currentTransaction;
-	}
 	
 	/**
 	 * Returns the (sole) instance of ServerOptions, on demand.
@@ -104,8 +66,8 @@ public class SessionManagerHibernate implements SessionManager{
 	 * See the Singleton Pattern for reference.
 	 * @return the instance of ServerOptions.
 	 */
-	public static SessionManagerHibernate getInstance() {
-		if (instance==null) instance = new SessionManagerHibernate();
+	public static synchronized SessionManager getInstance() {
+		if (instance==null) instance = new SessionManager();
 		return instance;
 	}
 	

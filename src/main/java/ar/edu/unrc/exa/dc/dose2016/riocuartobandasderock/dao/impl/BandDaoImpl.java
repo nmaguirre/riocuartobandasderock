@@ -4,160 +4,126 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandDAO;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 
 public class BandDaoImpl implements BandDAO {
 
-	private Session currentSession;
 
-	private Transaction currentTransaction;
-
-	@Override
-	public Session openCurrentSession() {
-		currentSession = getSessionFactory().openSession();
-		return currentSession;
+	// private SessionManager SessionManager;
+	
+	/**
+	 * This method counts the number of bands 
+	 * 
+	 * @return number of bands
+	 */
+	
+	
+	public int cantBands() {
+		List<Band> bandList = new LinkedList<>();
+		Query<Band> query;
+		query = this.currentSession.createQuery("from Band", Band.class);
+		bandList.addAll(query.getResultList());
+		return bandList.size();
 	}
-
-	@Override
-	public Session openCurrentSessionwithTransaction() {
-		currentSession = getSessionFactory().openSession();
-		currentTransaction = currentSession.beginTransaction();
-		return currentSession;
-	}
-
-	@Override
-	public void closeCurrentSession() {
-		currentSession.close();
-	}
-
-	@Override
-	public void closeCurrentSessionwithTransaction() {
-		currentTransaction.commit();
-		currentSession.close();
-	}
+	
+	private Session currentSession=null;
 
 
-	private static SessionFactory getSessionFactory() {
-		String dbHost = ServerOptions.getInstance().getDbHost();
-		String dbPort = ServerOptions.getInstance().getDbPort();
-		// Configuration configuration = new Configuration().addPackage("models").configure("hibernate.cfg.xml").addAnnotatedClass(Band.class);
-		Configuration configuration = new Configuration().addPackage("models");
-		configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
-		configuration.setProperty("hibernate.connection.driver_class", "org.postgresql.Driver");
-		configuration.setProperty("hibernate.connection.username", "rock_db_owner");
-		configuration.setProperty("hibernate.connection.password", "rockenrio4");
-		configuration.setProperty("hibernate.connection.url",
-				"jdbc:postgresql://" + dbHost + ":" + dbPort + "/rcrockbands");
-		configuration.setProperty("connection_pool_size", "1");
-		configuration.setProperty("hibernate.hbm2ddl.auto", "update");
-		configuration.setProperty("show_sql", "false");
-		configuration.setProperty("hibernate.current_session_context_class", "thread");
-		configuration.addAnnotatedClass(Band.class);
-		StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
-				.applySettings(configuration.getProperties());
-		SessionFactory sf = configuration.buildSessionFactory(builder.build());
-		return sf;
-	}
-
-	@Override
-	public Session getCurrentSession() {
-		return currentSession;
-	}
-
-	@Override
-	public void setCurrentSession(Session currentSession) {
-		this.currentSession = currentSession;
-	}
-
-	@Override
-	public Transaction getCurrentTransaction() {
-		return currentTransaction;
-	}
-
-	@Override
-	public void setCurrentTransaction(Transaction currentTransaction) {
-		this.currentTransaction = currentTransaction;
+	public BandDaoImpl(Session session) {
+		this.currentSession = session;
 	}
 	/**
 	 * Get all bands from the database
-	 * 
+	 *
 	 * @return list with all found bands
 	 */
 	@Override
 	public List<Band> getAllBands() {
 		List<Band> bandList = new LinkedList<>();
 		Query<Band> query;
-		query = currentSession.createQuery("from Band", Band.class);
+		query = this.currentSession.createQuery("from Band", Band.class);
 		bandList.addAll(query.getResultList());
 		return bandList;
 	}
 	/**
 	 * Search a band in database
-	 * 
+	 *
 	 * @param band id to search
-	 * 
+	 *
 	 * @return band wanted
 	 */
 	@Override
 	public Band getBand(String id){
 		if (id != null && id != "") {
-			Band band = currentSession.find(Band.class, id);
+			Band band = this.currentSession.find(Band.class, id);
 			return band;
 		} else {
 			return null;
 		}
 	}
-	
+
+
 	/**
-	 * Update a band in the database
-	 * 
-	 * @param band to update
-	 * 
-	 * @return boolean, true if the band was updated
+	 *
+	 * @param id of the band to modify
+	 * @param new name
+	 * @param new genre
+	 * @return true if the update was successful
 	 */
 	@Override
-	public boolean updateBand(Band band){
-			if (band != null) {
-				currentSession.update(band);
-				return true;
-			} else {
-				return false;
+	public boolean updateBand(String id, String new_name, String new_genre) {
+		boolean result = true;
+		boolean areEmpty = false;
+		boolean areNull = false;
+		areNull = id == null || new_name == null || new_genre == null ;
+		if(!areNull){
+			areEmpty = new_name.equals("") && new_genre.equals("") ;
+			areEmpty = areEmpty || id.equals("");//if all params are empty or id is empty
+		}
+		if(areNull || areEmpty){ //I see that the arguments are valid
+			throw new IllegalArgumentException("the params for update band can't be null or empty.");
+		} else {
+			Query<Band> query = this.currentSession.createQuery("update Band set name = :name,"
+					+ " genre = :genre, where bandID=:id", Band.class);
+			query.setParameter("name", new_name);
+			query.setParameter("genre", new_genre);
+			query.setParameter("id", id);
+			int afectedRows = query.executeUpdate();
+			if(afectedRows == 0){
+				result = false;
 			}
+			return result;
+		}
 	}
-	
+
 	/**
 	 * Remove a band from the database
-	 * 
+	 *
 	 * @param id from band to delete
-	 * 
+	 *
 	 * @return boolean, true if the band was deleted
 	 */
 	@Override
 	public boolean deleteBand(String id){
 		Band band = this.getBand(id);
-		if (band != null) {
-			currentSession.delete(band);
+		if (band != null && band.repOK() && this.existBand(band.getName())) {
+			this.currentSession.delete(band);
 			return true;
 		} else {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Create a band in the database
-	 * 
+	 *
 	 * @param name from a band
 	 * @param genre from a band
-	 * 
+	 *
 	 * @return boolean, true if the band was created
 	 */
 	@Override
@@ -172,11 +138,11 @@ public class BandDaoImpl implements BandDAO {
 		if(areNull || areEmpty){
 			throw new IllegalArgumentException("the params for create band can't be null or empty.");
 		} else {
-			if(existBand(name, genre)){
+			if(existBand(name)){
 				result = false;
-			} else { 
+			} else {
 				Band band = new Band(name, genre);
-				currentSession.save(band);
+				this.currentSession.save(band);
 				result = true;
 			}
 			return result;
@@ -185,28 +151,29 @@ public class BandDaoImpl implements BandDAO {
 	/**
 	 * @param name of band
 	 * @param genre of band
-	 * 
+	 *
 	 * @return true if exists a band
 	 */
 	@Override
-	public boolean existBand(String name, String genre){
+	public boolean existBand(String name){
 		boolean result = false;
 		boolean areEmpty = false;
 		boolean areNull = false;
-		areNull = name == null || genre == null;
+		areNull = name == null;
 		if(!areNull){
-			areEmpty = name.equals("") && genre.equals("");
+			areEmpty = name.equals("");
 		}
-		if(areNull || areEmpty){ 
+		if(areNull || areEmpty){
 			throw new IllegalArgumentException("the params for search band can't be null or empty.");
 		} else {
-			
-			String hq1 = "FROM Band A WHERE A.name = :paramName and A.genre = :paramGenre";
-			Query<Band> query = currentSession.createQuery(hq1, Band.class);
+
+			String hq1 = "FROM Band A WHERE A.name = :paramName";
+			Query<Band> query = this.currentSession.createQuery(hq1, Band.class);
 			query.setParameter("paramName", name);
-			query.setParameter("paramGenre", genre);
 			List<Band> bandList = query.getResultList();
-			if(!bandList.isEmpty()){
+			if(bandList.isEmpty()){
+				result = false;
+			}else{
 				result = true;
 			}
 		}
@@ -214,22 +181,75 @@ public class BandDaoImpl implements BandDAO {
 	}
 	/**
 	 * Search a band in database
-	 * 
+	 *
 	 * @param band name to search
 	 * @return band wanted
 	 */
 	@Override
-	public List<Band> findBandByName(String name){
+	public List<Band> findByName(String name){
 		if(name == null || name.equals("")){
 				throw new IllegalArgumentException("the 'name' param for search a band can not be null or empty.");
 			} else {
-				Query<Band> query = currentSession.createQuery("from Band where name=:n", Band.class);
+				Query<Band> query = this.currentSession.createQuery("from Band where name=:n", Band.class);
 				query.setParameter("n", name);
 				return query.getResultList();
 			}
+	}
+
+	/**
+	    * Search a band in database
+	    *
+	    * @param band genre to search
+	    *
+	    * @return list of bands wanted
+	    */
+	   public List<Band> findByGenre(String genre){
+		   if (genre == null || genre.equals("")){
+			   throw new IllegalArgumentException("the 'genre' param for search a band can not be null or empty.");
+		   } else {
+			   Query<Band> query = this.currentSession.createQuery("from Band where genre=:g", Band.class);
+			   query.setParameter("g", genre);
+			   return query.getResultList();
+		 }
+	   }
+	   /**
+	    * Search a band in database
+	    *
+	    * @param band genre to search
+	    * @param band name to search
+	    *
+	    * @return list of bands wanted
+	    */
+
+	   public List<Band> findByNameAndGenre(String name,String genre){
+			boolean areEmpty = false;
+			boolean areNull = false;
+			areNull = name == null || genre == null;
+			if(!areNull){
+				areEmpty = name.equals("") && genre.equals("");
+			}
+			if(areNull || areEmpty){
+				throw new IllegalArgumentException("the params for search band can't be null or empty.");
+			} else {
+				String hq1 = "FROM Band A WHERE A.name = :paramName and A.genre = :paramGenre";
+				Query<Band> query = this.currentSession.createQuery(hq1, Band.class);
+				query.setParameter("paramName", name);
+				query.setParameter("paramGenre", genre);
+				List<Band> bandList = query.getResultList();
+				return bandList;
+				}
 		}
-			
-	}  
 
-	
+	   @Override
+		public Band findById(String id) {
+			if(id == null || id.equals("")){
+				throw new IllegalArgumentException("the 'id' param for search an band can not be null or empty.");
+			} else {
+				Query<Band> query = this.currentSession.
+						createQuery("from Band where bandID=:id", Band.class);
+				query.setParameter("id", id);
+				return query.getSingleResult();
+			}
+		}
 
+}
