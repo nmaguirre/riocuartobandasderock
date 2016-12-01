@@ -87,8 +87,8 @@ public class BandDaoImpl implements BandDAO {
 		if(areNull || areEmpty){ //I see that the arguments are valid
 			throw new IllegalArgumentException("the params for update band can't be null or empty.");
 		} else {
-			Query<Band> query = this.currentSession.createQuery("update Band set name = :name,"
-					+ " genre = :genre, where bandID=:id", Band.class);
+			Query<Band> query = this.currentSession.createQuery("update Band  set name = :name,"
+					+ " genre = :genre where bandID = :id");//, Band.class);
 			query.setParameter("name", new_name);
 			query.setParameter("genre", new_genre);
 			query.setParameter("id", id);

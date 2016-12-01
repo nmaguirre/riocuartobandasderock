@@ -1,12 +1,23 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model;
 
 import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.engine.FetchStyle;
 
 
 /**
@@ -19,16 +30,28 @@ import javax.persistence.Table;
 @Table(name = "bandDB")
 public class Band {
 
+  /** The Band id */
   @Id
   @Column(name = "bandID")
   private String id;
 
+  /** The Band name */
   @Column(name = "name")
   private String name;
 
+  /** The Band genre */
   @Column(name = "genre")
   private String genre;
 
+  /** The band menbers has set */
+//  @ManyToMany(cascade = {CascadeType.ALL})
+//  @JoinTable(name="BandMemberDB", joinColumns={@JoinColumn(name="bandID")}, inverseJoinColumns={@JoinColumn(name="artistID")})
+//  private Set<Artist> members = new HashSet();
+
+  /** The Band albums as set */
+  @Fetch(FetchMode.JOIN)
+  @OneToMany(cascade= CascadeType.ALL)
+  private Set<Album> albums = new HashSet<Album>();
 
   /**
    * this is a constructor for an empty band
@@ -74,6 +97,22 @@ public class Band {
   }
 
   /**
+  *   This method returns the member of the bands has set
+  *   @return Set<Artist> the artist that play on the band
+  */
+//  public Set<Artist> getMembers(){
+//    return this.members;
+//  }
+
+  /**
+  *   This methods returns the Albums of the band
+  *   @return Set<Album> The Albums of the band
+  */
+  public Set<Album> getAlbums(){
+    return this.albums;
+  }  
+
+  /**
    * this method set a different id for the band
    * @param an_id (String)
    */
@@ -97,6 +136,20 @@ public class Band {
   public void setGenre(String a_genre){
     genre = a_genre;
   }
+
+  /**
+  *   This method set the members attributte
+  */
+//  public void setMembers(Set<Artist> member){
+//    this.members = member;
+//  }
+
+  /**
+  *   This methods set the album attributte
+  */
+  public void setAlbums(Set<Album> album){
+    this.albums = album;
+  }  
 
   /**
    * this method check that the instance was create with valid

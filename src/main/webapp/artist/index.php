@@ -22,7 +22,7 @@
           <li class="active"><a href="http://localhost:4567/artistadmin/index.php">Home</a></li>
           <li><a href="http://localhost:4567/artistadmin/artist.php">Artist</a></li>
           <li><a href="http://localhost:4567/artistadmin/album_admin.html">Album</a></li>
-          <li><a href="http://localhost:4567/artistadmin/band.php">Band</a></li>
+          <li><a href="http://localhost:4567/artistadmin/band_admin.html">Band</a></li>
           <li><a href="http://localhost:4567/artistadmin/song.php">Song</a></li>
         </ul>
       </div>

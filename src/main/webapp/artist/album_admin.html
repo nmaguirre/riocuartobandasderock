@@ -92,9 +92,10 @@
                 //CUANDO FUNCIONEN LAS RUTAS SACAR ESTE COMENTARIO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 //$.each(request, function(i, item) {
                 $.each(data, function(i, item) {
-                       response += '<tr>'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.duration+'</td>'+'<td> <a href="javascript:void(0);" class="glyphicon glyphicon-trash" onclick="deleteSongFromAlbum(\''+id+'\',\''+item.idSong+'\'); event.stopImmediatePropagation();"</a> </td>'+'</tr>';
+                       response += '<tr>'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.duration+'</td>'+ '</tr>';
                        ++itemindex;
                 });
+                response += '<tr><td colspan=4><button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:addSongToAlbum(\''+id+'\');">Add Song</button> <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button></td></tr>';
                 response += '</table>';
             }
 
@@ -104,6 +105,7 @@
     }
 
     function showInEdit(id){
+        //AUNQUE NO PAREZCA, FUNCIONA PERO APIARY ES UNA MIERDA Y PARECE QUE NO ANDA 
 
     	//CUANDO FUNCIONEN LAS RUTAS SACAR ESTE COMENTARIO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         //var resourcelocation ='/album/'+id;
@@ -137,8 +139,6 @@
         //CUANDO FUNCIONEN LAS RUTAS SACAR ESTE COMENTARIO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         //var url = '/albums';
         var url = 'https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/albums';
-        title=$('#titleEdit').val();
-        releaseDate=$('#releaseDateEdit').val();
 
         if (title=='') {
             alert("Debe rellenar al menos el campo 'Titulo'.");
@@ -156,7 +156,7 @@
     	            $('.formData').slideUp();
         	    },
             	error: function(x, e) {
-            		alert("error "+x+" "+e);
+            		alert("error "+e);
         	    }
         	});
         }
@@ -261,7 +261,32 @@
         $('#searchForm').slideToggle();
    }
 
-    function addSongToAlbum(){
+    function addSongToAlbum(idAlbum){
+        //missing implementation
+        /*$("#allSongsMModal").modal()
+        $("#allSongsMData").html('<table></table>');
+        resourcelocation="/songs";
+        $.get(resourcelocation, function(data, status){
+            if (typeof data === "undefined") {
+                response = '<tr><td colspan="5"> No Songs found...</td></tr>'
+            }else{
+                //CUANDO FUNCIONEN LAS RUTAS SACAR ESTE COMENTARIO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                //var request = JSON.parse(data);
+                response = '<table>';
+                itemindex = 1;
+                //CUANDO FUNCIONEN LAS RUTAS SACAR ESTE COMENTARIO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                //$.each(request, function(i, item) {
+                $.each(data, function(i, item) {
+                       response += '<tr>'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.duration+'</td>'+ '<td> <a href="javascript:void(0);" class="glyphicon glyphicon-add" onclick="showInEdit(\''+idAlbum+'\'); event.stopImmediatePropagation();"</a>'+'</tr>';
+                       ++itemindex;
+                });
+                response += '<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button></td></tr>';
+                response += '</table>';
+            }
+
+            $("#allSongsMData").html(response);
+
+          });*/
 
    	}
 
@@ -270,6 +295,7 @@
 		console.log(idSong);
 		alert("Delete Song from Album: Missing Implementation");
 		/*Missing implementation
+        esto es borrar directamente la cancion ! ver como mierda lo hago S
 
         resourcelocation = "??";
 
@@ -329,9 +355,9 @@
     <ul class="nav navbar-nav">
       <li><a href="http://localhost:4567/artistadmin/index.php">Home</a></li>
           <li><a href="http://localhost:4567/artistadmin/artist.php">Artist</a></li>
-          <li class="active"><a href="http://localhost:4567/artistadmin/album.php">Album</a></li>
-          <li><a href="http://localhost:4567/artistadmin/band.php">Band</a></li>
-          <li><a href="http://localhost:4567/artistadmin/song.php">Song</a></li>
+          <li class="active"><a href="http://localhost:4567/artistadmin/album_admin.html">Album</a></li>
+          <li><a href="http://localhost:4567/artistadmin/band_admin.html">Band</a></li>
+          <li><a href="http://localhost:4567/artistadmin/song_admin.html">Song</a></li>
     </ul>
   </div>
 </nav>
@@ -411,7 +437,7 @@
                         <input type="text" class="form-control" name="releaseDate" id="releaseDateSearch
                         "/>-->
                         <label>Release Date</label>
-                        <input type="date" class="form-control" id="releaseDate" name="releaseDateSearch">
+                        <input type="date" class="form-control" id="releaseDateSearch" name="releaseDate">
                     </div>
                     <br></br>
                     <input type="hidden" class="form-control" name="id" id="idSearch"/>
@@ -452,15 +478,41 @@
                         <th></th>
                         <th>Title</th>
                         <th>Duration</th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody id="songMData"></tbody>
             </table>
       </div>
-      <div class="modal-footer">
-      	<!--<button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:addSongToAlbum();">Add Song</button>-->
+      <!--<div class="modal-footer">
+      	<button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:addSongToAlbum();">Add Song</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>-->
+    </div>
+
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="allSongsMModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Add Song</h4>
+      </div>
+      <div class="modal-body">
+        <table class="table collection table table-bordered table-striped table-hover" id="allSongsMTable">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Title</th>
+                        <th>Duration</th>
+                    </tr>
+                </thead>
+                <tbody id="allSongsMData"></tbody>
+            </table>
       </div>
     </div>
 
