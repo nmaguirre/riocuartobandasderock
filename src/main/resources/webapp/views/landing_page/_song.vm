@@ -6,13 +6,11 @@
   <thead>
     <th>Nombre</th>
     <th>Duracion</th>
-    <th>Fecha</th>
   </thead>
   <tbody>
     <tr>
       <td id="song-name"></td>
       <td id="song-duration"></td>
-      <td id="song-nickname"></td>
     </tr>
   </tbody>
 </table>

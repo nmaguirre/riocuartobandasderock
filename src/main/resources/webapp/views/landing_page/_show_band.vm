@@ -6,11 +6,15 @@
   <thead>
     <th>Nombre</th> 
     <th>Genero</th>
+    <th>Miembros</th>
+    <th>Albumes</th>
   </thead>
   <tbody>
     <tr>
       <td id="band-name"></td>
       <td id="band-genre"></td>
+      <td id="band-member"></td>
+      <td id="band-album"></td>
     </tr>
   </tbody>
 </table>
