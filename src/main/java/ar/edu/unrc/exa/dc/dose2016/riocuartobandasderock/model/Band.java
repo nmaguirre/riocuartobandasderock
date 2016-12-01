@@ -15,6 +15,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.engine.FetchStyle;
+
 
 /**
  * Title:   riocuartobandasderock.model.Band<p>
@@ -45,6 +49,7 @@ public class Band {
 //  private Set<Artist> members = new HashSet();
 
   /** The Band albums as set */
+  @Fetch(FetchMode.JOIN)
   @OneToMany(cascade= CascadeType.ALL)
   private Set<Album> albums = new HashSet<Album>();
 
