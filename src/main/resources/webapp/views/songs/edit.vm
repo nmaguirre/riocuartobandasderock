@@ -8,7 +8,7 @@
           </div>
           <br>
         #end
-        <div class="card-header" data-background-color="purple">
+        <div class="card-header" data-background-color="green">
           <h4 class="title">Modificar Canción</h4>
           <p class="category">Complete el formulario</p>
         </div>
@@ -29,7 +29,7 @@
               </div>
             </div>
 
-            <button type="submit" class="btn btn-primary pull-right">Actualizar</button>
+            <button type="submit" class="btn btn-success pull-right">Actualizar</button>
             <div class="clearfix"></div>
           </form>
         </div>

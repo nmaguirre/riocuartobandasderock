@@ -63,6 +63,7 @@ public class DashboardController {
     attributes.put("cantidadArtistas", cantidadArtistas);
     attributes.put("cantidadCanciones", cantidadCanciones);
     attributes.put("template", Routes.dashboard_index());
+    attributes.put("title", Panel de Administrador);
     return new ModelAndView(attributes, Routes.layout_dashboard());
   }
 }

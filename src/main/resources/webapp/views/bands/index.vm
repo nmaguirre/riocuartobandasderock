@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-md-12">
         <div class="card card-plain">
-          <div class="card-header col-md-12" data-background-color="purple">
+          <div class="card-header col-md-12" data-background-color="green">
             <div class="col-md-10">
               <h4 class="title">Listado de todas las Bandas</h4>
             </div>
