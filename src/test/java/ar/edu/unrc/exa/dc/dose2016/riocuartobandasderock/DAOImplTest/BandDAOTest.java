@@ -1,8 +1,6 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.DAOImplTest;
 
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.ArtistDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandDAO;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.ArtistDaoImpl;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandDaoImpl;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SessionManager;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
@@ -19,12 +17,6 @@ import java.util.List;
 import org.hibernate.Session;
 import org.junit.Before;
 import org.junit.Test;
-
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.ArtistDAO;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.ArtistDaoImpl;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SessionManager;
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
-
 
 public class BandDAOTest {
 

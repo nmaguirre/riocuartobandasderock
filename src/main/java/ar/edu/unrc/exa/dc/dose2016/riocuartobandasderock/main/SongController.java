@@ -68,13 +68,16 @@ public class SongController {
      * @return the list of songs with Id parameters
      */
     public Song getById (Request req, Response res){
+    	
+    	Session session = SessionManager.getInstance().openSession();
+    	SongDAO sdao = new SongDaoImpl(session);
+    	
     	String id = req.params(":id");
     	if (id == ""){
     		res.status(400);
     		return null;
     	}
-    	Session session = SessionManager.getInstance().openSession();
-    	SongDAO sdao = new SongDaoImpl(session);
+    	
     	Song song = sdao.findById(id);
     	session.close();
     	res.status(song != null ? 200 : 204);
@@ -89,14 +92,15 @@ public class SongController {
      * @return the list of songs with name parameters
      */
     public List<Song> getByName (Request req, Response res){
-       	String songName = req.params(":name");
-
-    	if (songName == null || songName == ""){
-    		res.status(400);
-    		return null;
-    	};
     	Session session = SessionManager.getInstance().openSession();
     	SongDAO sdao = new SongDaoImpl(session);
+    	
+       	String songName = req.params(":name");
+
+    	if (songName == null || songName.isEmpty()){
+    		res.status(400);
+    		return null;
+    	}
     	List<Song> songs = sdao.findByName(songName);
     	session.close();
     	res.status(songs.size() > 0 ? 200 : 204);
@@ -111,18 +115,20 @@ public class SongController {
      * @return the list of songs with duration parameters
      */
     public List<Song> getByDuration (Request req, Response res){
+    	Session session = SessionManager.getInstance().openSession();
+    	SongDAO sdao = new SongDaoImpl(session);
+    	
     	String duration = req.params(":duration");
 
-    	if (duration == null || duration == ""){
+    	if (duration == null || duration.isEmpty()){
     		res.status(400);
     		return null;
     	}
-    	Session session = SessionManager.getInstance().openSession();
-    	SongDAO sdao = new SongDaoImpl(session);
 
     	List<Song> songs = sdao.findByDuration(Integer.parseInt(duration));
-    	res.status(songs.size() > 0 ? 200 : 204);
     	session.close();
+
+    	res.status(songs.size() > 0 ? 200 : 204);
 
     	return songs;
     }
@@ -141,19 +147,19 @@ public class SongController {
     	Session session = SessionManager.getInstance().openSession();
     	SongDAO sdao = new SongDaoImpl(session);
     	Transaction transaction = session.beginTransaction();
-
-    	if(( songName == null || songName == "" ) || dur == null) {
-			res.status(400);
-			// res.body("Invalid content of parameters");
-			// return res.body();
+      
+      String title = req.queryParams("albumTitle");
+      if( songName == null || songName.isEmpty() || dur == null || title == null || title.isEmpty()) {
+      res.status(400);
+      // res.body("Invalid content of parameters");
+      // return res.body();
         attributes.put("error", "El nombre no puede estar en blanco");
         attributes.put("template", Routes.new_song());
         return new ModelAndView(attributes, Routes.layout_dashboard());
-		  }
-    	boolean result = sdao.addSong(songName,Integer.parseInt(dur));
+      }
+      boolean result = sdao.addSong(songName,Integer.parseInt(dur),title);
     	transaction.commit();
     	session.close();
-
     	if(result){
     	res.body("Song created");
     	// res.status(201);
@@ -167,8 +173,6 @@ public class SongController {
     	// return res.body();
     }
 
-
-
     /***
 	 * This method takes a song from the frontend, and delete this song in database
 	 * @param req contains the Id to search the song and delete it
@@ -176,14 +180,14 @@ public class SongController {
 	 * @return true if the song was deleted. Otherwise, false.
 	 */
 	public String remove(Request req,Response res){
+		Session session = SessionManager.getInstance().openSession();
+		SongDAO sdao = new SongDaoImpl(session);
 		String id = req.params(":id");
 		if ((id == "") ||(id == null)) {
 			res.status(400);
 			res.body("Invalid request");
 			return res.body();
 		}
-		Session session = SessionManager.getInstance().openSession();
-		SongDAO sdao = new SongDaoImpl(session);
 
 		Transaction transaction = session.beginTransaction();
 	 	boolean status = sdao.removeSong(id);
@@ -194,9 +198,10 @@ public class SongController {
 			res.status(200);
 			res.body("Success");
 			res.body();
+		} else {
+			res.status(409);
+			res.body("Fail");
 		}
-		res.status(409);
-		res.body("Fail");
 		return res.body();
 
 	}
@@ -212,29 +217,30 @@ public class SongController {
     	String id = req.params(":id");
     	if ((id == "") ||(id == null)) {
 			res.status(400);
-			res.body("Invalid request");
+			res.body("Invalid request: Song doesn't exists");
 			return res.body();
 		}
     	Session session = SessionManager.getInstance().openSession();
     	SongDAO sdao = new SongDaoImpl(session);
     	Song song = sdao.findById(id);
     	session.close();
-
     	String name = req.queryParams("name");
     	String duration = req.queryParams("duration");
+    	String title = req.queryParams("albumTitle");
 
-    	if (name == "" || name == null || duration == null ){
+    	if (name == "" || name == null || duration == null || title.isEmpty() || title == null){
     		res.status(400);
             res.body("Invalid content of parameters");
             return res.body();
     	}
+
 
     	song.setName(name);
     	song.setDuration(Integer.parseInt(duration));
 
     	session = SessionManager.getInstance().openSession();
     	Transaction transaction = session.beginTransaction();
-    	boolean status = sdao.updateSong(song);
+    	boolean status = sdao.updateSong(id, name, (duration.isEmpty()? 0 : Integer.parseInt(duration)), title);
     	transaction.commit();
     	session.close();
 
@@ -242,11 +248,13 @@ public class SongController {
 			res.status(200);
 			res.body("Success");
 			res.body();
+		} else {
+			res.status(409);
+			res.body("Fail");
 		}
-		res.status(409);
-		res.body("Fail");
 		return res.body();
     }
+
 
     public ModelAndView showSong(Request req,Response res){
     Map<String, Object> attributes = new HashMap<>();
@@ -278,3 +286,4 @@ public class SongController {
     return new ModelAndView(attributes, Routes.layout_dashboard());
   }
 }
+

@@ -118,7 +118,7 @@
                           <tr>
                             <td>$song.getName()</td>
                             <td>$song.getDuration()</td>
-                            <td>$song.getAlbum()</td>
+                            <td>$song.getAlbum().getTitle()</td>
                           </tr>
                         #end
                       </tbody>
