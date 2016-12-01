@@ -89,9 +89,7 @@ public class LandingPageController {
 
     List<Artist> bandMembers = bandMemberDAO.findByBand(band.getId());
 
-    List<Album> listAlbums = new LinkedList<Album>();
-    listAlbums.add(adao.findById("1"));
-    listAlbums.add(adao.findById("2"));
+    List<Album> listAlbums = bdao.findAlbums(band.getId().toString());
 
     System.out.println("SIZE ALBUM : "+listAlbums.size() );
 
