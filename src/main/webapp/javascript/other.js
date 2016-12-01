@@ -8,19 +8,21 @@ function test(){
 	var sys = arbor.ParticleSystem(500, 40,1); 
     sys.parameters({gravity:true}); 
     sys.renderer = Renderer("#viewport");
-	var resp = [{name:'Juan',duration:'hola'},{name:'Franco',duration:'chau'},{name:'Pedro',duration:'adios'}];
+	/*var resp = [{name:'Juan',duration:'hola'},{name:'Franco',duration:'chau'},{name:'Pedro',duration:'adios'}];
     for (var i=0; i<resp.length; i++){
        sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
        sys.addNode('duration'+i,{'color':'red','shape':'dot','label':resp[i].duration});
        sys.addEdge('name'+i, 'duration'+i,{'color':'black'});
        
-    }
+    }*/
     
     var resp ={name:'Juan',apellido:'Diaz',edad:'28'};
     var str = "";
     for (elem in resp)
     	  str = str + elem + ': ' + resp[elem]+'<br>';
-    	  
+    sys.addNode('name',{'color':'blue','shape':'dot','label':resp.name});
+    sys.addNode('apellido',{'color':'red','shape':'dot','label':resp.apellido});
+    sys.addEdge('name', 'apellido',{'color':'black'});	  
     //window.alert(str);	  
     document.getElementById('show').innerHTML = str;	
     	  
@@ -43,7 +45,10 @@ function songGetAll() {
    xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
 	     var resp = JSON.parse(xhttp.responseText);
-
+	     if((resp == null)||(resp == "")){  //No songs in database
+			 window.alert("Not data found");
+			 return;
+         }	 
 	     //ArborJs
 	     var sys = arbor.ParticleSystem(500, 40,1); // create the system with sensible repulsion/stiffness/friction
 		 sys.parameters({gravity:true}); // use center-gravity to make the graph settle nicely (ymmv)
@@ -88,7 +93,10 @@ function songFindByName() {
       if (this.readyState == 4 && this.status == 200) {
          document.getElementById("show").innerHTML = this.responseText;
 		 var resp = JSON.parse(xhttp.responseText);
-		 
+		 if((resp == null)||(resp == "")){  //no songs in database
+			 window.alert("The value entered has not been found");
+			 return;
+         }	 
 		 //request of album
 		 var xhttp2 = new XMLHttpRequest();
 		 xhttp2.open("GET", "http://"+host+":"+port+"/albums", true);
@@ -175,7 +183,10 @@ function songFindByDuration() {
       if (this.readyState == 4 && this.status == 200) {
 	     document.getElementById("show").innerHTML = this.responseText;
 		 var resp = JSON.parse(xhttp.responseText);
-		 
+		 if((resp == null)||(resp == "")){  //no songs in database
+			 window.alert("The value entered has not been found");
+			 return;
+         }	 
 		 //request of album
 		 var xhttp2 = new XMLHttpRequest();
 		 xhttp2.open("GET", "http://"+host+":"+port+"/albums", true);
@@ -250,7 +261,10 @@ function artistGetAll() {
    xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
 	     var resp = JSON.parse(xhttp.responseText);
-	     
+	     if((resp == null)||(resp == "")){  //no artists in database
+			 window.alert("No data found");
+			 return;
+         }	 
 	     //ArborJs 
 		 var sys = arbor.ParticleSystem(500, 40,1); 
 		 sys.parameters({gravity:true}); 
@@ -296,7 +310,10 @@ function artistFindByName() {
       if (this.readyState == 4 && this.status == 200) {
 	     document.getElementById("show").innerHTML = this.responseText;
 		 var resp = JSON.parse(xhttp.responseText);
-		 
+		 if((resp == null)||(resp == "")){  //no artists in database
+			 window.alert("The value entered has not been found");
+			 return;
+         }	 
 		 //ArborJs 
 		 var sys = arbor.ParticleSystem(500, 40,1); 
 		 sys.parameters({gravity:true}); 
@@ -349,7 +366,10 @@ function artistFindByNickname() {
       if (this.readyState == 4 && this.status == 200) {
 	     document.getElementById("show").innerHTML = this.responseText;
 		 var resp = JSON.parse(xhttp.responseText);
-		 
+		 if((resp == null)||(resp == "")){  //no artists in database
+			 window.alert("The value entered has not been found");
+			 return;
+         }	 
 		 //ArborJs 	  
     	 var sys = arbor.ParticleSystem(500, 40,1); 
 		 sys.parameters({gravity:true}); 
@@ -402,7 +422,10 @@ function artistFindBySurname() {
       if (this.readyState == 4 && this.status == 200) {
 	     document.getElementById("show").innerHTML = this.responseText;
 		 var resp = JSON.parse(xhttp.responseText);
-		 
+		 if((resp == null)||(resp == "")){ // no artists in database
+			 window.alert("The value entered has not been found");
+			 return;
+         }	 
 		 //ArborJs   
 		 var sys = arbor.ParticleSystem(500, 40,1); 
 		 sys.parameters({gravity:true}); 
@@ -452,7 +475,10 @@ function albumGetAll() {
    xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
          var resp = JSON.parse(xhttp.responseText);	
-         
+         if((resp == null)||(resp == "")){  //no albums in database
+			 window.alert("No data found");
+			 return;
+         }	 
          //ArborJs
 		 var sys = arbor.ParticleSystem(500, 40,1); 
     	 sys.parameters({gravity:true}); 
@@ -484,7 +510,7 @@ function albumFindByReleaseDate() {
    var str = document.getElementsByName("albumDate")[0].value;
    if (str == "") {
 	   window.alert("The Field is Empty\nPlease Input A Value");
-	  return;
+	   return;
    }
    xhttp = new XMLHttpRequest();
    xhttp.open("GET", "http://"+host+":"+port+"/albums/findByReleaseDate/"+str, true);
@@ -492,7 +518,10 @@ function albumFindByReleaseDate() {
       if (this.readyState == 4 && this.status == 200) {
 	     document.getElementById("show").innerHTML = this.responseText;
 		 var resp = JSON.parse(xhttp.responseText);
-		 
+		 if((resp == null)||(resp == "")){  //no albums in database
+			 window.alert("The value entered has not been found");
+			 return;
+         }	 
 		 //ArborJs
 		 var sys = arbor.ParticleSystem(500, 40,1); 
     	 sys.parameters({gravity:true}); 
@@ -532,7 +561,10 @@ function albumFindByTitle() {
       if (this.readyState == 4 && this.status == 200) {
 	     document.getElementById("show").innerHTML = this.responseText;
 		 var resp = JSON.parse(xhttp.responseText);
-		 
+		 if((resp == null)||(resp == "")){  //no albums in database
+			 window.alert("The value entered has not been found");
+			 return;
+         }	 
 		 //ArborJs
 		 var sys = arbor.ParticleSystem(500, 40,1); 
     	 sys.parameters({gravity:true}); 
@@ -572,7 +604,10 @@ function bandGetAll() {
    xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
          var resp = JSON.parse(xhttp.responseText);
-         
+         if((resp == null)||(resp == "")){  //no bandss in database
+			 window.alert("No data found");
+			 return;
+         }	 
          //ArborJs
 		 var sys = arbor.ParticleSystem(500, 40,1); 
 		 sys.parameters({gravity:true}); 
@@ -612,7 +647,10 @@ function bandFyndByName() {
       if (this.readyState == 4 && this.status == 200) {
 	     document.getElementById("show").innerHTML = this.responseText;
 		 var resp = JSON.parse(xhttp.responseText);
-	    
+		 if((resp == null)||(resp == "")){  //no bands in database
+			 window.alert("The value entered has not been found");
+			 return;
+         }	 
 		 //ArborJs
 		 var sys = arbor.ParticleSystem(500, 40,1); 
 		 sys.parameters({gravity:true}); 
@@ -698,7 +736,10 @@ function bandFindByGenre() {
       if (this.readyState == 4 && this.status == 200) {
 	     document.getElementById("show").innerHTML = this.responseText;
 		 var resp = JSON.parse(xhttp.responseText);
-	    
+		 if((resp == null)||(resp == "")){  //no bands in database
+			 window.alert("The value entered has not been found");
+			 return;
+         }	 	    
 		 //ArborJs
 		 var sys = arbor.ParticleSystem(500, 40,1); 
 		 sys.parameters({gravity:true}); 
