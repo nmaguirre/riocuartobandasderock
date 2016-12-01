@@ -89,45 +89,6 @@ public class UserController {
         }
     }
 
-    public String login(Request req, Response res) {
-        Session session = req.session();
-        if (session.attribute("name") != null) {
-            res.status(200);
-            return "Already logged in as:\n" + session.attribute("name") + "\n";
-        }
-        String name = req.queryParams("name");
-        String password = req.queryParams("password");
-        org.hibernate.Session sessionManager= SessionManager.getInstance().openSession();
-        UserDAOImpl dao = new UserDAOImpl(sessionManager);
-        User user = dao.find(name);
-        if (user != null && user.password().equals(User.encodePassword(password))) {
-            session.attribute("name", user.name());
-            session.attribute("password", user.password());
-            session.maxInactiveInterval(120);
-            res.status(200);
-            sessionManager.close();
-            res.redirect("/dashboard");
-            return "Logged in successfully\n";
-        } else {
-            res.status(403);
-            sessionManager.close();
-            return "Invalid credentials\n";
-        }
-    }
-
-    public String logout(Request req, Response res) {
-        Session session = req.session();
-        if (session.attribute("name") == null) {
-            res.status(403);
-            return "You're not logged in\n";
-        } else {
-            session.invalidate();
-            res.status(200);
-            res.redirect("/");
-            return "Logged out successfully\n";
-        }
-    }
-
     public boolean authenticated(Request req, Response res) {
         Session session = req.session();
         org.hibernate.Session sessionManager= SessionManager.getInstance().openSession();
@@ -151,6 +112,53 @@ public class UserController {
             attributes.put("form_method", "POST");
             attributes.put("template", Routes.login());
             return new ModelAndView(attributes, Routes.layout_sessions());
+        }
+    }
+
+
+    public ModelAndView postLogin(Request req, Response res) {
+        Map<String, Object> attributes = new HashMap<>();
+        Session session = req.session();
+        if (authenticated(req, res)) {
+            attributes.put("template", Routes.already_logged());
+            attributes.put("name", req.session().attribute("name"));
+            return new ModelAndView(attributes, Routes.layout_sessions());
+        }
+        String name = req.queryParams("name");
+        String password = req.queryParams("password");
+        org.hibernate.Session sessionManager= SessionManager.getInstance().openSession();
+        UserDAOImpl dao = new UserDAOImpl(sessionManager);
+        User user = dao.find(name);
+        if (user != null && user.password().equals(User.encodePassword(password))) {
+            session.attribute("name", user.name());
+            session.attribute("password", user.password());
+            session.maxInactiveInterval(120);
+            res.status(200);
+            sessionManager.close();
+            res.redirect("/dashboard");
+            return null;
+        } else {
+            res.status(403);
+            sessionManager.close();
+            attributes.put("post_login_path", "/login");
+            attributes.put("form_method", "POST");
+            attributes.put("error", "Los datos de inicio de sesión no son correctos. Intente nuevamente");
+            attributes.put("template", Routes.login());
+            return new ModelAndView(attributes, Routes.layout_sessions());
+        }
+    }
+
+    public String getLogout(Request req, Response res) {
+        Session session = req.session();
+        if (session.attribute("name") == null) {
+            res.status(403);
+            res.redirect("/");
+            return null;
+        } else {
+            session.invalidate();
+            res.status(200);
+            res.redirect("/");
+            return null;
         }
     }
 }

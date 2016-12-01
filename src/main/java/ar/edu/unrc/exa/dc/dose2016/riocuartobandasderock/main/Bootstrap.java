@@ -255,9 +255,9 @@ public class Bootstrap {
 
         get("/login", (req, res)  -> userController.getLogin(req, res), new VelocityTemplateEngine());
 
-        post("/login", (req, res) -> userController.login(req, res));
+        post("/login", (req, res) -> userController.postLogin(req, res), new VelocityTemplateEngine());
 
-        get("/logout", (req, res) -> userController.logout(req, res));
+        get("/logout", (req, res) -> userController.getLogout(req, res));
 
         /**
         * SONG
