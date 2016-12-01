@@ -274,6 +274,14 @@ public class ArtistController {
 		// return "Fail";
 	}
 
+	public ModelAndView updateView(Request req, Response res){
+		Map<String, Object> attributes = new HashMap<>();
+		String id = req.queryParams("id");
+		attributes.put("id", id);
+		attributes.put("template", Routes.edit_artist());
+    return new ModelAndView(attributes, Routes.layout_dashboard_update());
+	}
+
 	/**
 	 * Update an artist in database
 	 * @param res (Response)

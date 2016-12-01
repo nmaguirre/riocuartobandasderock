@@ -7,6 +7,10 @@ public class Routes {
     return "views/layouts/landing_page.vm";
   }
 
+  public static String layout_dashboard_update(){
+    return "views/layouts/dashboard_update.vm";
+  }
+
   public static String layout_dashboard(){
     return "views/layouts/dashboard.vm";
   }

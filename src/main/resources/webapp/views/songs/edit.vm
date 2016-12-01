@@ -9,22 +9,22 @@
           <br>
         #end
         <div class="card-header" data-background-color="purple">
-          <h4 class="title">Modificar Album</h4>
+          <h4 class="title">Modificar Canción</h4>
           <p class="category">Complete el formulario</p>
         </div>
         <div class="card-content">
-          <form action="/albums" method="put">
+          <form action="/songs" method="put">
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group label-floating">
-                  <label class="control-label">Título</label>
-                  <input type="text" class="form-control" name="title">
+                  <label class="control-label">Nombre</label>
+                  <input type="text" class="form-control" name="name">
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group label-floating">
-                  <label class="control-label">Lanzamiento</label>
-                  <input type="text" class="form-control" name="release_date">
+                  <label class="control-label">Duración</label>
+                  <input type="text" class="form-control" name="duration">
                 </div>
               </div>
             </div>
@@ -42,6 +42,6 @@
   #include("vendor/jquery/jquery.min.js")
   $(document).ready(function() {
     $('li').removeClass('active');
-    $('#album').addClass('active');
+    $('#song').addClass('active');
   });
 </script>

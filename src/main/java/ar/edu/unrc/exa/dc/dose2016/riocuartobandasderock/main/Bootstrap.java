@@ -91,7 +91,7 @@ public class Bootstrap {
         albumController  = AlbumController.getInstance();
         artistController = ArtistController.getInstance();
         bandMemberController = BandMemberController.getInstance();
-        bands = BandController.getInstance(); 
+        bands = BandController.getInstance();
         songController = new SongController();
         userController = UserController.getInstance();
         landingPageController = LandingPageController.getInstance();
@@ -174,13 +174,13 @@ public class Bootstrap {
 
         get("/artists/:id",(req, res) -> artistController.showArtist(req, res), new VelocityTemplateEngine());
 
-        
+
         /** returns an artist whose id = :id the output is json format
          * example:   Request: GET /artist/10
          *            Output : {name: Matias, surname: Cerra, nickname: }
-         * 
-         * **/    
-        
+         *
+         * **/
+
         get("/artists/findbyallattributes/",(req,res)->artistController.getOneArtist(req,res),json());
 
         get("/artists/:id",(req,res)->artistController.getArtistById(req,res));
@@ -199,15 +199,17 @@ public class Bootstrap {
 
         put("/artists/:id",(req,res)->artistController.updateArtist(req,res));
 
+        get("/artists/update/:id",(req,res)->artistController.updateView(req,res), new VelocityTemplateEngine());
+
         delete("/artists/:id",(req,res)->artistController.deleteArtist(req,res));
 
         /**
          * BAND MEMEBER
          **/
         post("/bandmembers",(req,res)->bandMemberController.createBandMember(req, res));
-        
+
         delete("/bandmembers/:artistID/:bandID",(req,res)->bandMemberController.deleteBandMember(req, res));
-        
+
         /**
          * USER
          **/
@@ -247,12 +249,5 @@ public class Bootstrap {
         put("/songs/:id",(req, res) -> songController.update(req, res));
 
         delete("/songs/:id",(req, res) -> songController.remove(req, res));
-    
-
-        
-
-       
-        
-
     }
 }
