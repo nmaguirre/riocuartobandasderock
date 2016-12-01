@@ -10,22 +10,7 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 
 public interface BandDAO {
 
-	public Session openCurrentSession();
 
-	public Session openCurrentSessionwithTransaction();
-
-	public void closeCurrentSession();
-
-	public void closeCurrentSessionwithTransaction();
-
-	public Session getCurrentSession();
-
-	public void setCurrentSession(Session currentSession);
-
-	public Transaction getCurrentTransaction();
-
-	public void setCurrentTransaction(Transaction currentTransaction);
-	
 	   /**
 	    * This method get all bands
 	   * 
@@ -47,8 +32,8 @@ public interface BandDAO {
 	    *
 	    * @return true if the update was successful
 	    */
-	   public boolean updateBand(Band band);
-
+	   public boolean updateBand(String id, String name, String genre); 
+	   
 	   /**
 	    *
 	    * @param String id
@@ -72,7 +57,27 @@ public interface BandDAO {
 	    *
 	    * @return bands with particular name
 	    */
-	   public List<Band> findBandByName(String name);
+	   public List<Band> findByName(String name);
+	   
+	   /**
+	    * This method find a band by genre
+	    * 
+	    * @param String genre
+	    * 
+	    * @return list of bands with particular genre
+	    */
+	   public List<Band> findByGenre(String genre);
+	   
+	   /**
+	    * This method find a band by genre and name
+	    * 
+	    * @param String name
+	    * @param String genre
+	    * 
+	    * @return list of bands with particular name and particular genre
+	    */
+	   
+	   public List<Band> findByNameAndGenre(String name,String genre);
 	   
 
 	   /**
@@ -81,6 +86,14 @@ public interface BandDAO {
 	    * @param genre
 	    * @return true if a band exist
 	    */
-	   public boolean existBand(String name, String genre);
+	   public boolean existBand(String name);
+	   
+	   
+	   /**
+		 * 
+		 * @param String id
+		 * @return Band that have a particular id	
+		 */
+	   public Band findById(String id);
 }
 

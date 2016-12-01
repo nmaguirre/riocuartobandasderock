@@ -1,87 +1,92 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /* This class represents the association between a person and a band. */
-public class BandMember {
+@Entity
+@Table(name = "BandMemberDB")
+public class BandMember implements Serializable{
 
   /**
-  * Artist represents the person in the band.
-  * Band represents the band.
-  * Role represents the artist's roles in the band.
+   * artistID represents the person id in the association class.
+  */	
+  @Id
+  @Column(name = "artistID")
+  private String artistID;
+  
+  /**	
+   * bandID represents the band id in the association class.
   */
-  private Artist artist;
-  private Band band;
-  private List<Role> role;
-  private static List<Role> emptyRole = new LinkedList<Role>();
-
+  @Id
+  @Column(name = "bandID")
+  private String bandID;
   
   /**
-  * The constructor of BandMember class sets the new member.
+   * The constructor of BandMember class sets the new member.
+   * @param String artistID
+   * @param String bandID
   */
-  public BandMember(Artist artist, Band band , List<Role> role){    
-    this.artist = artist;
-    this.band =  band;
-    this.role = role;
+  public BandMember(String artistID, String bandID){    
+    this.artistID = artistID;
+    this.bandID =  bandID;
+  }
+  /**
+   * The default constructor of BandMember class.
+  */
+  public BandMember(){};
+  
+ 
+  /**
+   * This method gains artist id in the association class.
+   * @return String artistID.
+  */
+  public String getArtistID(){
+    return artistID;
   }
   
   /**
-   * The constructor of BandMember class sets the new member without 
-   * an list of roles.
-   */
-  public BandMember(Artist artist, Band band){   
-	  this.artist = artist;
-	  this.band =  band;
-	  this.role = emptyRole;
-  }
-
-  
-  /**
-  * @return Object Artist.
+   * This method gains band id in the association class.
+   * @return String bandID.
   */
-  public Artist getArtist(){
-    return artist;
-  }
-  
-  /**
-  * @return Object Band.
-  */
-  public Band getBand(){
-	  return band;
+  public String getBandID(){
+	  return bandID;
   }
  
   /**
-  * @return member role.
+   * This method sets the artistID.
+   * @param bm_artistID is String artistID.
   */
-  public List<Role> getRole(){
-    return role;
-  } 
+  public void setArtistID(String bm_artistID){
+	  if (bm_artistID == "") throw new IllegalArgumentException();
+	  artistID = bm_artistID;
+  }
+
+  /**
+   * This method sets the bandID.
+   * @param bm_bandID is String bandID.
+  */
+  public void setBandID(String bm_bandID){
+	  if (bm_bandID == "") throw new IllegalArgumentException();
+	  bandID = bm_bandID;
+  }
   
   /**
-  * This method sets the artist.
-  * @param bm_artist is object artist.
-  */
-  public void setArtist(Artist bm_artist){
-	  if (bm_artist == null) throw new IllegalArgumentException();
-	  artist = bm_artist;
-  }
-
-  /**
-  * This method sets the band.
-  * @param bm_band is object band.
-  */
-  public void setBand(Band bm_band){
-	  if (bm_band == null) throw new IllegalArgumentException();
-	  band = bm_band;
-  }
-
-  /**
-  * This method sets the member role.
-  * @param bm_role member role.
-  */
-  public void setRole(List<Role> bm_role){
-	  if (bm_role == null) throw new IllegalArgumentException();
-	  role = bm_role;
+   * @return true if both are non empty.
+   */
+  public boolean repOk(){
+		boolean result = true;
+		boolean artistEmpty = false;
+		boolean bandEmpty = false;
+		if (artistID == "") artistEmpty = true;
+		if (bandID == "") bandEmpty = true;
+		if (artistEmpty || bandEmpty){
+			result = false;
+		}
+		return result;
   }
 }

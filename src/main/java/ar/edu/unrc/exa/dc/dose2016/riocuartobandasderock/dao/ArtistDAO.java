@@ -19,73 +19,81 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
  *
  */
 public interface ArtistDAO {
-
-	
-	public Session openCurrentSession();
-
-	public Session openCurrentSessionwithTransaction();
-
-	public void closeCurrentSession();
-
-	public void closeCurrentSessionwithTransaction();
-
-	public Session getCurrentSession();
-
-	public void setCurrentSession(Session currentSession);
-	
-	public Transaction getCurrentTransaction();
-
-	public void setCurrentTransaction(Transaction currentTransaction);
 	
 	/**
-	* This method get all artists
-	* 
-	* @return List of artists
+	 * This method get all artists
+	 * @return List of artists
 	*/
 	public List<Artist> getAllArtists();
 	
 	/**
-	* 
-	* @param String name
-	* 
-	* @return Artists that have a particular name
+	 * This method find an artist in the database, by name.
+	 * @param String name
+	 * @return Artists that have a particular name
 	*/
 	public List<Artist> findBySurname(String name);
 	
 	/**
-	* 
-	* @param String nickname
-	* 
-	* @return Artists that have a particular nickname
+	 * This method find an artist in the database, by nickname.
+	 * @param String nickname.
+	 * @return Artists that have a particular nickname
 	*/
 	public List<Artist> findByNickname(String nickname);
 	
 	/**
-	* 
-	* @param String surname
-	* 
-	* @return Artists that have a particular surname
+	 * This method find an artist in the database, by surname.
+	 * @param String surname.
+	 * @return Artists that have a particular surname
 	*/
 	public List<Artist> findByName(String surname);
 
 	/**
-	 * 
-	 * @param name
-	 * @param surname
-	 * @param nickname
-	 * 
+	 * This method find an artist in the database, by id.
+	 * @param String id.
+	 * @return Artist that have a particular id	
+	*/
+	public List<Artist> findById(String id);
+ 
+	/**
+	 * @param String name.
+	 * @param String surname.
+	 * @param String nickname.
 	 * @return true if this Artist exists in the database.
-	 */
+	*/
 	public boolean existArtist(String name, String surname, String nickname);
 	
 	/**
-	* 
-	* @param name
-	* @param nickname
-	* @param surname
-	* 
-	* @return true if the create was successful
+	 * This method create an artist in the database.
+	 * @param String name.
+	 * @param String nickname.
+	 * @param String surname.
+	 * @return true if the create was successful
 	*/
 	public boolean createArtist(String name, String surname, String nickname);
 	
+	/**
+	 * This method update an artist in database.
+	 * @param String id.
+	 * @param String name.
+	 * @param String surname.
+	 * @param String nickname.
+	 * @return true if the update was successful.
+	*/
+	public boolean updateArtist(String id, String name, String surname, String nickname);		
+	
+	/**
+	 * This method delete an artist in database.
+	 * @param String id.
+	 * @return true if the delete was successful.
+	*/
+	public boolean deleteArtist(String id);
+	
+	/**
+	 * This method search for an artist by its parameters.
+	 * @param String name.
+	 * @param String surname.
+	 * @param String nickname.
+	 * @return list with the artist wanted, null if artist not found.
+	*/
+	public List<Artist> getArtist(String name, String surname, String nickname);
 }

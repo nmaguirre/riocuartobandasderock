@@ -1,11 +1,17 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
 
+
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.SongDAO;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SessionManager;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SongDaoImpl;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 
 import java.util.List;
+
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import spark.Request;
 import spark.Response;
 
@@ -17,134 +23,225 @@ import spark.Response;
 
 public class SongController {
 
-    private SongDAO songDao;
- 
-    
-    
+
+    protected static SongController unique_instance = null;
+
     /**
-     * Class constructor 
+     * Class constructor
      */
-    
-    public SongController(){
-    	songDao = new SongDaoImpl();
+
+    public static SongController getInstance() {
+        if (unique_instance == null)
+            unique_instance = new SongController();
+        return unique_instance;
     }
-    
-    
+
+
     /**
      * Get all bands songs
      * @param req
      * @param res
      * @return a list of all bands songs
      */
-    
-    public List<Song> getAllSongs(Request req, Response res){    
-        return songDao.getAllSongs();
+    public List<Song> getAll(Request req, Response res){
+    	Session session = SessionManager.getInstance().openSession();
+    	SongDAO sdao = new SongDaoImpl(session);
+    	List<Song> songs = sdao.getAllSongs();
+    	session.close();
+    	res.status(songs.size() > 0 ? 200 : 204);
+        return songs;
     }
-    
 
-    
-    /**
-     * Get all artist songs
-     * @param req
-     * @param res
-     * @return a list of all artist songs
-     */  
-    
-    public List<Song> getArtistSongs (Request req, Response res){
-        String artistName = req.params("name");
-        return songDao.findByAuthor(artistName);
-    }
-    
-    
+
     /**
      * Get a specific song by its id
-     * @param req
+     * @param req contains the Id to search for songs
      * @param res
-     * @return a song
+     * @return the list of songs with Id parameters
      */
-  
-    
-    public Song getSongById (Request req, Response res){
-    	String songId = req.params(":id");
-        return songDao.findById(songId);
+    public Song getById (Request req, Response res){
+    	
+    	Session session = SessionManager.getInstance().openSession();
+    	SongDAO sdao = new SongDaoImpl(session);
+    	
+    	String id = req.params(":id");
+    	if (id == ""){
+    		res.status(400);
+    		return null;
+    	}
+    	
+    	Song song = sdao.findById(id);
+    	session.close();
+    	res.status(song != null ? 200 : 204);
+    	return song;
     }
-    
+
+
     /**
      * Get a song by its name
-     * @param req
+     * @param req contains the name to search for songs
      * @param res
-     * @return a song
+     * @return the list of songs with name parameters
      */
-    
-    public List<Song> getSongByName (Request req, Response res){
+    public List<Song> getByName (Request req, Response res){
     	
-    	String songName = req.queryParams("name");
+    	Session session = SessionManager.getInstance().openSession();
+    	SongDAO sdao = new SongDaoImpl(session);
     	
-    	if (songName == null || songName == ""){
+       	String songName = req.params(":name");
+
+    	if (songName == null || songName.isEmpty()){
     		res.status(400);
     		return null;
     	}
-    	
-    	songDao.openCurrentSession();
-    	List<Song> songs = songDao.findByName(songName);
-    	songDao.closeCurrentSession();
+    	List<Song> songs = sdao.findByName(songName);
+    	session.close();
     	res.status(songs.size() > 0 ? 200 : 204);
-    	return songs;    	
-    }
-  
-    /**
-     * Get list of songs by a specific duration  
-     * @param req
-     * @param res
-     * @return
-     */
-    
-    public List<Song> getSongByDuration (Request req, Response res){
-    	String duration = req.queryParams("duration");
-    	
-    	if (duration == null || duration == ""){
-    		res.status(400);
-    		return null;
-    	}
-    	
-    	songDao.openCurrentSession();
-    	List<Song> songs = songDao.findByDuration((Integer)Integer.parseInt(duration));
-    	songDao.closeCurrentSession();
-    	res.status(songs.size() > 0 ? 200 : 204);
+
     	return songs;
     }
-    
-    
+
+    /**
+     * Get list of songs by a specific duration
+     * @param req contains the duration to search for songs
+     * @param res
+     * @return the list of songs with duration parameters
+     */
+    public List<Song> getByDuration (Request req, Response res){
+    	Session session = SessionManager.getInstance().openSession();
+    	SongDAO sdao = new SongDaoImpl(session);
+    	
+    	String duration = req.params(":duration");
+
+    	if (duration == null || duration.isEmpty()){
+    		res.status(400);
+    		return null;
+    	}
+
+    	List<Song> songs = sdao.findByDuration(Integer.parseInt(duration));
+    	session.close();
+
+    	res.status(songs.size() > 0 ? 200 : 204);
+
+    	return songs;
+    }
+
+
     /**
      * Add a new song
-     * @param req
-     * @param res 
-     * @return
+     * @param req contains the attributes of the new artist
+     * @param res
+     * @return a string that describes the result of create
      */
-  
-    public String addSong (Request req, Response res){
+    public String create (Request req, Response res){
+
+    	Session session = SessionManager.getInstance().openSession();
+    	SongDAO sdao = new SongDaoImpl(session);
     	
-    	String songName = req.queryParams("name");    	
-    	String dur = req.queryParams("duration");    	
-    	
-    	if(( songName == null || songName == "" ) || dur == null) {
+    	String songName = req.queryParams("name");
+    	String dur = req.queryParams("duration");
+    	String title = req.queryParams("albumTitle");
+    	if( songName == null || songName.isEmpty() || dur == null || title == null || title.isEmpty()) {
 			res.status(400);
 			res.body("Invalid content of parameters");
 			return res.body();
 		}
     	
-    	songDao.openCurrentSession();
-    	boolean result = songDao.addSong(songName, Integer.parseInt(dur));
-    	songDao.closeCurrentSession();
+    	Transaction transaction = session.beginTransaction();
+    	boolean result = sdao.addSong(songName, (dur.isEmpty()?  0 : Integer.parseInt(dur)), title);
+    	transaction.commit();
+    	session.close();
+
     	if(result){
     	res.body("Song created");
     	res.status(201);
+    	} else{
+    		res.status(409);
+    		res.body("Operation failed");
     	}
-    	return res.body();    		
+    	return res.body();
     }
-    
-   
-    
 
-    
+
+    /***
+	 * This method takes a song from the frontend, and delete this song in database
+	 * @param req contains the Id to search the song and delete it
+	 * @param res
+	 * @return true if the song was deleted. Otherwise, false.
+	 */
+	public String remove(Request req,Response res){
+		
+		Session session = SessionManager.getInstance().openSession();
+		SongDAO sdao = new SongDaoImpl(session);
+		
+		String id = req.params(":id");
+		if ((id == "") ||(id == null)) {
+			res.status(400);
+			res.body("Invalid request");
+			return res.body();
+		}
+
+		Transaction transaction = session.beginTransaction();
+	 	boolean status = sdao.removeSong(id);
+	 	transaction.commit();
+		session.close();
+
+		if (status){
+			res.status(200);
+			res.body("Success");
+			res.body();
+		} else {
+			res.status(409);
+			res.body("Fail");
+		}
+		return res.body();
+
+	}
+
+	/**
+     * Update a song
+     * @param req
+     * @param res
+     * @return a string that describes the result of update
+     */
+
+    public String update(Request req, Response res){
+    	Session session = SessionManager.getInstance().openSession();
+    	SongDAO sdao = new SongDaoImpl(session);
+    	
+    	String id = req.params(":id");
+    	if ((id == "") ||(id == null)) {
+			res.status(400);
+			res.body("Invalid request: Song doesn't exists");
+			return res.body();
+		}
+
+    	String name = req.queryParams("name");
+    	String dur = req.queryParams("duration");
+    	String title = req.queryParams("albumTitle");
+
+    	if (name == "" || name == null || dur == null || title.isEmpty() || title == null){
+    		res.status(400);
+            res.body("Invalid content of parameters");
+            return res.body();
+    	}
+
+    	Transaction transaction = session.beginTransaction();
+    	boolean status = sdao.updateSong(id, name, (dur.isEmpty()? 0 : Integer.parseInt(dur)), title);
+    	transaction.commit();
+    	session.close();
+
+    	if (status){
+			res.status(200);
+			res.body("Success");
+			res.body();
+		} else {
+			res.status(409);
+			res.body("Fail");
+		}
+		return res.body();
+    }
+
+
+
 }

@@ -16,7 +16,6 @@ public class SongTest {
 		assertEquals("thebeatles", song.getName());
 	}
 	
-
 	@Test
 	public void durationTest(){
 		Song song = new Song();
@@ -38,5 +37,14 @@ public class SongTest {
 		song.setDuration(a);
 		assertEquals("2:9",song.getDurationAsString());
 	}
+	
+ 	@Test
+ 	public void albumTest(){
+ 		Album alb = new Album();
+ 		Song song = new Song();
+ 		song.setAlbum(alb);
+ 	    assertEquals(alb, song.getAlbum());
+ 	}
 
+ 
 }
