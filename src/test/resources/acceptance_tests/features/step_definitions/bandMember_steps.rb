@@ -22,7 +22,7 @@ Given(/^that the bandMember's database have one bandMember with artist name "([^
   bandID = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select bandID from bandDB;\" -t`
   bandID = bandID.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
   begin
-    response3 = RestClient.post 'http://localhost:4567/bandmembers/', { :artistID => artistID, :bandID => bandID }, :content_type => 'text/plain' 
+    response3 = RestClient.post 'http://localhost:4567/bandmembers', { :artistID => artistID, :bandID => bandID }, :content_type => 'text/plain' 
       expect(response3.code).to eq(201)
     end
 end
@@ -47,7 +47,7 @@ When(/^I add an bandMember with artist name "([^"]*)" and surname "([^"]*)" and 
   bandID = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select bandID from bandDB;\" -t`
   bandID = bandID.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
   begin
-    response3 = RestClient.post 'http://localhost:4567/bandmembers/', { :artistID => artistID, :bandID => bandID }, :content_type => 'text/plain' 
+    response3 = RestClient.post 'http://localhost:4567/bandmembers', { :artistID => artistID, :bandID => bandID }, :content_type => 'text/plain' 
     if response3.code == 201
       expect(result).to eq("OK")
     end
