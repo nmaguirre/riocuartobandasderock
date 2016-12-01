@@ -102,9 +102,9 @@ public class Bootstrap {
 
         get("/albums", (req, res) ->  albumController.getAll(req, res),jsonAlbum() );
 
-        get("/albums/findByTitle/:title", (req, res) -> albumController.findByTitle(req, res),json());
+        get("/albums/findByTitle/:title", (req, res) -> albumController.findByTitle(req, res),jsonAlbum());
 
-        get("/albums/findByReleaseDate/:release_date", (req, res) -> albumController.findByReleaseDate(req, res),json());
+        get("/albums/findByReleaseDate/:release_date", (req, res) -> albumController.findByReleaseDate(req, res),jsonAlbum());
 
         put("/albums/:id", (req, res) -> albumController.update(req, res));
 
