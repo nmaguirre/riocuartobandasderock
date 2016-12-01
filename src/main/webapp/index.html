@@ -58,32 +58,16 @@
     <header>
         <div class="container">
             <!--div class="row"-->
-                <canvas class="arbor" id="viewport" width="680" height="800" style="border:1px solid #000000; width: 680px; height: 800px; background-image: url(img/bg-pattern.jpg); "></canvas>
-                <script type="text/javascript">
+            <canvas class="arbor" id="viewport" width="680" height="800" style="border:1px solid #000000; width: 680px; height: 800px; background-image: url(img/bg-pattern.jpg); "></canvas>
+            <script type="text/javascript">
 				var sys = arbor.ParticleSystem(5000, 40,1); // create the system with sensible repulsion/stiffness/friction
                 sys.parameters({gravity:true}) // use center-gravity to make the graph settle nicely (ymmv)
                 sys.renderer = Renderer("#viewport") // our newly created renderer will have its .init() method called shortly by sys...
                 sys.addNode('dose',{'color':'blue','shape':'dot','label':'Dose'});
                 sys.addNode('song',{'color':'red','shape':'dot','label':'Song'});
                 sys.addEdge('dose', 'song',{'color':'black'});
-                
-                
-                   /*var sys = arbor.ParticleSystem(500, 40,1);
-                    sys.parameters({gravity:true});
-                    sys.renderer = Renderer("#viewport") ;
-                    var data = {
-                    nodes:{
-                    	song:{'color':'red','shape':'dot','label':'Song'},
-                    	dose:{'color':'green','shape':'dot','label':'Dose'},
-                    },
-                    edges:{
-                   		dose:{ song:{} }
-                    }
-                    };
-                    sys.graft(data);*/
-
-                    
-                </script>
+               
+            </script>
                             
             <!-- Search Zone-->
                 <section class="searchZone" style="width: 250px; height: 1058px;">

@@ -25,8 +25,11 @@ function test(){
     document.getElementById('show').innerHTML = str;	
     	  
 }
+
 //---AJAX Methods---
+//**********************************************
 //******************** SONG ********************
+//**********************************************
 
 /** 
  * songGetAll
@@ -75,7 +78,7 @@ function songFindByName() {
    var xhttp; 
    var str = document.getElementsByName("songName")[0].value; 
    if (str == "") {
-      window.alert("You have not entered data into the search box!");
+	  window.alert("The Field is Empty\nPlease Input A Value");
       return;
    }
    //AjaxJs
@@ -92,6 +95,7 @@ function songFindByName() {
 		 xhttp2.onreadystatechange = function() {
 	        if (this.readyState == 4 && this.status == 200){var album = JSON.parse(xhttp2.responseText);}
 		 };
+		 xhttp2.send();
 		 
 		/*for (elem in resp)
 	    	  str = str + elem + ': ' + resp[elem]+'<br>';
@@ -162,7 +166,7 @@ function songFindByDuration() {
    var xhttp; 
    var str = document.getElementsByName("songDuration")[0].value;
    if (str == "") {
-	  window.alert("You have not entered data into the search box!");
+	  window.alert("The Field is Empty\nPlease Input A Value");
       return;
    }
    xhttp = new XMLHttpRequest();
@@ -178,6 +182,7 @@ function songFindByDuration() {
 		 xhttp2.onreadystatechange = function() {
 	        if (this.readyState == 4 && this.status == 200){var album = JSON.parse(xhttp2.responseText);}
 		 };
+		 xhttp2.send();
 		 
 		 //ArborJs 
 		 var sys = arbor.ParticleSystem(500, 40,1); 
@@ -282,7 +287,7 @@ function artistFindByName() {
    var xhttp; 
    var str = document.getElementsByName("artistName")[0].value;
    if (str == "") {
-	  window.alert("You have not entered data into the search box!");
+	  window.alert("The Field is Empty\nPlease Input A Value");
 	  return;
    }
    xhttp = new XMLHttpRequest();
@@ -335,7 +340,7 @@ function artistFindByNickname() {
    var xhttp; 
    var str = document.getElementsByName("artistNickname")[0].value;
    if (str == "") {
-	  window.alert("You have not entered data into the search box!");
+	  window.alert("The Field is Empty\nPlease Input A Value");
 	  return;
    }
    xhttp = new XMLHttpRequest();
@@ -388,7 +393,7 @@ function artistFindBySurname() {
    var xhttp; 
    var str = document.getElementsByName("artistSurname")[0].value;
    if (str == "") {
-	  window.alert("You have not entered data into the search box!");
+	  window.alert("The Field is Empty\nPlease Input A Value");
 	  return;
    }
    xhttp = new XMLHttpRequest();
@@ -478,7 +483,7 @@ function albumFindByReleaseDate() {
    var xhttp; 
    var str = document.getElementsByName("albumDate")[0].value;
    if (str == "") {
-	  window.alert("You have not entered data into the search box!");
+	   window.alert("The Field is Empty\nPlease Input A Value");
 	  return;
    }
    xhttp = new XMLHttpRequest();
@@ -518,7 +523,7 @@ function albumFindByTitle() {
    var xhttp; 
    var str = document.getElementsByName("albumTitle")[0].value;
    if (str == "") {
-	  window.alert("You have not entered data into the search box!");
+	  window.alert("The Field is Empty\nPlease Input A Value");
       return;
    }
    xhttp = new XMLHttpRequest();
@@ -598,7 +603,7 @@ function bandFyndByName() {
    var xhttp; 
    var str = document.getElementsByName("bandName")[0].value;
    if (str == "") {
-	  window.alert("You have not entered data into the search box!");
+	  window.alert("The Field is Empty\nPlease Input A Value");
 	  return;
    }
    xhttp = new XMLHttpRequest();
@@ -638,7 +643,8 @@ function bandFyndByName() {
 						  sys.addEdge('bmember'+i,'member',{'color':'black'}); 	   
 					   }
 				   }
-	            };		   
+	            };
+	            xhttp2.send();
 			}
 		 }
 		 else{  //there is only one band
@@ -667,6 +673,7 @@ function bandFyndByName() {
 				   }
 			   }
             };
+            xhttp2.send();
 		 }
 	  }
    };
@@ -682,7 +689,7 @@ function bandFindByGenre() {
    var xhttp; 
    var str = document.getElementsByName("bandGenre")[0].value;
    if (str == "") {
-	  window.alert("You have not entered data into the search box!");
+	  window.alert("The Field is Empty\nPlease Input A Value");
 	  return;
    }
    xhttp = new XMLHttpRequest();
@@ -722,7 +729,8 @@ function bandFindByGenre() {
 						  sys.addEdge('bmember'+i,'member',{'color':'black'}); 	   
 					   }
 				   }
-	            };  
+	            };
+	            xhttp2.send();
 			}
 		 }
 		 else{  //there is only one band
@@ -751,6 +759,7 @@ function bandFindByGenre() {
 				  }
 			   }
 	        };
+	        xhttp2.send();
 		 }
       }
    };
