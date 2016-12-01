@@ -20,27 +20,40 @@
     .none{display: none;}
     </style>
     <script languague="javascript">
-    /*
 
-            entitie    : 'artists', // only one entitie of system for artist
-        attributes : ['name','surname','nickname'], // attributes for artist
-        findlist   : [{resource:  'findbyname/',useurl:['name'],use:[]},{resource:  'findbysurname/',useurl:['surname'],use:[]},{resource:  'findbynickname/',useurl:['nickname'],use:[]},{resource:  'findbyallattributes/',useurl:[],use:[]}],
-        relationship   : ['bands']
+      var configuration = new Array();
+        configuration['artists']= {
+          entitie    :'artists',
+          attributes : ['name','surname','nickname'],
+          findlist   : [{resource:  'findbyname/',useurl:['name'],use:[]},{resource:  'findbysurname/',useurl:['surname'],use:[]},{resource:  'findbynickname/',useurl:['nickname'],use:[]},{resource:  'findbyallattributes/',useurl:[],use:[]}],
+          relationship   : ['bands']
+        };
 
-*/
+         configuration['bands']= {
+          entitie    :'bands',
+          attributes : ['name','genre'],
+          findlist   : [],
+          relationship   : ['artists']
+        };
+        configuration['albums']= {
+          entitie    :'albums',
+          attributes : ['name','password'],
+          findlist   : [{resource:'findByTitle/',useurl:['title'],use:[]}],
+          relationship   : []
+        };
+        configuration['users']= {
+          entitie    :'users',
+          attributes : ['name','password'],
+          findlist   : [],
+          relationship   : []
+        };
 
-	    var configuration = new Array();
-	    	configuration['artists']= {
-	    		entitie    :'artists',
-	    		attributes : ['name','surname','nickname'],
-	    		findlist   : [{resource:  'findbyname/',useurl:['name'],use:[]},{resource:  'findbysurname/',useurl:['surname'],use:[]},{resource:  'findbynickname/',useurl:['nickname'],use:[]},{resource:  'findbyallattributes/',useurl:[],use:[]}],
-	    		relationship   : ['bands']
-	    	};
+
 
     	function openPage(page) {
     		lybartist.config=configuration[page];
     		lybartist.init();
-          	lybartist.showRegisters();
+        lybartist.showRegisters();
     		return false;
     	}
     	$(window).ready(function() {
@@ -59,7 +72,12 @@
           <a class="navbar-brand" href="#">Artist TEAM</a>
         </div>
         <ul class="nav navbar-nav">
-          <li class="active"><a href="javascript:void(0);" onclick="lybartist.activesection('artists',['name','surname','nickname']);">Artist</a></li>
+          <li class="active"><a href="javascript:void(0);" onclick="openPage('artists');">Artist</a></li>
+          <li class="active"><a href="javascript:void(0);" onclick="openPage('bands');">Bands</a></li>
+          <li class="active"><a href="javascript:void(0);" onclick="openPage('albums');">Albums</a></li>
+          <li class="active"><a href="javascript:void(0);" onclick="openPage('users');">Users</a></li>
+
+
         </ul>
       </div>
     </nav>
@@ -74,7 +92,7 @@
       <div class="row">    
          <div class="panel panel-default users-content">
 
-         <div class="panel-heading"> <i class="glyphicon glyphicon-th-list"></i> Artists list 
+         <div class="panel-heading"> <i class="glyphicon glyphicon-th-list"></i> List 
 
             <div class="btn-group pull-right" role="group">
                 <button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:lybartist.show();">Show all</button>

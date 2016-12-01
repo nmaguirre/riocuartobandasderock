@@ -10,6 +10,7 @@
         resource   : null,   // resource FIND | SHOW
         resourceindex: 0,   // number of find in findlist
         activeUniqueRegister: null, // for view of one register only rowindex
+        // add and delete for each ralation 
         generateform : function () {
           autogenerate='<form id="formulario">';
           ind=0;
@@ -216,15 +217,20 @@
           $("#statusactionform").html('');
 
           numcicle = 0;
-          for (numcicle=0;numcicle < 1;numcicle++) {
-                 resourceaux = (numcicle==0)? '/artists/getbandsbyId/'+id : '/bands';
 
+          finishOne=0;
+          finishTwo=0;
+
+          for (numcicle=0;numcicle < 2;numcicle++) {
+                 resourceaux = (numcicle==0)? '/'+lybartist.config.entitie+'/get'+lybartist.config.relationship[0]+'byId/'+id : '/'+lybartist.config.relationship[0];
 
                  $.ajax({ // Note in body "this" not is one pointer lybartist exept in parameters
                  type: 'GET',
                  url: resourceaux,
                  success: function(data)
                  {
+                   currentAjax =  (this.url=='/bands')? 2 : 1;
+
                    myjson='';
                    try{ myjson = JSON.parse(data);}
                    catch(a){
@@ -232,7 +238,7 @@
                         $("#datatable2").html('<div class="col-xs-6 col-md-4">List Empty</div>');
                         return false;
                     }
-                    response = '<p class="bg-primary">In Relation Table </p><table class="table collection table table-bordered table-striped table-hover"><tr><th>N</th>'; 
+                    response='';
                     getHeaders = true;
                     $.each(myjson, function(i, item) {
                        if (getHeaders) { // get Header Names
@@ -240,24 +246,30 @@
                             if (!getHeaders) {response+= '<th>'+lybartist.cFirst(name)+'</th>';}
                                 else {getHeaders=false}
                           });
+                          response += '<th>Action</th></tr>';
                         }
-
-                            response += '<th>Action</th></tr><tr><td>'+(i+1)+'</td>';
+                            response += '<tr><td>'+(i+1)+'</td>';
                             idvalue=null;
                             $.each(item, function(name,value) { // fill rows
                                if (idvalue!=null) {response+='<td>'+value+'</td>';}
                                else {idvalue=value;}
                             });
-                            response+='<td>OneAction</td>';
+                            if (currentAjax==1)
+	                            response+='<td><button class="btn btn-danger" onclick="lybartist.addto2(\''+id+'\',\''+idvalue+'\',\'DEL\');">Delete</button></td>';
+                            if (currentAjax==2)
+	                            response+='<td><button class="btn btn-success" onclick="lybartist.addto2(\''+id+'\',\''+idvalue+'\',\'ADD\');">Add</button></td>';
                     });
                     response +='</tr>';
                     response += '</table>';
-                    if (numcicle==0)
-                      alert(numcicle);
-                    $("#datatable2").html(response); // Show response Api Rest
-                    if (numcicle==1)
-                    $("#datatable3").html(response); // Show response Api Rest
 
+                      if (currentAjax==1){
+                      		response = '<p class="bg-primary">In Relation </p><table class="table collection table table-bordered table-striped table-hover"><tr><th>N</th>'+response; 
+                      		$("#datatable2").html(response); // Show response Api Rest
+                      }
+                      if (currentAjax==2){
+                      	response = '<p class="bg-primary">All Registers </p><table class="table collection table table-bordered table-striped table-hover"><tr><th>N</th>'+response; 
+                      	$("#datatable3").html(response); // Show response Api Rest
+                      }
                  },
                  error: function(x, e) {
                      $("#statusactionform").html('<font color="red"><b>Error</b></font>'); //  Show response Api Rest
@@ -267,5 +279,34 @@
  
 
           return false;
+        },
+        addto2 : function(id_one, id_two, action) {
+        	  actiontype=null;
+        	  data=null;
+        	  url=null;
+
+        	  if (action=='ADD') {
+        	  		actiontype = 'POST';
+        	  		data='artistID='+id_one+'&bandID='+id_two;
+        	  		url='/bandmembers';
+        	  } else {
+        	  		actiontype='DELETE';
+        	  		url='/bandmembers/'+id_one+'/'+id_two;
+        	  }
+
+              $.ajax({ 
+                 type: actiontype,
+                 url: url,
+                 data: data,
+                 success: function(data)
+                 {
+ 			               $("#statusactionform").html('<font color="green"><b>'+data+'</b></font>'); // Show response Api Rest
+
+                 },
+                 error: function(x, e) {
+                     $("#statusactionform").html('<font color="red"><b>Error</b></font>'); //  Show response Api Rest
+                 }
+          });
+           return false;
         }
     }; // end Lybrary artist-team
