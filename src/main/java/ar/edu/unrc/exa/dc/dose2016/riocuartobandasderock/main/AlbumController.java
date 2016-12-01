@@ -65,11 +65,10 @@ public class AlbumController {
         	Transaction transaction = session.beginTransaction();
         	
         	//TODO: set correct values
-        	List<Object> songs = new LinkedList<Object>();
         	String bandId = req.queryParams("band_id");
         	//
         	
-            boolean result = adao.create(req.queryParams("title"), release_date, songs, bandId);
+            boolean result = adao.create(req.queryParams("title"), release_date, bandId);
             transaction.commit();
             session.close();
             int http_status = result ? 201 : 409;
@@ -139,6 +138,8 @@ public class AlbumController {
     	Session session = SessionManager.getInstance().openSession();
     	AlbumDaoImpl adao = new AlbumDaoImpl(session);
     	
+    	System.out.println(req.queryParams("title"));
+    	System.out.println(req.queryParams("release_date"));
         if ( req.queryParams("title") == ""){
             res.status(400);
             res.body("Album title can't be null nor empty");
@@ -155,12 +156,10 @@ public class AlbumController {
         	Date release_date = req.queryParams("release_date") != null ? sdf.parse(req.queryParams("release_date")) : null;
         	Transaction transaction = session.beginTransaction();
         	
-        	//TODO: set correct values
-        	List<Object> songs = new LinkedList<Object>();
-        	String bandId = " ";
+        	String bandId = req.queryParams("band_id");
         	//
         	
-            boolean result = adao.update(req.params("id"), req.queryParams("title"), release_date, songs, bandId);
+            boolean result = adao.update(req.params("id"), req.queryParams("title"), release_date, bandId);
             transaction.commit();
             session.close();
             int http_status = result ? 201 : 409;

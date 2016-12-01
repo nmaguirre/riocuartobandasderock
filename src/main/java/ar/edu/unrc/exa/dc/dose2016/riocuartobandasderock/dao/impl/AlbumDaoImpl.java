@@ -49,8 +49,12 @@ public class AlbumDaoImpl implements AlbumDAO{
 		if((id!=null)&&(id!="")){
 			Album a = new Album();
 			a = this.currentSession.find(Album.class, id);
-			a.setSongs(this.findSongs(a.getId()));
-			return a;
+			if(a==null){
+				return null;
+			}else{
+				a.setSongs(this.findSongs(a.getId()));
+				return a;
+			}
 		}else{
 			return null;
 		}
@@ -124,7 +128,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 	 * @param band
 	 * @return true iff album was inserted into data base correctly
 	 */
-	public boolean create(String title, Date releaseDate, List<Object> songs, String id_band){
+	public boolean create(String title, Date releaseDate, String id_band){
 		if(title==null || title.equals("") ) throw new IllegalArgumentException("Error: AlbumDaoImpl.createAlbum() : Database doesnt support null or empty title");
 		if(id_band==null) throw new IllegalArgumentException("Error: AlbumDaoImpl.createAlbum() : Database doesnt support null Band");
 		
@@ -148,11 +152,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 				}
 			}
 		}
-		if(this.castSongsList(songs)==null){
-			return false;
-		}
 		Album album = new Album(title,releaseDate);
-		album.setSongs(this.castSongsList(songs));
 		BandDAO bdao = new BandDaoImpl(this.currentSession);
 		try{
 			Band b = bdao.findById(id_band);
@@ -207,11 +207,11 @@ public class AlbumDaoImpl implements AlbumDAO{
 	 * @param songs
 	 * @return true iff update was successful
 	 */
-	public boolean update(String id, String title, Date releaseDate, List<Object> songs, String id_band){
+	public boolean update(String id, String title, Date releaseDate, String id_band){
 		  if (id==null || id.equals("")) throw new IllegalArgumentException("Error : AlbumDaoImpl.update() null or empty Id");
 		  Album toUpdate = this.findById(id);
 		  if (toUpdate==null) return false;
-		  if (title==null && releaseDate==null && songs==null && id_band==null) return true;
+		  if (title==null && releaseDate==null && id_band==null) return true;
 		  
 		  if(title!=null && releaseDate!=null){
 			if(title.equals("")){
@@ -263,13 +263,6 @@ public class AlbumDaoImpl implements AlbumDAO{
 				  e1.printStackTrace();
 			  }
 			  toUpdate.setTitle(title);
-		  }
-
-		  if(songs!=null){
-		    if(this.castSongsList(songs)==null){
-		      return false;
-		    }
-		    toUpdate.setSongs(this.castSongsList(songs));
 		  }
 		  
 		  if(id_band!=null){
