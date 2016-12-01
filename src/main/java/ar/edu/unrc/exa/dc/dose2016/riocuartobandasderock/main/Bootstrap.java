@@ -158,9 +158,15 @@ public class Bootstrap {
         **/
         get("/", (req, res) -> landingPageController.index(req,res), new VelocityTemplateEngine());
         
-        post("/bands/datatable",(req, res) -> landingPageController.datatable(req, res), gson::toJson);
+        post("/landing/bands/datatable",(req, res) -> landingPageController.datatable(req, res), gson::toJson);
 
-        get("/band/show",(req, res) -> landingPageController.bandID(req, res), gson::toJson);
+        get("/landing/band/show",(req, res) -> landingPageController.bandID(req, res), gson::toJson);
+
+        get("/landing/artist/show",(req, res) -> landingPageController.artistID(req, res), gson::toJson);
+
+        get("/landing/album/show",(req, res) -> landingPageController.albumID(req, res), gson::toJson);
+
+        get("/landing/song/show",(req, res) -> landingPageController.songID(req, res), gson::toJson);
 
         /**
         * DASHBOARD
@@ -178,9 +184,9 @@ public class Bootstrap {
 
         get("/albums/:id",(req, res) -> albumController.showAlbum(req, res), new VelocityTemplateEngine());
 
-        delete("/albums/:id",(req, res) -> albumController.delete(req, res), new VelocityTemplateEngine());
+        // delete("/albums/:id",(req, res) -> albumController.delete(req, res), new VelocityTemplateEngine());
 
-        put("/albums/:id",(req, res) -> albumController.update(req, res), new VelocityTemplateEngine());
+        // put("/albums/:id",(req, res) -> albumController.update(req, res), new VelocityTemplateEngine());
 
         get("/albums/findByReleaseDate/:release_date", (req, res) -> albumController.findByReleaseDate(req, res),json());
 
