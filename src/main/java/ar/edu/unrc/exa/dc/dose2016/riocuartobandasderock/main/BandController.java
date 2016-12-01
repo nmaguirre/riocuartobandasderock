@@ -61,7 +61,7 @@ public class BandController {
     // int status = (bands.size()>0)? 200:204;
     // res.status(status);
     // return bands;
-    attributes.put("title", 'Bandas');
+    attributes.put("title", "Bandas");
     attributes.put("bands", bands);
     attributes.put("template", Routes.index_band());
     return new ModelAndView(attributes, Routes.layout_dashboard());
@@ -168,7 +168,7 @@ public class BandController {
     if((req.queryParams("name")=="") || (req.queryParams("genre")=="")){
       res.status(400);
       // return "Request invalid";
-      attributes.put("title", 'Crear');
+      attributes.put("title", "Crear");
       attributes.put("error", "El nombre no puede estar en blanco");
       attributes.put("template", Routes.new_band());
       return new ModelAndView(attributes, Routes.layout_dashboard());
@@ -196,7 +196,7 @@ public class BandController {
       }
       res.status(409);
       // return "Fail";
-      attributes.put("title", 'Crear');
+      attributes.put("title", "Crear");
       attributes.put("error", "El nombre no puede estar en blanco");
       attributes.put("template", Routes.new_band());
       result= new ModelAndView(attributes, Routes.layout_dashboard());

@@ -52,7 +52,7 @@ public class AlbumController {
 
 		res.body(albums.toString());
 		// return albums;
-        attributes.put("title", 'Albumes');
+        attributes.put("title", "Albumes");
         attributes.put("albums", albums);
         attributes.put("template", Routes.index_album());
         return new ModelAndView(attributes, Routes.layout_dashboard());

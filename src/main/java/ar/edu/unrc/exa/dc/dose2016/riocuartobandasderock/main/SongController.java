@@ -54,7 +54,7 @@ public class SongController {
     	session.close();
     	// res.status(songs.size() > 0 ? 200 : 204);
         //return songs;
-      attributes.put("title", 'Canciones');
+      attributes.put("title", "Canciones");
       attributes.put("songs", songs);
       attributes.put("template", Routes.index_song());
       return new ModelAndView(attributes, Routes.layout_dashboard());
@@ -153,7 +153,7 @@ public class SongController {
       res.status(400);
       // res.body("Invalid content of parameters");
       // return res.body();
-        attributes.put("title", 'Crear');
+        attributes.put("title", "Crear");
         attributes.put("error", "El nombre no puede estar en blanco");
         attributes.put("template", Routes.new_song());
         return new ModelAndView(attributes, Routes.layout_dashboard());
