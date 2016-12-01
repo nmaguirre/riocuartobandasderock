@@ -10,7 +10,41 @@
         resource   : null,   // resource FIND | SHOW
         resourceindex: 0,   // number of find in findlist
         activeUniqueRegister: null, // for view of one register only rowindex
+        logAsAdmin : false,
         // add and delete for each ralation 
+        login : function (user,pass,type) {
+            if (type=="login") {
+                  $.ajax({
+                       type: "POST",
+                       url: '/login',
+                       data: 'name='+user+'&password='+pass, 
+                       success: function(data)
+                       {
+                           lybartist.logAsAdmin = true;
+                           $("#adminstatus").html('<font color="green"><b>'+data+'</b></font>'); //  Show response Api Rest
+                       },
+                       error: function(x, e) {
+                          alert('Error in login as Admin');
+                       }
+                    });
+          } else {
+            $.ajax({
+                       type: "POST",
+                       url: '/logout',
+                       data: null, 
+                       success: function(data)
+                       {
+                           lybartist.logAsAdmin=false;
+                           $("#adminstatus").html('<font color="green"><b>'+data+'</b></font>'); //  Show response Api Rest
+                       },
+                       error: function(x, e) {
+                          alert('Error in Logout');
+                       }
+                    });
+
+          }
+
+        },
         generateform : function () {
           autogenerate='<form id="formulario">';
           ind=0;
@@ -193,8 +227,12 @@
                        });
                        if (lybartist.config.relationship.length>0) //only one relation many to many
                            response +='<td><input type="button" class="btn btn-primary" value="'+lybartist.config.relationship[0]+'" onclick="lybartist.showManyToMany(\''+lybartist.config.entitie+'\',\''+idvalue+'\',\''+lybartist.config.relationship[0]+'\',\''+i+'\');"></td>';
-                       response +='<td><input type="button" class="btn btn-warning" value="Edit" onclick="lybartist.updateregister(\''+idvalue+'\','+i+');">';
-                       response += '&nbsp;<input type="button" class="btn btn-danger" value="Delete" onclick="lybartist.deleteregister(\''+idvalue+'\');"></td></tr>';
+                       response +='<td>';
+                       if (lybartist.logAsAdmin) {
+                            response+= '<input type="button" class="btn btn-warning" value="Edit" onclick="lybartist.updateregister(\''+idvalue+'\','+i+');">';
+                            response += '&nbsp;<input type="button" class="btn btn-danger" value="Delete" onclick="lybartist.deleteregister(\''+idvalue+'\');">';
+                        }
+                       response += '</td></tr>';
                      }
 
             });
