@@ -45,13 +45,14 @@ public class AlbumController {
     	AlbumDaoImpl adao = new AlbumDaoImpl(session);
 
     	List<Album> albums = adao.getAll();
-     	
+
     	session.close();
     	int status = albums.size() > 0 ? 200 : 204;
 		res.status(status);
-		
+
 		res.body(albums.toString());
 		// return albums;
+        attributes.put("title", 'Albumes');
         attributes.put("albums", albums);
         attributes.put("template", Routes.index_album());
         return new ModelAndView(attributes, Routes.layout_dashboard());
@@ -67,7 +68,7 @@ public class AlbumController {
         attributes.put("album", album);
 
         attributes.put("template", Routes.show_album());
-        attributes.put("title", "Show");
+        attributes.put("title", "Album");
         return new ModelAndView(attributes, Routes.layout_dashboard());
     }
 
@@ -75,7 +76,7 @@ public class AlbumController {
         Map<String, Object> attributes = new HashMap<>();
 
         attributes.put("template", Routes.new_album());
-        attributes.put("title", "New");
+        attributes.put("title", "Crear");
         return new ModelAndView(attributes, Routes.layout_dashboard());
     }
 
@@ -83,7 +84,7 @@ public class AlbumController {
         Map<String, Object> attributes = new HashMap<>();
 
         attributes.put("template", Routes.edit_album());
-        attributes.put("title", "Edit");
+        attributes.put("title", "Editar");
         return new ModelAndView(attributes, Routes.layout_dashboard());
     }
 
@@ -108,12 +109,12 @@ public class AlbumController {
             //Date should be in the next pattern: yyyy-mm-dd
         	Date release_date = req.queryParams("release_date") != null ? sdf.parse(req.queryParams("release_date")) : null;
         	Transaction transaction = session.beginTransaction();
-        	
+
         	//TODO: set correct values
         	List<Object> songs = new LinkedList<Object>();
         	String bandId = req.queryParams("band_id");
         	//
-        	
+
             boolean result = adao.create(req.queryParams("title"), release_date, songs, bandId);
             transaction.commit();
             session.close();
@@ -210,12 +211,12 @@ public class AlbumController {
             //Date should be in the next pattern: yyyy-mm-dd
         	Date release_date = req.queryParams("release_date") != null ? sdf.parse(req.queryParams("release_date")) : null;
         	Transaction transaction = session.beginTransaction();
-        	
+
         	//TODO: set correct values
         	List<Object> songs = new LinkedList<Object>();
         	String bandId = " ";
         	//
-        	
+
             boolean result = adao.update(req.params("id"), req.queryParams("title"), release_date, songs, bandId);
             transaction.commit();
             session.close();
@@ -226,7 +227,7 @@ public class AlbumController {
             }else{
             	res.body("Album updated");
             }
-            
+
             return res.body();
         } catch (ParseException | IllegalArgumentException e) {
             //If an exception was thrown, then there was a problem with the parameters.
@@ -263,7 +264,7 @@ public class AlbumController {
         }else{
         	res.body("Album deleted");
         }
-        
+
         return res.body();
     }
 

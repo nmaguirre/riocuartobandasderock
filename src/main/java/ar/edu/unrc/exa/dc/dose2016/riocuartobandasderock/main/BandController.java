@@ -61,6 +61,7 @@ public class BandController {
     // int status = (bands.size()>0)? 200:204;
     // res.status(status);
     // return bands;
+    attributes.put("title", 'Bandas');
     attributes.put("bands", bands);
     attributes.put("template", Routes.index_band());
     return new ModelAndView(attributes, Routes.layout_dashboard());
@@ -135,7 +136,7 @@ public class BandController {
     attributes.put("band", band);
 
     attributes.put("template", Routes.show_band());
-    attributes.put("title", "show");
+    attributes.put("title", "Banda");
     return new ModelAndView(attributes, Routes.layout_dashboard());
   }
 
@@ -143,7 +144,7 @@ public class BandController {
     Map<String, Object> attributes = new HashMap<>();
 
     attributes.put("template", Routes.new_band());
-    attributes.put("title", "new");
+    attributes.put("title", "Crear");
     return new ModelAndView(attributes, Routes.layout_dashboard());
   }
 
@@ -151,7 +152,7 @@ public class BandController {
     Map<String, Object> attributes = new HashMap<>();
 
     attributes.put("template", Routes.edit_band());
-    attributes.put("title", "edit");
+    attributes.put("title", "Editar");
     return new ModelAndView(attributes, Routes.layout_dashboard());
   }
 
@@ -167,6 +168,7 @@ public class BandController {
     if((req.queryParams("name")=="") || (req.queryParams("genre")=="")){
       res.status(400);
       // return "Request invalid";
+      attributes.put("title", 'Crear');
       attributes.put("error", "El nombre no puede estar en blanco");
       attributes.put("template", Routes.new_band());
       return new ModelAndView(attributes, Routes.layout_dashboard());
@@ -194,6 +196,7 @@ public class BandController {
       }
       res.status(409);
       // return "Fail";
+      attributes.put("title", 'Crear');
       attributes.put("error", "El nombre no puede estar en blanco");
       attributes.put("template", Routes.new_band());
       result= new ModelAndView(attributes, Routes.layout_dashboard());
@@ -283,7 +286,7 @@ public class BandController {
       res.status(409);
       result = "Fail";
     }
-    return result; 
+    return result;
   }
 
   /**

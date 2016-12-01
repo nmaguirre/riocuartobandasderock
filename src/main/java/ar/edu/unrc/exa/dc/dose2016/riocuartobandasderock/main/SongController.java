@@ -54,7 +54,7 @@ public class SongController {
     	session.close();
     	// res.status(songs.size() > 0 ? 200 : 204);
         //return songs;
-
+      attributes.put("title", 'Canciones');
       attributes.put("songs", songs);
       attributes.put("template", Routes.index_song());
       return new ModelAndView(attributes, Routes.layout_dashboard());
@@ -68,16 +68,16 @@ public class SongController {
      * @return the list of songs with Id parameters
      */
     public Song getById (Request req, Response res){
-    	
+
     	Session session = SessionManager.getInstance().openSession();
     	SongDAO sdao = new SongDaoImpl(session);
-    	
+
     	String id = req.params(":id");
     	if (id == ""){
     		res.status(400);
     		return null;
     	}
-    	
+
     	Song song = sdao.findById(id);
     	session.close();
     	res.status(song != null ? 200 : 204);
@@ -94,7 +94,7 @@ public class SongController {
     public List<Song> getByName (Request req, Response res){
     	Session session = SessionManager.getInstance().openSession();
     	SongDAO sdao = new SongDaoImpl(session);
-    	
+
        	String songName = req.params(":name");
 
     	if (songName == null || songName.isEmpty()){
@@ -117,7 +117,7 @@ public class SongController {
     public List<Song> getByDuration (Request req, Response res){
     	Session session = SessionManager.getInstance().openSession();
     	SongDAO sdao = new SongDaoImpl(session);
-    	
+
     	String duration = req.params(":duration");
 
     	if (duration == null || duration.isEmpty()){
@@ -147,12 +147,13 @@ public class SongController {
     	Session session = SessionManager.getInstance().openSession();
     	SongDAO sdao = new SongDaoImpl(session);
     	Transaction transaction = session.beginTransaction();
-      
+
       String title = req.queryParams("albumTitle");
       if( songName == null || songName.isEmpty() || dur == null || title == null || title.isEmpty()) {
       res.status(400);
       // res.body("Invalid content of parameters");
       // return res.body();
+        attributes.put("title", 'Crear');
         attributes.put("error", "El nombre no puede estar en blanco");
         attributes.put("template", Routes.new_song());
         return new ModelAndView(attributes, Routes.layout_dashboard());
@@ -266,7 +267,7 @@ public class SongController {
     attributes.put("song", song);
 
     attributes.put("template", Routes.show_song());
-    attributes.put("title", "show");
+    attributes.put("title", "Canción");
     return new ModelAndView(attributes, Routes.layout_dashboard());
   }
 
@@ -274,7 +275,7 @@ public class SongController {
     Map<String, Object> attributes = new HashMap<>();
 
     attributes.put("template", Routes.new_song());
-    attributes.put("title", "new");
+    attributes.put("title", "Crear");
     return new ModelAndView(attributes, Routes.layout_dashboard());
   }
 
@@ -282,7 +283,7 @@ public class SongController {
     Map<String, Object> attributes = new HashMap<>();
 
     attributes.put("template", Routes.edit_song());
-    attributes.put("title", "edit");
+    attributes.put("title", "Editar");
     return new ModelAndView(attributes, Routes.layout_dashboard());
   }
 }
