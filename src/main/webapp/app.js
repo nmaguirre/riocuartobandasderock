@@ -5,10 +5,6 @@ angular["module"]("app", ["ngRoute","angularSlideables"])
 				templateUrl: "views/home.html",
 				controller: "HomeController"
 			})
-			["when"]("/form",{
-				templateUrl: "views/albumForm.html",
-				controller: "AlbumFormController"
-			})
 			["when"]("/admin",{
 				controller: "AdminController",
 				templateUrl: "views/admin.html"
@@ -25,6 +21,10 @@ angular["module"]("app", ["ngRoute","angularSlideables"])
 				controller: "AlbumsController",
 				templateUrl: "views/album.html"
 			})
+			["when"]("/admin/albums/add",{
+				templateUrl: "views/addAlbum.html",
+				controller: "AlbumsController"
+			})
 			["when"]("/artists",{
 				controller: "ArtistsController",
 				templateUrl: "views/artists.html"
@@ -32,6 +32,10 @@ angular["module"]("app", ["ngRoute","angularSlideables"])
 			["when"]("/artists/:id",{
 				controller: "ArtistsController",
 				templateUrl: "views/artist.html"
+			})
+			["when"]("/admin/artists/add",{
+				templateUrl: "views/addArtist.html",
+				controller: "ArtistsController"
 			})
 			["when"]("/bands",{
 				controller: "BandsController",
@@ -41,6 +45,10 @@ angular["module"]("app", ["ngRoute","angularSlideables"])
 				controller: "BandsController",
 				templateUrl: "views/band.html"
 			})
+			["when"]("/admin/bands/add",{
+				templateUrl: "views/addBand.html",
+				controller: "BandsController"
+			})
 			["when"]("/songs",{
 				controller: "SongsController",
 				templateUrl: "views/songs.html"
@@ -48,5 +56,9 @@ angular["module"]("app", ["ngRoute","angularSlideables"])
 			["when"]("/songs/:id",{
 				controller: "SongsController",
 				templateUrl: "views/song.html"
+			})
+			["when"]("/admin/songs/add",{
+				templateUrl: "views/addSong.html",
+				controller: "SongsController"
 			})
 }]);
