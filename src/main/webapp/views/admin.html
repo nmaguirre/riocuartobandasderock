@@ -1,0 +1,111 @@
+<div class="row">
+  <div class="col-xs-8 offset-xs-2 admin-container">
+    <article>
+      <div class="row menu">
+        <div class="col-xs-10 offset-xs-1">
+          <div class="row menu-header">
+            <div class="col-xs-10">
+              <h1 slide-toggle="#album">Albums</h1>
+            </div>
+            <div class="col-xs-2">
+              <input class="menu-add" type="image" src="/img/octicons-5.0.1/lib/svg/plus-white.svg" name="">
+            </div>
+          </div>
+          <div class="row menu-body">
+            <div id="album" class="slideable">
+              <table class="table table-striped table-inverse">
+                <tbody>
+                  <tr ng-repeat="album in albums | filter : filter">
+                    <td>{{album.title}}</td>
+                    <td>{{album.releaseDate}}</td>
+                    <td><input class="menu-edit" type="image" src="/img/octicons-5.0.1/lib/svg/pencil-white.svg" name=""></td>
+                    <td><input class="menu-delete" type="image" src="/img/octicons-5.0.1/lib/svg/x-white.svg" name=""></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row menu">
+        <div class="col-xs-10 offset-xs-1">
+          <div class="row menu-header">
+            <div class="col-xs-10">
+              <h1 slide-toggle="#artist">Artistas</h1>
+            </div>
+            <div class="col-xs-2">
+              <input class="menu-add" type="image" src="/img/octicons-5.0.1/lib/svg/plus-white.svg" name="">
+            </div>
+          </div>
+          <div class="row">
+            <div id="artist" class="slideable">
+              <table class="table table-striped table-inverse">
+                <tbody>
+                  <tr ng-repeat="artist in artists | filter : filter">
+                    <td>{{artist.name}}</td>
+                    <td>{{artist.nickname}}</td>
+                    <td>{{artist.surname}}</td>
+                    <td><input class="menu-edit" type="image" src="/img/octicons-5.0.1/lib/svg/pencil-white.svg" name=""></td>
+                    <td><input class="menu-delete" type="image" src="/img/octicons-5.0.1/lib/svg/x-white.svg" name=""></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row menu">
+        <div class="col-xs-10 offset-xs-1">
+          <div class="row menu-header">
+            <div class="col-xs-10">
+              <h1 slide-toggle="#band">Bandas</h1>
+            </div>
+            <div class="col-xs-2">
+              <input class="menu-add" type="image" src="/img/octicons-5.0.1/lib/svg/plus-white.svg" name="">
+            </div>
+          </div>
+          <div class="row">
+            <div id="band" class="slideable">
+              <table class="table table-striped table-inverse">
+                <tbody>
+                  <tr ng-repeat="band in bands | filter : filter">
+                    <td>{{band.name}}</td>
+                    <td>{{band.genre}}</td>
+                    <td><input class="menu-edit" type="image" src="/img/octicons-5.0.1/lib/svg/pencil-white.svg" name=""></td>
+                    <td><input class="menu-delete" type="image" src="/img/octicons-5.0.1/lib/svg/x-white.svg" name=""></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row menu">
+        <div class="col-xs-10 offset-xs-1">
+          <div class="row menu-header">
+            <div class="col-xs-10">
+              <h1 slide-toggle="#song">Canciones</h1>
+            </div>
+            <div class="col-xs-2">
+              <input class="menu-add" type="image" src="/img/octicons-5.0.1/lib/svg/plus-white.svg" name="">
+            </div>
+          </div>
+          <div class="row">
+            <div id="song" class="slideable">
+              <table class="table table-striped table-inverse">
+                <tbody>
+                  <tr ng-repeat="song in songs | filter : filter">
+                    <td>{{song.name}}</td>
+                    <td>{{song.duration}}</td>
+                    <td><input class="menu-edit" type="image" src="/img/octicons-5.0.1/lib/svg/pencil-white.svg" name=""></td>
+                    <td><input class="menu-delete" type="image" src="/img/octicons-5.0.1/lib/svg/x-white.svg" name=""></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+</div>
