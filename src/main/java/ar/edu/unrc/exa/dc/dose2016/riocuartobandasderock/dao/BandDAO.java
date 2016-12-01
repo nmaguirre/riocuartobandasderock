@@ -3,6 +3,7 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao;
 import java.util.List;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
 
 
 public interface BandDAO {
@@ -100,5 +101,7 @@ public interface BandDAO {
 		 * @return Band that have a particular id	
 		 */
 	   public List<Band> ilike(String name);
+
+	   public List<Album> findAlbums(String bandID);
 }
 
