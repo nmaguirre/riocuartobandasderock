@@ -159,7 +159,7 @@ public class BandController {
 		String genre = req.queryParams("genre");
 		String bandID = req.params(":id");
 
-		if((req.queryParams("name")=="") && (req.queryParams("genre")=="")){
+		if((req.queryParams("name").isEmpty()) && (req.queryParams("genre").isEmpty())){
 			res.status(400);
 			return "Request invalid";
 		}
