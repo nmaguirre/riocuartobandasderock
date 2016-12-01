@@ -5,6 +5,10 @@ angular["module"]("app", ["ngRoute","angularSlideables"])
 				templateUrl: "views/home.html",
 				controller: "HomeController"
 			})
+			["when"]("/form",{
+				templateUrl: "views/albumForm.html",
+				controller: "AlbumFormController"
+			})
 			["when"]("/admin",{
 				controller: "AdminController",
 				templateUrl: "views/admin.html"
