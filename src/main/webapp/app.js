@@ -1,4 +1,4 @@
-angular["module"]("app", ["ngRoute"])
+angular["module"]("app", ["ngRoute","angularSlideables"])
 	["config"](['$locationProvider','$routeProvider', function($locationProvider, $routeProvider){
 		$routeProvider
 			["when"]("/",{
@@ -8,6 +8,9 @@ angular["module"]("app", ["ngRoute"])
 			["when"]("/form",{
 				templateUrl: "views/albumForm.html",
 				controller: "albumFormController"
+			["when"]("/admin",{
+				controller: "AdminController",
+				templateUrl: "views/admin.html"
 			})
 			["when"]("/login",{
 				controller: "LoginController",
