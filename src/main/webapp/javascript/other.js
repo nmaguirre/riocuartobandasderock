@@ -74,7 +74,7 @@ function songFindByName() {
    var xhttp; 
    var str = document.getElementsByName("songName")[0].value; 
    if (str == "") {
-	  window.alert("The Field is Empty\nPlease Input A Value");
+	  window.alert("The field is empty\nPlease input a value");
       return;
    }
    //AjaxJs
@@ -107,23 +107,19 @@ function songFindByName() {
 	     var sys = arbor.ParticleSystem(500, 40,1); 
 		 sys.parameters({gravity:true}); 
 		 sys.renderer = Renderer("#viewport"); 
-		 if(Array.isArray(resp)){  //there are many songs
-			 for (var i=0; i<resp.length; i++){
-				    sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
-				    if(resp[i].duration != undefined){
-				       sys.addNode('duration'+i,{'color':'red','shape':'square','label':resp[i].duration});
-				       sys.addEdge('name'+i, 'duration'+i,{'color':'black'});
-				    }   
-				    if(Array.isArray(album)){  //there are many albums
-				    	for (var j=0; (j<album.length); j++){
-				    	   if(album[j].albumid == resp[i].albumid){
-				    		   sys.addNode('album'+j,{'color':'green','shape':'dot','label':album[j].title});
-				    		   sys.addEdge('name'+i, 'album'+j,{'color':'black'});
-				    	   }
-				    	}	
-				    } 
-			 }
-         }
+	     for (var i=0; i<resp.length; i++){
+		    sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
+		    if(resp[i].duration != undefined){
+			   sys.addNode('duration'+i,{'color':'red','shape':'square','label':resp[i].duration});
+			   sys.addEdge('name'+i, 'duration'+i,{'color':'black'});
+			}   
+			for (var j=0; (j<album.length); j++){
+			   if(album[j].albumid == resp[i].albumid){
+      		      sys.addNode('album'+j,{'color':'green','shape':'dot','label':album[j].title});
+				  sys.addEdge('name'+i, 'album'+j,{'color':'black'});
+			   }
+			}	
+		 }
       }     
    };
    xhttp.send();  
@@ -138,7 +134,7 @@ function songFindByDuration() {
    var xhttp; 
    var str = document.getElementsByName("songDuration")[0].value;
    if (str == "") {
-	  window.alert("The Field is Empty\nPlease Input A Value");
+	  window.alert("The field is empty\nPlease input a value");
       return;
    }
    xhttp = new XMLHttpRequest();
@@ -163,27 +159,17 @@ function songFindByDuration() {
 		 var sys = arbor.ParticleSystem(500, 40,1); 
 		 sys.parameters({gravity:true}); 
 		 sys.renderer = Renderer("#viewport");
-		 if(Array.isArray(resp)){  //there are many songs
-			 for (var i=0; i<resp.length; i++){
-			    sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
-			    sys.addNode('duration'+i,{'color':'red','shape':'square','label':resp[i].duration});
-			    sys.addEdge('name'+i, 'duration'+i,{'color':'black'});
-			    if(Array.isArray(album)){  //there are many albums
-			    	for (var j=0; (j<album.length); j++){
-			    	   if(album[j].albumid == resp[i].albumid){
-			    		   sys.addNode('album'+j,{'color':'green','shape':'dot','label':album[j].title});
-			    		   sys.addEdge('name'+i, 'album'+j,{'color':'black'});
-			    	   }
-			    	}	
-			    }
-			    else{  //there is only one album
-			       if(album[j].albumid == resp[i].albumid){
-			          sys.addNode('album',{'color':'green','shape':'dot','label':album.title});
-	    		      sys.addEdge('name'+i, 'album',{'color':'black'});
-			       }
-			    }  
-			 }
-         }   
+		 for (var i=0; i<resp.length; i++){
+		    sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
+			sys.addNode('duration'+i,{'color':'red','shape':'square','label':resp[i].duration});
+		    sys.addEdge('name'+i, 'duration'+i,{'color':'black'});
+			for (var j=0; (j<album.length); j++){
+	    	   if(album[j].albumid == resp[i].albumid){
+			      sys.addNode('album'+j,{'color':'green','shape':'dot','label':album[j].title});
+			  	  sys.addEdge('name'+i, 'album'+j,{'color':'black'});
+			   }
+		 	}	  
+		 }   
       }
    };
    xhttp.send(); 
@@ -213,16 +199,14 @@ function artistGetAll() {
 		 var sys = arbor.ParticleSystem(500, 40,1); 
 		 sys.parameters({gravity:true}); 
 		 sys.renderer = Renderer("#viewport");
-	     if(Array.isArray(resp)){  //there are many artists
-		    for (var i=0; i<resp.length; i++){
-			   sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
-			   sys.addNode('nickname'+i,{'color':'red','shape':'dot','label':resp[i].nickname});
-			   sys.addNode('surname'+i,{'color':'green','shape':'dot','label':resp[i].surname});
-			   sys.addEdge('name'+i, 'nickname'+i,{'color':'black'});
-			   sys.addEdge('name'+i, 'surname'+i,{'color':'black'});
-			   sys.addEdge('nickname'+i, 'surname'+i,{'color':'black'});
-			}
-		 }   
+		 for (var i=0; i<resp.length; i++){
+		    sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
+			sys.addNode('nickname'+i,{'color':'red','shape':'dot','label':resp[i].nickname});
+		    sys.addNode('surname'+i,{'color':'green','shape':'dot','label':resp[i].surname});
+       	    sys.addEdge('name'+i, 'nickname'+i,{'color':'black'});
+			sys.addEdge('name'+i, 'surname'+i,{'color':'black'});
+			sys.addEdge('nickname'+i, 'surname'+i,{'color':'black'});
+	     }   
 	  }
    };
    xhttp.send();
@@ -237,7 +221,7 @@ function artistFindByName() {
    var xhttp; 
    var str = document.getElementsByName("artistName")[0].value;
    if (str == "") {
-	  window.alert("The Field is Empty\nPlease Input A Value");
+	  window.alert("The field is empty\nPlease input a value");
 	  return;
    }
    xhttp = new XMLHttpRequest();
@@ -254,19 +238,17 @@ function artistFindByName() {
 		 var sys = arbor.ParticleSystem(500, 40,1); 
 		 sys.parameters({gravity:true}); 
 	     sys.renderer = Renderer("#viewport"); 
-	     if(Array.isArray(resp)){  //there are many artists
-		    for (var i=0; i<resp.length; i++){
-			   sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
-			   if(resp[i].nickname != undefined){
-				   sys.addNode('nickname'+i,{'color':'red','shape':'dot','label':resp[i].nickname});
-				   sys.addEdge('name'+i, 'nickname'+i,{'color':'black'});
-			   }	   
-			   if(resp[i].surname != undefined){
-				   sys.addNode('surname'+i,{'color':'green','shape':'dot','label':resp[i].surname});
-				   sys.addEdge('name'+i, 'surname'+i,{'color':'black'});
-			   }	      
-			}
-         } 
+		 for (var i=0; i<resp.length; i++){
+		    sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
+			if(resp[i].nickname != undefined){
+		       sys.addNode('nickname'+i,{'color':'red','shape':'dot','label':resp[i].nickname});
+			   sys.addEdge('name'+i, 'nickname'+i,{'color':'black'});
+			}	   
+			if(resp[i].surname != undefined){
+			   sys.addNode('surname'+i,{'color':'green','shape':'dot','label':resp[i].surname});
+			   sys.addEdge('name'+i, 'surname'+i,{'color':'black'});
+			}	      
+	     }
       }
    };
    xhttp.send();	  
@@ -281,7 +263,7 @@ function artistFindByNickname() {
    var xhttp; 
    var str = document.getElementsByName("artistNickname")[0].value;
    if (str == "") {
-	  window.alert("The Field is Empty\nPlease Input A Value");
+	   window.alert("The field is empty\nPlease input a value");
 	  return;
    }
    xhttp = new XMLHttpRequest();
@@ -326,7 +308,7 @@ function artistFindBySurname() {
    var xhttp; 
    var str = document.getElementsByName("artistSurname")[0].value;
    if (str == "") {
-	  window.alert("The Field is Empty\nPlease Input A Value");
+	  window.alert("The field is empty\nPlease input a value");
 	  return;
    }
    xhttp = new XMLHttpRequest();
@@ -343,18 +325,16 @@ function artistFindBySurname() {
 		 var sys = arbor.ParticleSystem(500, 40,1); 
 		 sys.parameters({gravity:true}); 
 		 sys.renderer = Renderer("#viewport"); 
-		 if(Array.isArray(resp)){  //there are many artists 
-		    for (var i=0; i<resp.length; i++){
-		       sys.addNode('surname'+i,{'color':'green','shape':'dot','label':resp[i].surname});
-		       if(resp[i].name != undefined){
-		    	   sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name}); 
-		    	   sys.addEdge('name'+i, 'surname'+i,{'color':'black'});
-		       }
-		       if(resp[i].nickname != undefined){
-		    	   sys.addNode('nickname'+i,{'color':'red','shape':'dot','label':resp[i].nickname});
-		    	   sys.addEdge('nickname'+i, 'surname'+i,{'color':'black'});
-		       }
-		 	}
+		 for (var i=0; i<resp.length; i++){
+		    sys.addNode('surname'+i,{'color':'green','shape':'dot','label':resp[i].surname});
+		    if(resp[i].name != undefined){
+		       sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name}); 
+		       sys.addEdge('name'+i, 'surname'+i,{'color':'black'});
+		    }
+		    if(resp[i].nickname != undefined){
+		       sys.addNode('nickname'+i,{'color':'red','shape':'dot','label':resp[i].nickname});
+		       sys.addEdge('nickname'+i, 'surname'+i,{'color':'black'});
+		    }
 		 }		    
 	  }
    };
@@ -384,13 +364,11 @@ function albumGetAll() {
          //ArborJs
 		 var sys = arbor.ParticleSystem(500, 40,1); 
     	 sys.parameters({gravity:true}); 
-		 sys.renderer = Renderer("#viewport"); 
-         if(Array.isArray(resp)){  //there are many albums 
- 		    for (var i=0; i<resp.length; i++){
- 		    	sys.addNode('title'+i,{'color':'blue','shape':'dot','label':resp[i].title});
- 				sys.addNode('releasedate'+i,{'color':'red','shape':'square','label':resp[i].releasedate}); 
- 				sys.addEdge('title'+i,'releasedate'+i);;
- 			}
+		 sys.renderer = Renderer("#viewport");  
+ 		 for (var i=0; i<resp.length; i++){
+ 		    sys.addNode('title'+i,{'color':'blue','shape':'dot','label':resp[i].title});
+ 			sys.addNode('releasedate'+i,{'color':'red','shape':'square','label':resp[i].releasedate}); 
+ 			sys.addEdge('title'+i,'releasedate'+i);;
  		 }
       }
    };
@@ -406,7 +384,7 @@ function albumFindByReleaseDate() {
    var xhttp; 
    var str = document.getElementsByName("albumDate")[0].value;
    if (str == "") {
-	   window.alert("The Field is Empty\nPlease Input A Value");
+	   window.alert("The field is empty\nPlease input a value");
 	   return;
    }
    xhttp = new XMLHttpRequest();
@@ -423,13 +401,11 @@ function albumFindByReleaseDate() {
 		 var sys = arbor.ParticleSystem(500, 40,1); 
     	 sys.parameters({gravity:true}); 
 		 sys.renderer = Renderer("#viewport"); 
-		 if(Array.isArray(resp)){  //there are many albums
-		    for (var i=0; i<resp.length; i++){
-		    	sys.addNode('title'+i,{'color':'blue','shape':'dot','label':resp[i].title});
-				sys.addNode('releasedate'+i,{'color':'red','shape':'square','label':resp[i].releasedate}); 
-				sys.addEdge('title'+i,'releasedate'+i,{'color':'black'});
-			}
-		 }   
+		 for (var i=0; i<resp.length; i++){
+		    sys.addNode('title'+i,{'color':'blue','shape':'dot','label':resp[i].title});
+			sys.addNode('releasedate'+i,{'color':'red','shape':'square','label':resp[i].releasedate}); 
+			sys.addEdge('title'+i,'releasedate'+i,{'color':'black'});
+		 }    
 	  }
    };
    xhttp.send();
@@ -444,7 +420,7 @@ function albumFindByTitle() {
    var xhttp; 
    var str = document.getElementsByName("albumTitle")[0].value;
    if (str == "") {
-	  window.alert("The Field is Empty\nPlease Input A Value");
+	  window.alert("The field is empty\nPlease input a value");
       return;
    }
    xhttp = new XMLHttpRequest();
@@ -461,13 +437,11 @@ function albumFindByTitle() {
 		 var sys = arbor.ParticleSystem(500, 40,1); 
     	 sys.parameters({gravity:true}); 
 		 sys.renderer = Renderer("#viewport"); 
-		 if(Array.isArray(resp)){  //there are many albums
-		    for (var i=0; i<resp.length; i++){
-		    	sys.addNode('title'+i,{'color':'blue','shape':'dot','label':resp[i].title});
-				sys.addNode('releasedate'+i,{'color':'red','square':'dot','label':resp[i].releasedate}); 
-				sys.addEdge('title'+i,'releasedate'+i,{'color':'black'});
-			}
-		 }
+		 for (var i=0; i<resp.length; i++){
+		    sys.addNode('title'+i,{'color':'blue','shape':'dot','label':resp[i].title});
+			sys.addNode('releasedate'+i,{'color':'red','square':'dot','label':resp[i].releasedate}); 
+			sys.addEdge('title'+i,'releasedate'+i,{'color':'black'});
+     	 } 
       }
    };
    xhttp.send();
@@ -497,13 +471,11 @@ function bandGetAll() {
 		 var sys = arbor.ParticleSystem(500, 40,1); 
 		 sys.parameters({gravity:true}); 
     	 sys.renderer = Renderer("#viewport");
-		 if(Array.isArray(resp)){  //there are many bands
-		    for (var i=0; i<resp.length; i++){
-			   sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
-			   sys.addNode('genre'+i,{'color':'red','shape':'dot','label':resp[i].genre}); 
-			   sys.addEdge('name'+i,'genre'+i,{'color':'black'});
-			}
-		 }
+		 for (var i=0; i<resp.length; i++){
+		    sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
+			sys.addNode('genre'+i,{'color':'red','shape':'dot','label':resp[i].genre}); 
+			sys.addEdge('name'+i,'genre'+i,{'color':'black'});
+		 } 
 	  }
    };
    xhttp.send();
@@ -518,7 +490,7 @@ function bandFyndByName() {
    var xhttp; 
    var str = document.getElementsByName("bandName")[0].value;
    if (str == "") {
-	  window.alert("The Field is Empty\nPlease Input A Value");
+	  window.alert("The field is empty\nPlease input a value");
 	  return;
    }
    xhttp = new XMLHttpRequest();
@@ -535,31 +507,27 @@ function bandFyndByName() {
 		 var sys = arbor.ParticleSystem(500, 40,1); 
 		 sys.parameters({gravity:true}); 
     	 sys.renderer = Renderer("#viewport");
-		 if(Array.isArray(resp)){  //there are many bands
-		    for (var i=0; i<resp.length; i++){
-			   sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
-			   sys.addNode('genre'+i,{'color':'red','shape':'dot','label':resp[i].genre}); 
-			   sys.addEdge('name'+i,'genre'+i,{'color':'black'});
+		 for (var i=0; i<resp.length; i++){
+		    sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
+		    sys.addNode('genre'+i,{'color':'red','shape':'dot','label':resp[i].genre}); 
+	        sys.addEdge('name'+i,'genre'+i,{'color':'black'});
 			   
-			   //request of band members
-			   var xhttp2 = new XMLHttpRequest();
-			   xhttp2.open("GET", "http://"+host+":"+port+"/bands/getbandmember/"+resp[i].bandid, true);
-			   xhttp2.onreadystatechange = function() {
-				   if (this.readyState == 4 && this.status == 200) {
-					   var resp2 = JSON.parse(xhttp2.responseText);			   
-					   if(Array.isArray(resp2)){  //there are many band members
-						  sys.addNode('bmember'+i,{'color':'green','shape':'dot','label':'Band Members'});
-						  sys.addEdge('bmember'+i,'name'+i,{'color':'black'}); 
-					      for (var j=0; j<resp2.length; j++){
-						      sys.addNode('member'+j,{'color':'orange','shape':'dot','label':resp2[j].name});
-						      sys.addEdge('bmember'+i,'member'+j,{'color':'black'});   					      
-					      }
-					   }
-				   }
-	            };
-	            xhttp2.send();
-			}
-		 }
+			//request of band members
+			var xhttp2 = new XMLHttpRequest();
+			xhttp2.open("GET", "http://"+host+":"+port+"/bands/getbandmember/"+resp[i].bandid, true);
+			xhttp2.onreadystatechange = function() {
+		       if (this.readyState == 4 && this.status == 200) {
+			      var resp2 = JSON.parse(xhttp2.responseText);			   
+				  sys.addNode('bmember'+i,{'color':'green','shape':'dot','label':'Band Members'});
+				  sys.addEdge('bmember'+i,'name'+i,{'color':'black'}); 
+				  for (var j=0; j<resp2.length; j++){
+				     sys.addNode('member'+j,{'color':'orange','shape':'dot','label':resp2[j].name});
+					 sys.addEdge('bmember'+i,'member'+j,{'color':'black'});   					      
+				  }
+			   }
+	        };
+	        xhttp2.send();
+	     }
 	  }
    };
    xhttp.send();
@@ -574,7 +542,7 @@ function bandFindByGenre() {
    var xhttp; 
    var str = document.getElementsByName("bandGenre")[0].value;
    if (str == "") {
-	  window.alert("The Field is Empty\nPlease Input A Value");
+	  window.alert("The field is empty\nPlease input a value");
 	  return;
    }
    xhttp = new XMLHttpRequest();
@@ -591,31 +559,27 @@ function bandFindByGenre() {
 		 var sys = arbor.ParticleSystem(500, 40,1); 
 		 sys.parameters({gravity:true}); 
     	 sys.renderer = Renderer("#viewport");
-		 if(Array.isArray(resp)){  //there are many bands
-		    for (var i=0; i<resp.length; i++){  
-			   sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
-			   sys.addNode('genre'+i,{'color':'red','shape':'dot','label':resp[i].genre}); 
-			   sys.addEdge('name'+i,'genre'+i,{'color':'black'});
+		 for (var i=0; i<resp.length; i++){  
+	        sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
+			sys.addNode('genre'+i,{'color':'red','shape':'dot','label':resp[i].genre}); 
+			sys.addEdge('name'+i,'genre'+i,{'color':'black'});
 			   
-			   //request of band members
-			   var xhttp2 = new XMLHttpRequest();
-			   xhttp2.open("GET", "http://"+host+":"+port+"/bands/getbandmember/"+resp[i].bandid, true);
-			   xhttp2.onreadystatechange = function() {
-				   if (this.readyState == 4 && this.status == 200) {
-					   var resp2 = JSON.parse(xhttp2.responseText);			   
-					   if(Array.isArray(resp2)){  //there are many band members
-						  sys.addNode('bmember'+i,{'color':'green','shape':'dot','label':'Band Members'});
-						  sys.addEdge('bmember'+i,'name'+i,{'color':'black'}); 
-					      for (var j=0; j<resp2.length; j++){
-						      sys.addNode('member'+j,{'color':'orange','shape':'dot','label':resp2[j].name});
-						      sys.addEdge('bmember'+i,'member'+j,{'color':'black'});   					      
-					      }
-					   }
-				   }
-	            };
-	            xhttp2.send();
-			}
-		 }
+			//request of band members
+			var xhttp2 = new XMLHttpRequest();
+			xhttp2.open("GET", "http://"+host+":"+port+"/bands/getbandmember/"+resp[i].bandid, true);
+			xhttp2.onreadystatechange = function() {
+			   if (this.readyState == 4 && this.status == 200) {
+			      var resp2 = JSON.parse(xhttp2.responseText);			   
+				  sys.addNode('bmember'+i,{'color':'green','shape':'dot','label':'Band Members'});
+				  sys.addEdge('bmember'+i,'name'+i,{'color':'black'}); 
+				  for (var j=0; j<resp2.length; j++){
+				     sys.addNode('member'+j,{'color':'orange','shape':'dot','label':resp2[j].name});
+			         sys.addEdge('bmember'+i,'member'+j,{'color':'black'});   					      
+				  }
+			   }
+	        };
+	        xhttp2.send();
+	     }
       }
    };
    xhttp.send();
