@@ -51,11 +51,15 @@ public class SongDaoImpl implements SongDAO{
 		if(name == null || name.isEmpty() || dur == null || albumTitle.isEmpty() || albumTitle == null) {
 			throw new IllegalArgumentException("Wrong parameters");
 		} else {
+			//We search the song with the id and we assign it to the variable song(type song)
 			Song song = findById(id);
 			AlbumDAO adao = new AlbumDaoImpl(this.currentSession);
+			//We create an albumList list that will contain all the albums with the title entered
 			List<Album> albumList = adao.findByTitle(albumTitle);
+			//To alb we assigned the album that is in the first place of the list
 			Album alb = albumList.get(0);
 			if (alb == null) return false;
+			//We set all the properties to the song
 			song.setName(name);
 			song.setDuration(dur);
 			song.setAlbum(alb);
@@ -67,7 +71,6 @@ public class SongDaoImpl implements SongDAO{
 		return updated;
 	}
 
-		//this.currentSession.update(song)
 	/**
 	 * fn removeSong
 	 * description: The method search in the data base by id the song, and it's try to delete the song.
@@ -97,7 +100,6 @@ public class SongDaoImpl implements SongDAO{
 	 * @param duration represents the name of the song to add in the database
 	 * @return true if the add was successful
 	 */
-	
 	@Override
 	public Boolean addSong(String name,Integer duration, String albumTitle){
 		boolean result = false;
