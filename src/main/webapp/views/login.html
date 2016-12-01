@@ -2,17 +2,20 @@
 	<div class="col-xs-12 external-login-container">
 		<div class="center-block">
 			<div class="offset-xs-3 col-xs-6 internal-login-container">
-				<form>
+				<form name="loginForm">
 					<div class="form-group">
 						<label for="exampleInputEmail1">Correo electrónico</label>
-						<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Ingrese su correo">
+						<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Ingrese su correo" name="email" ng-model="formData.email" required>
+						<!--<span ng-show="!loginForm.$pristine && loginForm.email.$error.required">Email es requerido</span>
+						<span ng-show="!loginForm.$pristine && loginForm.email.$error.email">Ingrese un email válido</span>-->
 					</div>
 					<div class="form-group">
 						<label for="exampleInputPassword1">Contraseña</label>
-						<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Ingrese su contraseña">
+						<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Ingrese su contraseña" name="password" ng-model="formData.password" required>
+						<!--<span ng-show="!loginForm.$pristine && loginForm.password.$error.required">Constraseña es requerida</span>-->
 					</div>
 					<div class="form-group pull-right">
-						<button type="submit" class="btn btn-success">Iniciar sesión</button>
+						<button type="submit" class="btn btn-success" ng-click="validateSubmit(formData)" ng-disabled="!submitForm.$valid">Iniciar sesión</button>
 					</div>
 				</form>
 			</div>
