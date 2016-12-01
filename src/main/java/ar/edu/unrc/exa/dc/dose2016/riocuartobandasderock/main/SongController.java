@@ -282,6 +282,16 @@ public class SongController {
   public ModelAndView editSong(Request req,Response res){
     Map<String, Object> attributes = new HashMap<>();
 
+    String id = req.params(":id");
+    attributes.put("id", id);
+
+    Session session = SessionManager.getInstance().openSession();
+    SongDAO songDAO = new SongDaoImpl(session);
+    Song song = songDAO.findById(req.params(":id"));
+
+    attributes.put("name", song.getName());
+    attributes.put("duration", song.getDuration());
+
     attributes.put("template", Routes.edit_song());
     attributes.put("title", "Editar");
     return new ModelAndView(attributes, Routes.layout_dashboard());
