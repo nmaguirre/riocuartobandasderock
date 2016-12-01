@@ -158,7 +158,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 			Band b = bdao.findById(id_band);
 			album.setBand(b);
 		}catch(IllegalArgumentException e){
-			System.out.println("ERROR: "+ e);
+			e.printStackTrace();
 		}
 		if (!album.repOk()) throw new IllegalArgumentException ("Bad representation of album");
 		this.currentSession.save(album);

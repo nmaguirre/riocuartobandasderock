@@ -14,6 +14,12 @@ import org.hibernate.Transaction;
 
 
 
+
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.AlbumDaoImpl;
@@ -38,11 +44,9 @@ public class AlbumController {
     	AlbumDaoImpl adao = new AlbumDaoImpl(session);
 
     	List<Album> albums = adao.getAll();
-     	
     	session.close();
     	int status = albums.size() > 0 ? 200 : 204;
 		res.status(status);
-		
 		res.body(albums.toString());
 			
 		return albums;	
@@ -137,9 +141,7 @@ public class AlbumController {
     public String update(Request req, Response res) {
     	Session session = SessionManager.getInstance().openSession();
     	AlbumDaoImpl adao = new AlbumDaoImpl(session);
-    	
-    	System.out.println(req.queryParams("title"));
-    	System.out.println(req.queryParams("release_date"));
+    
         if ( req.queryParams("title") == ""){
             res.status(400);
             res.body("Album title can't be null nor empty");
