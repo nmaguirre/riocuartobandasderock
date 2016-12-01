@@ -102,12 +102,12 @@ public class BandController {
 	 * @return a list of bands with the genre and name of the request.
 	 */
 	public List<Band> getBandByNameAndGenre(Request req,Response res){
-		if (req.params("genre")==""||req.params("name")==""){
+		if (req.queryParams("genre").isEmpty()||req.queryParams("genre").isEmpty()){
 			res.status(400);
 		}
 		Session session = SessionManager.getInstance().openSession();
 		BandDAO bdao = new BandDaoImpl(session);
-		List<Band> bands = bdao.findByNameAndGenre(req.params("genre"),req.params("name"));
+		List<Band> bands = bdao.findByNameAndGenre(req.queryParams("name"),req.queryParams("genre"));
 		session.close();
 		int status = (bands.size()!=0)? 200:204;
 		res.status(status);

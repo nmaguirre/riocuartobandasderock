@@ -54,7 +54,8 @@
                 response = '<table>';
                 itemindex = 1;
                 $.each(request, function(i, item) {
-                       response += '<tr onclick="showArtistMInDialog(\''+item.id+'\')">'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.genre+'</td>'+'<td> <a href="javascript:void(0);" class="glyphicon glyphicon-edit" onclick="showInEdit(\''+item.id+'\'); event.stopImmediatePropagation();"</a> <a href="javascript:void(0);" class="glyphicon glyphicon-trash" onclick="deleteBand(\''+item.name+'\'); event.stopImmediatePropagation();"</a> </td> </tr>';
+                		console.log(item);
+                       response += '<tr onclick="showArtistMInDialog(\''+item.id+'\')">'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.genre+'</td>'+'<td> <a href="javascript:void(0);" class="glyphicon glyphicon-edit" onclick="showInEdit(\''+item.name+'\'); event.stopImmediatePropagation();"</a> <a href="javascript:void(0);" class="glyphicon glyphicon-trash" onclick="deleteBand(\''+item.name+'\'); event.stopImmediatePropagation();"</a> </td> </tr>';
                         ++itemindex;
                 });           
                 response += '</table>';
@@ -69,7 +70,7 @@
         $("#artistMModal").modal() 
         $("#artistMData").html('<table></table>'); // Clean table, need to refresh with non elements in db
 
-        resourcelocation='/bands'+id;
+        resourcelocation='/bands/'+id;
          $.get(resourcelocation, function(data, status){
             if (typeof data === "undefined") {
                 response = '<tr><td colspan="5"> No Artist found...</td></tr>'
@@ -89,14 +90,15 @@
           });
     }
 
-    function showInEdit(id){
+    function showInEdit(name){
             
-        var resourcelocation ='/bands/getbandmember/'+id;
+        var resourcelocation ='/bands/findbyname/'+name;
         $.ajax({
             type: 'GET',
             url: resourcelocation,
             data: '',
             success:function(res){
+            	console.log(res);
                 var request = JSON.parse(res);
             
                 $.each(request, function(i, item) {
@@ -139,7 +141,7 @@
     function updateBand() {            
             
         id=$('#idEdit').val();
-        var resourcelocation ='/bands';
+        var resourcelocation ='/bands/'+id;
 
         name=$('#nameEdit').val();
         genre=$('#genreEdit').val();
@@ -233,7 +235,7 @@
                             response = '<table>';
                             itemindex = 1;
                             $.each(request, function(i, item) {
-                                   response += '<tr onclick="showArtistMInDialog(\''+item.id+'\')">'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.genre+'</td>' +'</tr>';
+                                	response += '<tr onclick="showArtistMInDialog(\''+item.id+'\')">'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.genre+'</td>'+'<td> <a href="javascript:void(0);" class="glyphicon glyphicon-edit" onclick="showInEdit(\''+item.name+'\'); event.stopImmediatePropagation();"</a> <a href="javascript:void(0);" class="glyphicon glyphicon-trash" onclick="deleteBand(\''+item.name+'\'); event.stopImmediatePropagation();"</a> </td> </tr>';
                                     ++itemindex;
                             });           
                             response += '</table>';

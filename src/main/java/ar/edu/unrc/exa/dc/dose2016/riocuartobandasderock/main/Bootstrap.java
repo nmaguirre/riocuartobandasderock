@@ -115,7 +115,7 @@ public class Bootstrap {
 
         get("/bands/findbygenre/:genre",(req, res) -> bands.getBandByGenre(req, res),json());
 
-        get("/bands/find/:name/:genre",(req, res) -> bands.getBandByNameAndGenre(req, res),json());
+        get("/bands/find/",(req, res) -> bands.getBandByNameAndGenre(req, res),json());
 
         get("/bands/getbandmember/:bandID",(req,res)-> bands.getBandMembers(req, res),json());
 
