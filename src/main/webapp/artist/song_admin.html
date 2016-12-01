@@ -51,11 +51,12 @@
             if (typeof data === "undefined") {
                 response = '<tr><td colspan="5"> No Songs found...</td></tr>'
             }else{
-                var request = JSON.parse(data);
+                //var request = JSON.parse(data);
                 response = '<table>';
                 itemindex = 1;
-                $.each(request, function(i, item) {
-                       response += '<tr onclick="showAlbumMInDialog(\''+item.idSong+'\')">'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.duration+'</td>'+'<td>'+item.album+'</td>' + '<td> <a href="javascript:void(0);" class="glyphicon glyphicon-edit" onclick="showInEdit(\''+item.idSong+'\'); event.stopImmediatePropagation();"</a> <a href="javascript:void(0);" class="glyphicon glyphicon-trash" onclick="deleteArtist(\''+item.idSong+'\'); event.stopImmediatePropagation();"</a> </td> </tr>';
+                //$.each(request, function(i, item) {
+                $.each(data, function(i, item) {
+                       response += '<tr>'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.duration+'</td>'+'<td>'+item.album+'</td>' + '<td> <a href="javascript:void(0);" class="glyphicon glyphicon-edit" onclick="showInEdit(\''+item.name+'\'); event.stopImmediatePropagation();"</a> <a href="javascript:void(0);" class="glyphicon glyphicon-trash" onclick="deleteArtist(\''+item.idSong+'\'); event.stopImmediatePropagation();"</a> </td> </tr>';
                         ++itemindex;
                 });           
                 response += '</table>';
@@ -91,21 +92,23 @@
           });*/
     }
 
-    function showInEdit(id){
+    function showInEdit(name){
         //Missing Implementation
 
-        var resourcelocation ='/songs/'+id;
+        //var resourcelocation ='/songs/findbyname/:name/'+name;
+        resourcelocation= 'https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/songs/findbyname/'+name;
         $.ajax({
             type: 'GET',
             url: resourcelocation,
             data: '',
             success:function(res){
-                var request = JSON.parse(res);
+                //var request = JSON.parse(res);
             
-                $.each(request, function(i, item) {
+                //$.each(request, function(i, item) {
+                $.each(res, function(i, item) {
                     $('#nameEdit').val(item.name);
                     $('#durationEdit').val(item.duration);
-                    $('#albumEdit').val(item.band);
+                    $('#albumEdit').val(item.album_id);
                     $('#idEdit').val(item.idSong);
                 });
                     
@@ -120,28 +123,30 @@
         album=$('#album').val();
 
         if (name=='') {
-            alert("Al menos debe rellenar un campo");
+            alert("Debe rellenar al menos el campo 'Titulo'.");
         } else {
          
-            var url = '/songs/'; 
+            //var url = '/songs/'; 
+            url = 'https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/songs/';
             $.ajax({
                 type: "POST",
                 url: url,
                 data: $("#addForm").find('.form').serialize(), // Adjuntar los campos del formulario enviado.
                 success: function(data)
                 {
-                    showSongs('/songs'); //optional refresh list
+                    //showSongs('/songs'); //optional refresh list
+                    showSongs('https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/songs/');
                     $('.form')[0].reset();
                     $('.formData').slideUp();
                  },
                  error: function(x, e) {
-
+                    alert(x +" - "+e);
                  }
             });
         }
     }
 
-    function updateSong() {            
+    function updateSong() {         
         //Missing Implementation    
         /*id=$('#idEdit').val();
         var resourcelocation ='/songs/'+id;
@@ -150,8 +155,8 @@
         duration=$('#durationEdit').val();
         album=$('#albumEdit').val();
             
-        if (name+duration+album=='') {
-            alert("Al menos debe rellenar un campo");
+        if (name=='') {
+            alert("Debe rellenar al menos el campo 'Titulo'.");
         } else {
             $.ajax({
                 type: "PUT",
@@ -159,13 +164,14 @@
                 data: $("#editForm").find('.form').serialize(), // Adjuntar los campos del formulario enviado.
                 success: function(data)
                 {
-                   showSongs('/songs'); //optional refresh list
+                   //showSongs('/songs'); //optional refresh list
+                   showSongs('https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/songs/');
                    $('.form')[1].reset();
                    $('.formData').slideUp();
                 },
                 error: function(x, e) {
                     //$("#dataartisaddformstatus").html('<font color="red">Result: Error</font>'); //  Show response Api Rest
-                    alert('No ha realizado ninguna modificación en el registro');
+                    alert(x+' - '+e);
                     $('.form')[1].reset();
                     $('.formData').slideUp();
                 }
@@ -175,7 +181,8 @@
 
     function deleteArtist(id) {            
             
-        resourcelocation ='/songs/'+id;
+        //resourcelocation ='/songs/'+id;
+        resourcelocation= 'https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/songs/'+id;
             
         $.ajax({
             type: "DELETE",
@@ -183,7 +190,9 @@
             data: '', 
             success: function(data)
             {
-                showSongs('/songs'); //optional refresh list
+                alert("¿Esta seguro que desea borrar esta cancion?");
+                //showSongs('/songs'); //optional refresh list
+                showSongs('https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/songs/');
             },
             error: function(x, e) {
                      
@@ -199,12 +208,14 @@
             case "name": 
                 document.getElementById("nameSearch").disabled = false;
                 document.getElementById("durationSearch").disabled = true;
-                findResourceTag = '/songs/findbyname/';
+                //findResourceTag = '/songs/findbyname/';
+                findResourceTag= 'https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/songs/findbyname/';
                 break;
             case "duration":
                 document.getElementById("nameSearch").disabled = true;
                 document.getElementById("durationSearch").disabled = false;
-                findResourceTag = '/songs/findbyduration/';
+                //findResourceTag = '/songs/findbyduration/';
+                findResourceTag='https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/songs/findbyduration/';
                 break;
         }
         
@@ -213,11 +224,14 @@
    function executeSearch() {            
         
         switch(findResourceTag){
-            case "/songs/findbyname/": 
+            //case "/songs/findbyname/": 
+            case 'https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/songs/findbyname/':
                 var resourcelocation = findResourceTag+$('#nameSearch').val();
+                console.log(resourcelocation);
                 showSongs(resourcelocation);
                 break;
-            case "/songs/findbyduration/":
+            //case "/songs/findbyduration/":
+            case 'https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/songs/findbyduration/':
                 var resourcelocation = findResourceTag+$('#durationSearch').val();
                 showSongs(resourcelocation);
                 break;
@@ -250,7 +264,8 @@
     });
 
     $(document).ready(function() {
-        showSongs('/songs');
+        //showSongs('/songs');
+        showSongs('https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/songs/');
     });
         
 </script>
@@ -267,7 +282,7 @@
           <li><a href="http://localhost:4567/artistadmin/index.php">Home</a></li>
           <li><a href="http://localhost:4567/artistadmin/artist.php">Artist</a></li>
           <li><a href="http://localhost:4567/artistadmin/album_admin.html">Album</a></li>
-          <li><a href="http://localhost:4567/artistadmin/band.php">Band</a></li>
+          <li><a href="http://localhost:4567/artistadmin/band_admin.html">Band</a></li>
           <li class="active"><a href="http://localhost:4567/artistadmin/song_admin.html">Song</a></li>
         </ul>
       </div>
