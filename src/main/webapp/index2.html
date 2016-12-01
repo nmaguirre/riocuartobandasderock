@@ -20,15 +20,11 @@
 
 <body id="page-top">
     
-    <section id="Customer" class="download bg-primary text-center" style="height: 1500px; ">
+    <section id="Customer" class="download bg-primary text-center" style="height: 1000px; ">
         <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
             <div class="container">
-                <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                        <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
-                    </button>
-                    <a class="navbar-brand page-scroll" href="#page-top">SongGroup Interface</a>
+                    <a class="navbar-brand page-scroll">SongGroup Interface</a>
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
@@ -44,9 +40,12 @@
         <!-- /.container-fluid -->
         </nav>
         <div class="container">
-            <section class="searchZone" style="width: 250px; height: 800px;">
-                <div style="width: 250px; ">
-                    <legend>Add Songs</legend>
+
+            <!--Song Admin Options-->
+
+            <section class="searchZone" style="width: 250px; height: 800px; position: absolute; top: 100px; left: 50px;">
+                <div style="width: 250px; height: 250px; ">
+                    <legend>Add Song</legend>
                         <form>
                             Name:<br>
                             <input type="text" name="songName">
@@ -68,8 +67,8 @@
                         <button class="button" style="color: black" onclick="songAdd()">Add Song</button>                   
                 </div>
                 <br>
-                <div style="width: 250px; ">
-                    <legend>Delete Songs</legend>
+                <div style="width: 250px; height: 250px; ">
+                    <legend>Delete Song</legend>
                     <form>
                         Name:<br>
                         <input type="text" name="songName">
@@ -91,8 +90,8 @@
                     <button class="button" style="color: black" onclick="songDelete()">Delete Song</button>                     
                 </div>
                   <br>
-                <div style="width: 250px; ">
-                    <legend>Modify Songs</legend>
+                <div style="width: 250px; height: 250px; ">
+                    <legend>Modify Song</legend>
                     <form>
                         Name:<br>
                         <input type="text" name="songName">
@@ -113,7 +112,208 @@
                     <br>
                     <button class="button" style="color: black" onclick="songModify()">Modify Song</button>                     
                 </div>     
-                   </section>
+            </section>
+
+            <!--Album Admin Options -->
+
+            <section class="searchZone" style="width: 250px; height: 800px; position: absolute; top: 100px; left: 350px;">
+                <div style="width: 250px; height: 250px; ">
+                    <legend>Add Album</legend>
+                        <form>
+                            Name:<br>
+                            <input type="text" name="albumName">
+                            <br>
+                            
+                        </form>
+                        <form>
+                            Release Date:<br>
+                            <input type="text" name="albumReleaseDate">
+                            <br>
+                        </form>
+                        <form>
+                            Band:<br>
+                            <input type="text" name="albumBand">
+                            <br>
+                            
+                        </form>
+                        <br>
+                        <button class="button" style="color: black" onclick="albumAdd()">Add Album</button>                   
+                </div>
+                <br>
+                <div style="width: 250px; height: 250px; ">
+                    <legend>Delete Album</legend>
+                    <form>
+                        Name:<br>
+                        <input type="text" name="albumName">
+                        <br>
+                        
+                    </form>
+                    <form>
+                        Release Date:<br>
+                        <input type="text" name="albumReleaseDate">
+                        <br>
+                    </form>
+                    <form>
+                        Band:<br>
+                        <input type="text" name="albumBand">
+                        <br>
+                        
+                    </form>
+                    <br>
+                    <button class="button" style="color: black" onclick="albumDelete()">Delete Album</button>                       
+                </div>
+                  <br>
+                <div style="width: 250px; height: 250px; ">
+                    <legend>Modify Album</legend>
+                    <form>
+                        Name:<br>
+                        <input type="text" name="albumName">
+                        <br>
+                        
+                    </form>
+                    <form>
+                        Release Date:<br>
+                        <input type="text" name="albumReleaseDate">
+                        <br>
+                    </form>
+                    <form>
+                        Band:<br>
+                        <input type="text" name="albumBand">
+                        <br>
+                        
+                    </form>
+                    <br>
+                    <button class="button" style="color: black" onclick="albumModify()">Modify Album</button>                       
+                </div>     
+            </section>
+
+            <!--Artist Admin Options -->
+
+            <section class="searchZone" style="width: 250px; height: 800px; position: absolute; top: 100px; left: 650px;">
+                <div style="width: 250px; height: 250px; ">
+                    <legend>Add Artist</legend>
+                        <form>
+                            Name:<br>
+                            <input type="text" name="artistName">
+                            <br>
+                            
+                        </form>
+                        <form>
+                            Surname:<br>
+                            <input type="text" name="artistSurname">
+                            <br>
+                        </form>
+                        <form>
+                            Nickname:<br>
+                            <input type="text" name="artistNickname">
+                            <br>
+                            
+                        </form>
+                        <br>
+                        <button class="button" style="color: black" onclick="artistAdd()">Add Artist</button>                   
+                </div>
+                <br>
+                <div style="width: 250px; height: 250px; ">
+                    <legend>Delete Artist</legend>
+                    <form>
+                        Name:<br>
+                        <input type="text" name="artistName">
+                        <br>
+                        
+                    </form>
+                    <form>
+                        Surname:<br>
+                        <input type="text" name="artistSurname">
+                        <br>
+                    </form>
+                    <form>
+                        Nickname:<br>
+                        <input type="text" name="artistNickname">
+                        <br>
+                        
+                    </form>
+                    <br>
+                    <button class="button" style="color: black" onclick="artistDelete()">Delete Artist</button>                      
+                </div>
+                  <br>
+                <div style="width: 250px; height: 250px; ">
+                    <legend>Modify Artist</legend>
+                    <form>
+                        Name:<br>
+                        <input type="text" name="artistName">
+                        <br>
+                        
+                    </form>
+                    <form>
+                        Surname:<br>
+                        <input type="text" name="artistSurname">
+                        <br>
+                    </form>
+                    <form>
+                        Nickname:<br>
+                        <input type="text" name="artistNickname">
+                        <br>
+                        
+                    </form>
+                    <br>
+                    <button class="button" style="color: black" onclick="artistModify()">Modify Artist</button>                      
+                </div>     
+            </section>
+
+            <!--Band Admin Options -->
+
+            <section class="searchZone" style="width: 250px; height: 800px; position: absolute; top: 100px; left: 950px;">
+                <div style="width: 250px; height: 250px; ">
+                    <legend>Add Band</legend>
+                        <form>
+                            Name:<br>
+                            <input type="text" name="bandName">
+                            <br>
+                            
+                        </form>
+                        <form>
+                            Genre:<br>
+                            <input type="text" name="bandGenre">
+                            <br>
+                        </form>
+                        <br>
+                        <button class="button" style="color: black" onclick="bandAdd()">Add Band</button>                   
+                </div>
+                <br>
+                <div style="width: 250px; height: 250px; ">
+                    <legend>Delete Band</legend>
+                    <form>
+                        Name:<br>
+                        <input type="text" name="bandName">
+                        <br>
+                        
+                    </form>
+                    <form>
+                        Genre:<br>
+                        <input type="text" name="bandGenre">
+                        <br>
+                    </form>
+                    <br>
+                    <button class="button" style="color: black" onclick="bandDelete()">Delete Band</button>     
+                </div>
+                  <br>
+                <div style="width: 250px; height: 250px; ">
+                    <legend>Modify Band</legend>
+                    <form>
+                        Name:<br>
+                        <input type="text" name="bandName">
+                        <br>
+                        
+                    </form>
+                    <form>
+                        Genre:<br>
+                        <input type="text" name="bandGenre">
+                        <br>
+                    </form>
+                    <br>
+                    <button class="button" style="color: black" onclick="bandmodify()">Modify Band</button>              
+                </div>     
+            </section>
         </div>
     </section>
 
