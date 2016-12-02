@@ -26,6 +26,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
   <link rel="stylesheet" href="vendor/carousel/css/style.css">
 
+  <link href="vendor/spotify/css/spotify.css" rel="stylesheet" type="text/css">
 
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -100,6 +101,7 @@
   <script type="text/javascript" src="assets/js/landing_page/album.js"></script>
   <script type="text/javascript" src="assets/js/landing_page/song.js"></script>
   <script type="text/javascript" src="assets/js/landing_page/search.js"></script>
+  <script type="text/javascript" src="vendor/spotify/css/spotify.js"></script>
 
   <script type="text/javascript" src="vendor/data-table/js/jquery.dataTables.min.js"></script>
 
