@@ -68,13 +68,10 @@
             <a class="page-scroll" href="#albumes">Álbumes</a>
           </li>
           <li>
-            <a class="page-scroll" href="#registrarse">Registrarse</a>
-          </li>
-          <li>
             <a class="page-scroll" href="/dashboard">Iniciar Sesión</a>
           </li>
            <li>
-            <a class="page-scroll" href="#a_cerca_de">A cerca de</a>
+            <a class="page-scroll" href="#a_cerca_de">Acerca de</a>
           </li>
         </ul>
       </div>
@@ -91,7 +88,7 @@
       <p class="copyright pull-right">
         Copyright © DOSE 2016
     </p>
-      
+
     </div>
   </footer>
 
