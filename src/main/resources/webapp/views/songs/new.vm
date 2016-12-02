@@ -39,7 +39,13 @@
             <div class="row">
               <div class="form-group col-xs-12">
                 <label class="control-label">Álbum</label>
-                <select name="album_title" id="album_title" class="form-control">
+                <select name="album_title"
+                        id="album_title"
+                        class="form-control selectpicker show-tick"
+                        data-live-search="true"
+                        data-style="btn-success"
+                        data-dropup-auto="false"
+                        data-size="4">
                   #foreach ($album in $albums)
                     <option value="$album.title">$album.title</option>
                   #end
