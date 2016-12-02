@@ -1,6 +1,8 @@
 angular.module('app')
 .controller('BandsController', ['$scope', '$http', '$location','$routeParams', function($scope, $http, $location, $routeParams) {
 
+	$scope.dataBand = {};
+	$scope.albums;
 	$scope.bands = [
 {
     "BandID": "1",
@@ -39,6 +41,18 @@ angular.module('app')
 
 ];
 	$scope.band = $scope.bands[0];
+
+	function load_albums() {
+		$http.get("https://private-53163-riocuartobandasderock.apiary-mock.com/albums").then(function callback(response){
+			if (response.status == 200){
+				$scope.albums = response.data;
+			} else {
+				alert("Oops, something went wrong, try again later!")
+			}
+		});
+	}
+	
+	load_albums();
 
 	/*$scope.bands = [];
 	$scope.band = '';
