@@ -42,6 +42,7 @@
 <script>
     
     var findResourceTag = '/artists/findbynickname/'; // Default value
+    var artistShowing = 1; // Default artist ID showing
 
     function showArtists(resourcelocation){
         $("#userData").html('<table></table>'); // Clean table, need to refresh with non elements in db
@@ -66,15 +67,16 @@
           });
     }
 
-    function showBandMInDialog(){
+    function showBandMInDialog(artistId){
         $("#bandMModal").modal() 
         $("#bandMData").html('<table></table>'); // Clean table, need to refresh with non elements in db
 
-        resourcelocation='/artists/getbandsbyId/'+id;
+        resourcelocation='/artists/getbandsbyId/'+artistId;
          $.get(resourcelocation, function(data, status){
             if (typeof data === "undefined") {
                 response = '<tr><td colspan="5"> No Bands found...</td></tr>'
             }else{
+                artistShowing = artistId;
                 var request = JSON.parse(data);
                 response = '<table>';
                 itemindex = 1;
@@ -102,7 +104,7 @@
                 response = '<table>';
                 itemindex = 1;
                 $.each(request, function(i, item) {
-                       response += '<tr>'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.genre+'</td> <td> <a href="javascript:void(0);" class="glyphicon glyphicon-plus" onclick="addBandMember(\''+item.bandId+'\','+artistId+'); event.stopImmediatePropagation();"</a> </td> </tr>';
+                       response += '<tr>'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.genre+'</td> <td> <a href="javascript:void(0);" class="glyphicon glyphicon-plus" onclick="addBandMember(\''+item.id+'\',\''+artistId+'\'); event.stopImmediatePropagation();"</a> </td> </tr>';
                         ++itemindex;
                 });           
                 response += '</table>';    
@@ -114,18 +116,19 @@
     }
 
     function addBandMember(bandId, artistId) {
-            
-            var url = '/bandmembers/'; 
+            var url = '/bandmembers'; 
             $.ajax({
                 type: "POST",
                 url: url,
-                data: '{"artistID":"' + artistId + '"bandID":"' + bandId + '"}',
+                data: 'artistID='+artistId+'&bandID='+bandId,
+                //{artistID:artistId, bandID:bandId},
                 success: function(data)
                 {
                     $('.formData').slideUp();
+                    showBandMInDialog(artistId);
                  },
                  error: function(x, e) {
-
+                    alert(e);
                  }
             });
         
@@ -475,7 +478,7 @@
             <div class="panel panel-default users-content">
                 <div class="panel-heading"><i class="glyphicon glyphicon-th-list"></i>  Artists bands
                     <div class="btn-group pull-right" role="group">
-                    <button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:$('#bandMaddForm').slideToggle(); showAllBand();">Add</button>
+                    <button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:$('#bandMaddForm').slideToggle(); showAllBand(artistShowing);">Add</button>
                     </div>
                 </div>
             </div>
