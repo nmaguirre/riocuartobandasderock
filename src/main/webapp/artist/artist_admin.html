@@ -82,7 +82,7 @@
                 response = '<table>';
                 itemindex = 1;
                 $.each(request, function(i, item) {
-                       response += '<tr>'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.genre+'</td> </tr>';
+                       response += '<tr>'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.genre+'</td> <td> <a href="javascript:void(0);" class="glyphicon glyphicon-minus" onclick="deleteBandMember(\''+item.id+'\',\''+artistId+'\'); event.stopImmediatePropagation();"</a> </td> </tr>';
                         ++itemindex;
                 });           
                 response += '</table>';    
@@ -117,14 +117,11 @@
     }
 
     function addBandMember(bandId, artistId) {
-            alert(bandId);
-            alert(artistId);
             var url = '/bandmembers'; 
             $.ajax({
                 type: "POST",
                 url: url,
                 data: 'artistID='+artistId+'&bandID='+bandId,
-                //{artistID:artistId, bandID:bandId},
                 success: function(data)
                 {
                     $('.formData').slideUp();
@@ -134,6 +131,24 @@
                     alert(e);
                  }
             });
+        
+    }
+
+    function deleteBandMember(bandId, artistId) {
+        resourcelocation ='/bandmembers/'+artistId+"/"+bandId;       
+        
+        $.ajax({
+            type: "DELETE",
+            url: resourcelocation,
+            data: '', 
+            success: function(data)
+            {
+                showBandMInDialog(artistId); //optional refresh list
+            },
+            error: function(x, e) {
+                     
+            }
+        });
         
     }
 
