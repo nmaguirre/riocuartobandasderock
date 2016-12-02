@@ -85,22 +85,25 @@ function songDelete() {
 */	
 function songModify() {
 	   /* put("/songs/:id",(req,res)->songController.update(req,res)); */
-	
-	   window.alert("It does not work yet");
-	   /*var name = encodeURIComponent(document.forms["modifySong"]["name"].value);
+	/*
+	   
+	   var id = encodeURIComponent(document.forms["modifySong"]["id"].value);
 	   var name = encodeURIComponent(document.forms["modifySong"]["name"].value);
 	   var duration = encodeURIComponent(document.forms["modifySong"]["duration"].value);
 	   var titleAlb = encodeURIComponent(document.forms["modifySong"]["albumTitle"].value);
 	   
-	   var params ="name="+name+"&duration="+duration+"&albumTitle="+titleAlb;
 	   
+	   window.alert("name");
+	   var params ="id="+id+"&name="+name+"&duration="+duration+"&albumTitle="+titleAlb;
 	   var xhttp;
 	   xhttp = new XMLHttpRequest();
-	   xhttp.open("POST", "http://"+host+":"+port+"/songs/", true);
+	   xhttp.open("POST", "http://"+host+":"+port+"/songs/"+id, true);
 	   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	   xhttp.setRequestHeader("Content-length", params.length);
 	   xhttp.setRequestHeader("Connection", "close")
+	   
 	   xhttp.onreadystatechange = function() {
+	   	window.alert(xhttp.status);
 	      if (xhttp.readyState == 4 && xhttp.status == 200) {
 	    	  window.alert(xhttp.responseText);
 	      }
@@ -223,7 +226,7 @@ function artistAdd() {
 	   
 	   var xhttp; 
 	   xhttp = new XMLHttpRequest();
-	   xhttp.open("POST", "http://"+host+":"+port+"/albums/", true);
+	   xhttp.open("POST", "http://"+host+":"+port+"/artists/", true);
 	   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	   xhttp.setRequestHeader("Content-length", params.length);
 	   xhttp.setRequestHeader("Connection", "close")
@@ -276,8 +279,8 @@ function artistDelete() {
 function artistModify() {
 	   /*  put("/artists/:id",(req,res)->artistController.updateArtist(req,res)); */
 	
-	   window.alert("It does not work yet");
-	   /*var name = encodeURIComponent(document.forms["modifyArtist"]["id"].value);
+	   /*
+	   var id = encodeURIComponent(document.forms["modifyArtist"]["id"].value);
 	   var name = encodeURIComponent(document.forms["modifyArtist"]["name"].value);
 	   var surname = encodeURIComponent(document.forms["modifyArtist"]["surname"].value);
 	   var nickname = encodeURIComponent(document.forms["modifyArtist"]["nickname"].value); 
@@ -285,20 +288,21 @@ function artistModify() {
 			window.alert("All fields can't be empty\nPlease insert a value");
 			return;
 	   }
-	   var params ="name="+name+"&surname="+surname+"&nickname="+nickname;
+	   var params ="id="+id+"&name="+name+"&surname="+surname+"&nickname="+nickname;
 
 	   var xhttp; 
 	   xhttp = new XMLHttpRequest();
-	   xhttp.open("POST", "http://"+host+":"+port+"/albums/", true);
+	   xhttp.open("POST", "http://"+host+":"+port+"/artists/"+id, true);
 	   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	   xhttp.setRequestHeader("Content-length", params.length);
 	   xhttp.setRequestHeader("Connection", "close")
 	   xhttp.onreadystatechange = function() {
+	   	window.alert(xhttp.status);
 	      if (xhttp.readyState == 4 && xhttp.status == 200) {
 	    	  window.alert(xhttp.responseText);
 	      }
 	   };
-	   xhttp.send(params);*/
+	   xhttp.send(params);
 }
 
 //**************BAND ABM************
