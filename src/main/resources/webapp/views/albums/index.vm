@@ -35,29 +35,6 @@
                 </tr>
               </thead>
               <tbody>
-                #if($albums != $null)
-                  #foreach( $album in $albums )
-                    <tr>
-                      <td>$album.getTitle()</td>
-                      <td>$album.getReleaseDate()</td>
-                      <td>
-                        <a href="/albums/$!{album.getId()}">
-                          <i class="material-icons">remove_red_eye</i>
-                        </a>
-                        <a href="/albums/$!{album.getId()}/edit">
-                          <i class="material-icons">edit</i>
-                        </a>
-                        <a href="/albums/$!{album.getId()}" class="$!{album.getId()}" id="$!{album.getId()}">
-                          <i class="material-icons">close</i>
-                        </a>
-                      </td>
-                    </tr>
-                  #end
-                #else
-                  <tr>
-                    <td colspan="4">No hay ningun album cargado en el sistema</td>
-                  </tr>
-                #end
               </tbody>
             </table>
           </div>
