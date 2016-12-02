@@ -60,16 +60,3 @@
   <!-- Controls -->
 
 </section>
-<button id="link">See the video</button>
-  <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-      </div>
-      <div class="modal-body">
-        <iframe width="400" height="300" frameborder="0" allowfullscreen="true"></iframe>
-      </div>
-    </div>
-  </div>
-</div>

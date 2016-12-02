@@ -194,7 +194,7 @@ public class LandingPageController {
 
       for (Song s : song_list) {
         JSONObject song = new JSONObject();
-        song.put("name",s.getName());
+        song.put("name",video_link(s.getName(),"link"));
         song.put("duration",s.getDurationAsString());
 
         songs.add(song);
@@ -257,5 +257,9 @@ public class LandingPageController {
 
   public String song_link(String name, String id){
     return "<a class='songs-item' id='"+id+"' href=''>"+name+"</a>";
+  }
+
+  public String video_link(String name, String id){
+    return "<a id='"+id+"' href=''>"+name+"</a>";
   }
 }
