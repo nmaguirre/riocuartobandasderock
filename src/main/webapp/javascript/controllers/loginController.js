@@ -1,10 +1,10 @@
 angular.module('app')
-.controller('LoginController', ['$scope', '$http', function($scope,$http){
+.controller('LoginController', ['$scope', '$http', '$location', function($scope,$http,$location){
 
 	$scope.formData = {};
  
-	$scope.validateSubmit = function (formData) {
-		alert('Form submitted with' + JSON.stringify(formData));
+	$scope.validate = function (formData) {
+		$location.path("/admin");
 	};
 
 }]);
