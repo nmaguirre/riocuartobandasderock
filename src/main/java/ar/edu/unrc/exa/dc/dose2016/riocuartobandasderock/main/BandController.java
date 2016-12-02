@@ -19,6 +19,8 @@ import spark.ModelAndView;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.LinkedList;
+import java.util.List;
 
 
 /***
@@ -75,7 +77,6 @@ public class BandController {
    */
   public List<Band> getBandByName(Request req,Response res){
     if (req.params(":name")==""){
-      System.out.println("ENTREEE AACACACACACACACACACACA");
       res.status(400);
       return null;
     }
@@ -144,7 +145,7 @@ public class BandController {
     Map<String, Object> attributes = new HashMap<>();
 
     attributes.put("template", Routes.new_band());
-    attributes.put("title", "Crear");
+    attributes.put("title", "Crear una banda");
     return new ModelAndView(attributes, Routes.layout_dashboard());
   }
 
@@ -173,45 +174,60 @@ public class BandController {
    * @return the object of the band created.
    */
   public ModelAndView createBand(Request req,Response res){
-	ModelAndView result;
-	Map<String, Object> attributes = new HashMap<>();
-    if((req.queryParams("name")=="") || (req.queryParams("genre")=="")){
-      res.status(400);
-      // return "Request invalid";
-      attributes.put("title", "Crear");
-      attributes.put("error", "El nombre no puede estar en blanco");
+  	Map<String, Object> attributes = new HashMap<>();
+    List<String> errors = new LinkedList<>();
+
+    String name = req.queryParams("name");
+    String genre = req.queryParams("genre");
+
+    if (name == null || name.equals(""))
+      errors.add("El <strong>nombre</strong> no puede estar en blanco");
+    if (genre == null || genre.equals(""))
+      errors.add("El <strong>género</strong> no puede estar en blanco");
+
+    if (!errors.isEmpty()) {
+      attributes.put("errors", errors);
       attributes.put("template", Routes.new_band());
       return new ModelAndView(attributes, Routes.layout_dashboard());
     }
+
     Session session = SessionManager.getInstance().openSession();
     BandDAO bdao = new BandDaoImpl(session);
     Transaction transaction = null;
-    boolean status = false;
-    try{
+    Boolean status = false;
+
+    try {
       transaction = session.beginTransaction();
-      status = bdao.createBand(req.queryParams("name"),req.queryParams("genre"));
+      status = bdao.createBand(name, genre);
       transaction.commit();
-    }catch(HibernateException e){
-      transaction.rollback();
-      status = false;
-      e.printStackTrace();
-    }finally {
-      session.close();
-      if (status){
-        res.status(201);
-        // return "Success";
-        attributes.put("success", "La banda se creo con exito");
+
+      if (status) {
+        attributes.put("success", "La banda fue creada");
+        List<Band> bands = bdao.getAllBands();
+        attributes.put("bands", bands);
         attributes.put("template", Routes.index_band());
-        result = new ModelAndView(attributes, Routes.layout_dashboard());
+        session.close();
+        res.status(201);
+        return new ModelAndView(attributes, Routes.layout_dashboard());
+      } else {
+        errors.add("Ya existe una banda con el mismo nombre");
+        attributes.put("errors", errors);
+        attributes.put("template", Routes.new_band());
+        session.close();
+        res.status(409);
+        return new ModelAndView(attributes, Routes.layout_dashboard());
       }
+
+    } catch (HibernateException e) {
+      e.printStackTrace();
+      transaction.rollback();
+      session.close();
       res.status(409);
-      // return "Fail";
-      attributes.put("title", "Crear");
-      attributes.put("error", "El nombre no puede estar en blanco");
+      errors.add("La banda no pudo ser creada");
+      attributes.put("errors", errors);
       attributes.put("template", Routes.new_band());
-      result= new ModelAndView(attributes, Routes.layout_dashboard());
+      return new ModelAndView(attributes, Routes.layout_dashboard());
     }
-    return result;
   }
 
   /***
@@ -265,7 +281,7 @@ public class BandController {
    */
   public String deleteBand(Request req,Response res){
     String result;
-	  if ((req.params(":name"))==""){
+	  if ((req.queryParams(":id"))==""){
       res.status();
       return "Request invalid";
     }
@@ -275,13 +291,13 @@ public class BandController {
     boolean status= false;
     try{
       transaction = session.beginTransaction();
-      List<Band> searchResult = bdao.findByName(req.params(":name"));
+      Band searchResult = bdao.findById(req.queryParams(":id"));
       transaction.commit();
-      if (searchResult.size()==1){
-        Band toRemove = searchResult.get(0);
+      // if (searchResult.size()==1){
+        Band toRemove = searchResult;
         transaction = session.beginTransaction();
         status = bdao.deleteBand(toRemove.getId());
-      }
+      //}
       transaction.commit();
     }catch (HibernateException e) {
       transaction.rollback();

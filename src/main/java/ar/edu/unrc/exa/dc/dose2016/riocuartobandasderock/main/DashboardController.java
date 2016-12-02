@@ -16,6 +16,12 @@ import spark.ModelAndView;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.simple.JSONObject;
+
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.*;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.*;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.*;
+
 
 /***
  *
@@ -66,4 +72,23 @@ public class DashboardController {
     attributes.put("title", "Inicio");
     return new ModelAndView(attributes, Routes.layout_dashboard());
   }
+
+  public JSONObject bandsDatatable(Request req ,Response res){
+    DashboardBandsDatatable datatable = new DashboardBandsDatatable();
+    return datatable.init(req, res);
+  }
+  public JSONObject songsDatatable(Request req ,Response res){
+    DashboardSongsDatatable datatable = new DashboardSongsDatatable();
+    return datatable.init(req, res);
+  }
+
+  public JSONObject albumsDatatable(Request req ,Response res){
+    DashboardAlbumsDatatable datatable = new DashboardAlbumsDatatable();
+    return datatable.init(req, res);
+  }
+  public JSONObject artistsDatatable(Request req ,Response res){
+    DashboardArtistsDatatable datatable = new DashboardArtistsDatatable();
+    return datatable.init(req, res);
+  }
+
 }

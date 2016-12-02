@@ -10,6 +10,8 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+
+import com.google.gson.Gson;
 // import src.main.WebApp.Views;
 
 
@@ -35,6 +37,7 @@ public class Bootstrap {
 
     	staticFileLocation("/webapp");
 
+        Gson gson = new Gson();
 
     	CommandLineParser parser = new DefaultParser();
 
@@ -149,6 +152,14 @@ public class Bootstrap {
         **/
         get("/dashboard", (req, res) -> dashboardController.index(req,res), new VelocityTemplateEngine());
 
+        post("/bands/datatable",(req, res) -> dashboardController.bandsDatatable(req, res), gson::toJson);
+
+        post("/songs/datatable",(req, res) -> dashboardController.songsDatatable(req, res), gson::toJson);
+
+        post("/albums/datatable",(req, res) -> dashboardController.albumsDatatable(req, res), gson::toJson);
+
+        post("/artists/datatable",(req, res) -> dashboardController.artistsDatatable(req, res), gson::toJson);
+
         /**
         * ALBUM
         **/
@@ -173,6 +184,8 @@ public class Bootstrap {
         /**
         * BAND
         **/
+
+        
         get("/bands",(req, res) -> bands.getBands(req, res), new VelocityTemplateEngine());
 
         get("/bands/findbyname/:name",(req, res) -> bands.getBandByName(req, res), json());
@@ -195,7 +208,7 @@ public class Bootstrap {
 
         put("/bands",(req, res) -> bands.updateBand(req, res));
 
-        delete("/bands/:name",(req, res) -> bands.deleteBand(req, res));
+        delete("/bands/:id",(req, res) -> bands.deleteBand(req, res));
 
         /**
         * ARTIST

@@ -1,6 +1,7 @@
-<div class="container-fluid">
+<div id="albumId"></div>
+<div class="container-fluid" id="noSearch">
   <div class="row">
-    <div class="col-md-8">
+    <div class="col-xs-12">
       <div class="card">
         #if ($error != $null)
           <div class="alert alert-danger" role="alert">
@@ -13,23 +14,25 @@
           <p class="category">Complete el formulario</p>
         </div>
         <div class="card-content">
-          <form action="/albums" method="put" id="form" class="$!{id}">
+          <form action="/albums" id="form" class="$!{id}">
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group label-floating">
                   <label class="control-label">Título</label>
-                  <input type="text" class="form-control" name="title" id="title" value="$!{title}">
+                  <input type="text" class="form-control" name="title" id="title" value="$!{album_title}">
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group label-floating">
                   <label class="control-label">Lanzamiento</label>
-                  <input type="text" class="form-control" name="release_date" id="release_date" value="$!{release_date}">
+                  <input type="date" class="form-control" name="release_date" id="release_date" value="$!{release_date}">
                 </div>
               </div>
             </div>
-
-            <button type="submit" class="btn btn-success pull-right">Actualizar</button>
+            <input type="hidden" name="band_id" id="band_id" value="$!{band_id}">
+            <div class="row text-center">
+              <button type="submit" class="btn btn-success" id="submit">Actualizar</button>
+            </div>
             <div class="clearfix"></div>
           </form>
         </div>
@@ -37,27 +40,3 @@
     </div>
   </div>
 </div>
-
-<script>
-  #include("vendor/jquery/jquery.min.js")
-  $(document).ready(function() {
-    $('li').removeClass('active');
-    $('#album').addClass('active');
-    var id = $('#form').attr('class');
-
-    $('#submit').on('click', function(event){
-      event.preventDefault();
-      var input_title = $('#title').val();
-      var input_release_date = $('#release_date').val();
-      $.ajax({
-        url: "/albums/"+id,
-        method: "put",
-        data: {
-          title: input_title,
-          release_date: input_release_date }
-      }).done(function() {
-        window.location.replace("/albums/"+id);
-      });
-    })
-  });
-</script>

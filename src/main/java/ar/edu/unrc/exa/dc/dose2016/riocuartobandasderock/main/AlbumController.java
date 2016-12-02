@@ -10,8 +10,11 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.AlbumDAO;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.AlbumDaoImpl;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandDaoImpl;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SessionManager;
 import spark.Request;
 import spark.Response;
@@ -20,6 +23,8 @@ import spark.ModelAndView;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.LinkedList;
+import java.util.List;
 
 
 public class AlbumController {
@@ -70,8 +75,11 @@ public class AlbumController {
 
     public ModelAndView newAlbum(Request req,Response res){
         Map<String, Object> attributes = new HashMap<>();
-
+        Session session = SessionManager.getInstance().openSession();
+        BandDAO bdao = new BandDaoImpl(session);
+        List<Band> bands = bdao.getAllBands();
         attributes.put("template", Routes.new_album());
+        attributes.put("bands", bands);
         attributes.put("title", "Crear");
         return new ModelAndView(attributes, Routes.layout_dashboard());
     }
@@ -86,8 +94,14 @@ public class AlbumController {
         AlbumDAO albumDAO = new AlbumDaoImpl(session);
         Album album = albumDAO.findById(req.params(":id"));
 
-        attributes.put("title", album.getTitle());
-        attributes.put("release_date", album.toString());
+        attributes.put("album_title", album.getTitle());
+        attributes.put("band_id", album.getBand().getId());
+        try {
+            SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+            attributes.put("release_date", f.format(album.getReleaseDate()));
+        } catch (ParseException e) {
+            attributes.put("release_date", "");
+        }
 
         attributes.put("template", Routes.edit_album());
         attributes.put("title", "Editar");
@@ -98,13 +112,18 @@ public class AlbumController {
 
     public ModelAndView create(Request req, Response res) {
         Map<String, Object> attributes = new HashMap<>();
+        List<String> errors = new LinkedList<>();
 
     	Session session = SessionManager.getInstance().openSession();
     	AlbumDaoImpl adao = new AlbumDaoImpl(session);
+        BandDAO bdao = new BandDaoImpl(session);
+        List<Band> bands = bdao.getAllBands();
+        attributes.put("bands", bands);
 
-        if (req.queryParams("title") == null || req.queryParams("title") == ""){
+        if (req.queryParams("title") == null || req.queryParams("title").equals("")) {
             res.status(400);
-            attributes.put("error", "El Album no puede tener el nombre en blanco");
+            errors.add("El album no puede tener el nombre en blanco");
+            attributes.put("errors", errors);
             attributes.put("template", Routes.new_album());
             return new ModelAndView(attributes, Routes.layout_dashboard());
             // res.body("Album title can't be null nor empty");
@@ -127,8 +146,8 @@ public class AlbumController {
             int http_status = result ? 201 : 409;
             res.status(http_status);
             if (!result){
-                res.body("Duplicate album"); //If the result of the creation was false, it means that there is a duplicate
-                attributes.put("error", "El Album ya existe");
+                errors.add("El album ya existe");
+                attributes.put("errors", errors);
                 attributes.put("template", Routes.new_album());
                 return new ModelAndView(attributes, Routes.layout_dashboard());
             }
@@ -143,7 +162,8 @@ public class AlbumController {
             res.status(400);
             // res.body("Bad parameters. "+e.getMessage()+" \n" );
             // return res.body();
-            attributes.put("error", "El Album no puede tener el nombre en blanco");
+            errors.add("El Album no puede tener la fecha de lanzamiento en blanco");
+            attributes.put("errors", errors);
             attributes.put("template", Routes.new_album());
             return new ModelAndView(attributes, Routes.layout_dashboard());
         } catch (Exception e){
@@ -218,12 +238,9 @@ public class AlbumController {
         	Date release_date = req.queryParams("release_date") != null ? sdf.parse(req.queryParams("release_date")) : null;
         	Transaction transaction = session.beginTransaction();
 
-        	//TODO: set correct values
-        	List<Object> songs = new LinkedList<Object>();
-        	String bandId = " ";
-        	//
+        	String bandId = req.queryParams("band_id");
 
-            boolean result = adao.update(req.params("id"), req.queryParams("title"), release_date, songs, bandId);
+            boolean result = adao.update(req.params("id"), req.queryParams("title"), release_date, null, bandId);
             transaction.commit();
             session.close();
             int http_status = result ? 201 : 409;

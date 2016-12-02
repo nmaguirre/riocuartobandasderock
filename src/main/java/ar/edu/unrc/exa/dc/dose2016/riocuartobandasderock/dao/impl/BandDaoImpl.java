@@ -14,14 +14,14 @@ public class BandDaoImpl implements BandDAO {
 
 
 	// private SessionManager SessionManager;
-	
+
 	/**
-	 * This method counts the number of bands 
-	 * 
+	 * This method counts the number of bands
+	 *
 	 * @return number of bands
 	 */
-	
-	
+
+
 	public int cantBands() {
 		List<Band> bandList = new LinkedList<>();
 		Query<Band> query;
@@ -29,7 +29,7 @@ public class BandDaoImpl implements BandDAO {
 		bandList.addAll(query.getResultList());
 		return bandList.size();
 	}
-	
+
 	private Session currentSession=null;
 
 
@@ -240,6 +240,12 @@ public class BandDaoImpl implements BandDAO {
 				}
 		}
 
+		/**
+		* Search a band in database by id
+		*
+		* @param String id
+		* @return band with determined id
+		*/
 	   @Override
 		public Band findById(String id) {
 			if(id == null || id.equals("")){
@@ -252,6 +258,12 @@ public class BandDaoImpl implements BandDAO {
 			}
 		}
 
+		/**
+		* Search albums that match with band id
+		*
+		* @param String band id
+		* @return list of albums with determined id
+		*/
 		public List<Album> findAlbums(String bandID){
 			if(bandID == null || bandID.equals("")){
 				throw new IllegalArgumentException("the 'id' param can not be null or empty.");
@@ -260,7 +272,18 @@ public class BandDaoImpl implements BandDAO {
 				query.setParameter("id", bandID);
 				List<Album> result = query.getResultList();
 				return result;
-			}	
+			}
+		}
+
+		public List<Band> ilike(String name){
+			if(name == null || name.equals("")){
+					throw new IllegalArgumentException("the 'name' param for search a band can not be null or empty.");
+				} else {
+					Query<Band> query = this.currentSession.createQuery("from Band where name like ? or genre like ?", Band.class);
+					query.setString(0, '%' + name.toLowerCase() + '%');
+					query.setString(1, '%' + name.toLowerCase() + '%');
+					return query.getResultList();
+				}
 		}
 
 }

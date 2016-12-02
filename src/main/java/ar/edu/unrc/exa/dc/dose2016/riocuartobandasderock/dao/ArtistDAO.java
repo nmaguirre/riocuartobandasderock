@@ -90,5 +90,12 @@ public interface ArtistDAO {
 	*/
 	public List<Artist> getArtist(String name, String surname, String nickname);
 
+	/**
+	* This method count the number of artist
+	*
+	*@return number of artist in database
+	*/
 	public int cantArtists();
+
+	public List<Artist> ilike(String name);
 }

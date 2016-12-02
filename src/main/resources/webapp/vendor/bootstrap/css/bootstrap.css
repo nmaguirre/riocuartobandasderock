@@ -5050,6 +5050,7 @@ a.thumbnail.active {
 }
 .alert-dismissable .close,
 .alert-dismissible .close {
+  left: 0px !important;
   position: relative;
   top: -2px;
   right: -21px;
@@ -5857,6 +5858,7 @@ button.list-group-item-danger.active:focus {
   opacity: .5;
 }
 button.close {
+  left: 0px !important;
   -webkit-appearance: none;
   padding: 0;
   cursor: pointer;
