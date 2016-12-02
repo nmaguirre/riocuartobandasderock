@@ -148,6 +148,9 @@ public class SongController {
     public ModelAndView create (Request req, Response res){
       Map<String, Object> attributes = new HashMap<>();
       List<String> errors = new LinkedList<>();
+      Session session = SessionManager.getInstance().openSession();
+      SongDAO songDAO = new SongDaoImpl(session);
+      AlbumDAO albumDAO = new AlbumDaoImpl(session);
 
       String name = req.queryParams("name");
       String duration = req.queryParams("duration");
@@ -161,14 +164,15 @@ public class SongController {
         errors.add("El <strong>álbum</strong> no puede estar en blanco");
 
       if (!errors.isEmpty()) {
+        List<Song> songs = songDAO.getAllSongs();
+        List<Album> albums = albumDAO.getAll();
+        attributes.put("albums", albums);
+        attributes.put("songs", songs);
         attributes.put("errors", errors);
         attributes.put("template", Routes.new_song());
         return new ModelAndView(attributes, Routes.layout_dashboard());
       }
 
-      Session session = SessionManager.getInstance().openSession();
-      SongDAO songDAO = new SongDaoImpl(session);
-      AlbumDAO albumDAO = new AlbumDaoImpl(session);
       Transaction transaction = null;
       Boolean status = false;
 
