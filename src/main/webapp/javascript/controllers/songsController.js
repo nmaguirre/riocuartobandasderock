@@ -60,4 +60,21 @@ angular.module('app')
 	}
 
 	$scope.song_search = '';
+
+	$scope.createSong = function(data){
+		console.log(data);
+		$http.post("https://private-53163-riocuartobandasderock.apiary-mock.com/songs/", data).then(function callback(response){
+			console.log(response);
+			if (response.status == 201){
+				alert("Song created");
+				$location.path("/admin");
+			} else {
+				alert("Oops, something went wrong, try again later!");
+			}
+		})
+	}
+
+	/*$scope.updateSong = function(data){
+		$http.put("https://")
+	}*/
 }]);

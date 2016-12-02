@@ -83,4 +83,49 @@ angular.module('app')
 	}
 		
 	load_songs();
+
+	$scope.delete_album = function(id, i){
+		$http.delete("https://private-53163-riocuartobandasderock.apiary-mock.com/albums/"+id).then(function callback(response){
+			if (response.status == 200){
+				$scope.albums.splice(i,1);
+				alert("Album deleted");
+			} else {
+				alert("Oops, something went wrong, try again later!")
+			}
+		});
+	}
+
+	$scope.delete_artist = function(id, i){
+		$http.delete("https://private-53163-riocuartobandasderock.apiary-mock.com/artists/"+id).then(function callback(response){
+			if (response.status == 200){
+				$scope.artists.splice(i,1);
+				alert("Album deleted");
+			} else {
+				alert("Oops, something went wrong, try again later!")
+			}
+		});
+	}
+
+	$scope.delete_band= function(id, i){
+		alert("TODO");
+		$scope.bands.splice(i,1);
+		/*$http.delete("https://private-53163-riocuartobandasderock.apiary-mock.com/albums/"+id).then(function callback(response){
+			if (response.status == 200){
+				alert("Album deleted");
+			} else {
+				alert("Oops, something went wrong, try again later!")
+			}
+		});*/
+	}
+
+	$scope.delete_song= function(id, i){
+		$http.delete("https://private-53163-riocuartobandasderock.apiary-mock.com/songs/"+id).then(function callback(response){
+			if (response.status == 200){
+				$scope.songs.splice(i,1);
+				alert("Album deleted");
+			} else {
+				alert("Oops, something went wrong, try again later!")
+			}
+		});
+	}	
 }]);
