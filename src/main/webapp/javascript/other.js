@@ -20,7 +20,7 @@ function test(){
     var str = "";
     for (elem in resp)
     	  str = str + elem + ': ' + resp[elem]+'<br>';
-    
+    document.getElementById('show').innerHTML = str;	
     
     
     sys.addNode('name',{'color':'blue','shape':'dot','label':resp.name});
@@ -80,6 +80,8 @@ function songFindByName() {
 	  window.alert("The field is empty\nPlease input a value");
       return;
    }
+   
+   
    //AjaxJs
    var xhttp;
    xhttp = new XMLHttpRequest();
@@ -92,10 +94,7 @@ function songFindByName() {
       if (this.readyState == 4 && this.status == 200) {
          document.getElementById("show").innerHTML = this.responseText;
 		 var resp = JSON.parse(xhttp.responseText);
-		 if((resp == null)||(resp == "")){  //no songs in database
-			 window.alert("The value entered has not been found");
-			 return;
-         }	 
+	
 		 //request of album
 		 var xhttp2 = new XMLHttpRequest();
 		 xhttp2.open("GET", "http://"+host+":"+port+"/albums", true);
@@ -104,11 +103,6 @@ function songFindByName() {
 		 };
 		 xhttp2.send();
 		 
-		/*for (elem in resp)
-	    	  str = str + elem + ': ' + resp[elem]+'<br>';
-	    	  
-	     window.alert(str);	  
-	     document.getElementById('show').innerHTML = str;*/
 		 
 		 
 		 //ArborJs
@@ -155,10 +149,7 @@ function songFindByDuration() {
       if (this.readyState == 4 && this.status == 200) {
 	     document.getElementById("show").innerHTML = this.responseText;
 		 var resp = JSON.parse(xhttp.responseText);
-		 if((resp == null)||(resp == "")){  //no songs in database
-			 window.alert("The value entered has not been found");
-			 return;
-         }	 
+
 		 //request of album
 		 var xhttp2 = new XMLHttpRequest();
 		 xhttp2.open("GET", "http://"+host+":"+port+"/albums", true);
@@ -208,6 +199,8 @@ function artistGetAll() {
       if (this.readyState == 4 && this.status == 200) {
 	     var resp = JSON.parse(xhttp.responseText);
 	     
+	     var view ="";
+	     
 	     //ArborJs 
 		 var sys = arbor.ParticleSystem(500, 40,1); 
 		 sys.parameters({gravity:true}); 
@@ -219,7 +212,11 @@ function artistGetAll() {
        	    sys.addEdge('name'+i, 'nickname'+i,{'color':'black'});
 			sys.addEdge('name'+i, 'surname'+i,{'color':'black'});
 			sys.addEdge('nickname'+i, 'surname'+i,{'color':'black'});
-	     }   
+			view = view+"Name: "+resp[i].name+"<br>";
+			view = view+"Surname: "+resp[i].surname+"<br>";
+			view = view+"NIckname: "+resp[i].nickname+"<br>";
+	     }
+	  document.getElementById('show').innerHTML = view;	 
 	  }
    };
    xhttp.send();
@@ -248,21 +245,27 @@ function artistFindByName() {
 	     document.getElementById("show").innerHTML = this.responseText;
 		 var resp = JSON.parse(xhttp.responseText);
 
+         var view =""; 
+		 
 		 //ArborJs 
 		 var sys = arbor.ParticleSystem(500, 40,1); 
 		 sys.parameters({gravity:true}); 
 	     sys.renderer = Renderer("#viewport"); 
 		 for (var i=0; i<resp.length; i++){
 		    sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
+		    view = view+"Name: "+resp[i].name+"<br>";
+		    if(resp[i].surname != undefined){
+				   sys.addNode('surname'+i,{'color':'green','shape':'dot','label':resp[i].surname});
+				   sys.addEdge('name'+i, 'surname'+i,{'color':'black'});
+				   view = view+"Surname: "+resp[i].surname+"<br>";
+			}	      
 			if(resp[i].nickname != undefined){
 		       sys.addNode('nickname'+i,{'color':'red','shape':'dot','label':resp[i].nickname});
 			   sys.addEdge('name'+i, 'nickname'+i,{'color':'black'});
+			   view = view+"Nickname: "+resp[i].nickname+"<br>";
 			}	   
-			if(resp[i].surname != undefined){
-			   sys.addNode('surname'+i,{'color':'green','shape':'dot','label':resp[i].surname});
-			   sys.addEdge('name'+i, 'surname'+i,{'color':'black'});
-			}	      
 	     }
+	  document.getElementById('show').innerHTML = view;	 
       }
    };
    xhttp.send();	  
@@ -291,6 +294,8 @@ function artistFindByNickname() {
       if (this.readyState == 4 && this.status == 200) {
 	     document.getElementById("show").innerHTML = this.responseText;
 		 var resp = JSON.parse(xhttp.responseText);
+		 
+		 var view ="";
 
 		 //ArborJs 	  
     	 var sys = arbor.ParticleSystem(500, 40,1); 
@@ -299,15 +304,19 @@ function artistFindByNickname() {
 		 if(Array.isArray(resp)){  //there are many artists
 		    for (var i=0; i<resp.length; i++){
 		       sys.addNode('nickname'+i,{'color':'red','shape':'dot','label':resp[i].nickname});
+		       view = view+"Nickname: "+resp[i].nickname+"<br>";
+		       if(resp[i].name != undefined){
+				   sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
+				   sys.addEdge('name'+i, 'nickname'+i,{'color':'black'});
+				   view = view+"Name: "+resp[i].name+"<br>";
+			   }
 		       if(resp[i].surname != undefined){	
 		    	   sys.addNode('surname'+i,{'color':'green','shape':'dot','label':resp[i].surname});
 		    	   sys.addEdge('nickname'+i, 'surname'+i,{'color':'black'});
+		    	   view = view+"Surname: "+resp[i].surname+"<br>";
 		       } 
-			   if(resp[i].name != undefined){
-				   sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
-				   sys.addEdge('name'+i, 'nickname'+i,{'color':'black'});
-			   }
 			}
+		 document.getElementById('show').innerHTML = view;   
 	     }   
       }
    };
@@ -337,22 +346,28 @@ function artistFindBySurname() {
       if (this.readyState == 4 && this.status == 200) {
 	     document.getElementById("show").innerHTML = this.responseText;
 		 var resp = JSON.parse(xhttp.responseText);
-
+		 
+		 var view ="";
+		 
 		 //ArborJs   
 		 var sys = arbor.ParticleSystem(500, 40,1); 
 		 sys.parameters({gravity:true}); 
 		 sys.renderer = Renderer("#viewport"); 
 		 for (var i=0; i<resp.length; i++){
 		    sys.addNode('surname'+i,{'color':'green','shape':'dot','label':resp[i].surname});
+		    view = view+"Surname: "+resp[i].surname+"<br>";
 		    if(resp[i].name != undefined){
 		       sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name}); 
 		       sys.addEdge('name'+i, 'surname'+i,{'color':'black'});
+		       view = view+"Name: "+resp[i].name+"<br>";
 		    }
 		    if(resp[i].nickname != undefined){
 		       sys.addNode('nickname'+i,{'color':'red','shape':'dot','label':resp[i].nickname});
 		       sys.addEdge('nickname'+i, 'surname'+i,{'color':'black'});
+		       view = view+"Nickname: "+resp[i].nickname+"<br>";
 		    }
-		 }		    
+		 }
+	  document.getElementById('show').innerHTML = view;	 
 	  }
    };
    xhttp.send();	  

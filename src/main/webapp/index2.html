@@ -34,7 +34,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li>
                             <button id="admin" type="button" onclick="location.href='index.html'" style="color: #FF0000; position: absolute; top: 20px;">Back</button>
-                            <button id="admin" type="button" onclick="location.href='login.html'" style="color: #FF0000; position: absolute; top: 20px;">Log Out</button>
+                            <button id="admin" type="button" onclick="location.href='login.html'" style="color: #FF0000; position: absolute; top: 20px; right: 40px">LogOut</button>
                         </li>
                     </ul>
                 </div>
@@ -64,17 +64,11 @@
                         <br>                
                 </div>
                 <br>
-                <div style="width: 250px; height: 250px; ">
+                <div style="width: 250px; height: 180px; ">
                     <legend>Delete Song</legend>
                     <form name="deleteSong" onsubmit="songDelete()">
-                        Name:<br>
-                        <input type="text" name="name">
-                        <br>
-                        Duration:<br>
-                        <input type="text" name="duration">
-                        <br>
-                        Album:<br>
-                        <input type="text" name="albumTitle">
+                        SongID:<br>
+                        <input type="text" name="name" required>
                         <br><br>
                         <input type="submit" value="Delete Song">
                     </form>
@@ -84,6 +78,9 @@
                 <div style="width: 250px; height: 250px; ">
                     <legend>Modify Song</legend>
                     <form name="modifySong" onsubmit="songModify()">
+                        SongID:<br>
+                        <input type="text" name="id" required>
+                        <br>
                         Name:<br>
                         <input type="text" name="name">
                         <br>
@@ -116,17 +113,11 @@
                         <br>                  
                 </div>
                 <br>
-                <div style="width: 250px; height: 250px; ">
+                <div style="width: 250px; height: 180px; ">
                     <legend>Delete Album</legend>
                     <form name="deleteAlbum" onsubmit="albumDelete()">
-                        Name:<br>
-                        <input type="text" name="title">
-                        <br>        
-                        Release Date:<br>
-                        <input type="text" name="release_date">
-                        <br>
-                        Band:<br>
-                        <input type="text" name="albumBand">
+                        AlbumID:<br>
+                        <input type="text" name="title" required>
                         <br><br>
                         <input type="submit" value="Delete Album">  
                     </form>
@@ -136,6 +127,9 @@
                 <div style="width: 250px; height: 250px; ">
                     <legend>Modify Album</legend>
                     <form name="modifyAlbum" onsubmit="albumModify()">
+                        AlbumID:<br>
+                        <input type="text" name="id" required>
+                        <br>
                         Name:<br>
                         <input type="text" name="title">
                         <br>
@@ -171,17 +165,11 @@
                         <br>                
                 </div>
                 <br>
-                <div style="width: 250px; height: 250px; ">
+                <div style="width: 250px; height: 180px; ">
                     <legend>Delete Artist</legend>
                     <form name="deleteArtist" onsubmit="artistDelete()">
-                        Name:<br>
-                        <input type="text" name="name">
-                        <br>
-                        Surname:<br>
-                        <input type="text" name="surname">
-                        <br>
-                        Nickname:<br>
-                        <input type="text" name="nickname">
+                        ArtistID:<br>
+                        <input type="text" name="name" required>
                         <br><br>
                         <input type="submit" value="Delete Artist">
                     </form>
@@ -191,6 +179,9 @@
                 <div style="width: 250px; height: 250px; ">
                     <legend>Modify Artist</legend>
                     <form name="modifyArtist" onsubmit="artistModify()">
+                        ArtistID:<br>
+                        <input type="text" name="id" required>
+                        <br>
                         Name:<br>
                         <input type="text" name="name">
                         <br>
@@ -223,14 +214,11 @@
                         <br>               
                 </div>
                 <br>
-                <div style="width: 250px; height: 250px; ">
+                <div style="width: 250px; height: 180px; ">
                     <legend>Delete Band</legend>
                     <form name="deleteBand" onsubmit="bandDelete()">
-                        Name:<br>
-                        <input type="text" name="name">
-                        <br>
-                        Genre:<br>
-                        <input type="text" name="genre">
+                        BandID:<br>
+                        <input type="text" name="name" required>
                         <br><br>
                         <input type="submit" value="Delete Band"> 
                     </form>
@@ -240,6 +228,9 @@
                 <div style="width: 250px; height: 250px; ">
                     <legend>Modify Band</legend>
                     <form name="modifyBand" onsubmit="bandmodify()">
+                        BandID:<br>
+                        <input type="text" name="id" required>
+                        <br>
                         Name:<br>
                         <input type="text" name="name">
                         <br>

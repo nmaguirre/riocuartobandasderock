@@ -81,13 +81,14 @@ function songDelete() {
 * songModify
 * Description: This method allows to modify a song in the database 
 * with the data 'name' ,'duration' and 'albumTitle' filled in the form
-* (the values 'name' and 'albumTitle' can't be empty).
+* (the values 'id' can't be empty).
 */	
 function songModify() {
 	   /* put("/songs/:id",(req,res)->songController.update(req,res)); */
 	
 	   window.alert("It does not work yet");
 	   /*var name = encodeURIComponent(document.forms["modifySong"]["name"].value);
+	   var name = encodeURIComponent(document.forms["modifySong"]["name"].value);
 	   var duration = encodeURIComponent(document.forms["modifySong"]["duration"].value);
 	   var titleAlb = encodeURIComponent(document.forms["modifySong"]["albumTitle"].value);
 	   
@@ -139,7 +140,7 @@ function albumAdd() {
 /**
  * albumDelete
  * Description: This method allows to remove an album from the database
- * with the data 'name' and 'release date' filled in the form (the value 'name' can't be empty).
+ * with the data 'AlbumID' filled in the form (the value 'AlbumID' can't be empty).
  */
 function albumDelete() {
 	   /* delete("/albums/:id", (req, res) -> albumController.delete(req, res)); */
@@ -167,13 +168,14 @@ function albumDelete() {
 /**
  * albumModify
  * Description: This method allows to modify a album in the database 
- * with the data 'name' and 'release date' filled in the form (the value 'name' can't be empty).
+ * with the data 'AlbumID' filled in the form (the value 'AlbumID' can't be empty).
  */
 function albumModify() {
 	  /* put("/albums/:id", (req, res) -> albumController.update(req, res)); */
 	
 	   window.alert("It does not work yet");
-	  /* var title = encodeURIComponent(document.forms["modifyAlbum"]["title"].value);
+	   /*var title = encodeURIComponent(document.forms["modifyAlbum"]["id"].value);
+	   var title = encodeURIComponent(document.forms["modifyAlbum"]["title"].value);
 	   var date = encodeURIComponent(document.forms["modifyAlbum"]["release_date"].value);
 	   //falta banda
 	   var params ="title="+title+"&release_date="+date;
@@ -209,8 +211,16 @@ function artistAdd() {
 			window.alert("All fields can't be empty\nPlease insert a value");
 			return;
 	   }
-	   var params ="name="+name+"&surname="+surname+"&nickname="+nickname;
-
+	   var params;
+	   if(name !=""){params ="name="+name+"&";}
+	   else{params ="name="+null+"&";}
+	   
+	   if(surname !=""){params = params+"surname="+surname+"&";}
+	   else{params = params+"surname="+null+"&";}
+	   
+	   if(nickname !=""){params = params+"nickname="+nickname;}
+	   else{params = params+"nickname="+null;}
+	   
 	   var xhttp; 
 	   xhttp = new XMLHttpRequest();
 	   xhttp.open("POST", "http://"+host+":"+port+"/albums/", true);
@@ -267,7 +277,8 @@ function artistModify() {
 	   /*  put("/artists/:id",(req,res)->artistController.updateArtist(req,res)); */
 	
 	   window.alert("It does not work yet");
-	   /*var name = encodeURIComponent(document.forms["modifyArtist"]["name"].value);
+	   /*var name = encodeURIComponent(document.forms["modifyArtist"]["id"].value);
+	   var name = encodeURIComponent(document.forms["modifyArtist"]["name"].value);
 	   var surname = encodeURIComponent(document.forms["modifyArtist"]["surname"].value);
 	   var nickname = encodeURIComponent(document.forms["modifyArtist"]["nickname"].value); 
 	   if((name == "") && (surname == "") && (nickname == "")){
@@ -327,6 +338,7 @@ function bandDelete() {
 	  /*  delete("/bands/:name",(req, res) -> bands.deleteBand(req, res));  */	
 	
 	  window.alert("It does not work yet");
+	  
 	  /* var name = encodeURIComponent(document.forms["deleteBand"]["name"].value);
 	   var genre = encodeURIComponent(document.forms["deleteBand"]["genre"].value); 
 	
@@ -350,13 +362,14 @@ function bandDelete() {
 /**
  * bandmodify
  * Description: This method allows to modify a band in the database 
- * with the data 'name' and 'genre' filled in the form (no one of these values can be empty).
+ * with the data 'bandID','name' and 'genre' filled in the form (the value bandID can be empty).
  */
 function bandmodify() {
 	   /*  put("/bands",(req, res) -> bands.updateBand(req, res)); */
 	
 	   window.alert("It does not work yet");
-	   /*var name = encodeURIComponent(document.forms["modifyBand"]["name"].value);
+	  /*var name = encodeURIComponent(document.forms["deleteBand"]["id"].value);
+	   var name = encodeURIComponent(document.forms["modifyBand"]["name"].value);
 	   var genre = encodeURIComponent(document.forms["modifyBand"]["genre"].value); 
 	
 	   var params ="name="+name+"&genre="+genre;
