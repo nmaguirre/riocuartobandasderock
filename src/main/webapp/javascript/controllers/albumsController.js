@@ -46,7 +46,11 @@ angular.module('app')
 		load_album($routeParams.id);
 	}
 	
-	$scope.create = function createAlbum(data) {
+	$scope.createAlbum = function(data) {
+		console.log(data);
+		console.log(moment(data.releaseDate))
+		data.releaseDate = moment(data.releaseDate).format("YYYY-MM-DD");
+		console.log(data);
 		$http.post("https://private-53163-riocuartobandasderock.apiary-mock.com/albums", data).then(function callback(response) {
 			if (response.status == 201) {
 				$location.path("/admin");
