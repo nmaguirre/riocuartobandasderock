@@ -3,6 +3,7 @@ angular.module('app')
 
 	$scope.artists = [];
 	$scope.artist = '';
+	$scope.dataArtist = {};
 
 	function load_artists() {
 		$http.get("https://private-53163-riocuartobandasderock.apiary-mock.com/artists").then(function callback(response) {

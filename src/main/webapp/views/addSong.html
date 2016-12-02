@@ -13,21 +13,21 @@
 					   <hr>
 					  </div>
 						<div class="form-group">
-					  	<label for="releaseDate"><h3>Duracion</h3></label>
+					  	<label for="releaseDate"><h3>Duración</h3></label>
 					  	<div>
 					    <input type="text" class="form-control" id="duration"  ng-model="dataSong.duration" aria-describedby="emailHelp" placeholder="Ingrese la duracion de la canción">
 					    <hr>
 					  </div>
 
 						<div class="form-group">
-					    <label for="exampleSelect1"><h3>Album</h3></label>
+					    <label for="exampleSelect1"><h3>Albúm</h3></label>
 					    <select class="form-control" id="exampleSelect1" ng-model="dataSong.album">
-					    	 <option value="" selected disabled>Seleccione una album</option>
+					    	 <option value="" selected disabled>Seleccione una albúm</option>
 					    	 <option ng-repeat="album in albums" value="{{album.album_id}}">{{album.title}}</option>
 					    </select>
 					    <div class="form-group pull-right">
 					    	<hr>
-							<button type="submit" class="btn btn-success" ng-click="createSong(dataSong)">Crear canción</button>
+							<button type="submit" class="btn btn-success" ng-click="createSong(dataSong)">Crear Canción</button>
 						</div>
 					</form>
 				</div>
