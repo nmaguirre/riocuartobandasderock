@@ -35,6 +35,7 @@
                   <th>Acciones</th>
                 </tr>
               </thead>
+              <div id="alert"></div>
               <tbody>
               </tbody>
             </table>

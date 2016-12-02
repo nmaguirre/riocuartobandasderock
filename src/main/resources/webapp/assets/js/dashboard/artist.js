@@ -38,7 +38,14 @@ $(document).ready(function() {
         url: "/artists/"+id,
         method: "delete"
       }).done(function() {
-        window.location.replace("/artists");
+        $('#'+id).closest('tr').remove()
+        alert = `<div class="alert alert-success alert-dismissible fade in" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  <strong>El artista se eliminó con exito</strong>
+                </div>`
+        $('#alert').html(alert);
       });
     })
   }
