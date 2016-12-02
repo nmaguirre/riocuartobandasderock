@@ -3,16 +3,22 @@
     <div class="row">
       <div class="col-md-12">
         <div class="card card-plain">
-          <div class="card-header col-md-12" data-background-color="green">
-            <div class="col-md-10">
-              <h4 class="title">Listado de todas las Bandas</h4>
-            </div>
-            <div class="col-md-2">
-              <a href="/bands/new" type="button" class="btn btn-default" data-dismiss="modal">
-                <i class="material-icons">playlist_add</i>Crear Banda</a>
-            </div>
+          <div class="card-header col-md-12 remove-vertical-padding" data-background-color="green">
+            <table class="table">
+              <tr>
+                <td>
+                  <h4 class="title">Listado de todas las Bandas</h4>
+                </td>
+                <td>
+                  <a href="/bands/new" class="btn btn-warning pull-right">
+                    <i class="material-icons">playlist_add</i>
+                    Crear Banda
+                  </a>
+                </td>
+              </tr>
+            </table>
           </div>
-          <div class="card-content table-responsive">
+          <div class="card-content table-responsive table-full-width">
             #if ($success != $null)
               <div class="alert alert-success" role="alert">
                 <strong>Nueva Banda</strong> $success
@@ -20,10 +26,12 @@
               <br>
             #end
             <table class="table table-hover">
-              <thead>
-                <th>Nombre</th>
-                <th>Genero</th>
-                <th>Acciones</th>
+              <thead class="text-primary">
+                <tr>
+                  <th>Nombre</th>
+                  <th>Género</th>
+                  <th>Acciones</th>
+                </tr>
               </thead>
               <tbody>
                 #if ($bands != $null)
@@ -59,9 +67,8 @@
 </div>
 
 <script>
-  #include("vendor/jquery/jquery.min.js")
   $(document).ready(function() {
-    $('li').removeClass('active');
-    $('#band').addClass('active');
+    $('.sidebar-wrapper li').removeClass('active');
+    $('.sidebar-wrapper li#band').addClass('active');
   });
 </script>

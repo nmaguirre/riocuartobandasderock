@@ -1,4 +1,4 @@
-<div class="sidebar" data-color="green" data-image="assets/img/sidebar-1.jpg">
+<div class="sidebar" data-color="green" data-image="/assets/img/sidebar-1.jpg">
 
   <div class="logo">
     <a href="/" class="simple-text">
@@ -29,7 +29,7 @@
       </li>
       <li id="song">
         <a href="/songs">
-          <i class="fa fa-music"></i> 
+          <i class="fa fa-music"></i>
           <p>Canciones</p>
         </a>
       </li>
@@ -44,7 +44,6 @@
 </div>
 
 <script>
-  #include("vendor/jquery/jquery.min.js")
   $(document).ready(function() {
     $('li').removeClass('active');
     $('li').on('click', function(){

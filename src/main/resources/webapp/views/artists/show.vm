@@ -29,7 +29,6 @@
 </div>
 
 <script>
-  #include("vendor/jquery/jquery.min.js")
   $(document).ready(function() {
     $('li').removeClass('active');
     $('#artist').addClass('active');
