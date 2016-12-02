@@ -3655,6 +3655,15 @@ footer .btn {
 a:visited.orange-font{
   color:#fb8c00 !important;
 }
+a:visited.green-font{
+  color:#43a047 !important;
+}
+a:visited.red-font{
+  color:#e53935 !important;
+}
+a:visited.blue-font{
+  color:#00acc1 !important;
+}
 .card .card-footer .stats {
   line-height: 22px;
   color: #999999;
