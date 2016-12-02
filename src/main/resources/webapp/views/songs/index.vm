@@ -35,6 +35,29 @@
                 </tr>
               </thead>
               <tbody>
+                #if ($songs != $null)
+                  #foreach( $song in $songs )
+                    <tr>
+                      <td>$song.name</td>
+                      <td>$song.duration</td>
+                      <td>
+                        <a href="/songs/$!{song.id}">
+                          <i class="material-icons">remove_red_eye</i>
+                        </a>
+                        <a href="/songs/$!{song.id}/edit">
+                          <i class="material-icons">edit</i>
+                        </a>
+                        <a href="/bands/$!{band.getId()}" class="$!{song.getId()}" id="$!{song.getId()}">
+                          <i class="material-icons">close</i>
+                        </a>
+                      </td>
+                    </tr>
+                  #end
+                #else
+                  <tr>
+                    <td colspan="3">No hay ninguna canción cargada en el sistema</td>
+                  </tr>
+                #end
               </tbody>
             </table>
 
