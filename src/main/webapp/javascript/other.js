@@ -8,18 +8,19 @@ function test(){
 	var sys = arbor.ParticleSystem(500, 40,1); 
     sys.parameters({gravity:true}); 
     sys.renderer = Renderer("#viewport");
-	/*var resp = [{name:'Juan',duration:'hola'},{name:'Franco',duration:'chau'},{name:'Pedro',duration:'adios'}];
+	var resp = [{name:'Juan',duration:'hola',apellido:'juancho'},{name:'Franco',duration:'chau'},{name:'Pedro',duration:'adios'}];
     for (var i=0; i<resp.length; i++){
        sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
        sys.addNode('duration'+i,{'color':'red','shape':'dot','label':resp[i].duration});
        sys.addEdge('name'+i, 'duration'+i,{'color':'black'});
        
-    }*/
+    }
     
     var resp ={name:'Juan',apellido:'Diaz',edad:'28'};
     var str = "";
     for (elem in resp)
-    	  str = str + elem + ': ' + resp[elem]+'<br>';
+    	  str = str + elem + ': ' + resp[elem]+'  ';
+    
     document.getElementById('show').innerHTML = str;	
     
     
@@ -202,7 +203,7 @@ function artistGetAll() {
 	     var view ="";
 	     
 	     //ArborJs 
-		 var sys = arbor.ParticleSystem(500, 40,1); 
+		 var sys = arbor.ParticleSystem(10, 40,0); 
 		 sys.parameters({gravity:true}); 
 		 sys.renderer = Renderer("#viewport");
 		 for (var i=0; i<resp.length; i++){
@@ -212,9 +213,10 @@ function artistGetAll() {
        	    sys.addEdge('name'+i, 'nickname'+i,{'color':'black'});
 			sys.addEdge('name'+i, 'surname'+i,{'color':'black'});
 			sys.addEdge('nickname'+i, 'surname'+i,{'color':'black'});
-			view = view+"Name: "+resp[i].name+"<br>";
-			view = view+"Surname: "+resp[i].surname+"<br>";
-			view = view+"NIckname: "+resp[i].nickname+"<br>";
+			view = view+"Name: "+resp[i].name+"   ";
+			view = view+"Surname: "+resp[i].surname+"   ";
+			view = view+"NIckname: "+resp[i].nickname+"   ";
+			view = view +"<br>";
 	     }
 	  document.getElementById('show').innerHTML = view;	 
 	  }
@@ -248,22 +250,23 @@ function artistFindByName() {
          var view =""; 
 		 
 		 //ArborJs 
-		 var sys = arbor.ParticleSystem(500, 40,1); 
+		 var sys = arbor.ParticleSystem(10, 40,0); 
 		 sys.parameters({gravity:true}); 
 	     sys.renderer = Renderer("#viewport"); 
 		 for (var i=0; i<resp.length; i++){
 		    sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
-		    view = view+"Name: "+resp[i].name+"<br>";
+		    view = view+"Name: "+resp[i].name+"   ";
 		    if(resp[i].surname != undefined){
 				   sys.addNode('surname'+i,{'color':'green','shape':'dot','label':resp[i].surname});
 				   sys.addEdge('name'+i, 'surname'+i,{'color':'black'});
-				   view = view+"Surname: "+resp[i].surname+"<br>";
+				   view = view+"Surname: "+resp[i].surname+"   ";
 			}	      
 			if(resp[i].nickname != undefined){
 		       sys.addNode('nickname'+i,{'color':'red','shape':'dot','label':resp[i].nickname});
 			   sys.addEdge('name'+i, 'nickname'+i,{'color':'black'});
-			   view = view+"Nickname: "+resp[i].nickname+"<br>";
-			}	   
+			   view = view+"Nickname: "+resp[i].nickname+"   ";
+			}
+			view = view +"<br>";
 	     }
 	  document.getElementById('show').innerHTML = view;	 
       }
@@ -298,23 +301,24 @@ function artistFindByNickname() {
 		 var view ="";
 
 		 //ArborJs 	  
-    	 var sys = arbor.ParticleSystem(500, 40,1); 
+    	 var sys = arbor.ParticleSystem(10, 40,0); 
 		 sys.parameters({gravity:true}); 
 		 sys.renderer = Renderer("#viewport"); 
 		 if(Array.isArray(resp)){  //there are many artists
 		    for (var i=0; i<resp.length; i++){
 		       sys.addNode('nickname'+i,{'color':'red','shape':'dot','label':resp[i].nickname});
-		       view = view+"Nickname: "+resp[i].nickname+"<br>";
+		       view = view+"Nickname: "+resp[i].nickname+"   ";
 		       if(resp[i].name != undefined){
 				   sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name});
 				   sys.addEdge('name'+i, 'nickname'+i,{'color':'black'});
-				   view = view+"Name: "+resp[i].name+"<br>";
+				   view = view+"Name: "+resp[i].name+"   ";
 			   }
 		       if(resp[i].surname != undefined){	
 		    	   sys.addNode('surname'+i,{'color':'green','shape':'dot','label':resp[i].surname});
 		    	   sys.addEdge('nickname'+i, 'surname'+i,{'color':'black'});
-		    	   view = view+"Surname: "+resp[i].surname+"<br>";
+		    	   view = view+"Surname: "+resp[i].surname+"   ";
 		       } 
+		       view = view +"<br>";   
 			}
 		 document.getElementById('show').innerHTML = view;   
 	     }   
@@ -350,22 +354,23 @@ function artistFindBySurname() {
 		 var view ="";
 		 
 		 //ArborJs   
-		 var sys = arbor.ParticleSystem(500, 40,1); 
+		 var sys = arbor.ParticleSystem(10, 40,0); 
 		 sys.parameters({gravity:true}); 
 		 sys.renderer = Renderer("#viewport"); 
 		 for (var i=0; i<resp.length; i++){
 		    sys.addNode('surname'+i,{'color':'green','shape':'dot','label':resp[i].surname});
-		    view = view+"Surname: "+resp[i].surname+"<br>";
+		    view = view+"Surname: "+resp[i].surname+"   ";
 		    if(resp[i].name != undefined){
 		       sys.addNode('name'+i,{'color':'blue','shape':'dot','label':resp[i].name}); 
 		       sys.addEdge('name'+i, 'surname'+i,{'color':'black'});
-		       view = view+"Name: "+resp[i].name+"<br>";
+		       view = view+"Name: "+resp[i].name+"   ";
 		    }
 		    if(resp[i].nickname != undefined){
 		       sys.addNode('nickname'+i,{'color':'red','shape':'dot','label':resp[i].nickname});
 		       sys.addEdge('nickname'+i, 'surname'+i,{'color':'black'});
-		       view = view+"Nickname: "+resp[i].nickname+"<br>";
+		       view = view+"Nickname: "+resp[i].nickname+"   ";
 		    }
+		    view = view +"<br>";   
 		 }
 	  document.getElementById('show').innerHTML = view;	 
 	  }
