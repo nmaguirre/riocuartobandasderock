@@ -46,9 +46,24 @@ angular.module('app')
 		load_album($routeParams.id);
 	}
 	
-	$scope.create = function createAlbum(data) {
+	$scope.createAlbum = function(data) {
+		data.releaseDate = moment(data.releaseDate).format("YYYY-MM-DD");
+		
 		$http.post("https://private-53163-riocuartobandasderock.apiary-mock.com/albums", data).then(function callback(response) {
 			if (response.status == 201) {
+				$location.path("/admin");
+			} else {
+				alert("Creación de albúm fallida.");
+			}
+			
+		});
+	}
+
+	$scope.updateAlbum = function(data){
+		data.releaseDate = moment(data.releaseDate).format("YYYY-MM-DD");
+		
+		$http.put("https://private-53163-riocuartobandasderock.apiary-mock.com/albums/"+$routeParams.id, data).then(function callback(response) {
+			if (response.status == 200) {
 				$location.path("/admin");
 			} else {
 				alert("Creación de albúm fallida.");
