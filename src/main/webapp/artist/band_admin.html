@@ -289,23 +289,6 @@
         $('.form')[2].reset();
         $('#searchForm').slideToggle(); 
    }
-   
-	function deleteArtisFromBand(idBand,idArtist){
-		alert("Missing Implementation");
- 		/* resourcelocation = '/bandmembers/'+idArtist+'/'+idBand';
-		
-		$.ajax({
-			type: "DELETE",
-			url: resourcelocation,
-			data: '',
-			success: function(data){
-				showBands('/bands'); //optional refresh list
-			},
-			error: function(x, e) {
-				alert("Lo sentimos, ha ocurrido un error.");
-			}
-		}); */
-	}
 	
     function deleteBandMember(bandId, artistId) {
         resourcelocation ='/bandmembers/'+artistId+"/"+bandId;       
@@ -314,12 +297,11 @@
             type: "DELETE",
             url: resourcelocation,
             data: '', 
-            success: function(data)
-            {
+            success: function(data){
                 showArtistMInDialog(bandId); //optional refresh list
             },
             error: function(x, e) {
-                     
+            	alert("Se ha producido un error");
             }
         });
         
