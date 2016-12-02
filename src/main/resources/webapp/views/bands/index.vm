@@ -26,7 +26,7 @@
               <br>
             #end
             <table class="table table-hover">
-              <thead class="text-primary">
+              <thead class="text-success">
                 <tr>
                   <th>Nombre</th>
                   <th>Género</th>
