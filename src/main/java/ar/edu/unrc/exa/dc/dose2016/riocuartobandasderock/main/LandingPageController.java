@@ -1,6 +1,7 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
 import java.util.List;
+import java.text.SimpleDateFormat;
 
 import org.hibernate.Session;
 
@@ -60,6 +61,8 @@ public class LandingPageController {
     attributes.put("artists", artists);
     attributes.put("songs",songs);
     attributes.put("albums", albums);
+    SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+    attributes.put("date_formatter", f);
     return new ModelAndView(attributes, Routes.layout_landing_page());
   }
 }

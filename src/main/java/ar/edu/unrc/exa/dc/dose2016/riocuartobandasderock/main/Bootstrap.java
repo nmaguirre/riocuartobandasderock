@@ -92,50 +92,50 @@ public class Bootstrap {
         dashboardController = DashboardController.getInstance();
         port(Integer.parseInt(ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.ServerOptions.getInstance().getAppPort()));
 
-        // before("/dashboard", (req, res) -> {
-        //     if (!userController.authenticated(req, res))
-        //         res.redirect("/login");
-        // });
+        before("/dashboard", (req, res) -> {
+            if (!userController.authenticated(req, res))
+                res.redirect("/login");
+        });
 
-        // before("/albums", (req, res) -> {
-        //     if (!userController.authenticated(req, res))
-        //         res.redirect("/login");
-        // });
+        before("/albums", (req, res) -> {
+            if (!userController.authenticated(req, res))
+                res.redirect("/login");
+        });
 
-        // before("/albums/*", (req, res) -> {
-        //     if (!userController.authenticated(req, res))
-        //         res.redirect("/login");
-        // });
+        before("/albums/*", (req, res) -> {
+            if (!userController.authenticated(req, res))
+                res.redirect("/login");
+        });
 
-        // before("/artists", (req, res) -> {
-        //     if (!userController.authenticated(req, res))
-        //         res.redirect("/login");
-        // });
+        before("/artists", (req, res) -> {
+            if (!userController.authenticated(req, res))
+                res.redirect("/login");
+        });
 
-        // before("/artists/*", (req, res) -> {
-        //     if (!userController.authenticated(req, res))
-        //         res.redirect("/login");
-        // });
+        before("/artists/*", (req, res) -> {
+            if (!userController.authenticated(req, res))
+                res.redirect("/login");
+        });
 
-        // before("/bands", (req, res) -> {
-        //     if (!userController.authenticated(req, res))
-        //         res.redirect("/login");
-        // });
+        before("/bands", (req, res) -> {
+            if (!userController.authenticated(req, res))
+                res.redirect("/login");
+        });
 
-        // before("/bands/*", (req, res) -> {
-        //     if (!userController.authenticated(req, res))
-        //         res.redirect("/login");
-        // });
+        before("/bands/*", (req, res) -> {
+            if (!userController.authenticated(req, res))
+                res.redirect("/login");
+        });
 
-        // before("/songs", (req, res) -> {
-        //     if (!userController.authenticated(req, res))
-        //         res.redirect("/login");
-        // });
+        before("/songs", (req, res) -> {
+            if (!userController.authenticated(req, res))
+                res.redirect("/login");
+        });
 
-        // before("/songs/*", (req, res) -> {
-        //     if (!userController.authenticated(req, res))
-        //         res.redirect("/login");
-        // });
+        before("/songs/*", (req, res) -> {
+            if (!userController.authenticated(req, res))
+                res.redirect("/login");
+        });
 
         /**
         * HELLO WORLD PAGE

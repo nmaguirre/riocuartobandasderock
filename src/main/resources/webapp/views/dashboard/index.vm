@@ -34,7 +34,7 @@
   <div class="col-lg-3 col-md-6 col-sm-6">
     <div class="card card-stats">
       <div class="card-header" data-background-color="red">
-        <i class="fa fa-music"></i> 
+        <i class="fa fa-music"></i>
       </div>
       <div class="card-content">
         <p class="category">CANCIONES</p>
@@ -64,4 +64,4 @@
       </div>
     </div>
   </div>
-</div> 
+</div>

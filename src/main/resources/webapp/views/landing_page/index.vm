@@ -17,7 +17,7 @@
 
   <!-- Bands Section -->
 <section id="mycarousel" class="carousel slide" data-ride="carousel">
-  
+
   <!-- Wrapper for slides -->
   <div class="carousel-inner" role="listbox">
     <div class="item">
@@ -90,16 +90,20 @@
                   <div class="card-content table-responsive">
                     <table class="table table-hover">
                       <thead>
-                        <th>Nombre</th>
-                        <th>Apellido</th>
-                        <th>Apodo</th>
+                        <th class="text-center">Nombre</th>
+                        <th class="text-center">Apellido</th>
+                        <th class="text-center">Apodo</th>
                       </thead>
                       <tbody>
                         #foreach( $artist in $artists )
                           <tr>
                             <td>$artist.getName()</td>
                             <td>$artist.getSurname()</td>
-                            <td>$artist.getNickname()</td>
+                            <td>
+                              #if ($artist.nickname != $null)
+                                $artist.nickname
+                              #end
+                              </td>
                           </tr>
                         #end
                       </tbody>
@@ -114,7 +118,7 @@
   </div>
 </section>
 
-  <!-- Songs Section --> 
+  <!-- Songs Section -->
 <section id="canciones" class="container content-section text-center">
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2">
@@ -130,9 +134,9 @@
                   <div class="card-content table-responsive">
                     <table class="table table-hover">
                       <thead>
-                        <th>Nombre</th>
-                        <th>Duración</th>
-                        <th>Álbum</th>
+                        <th class="text-center">Nombre</th>
+                        <th class="text-center">Duración</th>
+                        <th class="text-center">Álbum</th>
                       </thead>
                       <tbody>
                         #foreach( $song in $songs )
@@ -170,14 +174,14 @@
                   <div class="card-content table-responsive">
                     <table class="table table-hover">
                       <thead>
-                        <th>Titulo</th>
-                        <th>Lanzamiento</th>
+                        <th class="text-center">Titulo</th>
+                        <th class="text-center">Lanzamiento</th>
                       </thead>
                       <tbody>
                         #foreach( $album in $albums )
                           <tr>
                             <td>$album.getTitle()</td>
-                            <td>$album.toString()</td>
+                            <td>$date_formatter.format($album.getReleaseDate())</td>
                           </tr>
                         #end
                       </tbody>
