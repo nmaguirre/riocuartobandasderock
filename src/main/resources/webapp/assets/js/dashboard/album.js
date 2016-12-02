@@ -22,7 +22,7 @@ $(document).ready(function() {
         method: "POST"
       }
     });
-   
+
     $('#dashboard-search').on('keyup change', function(){
       $('#dashboard-albums-datatable').DataTable().draw();
     });
@@ -41,5 +41,9 @@ $(document).ready(function() {
       });
     })
   }
-
+  else{
+    if ($('#noSearch').length){
+      $('#search').remove()
+    }
+  }
 });

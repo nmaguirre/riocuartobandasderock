@@ -23,7 +23,7 @@ $(document).ready(function() {
         method: "POST"
       }
     });
-   
+
     $('#dashboard-search').on('keyup change', function(){
       $('#dashboard-artists-datatable').DataTable().draw();
     });
@@ -41,5 +41,10 @@ $(document).ready(function() {
         window.location.replace("/artists");
       });
     })
+  }
+  else{
+    if ($('#noSearch').length){
+      $('#search').remove()
+    }
   }
 });
