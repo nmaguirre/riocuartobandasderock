@@ -133,17 +133,33 @@ public class LandingPageController {
   public JSONObject artistID(Request req, Response res){
     Artist artist;
     JSONObject result = new JSONObject();
+    JSONArray bands = new JSONArray();
 
     Session session = SessionManager.getInstance().openSession();
     ArtistDAO adao = new ArtistDaoImpl(session);
     System.out.println("ID: "+req.queryParams("id"));
     artist = adao.getArtist(req.queryParams("id"));
 
+    BandMemberDAO bmDAO = new BandMemberDAOImpl(session);
+    List<Band> bandMembers = bmDAO.findByArtist(artist.getId());
+    System.out.println("PASEEEE");
+    System.out.println("SIZE BANDSMEMEBER: "+ bandMembers.size());
+
+
 
     if(artist != null){
       result.put("name", artist.getName());
       result.put("surname", artist.getSurname());
       result.put("nickname", artist.getNickname());
+
+      for (Band b : bandMembers) {
+        JSONObject band = new JSONObject();
+        band.put("name",band_link(b.getName(), b.getId()));
+        band.put("genre",b.getGenre());
+
+        bands.add(band);
+      }
+      result.put("bands", bands);
 
     }
 
@@ -178,7 +194,8 @@ public class LandingPageController {
 
       for (Song s : song_list) {
         JSONObject song = new JSONObject();
-        song.put("name",song_link(s.getName(), s.getId()));
+        song.put("name",video_link(s.getName(),"link"));
+        song.put("duration",s.getDurationAsString());
 
         songs.add(song);
       }
@@ -240,5 +257,9 @@ public class LandingPageController {
 
   public String song_link(String name, String id){
     return "<a class='songs-item' id='"+id+"' href=''>"+name+"</a>";
+  }
+
+  public String video_link(String name, String id){
+    return "<a id='"+id+"' href=''>"+name+"</a>";
   }
 }

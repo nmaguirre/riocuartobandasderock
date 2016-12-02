@@ -1,20 +1,91 @@
-<a class="slide-1" href="" role="button">
-  <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-</a>
+<section class="content">
 
-<table class="table table-hover" id="show-band-table">
-  <thead>
-    <th>Nombre</th> 
-    <th>Genero</th>
-    <th>Miembros</th>
-    <th>Albumes</th>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="band-name"></td>
-      <td id="band-genre"></td>
-      <td id="band-member"></td>
-      <td id="band-album"></td>
-    </tr>
-  </tbody>
-</table>
+  <div class="content__middle width-100">
+    <div class="page-flows">
+      <a class="slide-1" href="" role="button">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div class="artist__header">
+      <div class="artist__info">
+        <div class="profile__img">
+          <img src="http://images6.fanpop.com/image/photos/32000000/fun-fun-band-32076053-500-500.jpg">
+        </div>
+
+        <div class="artist__info__meta">
+          <div id="band-name" class="artist__info__name">Nombre de banda</div>
+          <div id="band-genre" class="artist__info__type">Genero</div>
+        </div>
+
+      </div>
+
+      <div class="artist__listeners">
+        <div class="artist__listeners__count">15.666</div>
+        <div class="artist__listeners__label">Visitas</div>
+      </div>
+
+    </div>
+    
+    <div class="col-md-5">
+      <div class="content__middle">
+        <div class="artist is-verified">
+
+          <div class="overview__related">
+            <div class="section-title">Integrantes</div>
+          </div>
+
+          <div class="overview">
+
+            <div class="overview__related">
+              <div class="related-artists">
+              <div id="band-member"></div>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-7">
+      <div class="artist__content">
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane active" id="artist-overview">
+            <div class="overview">
+              <div class="overview__albums">
+                <div class="album">
+                  <div class="album__info">
+                    <div class="album__info__meta">
+                      <div class="album__year">2015</div>
+                      <div class="album__name">Albumes</div>
+                    </div>
+                  </div>
+                  <div class="album__tracks">
+                    <div class="tracks">
+                      <div class="tracks__heading">
+                        <div class="tracks__heading__number">#</div>
+                        <div class="tracks__heading__title">Titulo</div>
+                        <div class="tracks__heading__length">
+                          <i class="ion-ios-stopwatch-outline"></i>
+                        </div>
+                        <div class="tracks__heading__popularity">
+                          <i class="ion-thumbsup"></i>
+                        </div>
+                      </div>
+
+                      <div id="band-album"></div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>

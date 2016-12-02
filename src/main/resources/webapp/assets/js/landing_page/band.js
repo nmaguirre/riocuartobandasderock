@@ -43,13 +43,31 @@ $(document).ready(function() {
       $('#band-member').empty();
       $('#band-album').empty();
 
-      $('#band-name').text(data.name);
-      $('#band-genre').text(data.genre);
+      $('#band-name').html(data.name);
+      $('#band-genre').html(data.genre);
       for (var i = 0; i < data.members.length; i++) {
-        $('#band-member').append(data.members[i].name+"<br>");
+        artist = "<a href='#' class='related-artist'>"
+        artist += "<span class='related-artist__img'>"
+        artist += "<img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/7022/hoodie.jpg' alt='Hoodie Allen' />"
+        artist += "</span>"
+        artist += "<span class='related-artist__name'>"+data.members[i].name+"</span>"
+        artist += "</a>"
+
+        $('#band-member').append(artist);
+        // $('#band-member').append(data.members[i].name+"<br>");
       }
       for (var i = 0; i < data.albums.length; i++) {
-        $('#band-album').append(data.albums[i].title+"<br>");
+        var track = "<div class='track'>"
+        track += "<div class='track__number'>"+(i+1)+"</div>"
+        track += "<div class='track__added'>"
+        track += "<i class='ion-checkmark-round added'></i></div>"
+        track += "<div class='track__title'>"+data.albums[i].title+"</div>"
+        track += "<div class='track__popularity'>"
+        track += "<i class='ion-arrow-graph-up-right'></i>"
+        track += "</div></div>"
+
+        // $('#band-album').append(data.albums[i].title+"<br>");
+        $('#band-album').append(track);
       }
       $("#mycarousel").carousel(2);
     });
