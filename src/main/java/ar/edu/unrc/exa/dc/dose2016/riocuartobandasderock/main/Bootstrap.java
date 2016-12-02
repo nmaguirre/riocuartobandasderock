@@ -4,6 +4,7 @@ import static spark.Spark.*;
 
 import static ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.JsonUtil.json;
 import static ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.JsonUtil.jsonAlbum;
+import static ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main.JsonUtil.jsonBand;
 
 import java.lang.reflect.Type;
 import java.util.LinkedList;
@@ -101,6 +102,27 @@ public class Bootstrap {
                 halt(401, "Access forbidden\n");
             }
         });*/
+        options("/*",
+                (request, response) -> {
+
+                    String accessControlRequestHeaders = request
+                            .headers("Access-Control-Request-Headers");
+                    if (accessControlRequestHeaders != null) {
+                        response.header("Access-Control-Allow-Headers",
+                                accessControlRequestHeaders);
+                    }
+
+                    String accessControlRequestMethod = request
+                            .headers("Access-Control-Request-Method");
+                    if (accessControlRequestMethod != null) {
+                        response.header("Access-Control-Allow-Methods",
+                                accessControlRequestMethod);
+                    }
+
+                    return "OK";
+                });
+
+        before((request, response) -> response.header("Access-Control-Allow-Origin", "*"));
 
         // List of route and verbs API REST
 
@@ -121,15 +143,15 @@ public class Bootstrap {
         /**
         *   Band routes
         */
-        get("/bands",(req, res) -> bands.getBands(req, res),json());
+        get("/bands",(req, res) -> bands.getBands(req, res),jsonBand());
 
-        get("/bands/findbyname/:name",(req, res) -> bands.getBandByName(req, res),json());
+        get("/bands/findbyname/:name",(req, res) -> bands.getBandByName(req, res),jsonBand());
 
-        get("/bands/findbygenre/:genre",(req, res) -> bands.getBandByGenre(req, res),json());
+        get("/bands/findbygenre/:genre",(req, res) -> bands.getBandByGenre(req, res),jsonBand());
 
-        get("/bands/find/",(req, res) -> bands.getBandByNameAndGenre(req, res),json());
+        get("/bands/find/",(req, res) -> bands.getBandByNameAndGenre(req, res),jsonBand());
 
-        get("/bands/getbandmember/:bandID",(req,res)-> bands.getBandMembers(req, res),json());
+        get("/bands/getbandmember/:bandID",(req,res)-> bands.getBandMembers(req, res),jsonBand());
 
         post("/bands/",(req, res) -> bands.createBand(req, res));
 
@@ -199,6 +221,6 @@ public class Bootstrap {
         
 
         after((req, res) -> {res.type("application/json");});
-
+   
     }
 }
