@@ -1,18 +1,88 @@
-<a class="slide-2" href="" role="button">
-  <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-</a>
+<section class="content">
 
-<table class="table table-hover" id="artist-table">
-  <thead>
-    <th>Nombre</th>
-    <th>Apellido</th>
-    <th>Apodo</th>
-  </thead>
-  <tbody>
-    <tr>
-      <td id="artist-name"></td>
-      <td id="artist-surname"></td>
-      <td id="artist-nickname"></td>
-    </tr>
-  </tbody>
-</table>
+  <div class="content__middle width-100">
+    <div class="page-flows">
+      <a class="slide-2" href="" role="button">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div class="artist__header">
+      <div class="artist__info">
+        <div class="profile__img">
+          <img src="https://static.standard.co.uk/s3fs-public/thumbnails/image/2016/09/20/16/passenger-1.jpg">
+        </div>
+
+        <div class="artist__info__meta">
+        <div class="artist__info__type">Artista</div>
+          <div id="artist-nickname" class="artist__info__name">Apodo</div>
+        </div>
+
+      </div>
+
+      <div class="artist__listeners">
+        <div class="artist__listeners__count">1.523</div>
+        <div class="artist__listeners__label">Visitas</div>
+      </div>
+
+    </div>
+    
+    <div class="col-md-5">
+      <div class="content__middle">
+        <div class="artist is-verified">
+
+          <div class="overview__related">
+            <div class="section-title">Datos Personales</div>
+          </div>
+
+          <div class="overview">
+
+            <div class="overview__related">
+              <div class="related-artists">
+              <div id="artist-name"></div>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-7">
+      <div class="artist__content">
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane active" id="artist-overview">
+            <div class="overview">
+              <div class="overview__albums">
+                <div class="album">
+                  <div class="album__info">
+                    <div class="album__info__meta">
+                      <div class="album__name">Bandas</div>
+                    </div>
+                  </div>
+                  <div class="album__tracks">
+                    <div class="tracks">
+                      <div class="tracks__heading">
+                        <div class="tracks__heading__number">#</div>
+                        <div class="tracks__heading__title">Nombre</div>
+                        <div class="tracks__heading__length">Género</div>
+                        <div class="tracks__heading__popularity">
+                          <i class="ion-thumbsup"></i>
+                        </div>
+                      </div>
+
+                      <div id="artist-band"></div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>

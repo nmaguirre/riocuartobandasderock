@@ -101,7 +101,7 @@
   <script type="text/javascript" src="assets/js/landing_page/album.js"></script>
   <script type="text/javascript" src="assets/js/landing_page/song.js"></script>
   <script type="text/javascript" src="assets/js/landing_page/search.js"></script>
-  <script type="text/javascript" src="vendor/spotify/css/spotify.js"></script>
+  <script type="text/javascript" src="vendor/spotify/js/spotify.js"></script>
 
   <script type="text/javascript" src="vendor/data-table/js/jquery.dataTables.min.js"></script>
 

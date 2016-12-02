@@ -36,7 +36,6 @@
     </div>
 
     <div class="item" id="carouse-index-band">
-        <img src="https://unsplash.it/2000/1250?image=689" data-color="firebrick" alt="Second Image">
         #parse("views/landing_page/_index_band.vm")
     </div>
 
