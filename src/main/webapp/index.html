@@ -34,6 +34,7 @@
 	<script type="text/javascript" src="/javascript/controllers/artistsController.js"></script>
 	<script type="text/javascript" src="/javascript/controllers/bandsController.js"></script>
 	<script type="text/javascript" src="/javascript/controllers/homeController.js"></script>
+	<script type="text/javascript" src="/javascript/controllers/searchController.js"></script>
 	<script type="text/javascript" src="/javascript/controllers/songsController.js"></script>
 	<script type="text/javascript" src="/javascript/controllers/loginController.js"></script>
 	
@@ -65,10 +66,12 @@
 							</div>
 						</li>
 					</ul>
-					<form class="form-inline float-xs-right">
-						<input class="form-control" type="text" placeholder="Buscar">
-						<button class="btn btn-success-outline" type="submit">Buscar</button>
+					<div ng-controller="SearchController">
+					<form class="form-inline float-xs-right ng" ng-submit="go_search()">
+						<input class="form-control" type="text" ng-model="value" placeholder="Buscar">
+						<button class="btn btn-success-outline"  type="submit">Buscar</button>
 					</form>
+					</div>
 		</nav>
 		<div ng-view>
 		</div>

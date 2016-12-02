@@ -45,6 +45,10 @@ angular["module"]("app", ["ngRoute","angularSlideables"])
 				templateUrl: "views/updateArtist.html",
 				controller: "ArtistController"
 			})
+			["when"]("/search_results",{
+				templateUrl: "views/results.html",
+				controller: "SearchController"
+			})
 			["when"]("/bands",{
 				controller: "BandsController",
 				templateUrl: "views/bands.html"

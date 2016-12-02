@@ -74,6 +74,8 @@ angular.module('app')
 		})
 	};
 
+	console.log($location.path());
+	console.log($location.search().value);
 	if ($location.path() == "/search_results" && $location.search().value != undefined){
 		search_all($location.search().value);
 	} 
