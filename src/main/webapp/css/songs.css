@@ -1,0 +1,21 @@
+.songs-container {
+	background-color: #181818;
+	height: auto;
+	padding-top: 4%;
+	margin-top: 1%;
+}
+
+.song-band {
+	color: white;
+	text-decoration: none;
+}
+
+.song-album {
+	color: white;
+	text-decoration: none;
+}
+
+a:hover {
+	color: red;
+	text-decoration: none
+}

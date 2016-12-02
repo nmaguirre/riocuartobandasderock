@@ -1,0 +1,35 @@
+body {
+	font-family: 'Montserrat', sans-serif;
+	color: white;
+	background-color: #121212;
+	padding-top: 100px;
+}
+
+.main-container {
+	background-color: #181818;
+	height: auto;
+}
+
+.album-list{
+}
+
+.alb {
+	display: inline-block;
+}
+
+.nav-btn {
+	background-color: #181818;	
+	color: white;
+}
+
+.nav-btn:focus {
+	outline: 0;
+}
+
+.nav-btn:active{
+	outline: 0;
+}
+
+.nav-btn-disabled {
+	color: #282828;
+}

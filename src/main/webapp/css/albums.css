@@ -1,0 +1,33 @@
+.albums-container {
+	background-color: #181818;
+	height: auto;
+	margin-top: 1%;
+	padding-top: 4%;
+}
+
+.album-info {
+	margin-bottom: 2%;
+}
+
+.album-song {
+	color: white;
+	text-decoration: none;
+	font-size: 1.1em;
+}
+
+.album-song:hover{
+	color: white;
+}
+
+.album-release {
+	font-size: 0.75em;
+}
+
+.album {
+	background-color: #282828;
+	text-align: center;
+	padding-top: 2%;
+	margin-left: 4%;
+	margin-right: 4%;
+	margin-bottom: 5%;
+}

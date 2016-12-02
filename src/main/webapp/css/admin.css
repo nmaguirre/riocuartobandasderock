@@ -1,0 +1,32 @@
+.admin-container {
+	background-color: #181818;
+	height: auto;
+}
+
+.menu-header{
+    border-style: solid;
+	border-color: #f7f7f9;
+	border-radius: 25px 25px 5px 5px;
+}
+
+.menu-add{
+	height: 45px;
+}
+
+.menu-edit{
+
+}
+
+.menu-delete{
+
+}
+
+.menu {
+	margin-top: 1.5%;
+}
+
+.menu-body{
+ 	border-style: solid;
+	border-color: transparent;
+	border-radius: 5px 5px 25px 25px;	 
+}

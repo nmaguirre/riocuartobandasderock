@@ -1,0 +1,29 @@
+.bands-container {
+	background-color: #181818;
+	height: auto;
+	padding-top: 4%;
+	margin-top: 1%;
+}
+
+.band-info {
+	margin-bottom: 2%;
+}
+
+.band {
+	background-color: #282828;
+	text-align: center;
+	padding-top: 2%;
+	margin-left: 4%;
+	margin-right: 4%;
+	margin-bottom: 5%;
+}
+
+.band-album {
+	color: white;
+	text-decoration: none;
+}
+
+a:hover {
+	color: red;
+	text-decoration: none;
+}

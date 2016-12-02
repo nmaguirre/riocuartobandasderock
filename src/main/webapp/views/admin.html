@@ -1,0 +1,135 @@
+<div class="row">
+  <div class="col-xs-8 offset-xs-2 admin-container">
+    <article>
+      <div class="row menu">
+        <div class="col-xs-10 offset-xs-1">
+          <div class="row menu-header">
+            <div class="col-xs-10">
+              <h1 slide-toggle="#album">Albums</h1>
+            </div>
+            <div class="col-xs-2">
+              <a href="#/admin/albums/add">
+                <img class="menu-add" type="image" src="/img/octicons-5.0.1/lib/svg/plus-white.svg" name="">
+              </a>
+            </div>
+          </div>
+          <div class="row menu-body">
+            <div id="album" class="slideable">
+              <table class="table table-striped table-inverse">
+                <tbody>
+                  <tr ng-repeat="album in albums | filter : filter track by $index">
+                    <td>{{album.title}}</td>
+                    <td>{{album.releaseDate}}</td>
+                    <td>
+                      <a ng-href="#/admin/albums/update/{{album.AlbumID}}">
+                        <img class="menu-edit" src="/img/octicons-5.0.1/lib/svg/pencil-white.svg">
+                      </a>
+                    </td>
+                    <td><input class="menu-delete" type="image" src="/img/octicons-5.0.1/lib/svg/x-white.svg" name="" ng-click="delete_album(album.AlbumID, $index)"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row menu">
+        <div class="col-xs-10 offset-xs-1">
+          <div class="row menu-header">
+            <div class="col-xs-10">
+              <h1 slide-toggle="#artist">Artistas</h1>
+            </div>
+            <div class="col-xs-2">
+              <a href="#/admin/artists/add">
+                <img class="menu-add" type="image" src="/img/octicons-5.0.1/lib/svg/plus-white.svg" name="">
+              </a>
+            </div>
+          </div>
+          <div class="row">
+            <div id="artist" class="slideable">
+              <table class="table table-striped table-inverse">
+                <tbody>
+                  <tr ng-repeat="artist in artists | filter : filter track by $index">
+                    <td>{{artist.name}}</td>
+                    <td>{{artist.nickname}}</td>
+                    <td>{{artist.surname}}</td>
+                    <td>
+                      <a ng-href="#/admin/artists/update/{{artist.ArtistID}}">
+                        <img class="menu-edit" src="/img/octicons-5.0.1/lib/svg/pencil-white.svg">
+                      </a>
+                    </td>
+                    <td><input class="menu-delete" type="image" src="/img/octicons-5.0.1/lib/svg/x-white.svg" name="" ng-click="delete_artist(artist.ArtistID, $index)"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row menu">
+        <div class="col-xs-10 offset-xs-1">
+          <div class="row menu-header">
+            <div class="col-xs-10">
+              <h1 slide-toggle="#band">Bandas</h1>
+            </div>
+            <div class="col-xs-2">
+              <a href="#/admin/bands/add">
+                <img class="menu-add" type="image" src="/img/octicons-5.0.1/lib/svg/plus-white.svg" name="">
+              </a>
+            </div>
+          </div>
+          <div class="row">
+            <div id="band" class="slideable">
+              <table class="table table-striped table-inverse">
+                <tbody>
+                  <tr ng-repeat="band in bands | filter : filter track by $index">
+                    <td>{{band.name}}</td>
+                    <td>{{band.genre}}</td>
+                    <td>
+                      <a ng-href="#/admin/bands/update/{{band.bandId}}">
+                        <img class="menu-edit" src="/img/octicons-5.0.1/lib/svg/pencil-white.svg">
+                      </a>
+                    </td>
+                    <td><input class="menu-delete" type="image" src="/img/octicons-5.0.1/lib/svg/x-white.svg" name="" ng-click="delete_band(band.bandId, $index)"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row menu">
+        <div class="col-xs-10 offset-xs-1">
+          <div class="row menu-header">
+            <div class="col-xs-10">
+              <h1 slide-toggle="#song">Canciones</h1>
+            </div>
+            <div class="col-xs-2">
+              <a href="#/admin/songs/add">
+                <img class="menu-add" type="image" src="/img/octicons-5.0.1/lib/svg/plus-white.svg" name="">
+              </a>
+            </div>
+          </div>
+          <div class="row">
+            <div id="song" class="slideable">
+              <table class="table table-striped table-inverse">
+                <tbody>
+                  <tr ng-repeat="song in songs | filter : filter track by $index">
+                    <td>{{song.name}}</td>
+                    <td>{{song.duration}}</td>
+                    <td>
+                      <a ng-href="#/admin/songs/update/{{song.idSong}}">
+                        <img class="menu-edit" src="/img/octicons-5.0.1/lib/svg/pencil-white.svg">
+                      </a>
+                    </td>
+                    <td><input class="menu-delete" type="image" src="/img/octicons-5.0.1/lib/svg/x-white.svg" name="" ng-click="delete_song(song.idSong, $index)"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+</div>

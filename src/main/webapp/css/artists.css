@@ -1,0 +1,35 @@
+.artists-container {
+	background-color: #181818;
+	height: auto;
+	padding-top: 4%;
+	margin-top: 1%;
+}
+
+.artist-info {
+	margin-bottom: 2%;
+}
+
+.artist {
+	background-color: #282828;
+	text-align: center;
+	padding-top: 2%;
+	margin-left: 4%;
+	margin-right: 4%;
+	margin-bottom: 5%;
+}
+
+.artist-band {
+	color: white;
+	text-decoration: none;
+}
+
+.center-block {
+	display: block;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+a:hover {
+	color: red;
+	text-decoration: none;
+}

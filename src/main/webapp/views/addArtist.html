@@ -1,0 +1,32 @@
+<div class="row">
+	<div class="col-xs-12 external-login-container">
+		<div class = "row">
+			<div class="center-block">
+				<div class="offset-xs-2 col-xs-8 internal-login-container">
+					<form name="loginForm">
+						<div class="form-group">
+							<legend><center>ALTA ARTISTA</center></legend><hr>
+							<label for="Name"><h3>Nombre</h3></label>
+							<input type="text" class="form-control" id="name" ng-model="dataArtist.name" aria-describedby="nameHelp" placeholder="Ingrese el nombre del artista">
+							<hr>
+						</div>
+						<div class="form-group">
+							<label for="Surname"><h3>Apellido</h3></label>
+							<input type="text" class="form-control" id="surname" ng-model="dataArtist.surname" aria-describedby="surnameHelp" placeholder="Ingrese el apellido del artista">
+							<hr>
+						</div>
+						<div class="form-group">
+							<label for="Nickname"><h3>Sobrenombre</h3></label>
+							<input type="text" class="form-control" id="nickname" ng-model="dataArtist.nickname" aria-describedby="nicknameHelp" placeholder="Ingrese el sobrenombre del artista">
+							<hr>
+						</div>
+						<div class="form-group pull-right">
+							<button type="submit" class="btn btn-success" ng-click="create(dataArtist)">Crear Artist</button>
+						</div>
+					</form>	
+				</div>
+			</div>
+		</div>
+	</div>
+</div>	
+ 

@@ -1,0 +1,37 @@
+<div class="row">
+	<div class="col-xs-12 external-login-container">
+		<div class = "row">
+			<div class="center-block">
+				<div class="offset-xs-2 col-xs-8 internal-login-container">
+					<form name="loginForm">
+						<div class="form-group">
+						<!-- Form Name -->
+						<legend><center>ALTA CANCIÓN</center></legend><hr>	
+					    <label for="Title"><h3>Nombre</h3></label>
+					    <input type="text" class="form-control" id="name"  ng-model="dataSong.name" aria-describedby="emailHelp" placeholder="Ingrese el nombre de la canción">
+					   
+					   <hr>
+					  </div>
+						<div class="form-group">
+					  	<label for="releaseDate"><h3>Duración</h3></label>
+					  	<div>
+					    <input type="text" class="form-control" id="duration"  ng-model="dataSong.duration" aria-describedby="emailHelp" placeholder="Ingrese la duracion de la canción">
+					    <hr>
+					  </div>
+
+						<div class="form-group">
+					    <label for="exampleSelect1"><h3>Albúm</h3></label>
+					    <select class="form-control" id="exampleSelect1" ng-model="dataSong.album">
+					    	 <option value="" selected disabled>Seleccione una albúm</option>
+					    	 <option ng-repeat="album in albums" value="{{album.AlbumID}}">{{album.title}}</option>
+					    </select>
+					    <div class="form-group pull-right">
+					    	<hr>
+							<button type="submit" class="btn btn-success" ng-click="createSong(dataSong)">Crear Canción</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>	

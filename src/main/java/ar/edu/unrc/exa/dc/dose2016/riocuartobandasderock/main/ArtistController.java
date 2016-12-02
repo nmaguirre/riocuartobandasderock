@@ -21,6 +21,7 @@ public class ArtistController {
 	/**
 	 * one implementation ArtistDao to connect to db
 	 */
+
 	private static ArtistController instance;
     
 	/**
@@ -37,6 +38,7 @@ public class ArtistController {
 			instance=new ArtistController();
 		}
 		return instance;
+
 	}
 	
 

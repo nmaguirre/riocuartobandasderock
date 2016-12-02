@@ -81,7 +81,12 @@ public class Bootstrap {
          *
          */
 
+
+        
+        artistController = ArtistController.getInstance();
+
         // List of controller
+
 
         albumController  = AlbumController.getInstance();
         artistController = ArtistController.getInstance();
@@ -128,6 +133,7 @@ public class Bootstrap {
 
         post("/bands/",(req, res) -> bands.createBand(req, res));
 
+
         put("/bands",(req, res) -> bands.updateBand(req, res));
 
         delete("/bands/:name",(req, res) -> bands.deleteBand(req, res));
@@ -155,7 +161,9 @@ public class Bootstrap {
         
         get("/artists/getbandsbyId/:artistID",(req,res)->artistController.getBandMembersByArtistId(req, res),json());
 
+
         post("/artists",(req,res)->artistController.createArtist(req,res));
+
         
         put("/artists/:id",(req,res)->artistController.updateArtist(req,res));
 
