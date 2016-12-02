@@ -1,5 +1,5 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
- 
+
 import java.io.*;
 import java.sql.*;
 // import org.json.*;
@@ -17,10 +17,10 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.ArtistDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.*;
 import org.hibernate.Session;
- 
+
 @SuppressWarnings("serial")
 public class DashboardArtistsDatatable{
- 
+
   private String SEARCH;
   private int PAGE_NO;
   private int PAGE_SIZE;
@@ -43,7 +43,7 @@ public class DashboardArtistsDatatable{
   }
 
   public JSONObject getArtists(Request request){
- 
+
     JSONObject result = new JSONObject();
     JSONArray array = new JSONArray();
 
@@ -58,7 +58,7 @@ public class DashboardArtistsDatatable{
       artists = adao.ilike(SEARCH);
 
     TOTAL_RECORDS = artists.size();
-    
+
     // pagination
     artists = subList(PAGE_NO, PAGE_SIZE, artists);
 
@@ -68,9 +68,12 @@ public class DashboardArtistsDatatable{
       JSONObject url = new JSONObject();
       row.put("name", artist.getName());
       row.put("surname", artist.getSurname());
-      row.put("nickname", artist.getNickname());
+      String nickname = artist.getNickname();
+      if (nickname == null)
+        nickname = "";
+      row.put("nickname", nickname);
       row.put("actions", buttons(artist));
-      array.add(row); 
+      array.add(row);
     }
 
     // json resul for datatable
@@ -103,5 +106,5 @@ public class DashboardArtistsDatatable{
     buttons += "<i class='material-icons'>close</i></a>";
     return buttons;
   }
- 
+
  }
