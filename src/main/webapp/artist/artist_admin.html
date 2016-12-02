@@ -105,7 +105,7 @@
                 response = '<table>';
                 itemindex = 1;
                 $.each(request, function(i, item) {
-                       response += '<tr>'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.genre+'</td> <td> <a href="javascript:void(0);" class="glyphicon glyphicon-plus" onclick="addBandMember(\''+item.id+'\',\''+artistId+'\'); event.stopImmediatePropagation();"</a> </td> </tr>';
+                       response += '<tr>'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.genre+'</td> <td> <a href="javascript:void(0);" class="glyphicon glyphicon-check" onclick="addBandMember(\''+item.id+'\',\''+artistId+'\'); event.stopImmediatePropagation();"</a> </td> </tr>';
                         ++itemindex;
                 });           
                 response += '</table>';    
@@ -127,8 +127,8 @@
                     $('.formData').slideUp();
                     showBandMInDialog(artistId);
                  },
-                 error: function(x, e) {
-                    alert(e);
+                 error: function(x, e, status) {
+                    alert(status+": artist already in band");
                  }
             });
         
@@ -507,7 +507,7 @@
                             <th></th>
                             <th>Name</th>
                             <th>Genre</th>
-                            <th>Action</th>
+                            <th>Add</th>
                         </tr>
                     </thead>
                     <tbody id="bandMAllData"></tbody>
@@ -520,6 +520,7 @@
                         <th></th>
                         <th>Name</th>
                         <th>Genre</th>
+                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody id="bandMData"></tbody>

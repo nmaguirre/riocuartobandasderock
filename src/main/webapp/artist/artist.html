@@ -232,25 +232,9 @@
             });
         }
     }
+    
 
-    function deleteArtist(id) {            
-            
-        resourcelocation ='/artists/'+id;
-            
-        $.ajax({
-            type: "DELETE",
-            url: resourcelocation,
-            data: '', 
-            success: function(data)
-            {
-                showArtists('/artists'); //optional refresh list
-            },
-            error: function(x, e) {
-                     
-            }
-        });
 
-    }
 
    function showSearchMenu(by) {            
         $('.form')[2].reset();
@@ -386,24 +370,24 @@
     <div class="row">
         <div class="panel panel-default users-content">
             <div class="panel-heading"><i class="glyphicon glyphicon-th-list"></i>  Artists list
-	<div class="btn-group pull-right" role="group">
+    <div class="btn-group pull-right" role="group">
     <button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:showArtists('/artists')">Show all</button>
-	<button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:$('#addForm').slideToggle(); $('.form')[0].reset();">Add</button>
-	  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	    Search <span class="caret"></span>
-	  </button>
-	  <ul class="dropdown-menu">
-	    <li><a href="javascript:void(0);" onclick="javascript:$(showSearchMenu('name'));">By name</a></li>
-	    <li><a href="javascript:void(0);" onclick="javascript:$(showSearchMenu('surname'));">By surname</a></li>
-	    <li><a href="javascript:void(0);" onclick="javascript:$(showSearchMenu('nickname'));">By nickname</a></li>
-	    <li role="separator" class="divider"></li>
-	    <li><a href="javascript:void(0);" onclick="javascript:$(showSearchMenu('all'));">By all fields</a></li>
-	  </ul>
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Search <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a href="javascript:void(0);" onclick="javascript:$(showSearchMenu('name'));">By name</a></li>
+        <li><a href="javascript:void(0);" onclick="javascript:$(showSearchMenu('surname'));">By surname</a></li>
+        <li><a href="javascript:void(0);" onclick="javascript:$(showSearchMenu('nickname'));">By nickname</a></li>
+        <li role="separator" class="divider"></li>
+        <li><a href="javascript:void(0);" onclick="javascript:$(showSearchMenu('all'));">By all fields</a></li>
+      </ul>
 
-	</div>
+    </div>
 
-	    </div>
-            <div class="panel-body none formData" id="addForm">
+        </div>
+
+        <div class="panel-body none formData" id="addForm">
                 <h2 id="actionLabel">Add Artist</h2>
                 <form class="form" id="userForm">
                     <div class="form-group">
@@ -444,7 +428,7 @@
                 </form>
             </div>
 
-	    <div class="panel-body none formData" id="searchForm">
+        <div class="panel-body none formData" id="searchForm">
                 <h2 id="actionLabel">Search Artist</h2>
                 <form class="form" id="userForm">
                     <div class="form-group">
@@ -494,8 +478,10 @@
         
             <div class="panel panel-default users-content">
                 <div class="panel-heading"><i class="glyphicon glyphicon-th-list"></i>  Artists bands
+
                     <div class="btn-group pull-right" role="group">
                     </div>
+
                 </div>
             </div>
             <div class="panel-body none formData" id="bandMaddForm">
