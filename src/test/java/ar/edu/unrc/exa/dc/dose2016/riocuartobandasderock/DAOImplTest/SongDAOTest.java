@@ -18,7 +18,9 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 
-
+/**
+ * In this class are hosted the test corresponding to the class songdao
+ */
 public class SongDAOTest {
 	
 	private SongDAO songDao;
@@ -26,6 +28,10 @@ public class SongDAOTest {
 	private Album alb;
 	private Band band;
 	
+        /**
+         * 
+         *this metod is executed before to run each test 
+         */
 	@Before
 	public void setUp(){
 		session = SessionManager.getInstance().openSession();
@@ -39,12 +45,19 @@ public class SongDAOTest {
     	session.getTransaction().commit();
 	}
 	
+        /**
+         * this metod is executed after to run each test
+         */
 	@After
 	public void closeSession(){
 		session.close();
 	};
 
-            
+            /**
+             * test findByIdTest
+             * Description:This test confirms that findById method generates a search in 
+             * the database correctly using the id of song
+             */
     @Test
 	public void findByIdTest() {
     	
@@ -59,6 +72,11 @@ public class SongDAOTest {
 	}
         
     
+        /**
+         * test findByNameTest
+         * Description:This test confirms that findByName method generates a search in 
+         * the database correctly using the name of song
+         */
     @Test
 	public void findByNameTest() {
     	
@@ -74,6 +92,11 @@ public class SongDAOTest {
 		} 
 	}
         
+        /**
+         * test findByDurationTest
+         * Description:This test confirms that findByDuration method generates a search in 
+         * the database correctly using the duration of song
+         */
     @Test
 	public void findByDurationTest() {
     	Song song = new Song("name",100);
@@ -89,7 +112,10 @@ public class SongDAOTest {
 
 	}
     
-    
+    /**
+     * test addTest
+     * Description:This test confirms that a song was added to the database
+     */
     @Test
     public void addTest(){
     	
@@ -103,11 +129,20 @@ public class SongDAOTest {
     	
     }	
     
+    /**
+     * test findByEmptyId
+     * Description:This test confirms that the method findById not cant search a null id
+     */
 	@Test(expected = IllegalArgumentException.class)
 	public void findByEmptyId() {
 		songDao.findById("");
 	}
 	
+        /**
+         * test updateTest
+         * Description:This test confirms the method updateSong to generate
+         * the corresponding changes in a song in the database    
+         */
 	 @Test
 	 public void updateTest(){
 	    	
@@ -126,7 +161,11 @@ public class SongDAOTest {
 	    	
 	 }	
 	 
-	 
+	 /**
+            * test removeTest
+            * Description:This test is responsible for corroborating the removeSong method 
+            * to delete the database song whose id is parameter
+            */
 	 @Test
 	 public void removeTest(){
 	    	
