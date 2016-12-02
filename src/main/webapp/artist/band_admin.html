@@ -81,7 +81,7 @@
                 response = '<table>';
                 itemindex = 1;
                 $.each(request, function(i, item) {
-                       response += '<tr>'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.surname+'</td>'+'<td>'+item.nickname+'</td>' +'</tr>';
+                       response += '<tr>'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.surname+'</td>'+'<td>'+item.nickname+'</td> <td> <a href="javascript:void(0);" class="glyphicon glyphicon-minus" onclick="deleteBandMember(\''+id+'\',\''+item.artistID+'\'); event.stopImmediatePropagation();"</a> </td> </tr>';
                         ++itemindex;
                 });           
                 response += '</table>';    
@@ -306,6 +306,24 @@
 			}
 		}); */
 	}
+	
+    function deleteBandMember(bandId, artistId) {
+        resourcelocation ='/bandmembers/'+artistId+"/"+bandId;       
+        
+        $.ajax({
+            type: "DELETE",
+            url: resourcelocation,
+            data: '', 
+            success: function(data)
+            {
+                showArtistMInDialog(bandId); //optional refresh list
+            },
+            error: function(x, e) {
+                     
+            }
+        });
+        
+    }
 
 	function showAlbumMInDialog(id){
         $("#albumMModal").modal()
