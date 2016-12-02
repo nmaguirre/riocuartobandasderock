@@ -1,31 +1,30 @@
-<div class="modal-dialog modal-lg" role="document">
+<div id="albumId"></div>
+<div class="modal-dialog modal-lg" role="document" id="noSearch">
   <div class="modal-content">
-    <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      <h4 class="modal-title" id="myModalLabel">Datos del Album</h4>
-    </div>
-    <div class="modal-body">
-      <strong>Título</strong>
-      <h5>$album.getTitle()</h5>
+    <div class="col-md-12">
+      <div class= "card">
+        <div class="card-header" data-background-color="green">
+          <h4 class="modal-title" id="myModalLabel">Datos del Álbum</h4>
+        </div>
+      <div class="modal-body">
+        <strong>Banda</strong>
+        <h5>$album.getBand().getName()</h5>
 
-      <strong>Fecha de lanzamiento</strong>
-      #if($album.getReleaseDate() != $null)
-        <h5>$album.getReleaseDate()</h5>
-      #else
-        <h5>El album no contiene fecha de lanzamiento</h5>
-      #end
+        <strong>Título</strong>
+        <h5>$album.getTitle()</h5>
 
-    </div>
-    <div class="modal-footer">
-      <a href="/albums" type="button" class="btn btn-default" data-dismiss="modal">Volver</a>
+        <strong>Fecha de lanzamiento</strong>
+        #if($album.getReleaseDate() != $null)
+          <h5>$album.getReleaseDate()</h5>
+        #else
+          <h5>El ábum no contiene fecha de lanzamiento</h5>
+        #end
+
+      </div>
+      <div class="modal-footer text-center">
+        <a href="/albums" type="button" class="btn btn-primary" data-dismiss="modal">Volver</a>
+      </div>
+      </div>
     </div>
   </div>
 </div>
-
-<script>
-  #include("vendor/jquery/jquery.min.js")
-  $(document).ready(function() {
-    $('li').removeClass('active');
-    $('#album').addClass('active');
-  });
-</script>

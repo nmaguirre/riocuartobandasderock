@@ -99,5 +99,7 @@ public interface BandDAO {
 		*@return number of bands in database
 		*/
 	   public int cantBands();
+
+ 	   public List<Band> ilike(String name);
 }
 

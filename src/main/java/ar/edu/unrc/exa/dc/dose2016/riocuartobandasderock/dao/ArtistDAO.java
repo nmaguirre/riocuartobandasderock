@@ -96,4 +96,6 @@ public interface ArtistDAO {
 	*@return number of artist in database
 	*/
 	public int cantArtists();
+
+	public List<Artist> ilike(String name);
 }

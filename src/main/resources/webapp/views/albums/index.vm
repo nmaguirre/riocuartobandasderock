@@ -1,16 +1,23 @@
+<div id="albumId"></div>
 <div class="content">
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12">
         <div class="card card-plain">
-          <div class="card-header col-md-12" data-background-color="green">
-            <div class="col-md-10">
-              <h4 class="title">Listado de todos los Albumes</h4>
-            </div>
-            <div class="col-md-2">
-              <a href="/albums/new" type="button" class="btn btn-default" data-dismiss="modal">
-                <i class="material-icons">playlist_add</i>Crear Album</a>
-            </div>
+          <div class="card-header col-md-12 remove-vertical-padding" data-background-color="green">
+            <table class="table">
+              <tr>
+                <td>
+                  <h4 class="title">Listado de todos los álbumes</h4>
+                </td>
+                <td>
+                  <a href="/albums/new" class="btn btn-default pull-right">
+                    <i class="material-icons">playlist_add</i>
+                    Crear Álbum
+                  </a>
+                </td>
+              </tr>
+            </table>
           </div>
           <div class="card-content table-responsive">
             #if ($success != $null)
@@ -19,36 +26,17 @@
               </div>
               <br>
             #end
-            <table class="table table-hover">
+
+            <table id="dashboard-albums-datatable" data-url="/albums/datatable" class="table table-striped table-bordered table-hover">
               <thead>
-                <th>Titulo</th>
-                <th>Lanzamiento</th>
-                <th>Acciones</th>
+                <tr>
+                  <th>Titulo</th>
+                  <th>Lanzamiento</th>
+                  <th>Acciones</th>
+                </tr>
               </thead>
+              <div id="alert"></div>
               <tbody>
-                #if($albums != $null)
-                  #foreach( $album in $albums )
-                    <tr>
-                      <td>$album.getTitle()</td>
-                      <td>$album.getReleaseDate()</td>
-                      <td>
-                        <a href="/albums/$!{album.getId()}">
-                          <i class="material-icons">remove_red_eye</i>
-                        </a>
-                        <a href="/albums/$!{album.getId()}/edit">
-                          <i class="material-icons">edit</i>
-                        </a>
-                        <a href="/albums/$!{album.getId()}" method="delete">
-                          <i class="material-icons">close</i>
-                        </a>
-                      </td>
-                    </tr>
-                  #end
-                #else
-                  <tr>
-                    <td colspan="4">No hay ningun album cargado en el sistema</td>
-                  </tr>
-                #end
               </tbody>
             </table>
           </div>
@@ -57,11 +45,3 @@
     </div>
   </div>
 </div>
-
-<script>
-  #include("vendor/jquery/jquery.min.js")
-  $(document).ready(function() {
-    $('li').removeClass('active');
-    $('#album').addClass('active');
-  });
-</script>

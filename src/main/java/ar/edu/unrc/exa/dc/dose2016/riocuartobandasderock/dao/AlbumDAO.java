@@ -86,4 +86,6 @@ public interface AlbumDAO {
 	*@return number of albums in database
 	*/
 	public int cantAlbums();
+
+	 public List<Album> ilike(String name);
 }

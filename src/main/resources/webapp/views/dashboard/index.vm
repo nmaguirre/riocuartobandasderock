@@ -26,7 +26,7 @@
       </div>
       <div class="card-footer">
         <div class="stats">
-          <a href="/artists/new">Agregar artista</a>
+          <a class="green-font" href="/bands/new">Agregar artista</a>
         </div>
       </div>
     </div>
@@ -42,7 +42,7 @@
       </div>
       <div class="card-footer">
         <div class="stats">
-          <a href="/songs/new">Agregar canción</a>
+          <a class="red-font" href="/bands/new">Agregar canción</a>
         </div>
       </div>
     </div>
@@ -59,7 +59,7 @@
       </div>
       <div class="card-footer">
         <div class="stats">
-          <a href="/albums/new">Agregar álbum</a>
+          <a class="blue-font" href="/bands/new">Agregar álbum</a>
         </div>
       </div>
     </div>

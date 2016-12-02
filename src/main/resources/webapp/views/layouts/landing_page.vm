@@ -19,6 +19,12 @@
   <link href="assets/css/grayscale.min.css" rel="stylesheet" type="text/css">
 
 
+  <!-- carousel-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel="stylesheet" href="vendor/carousel/css/style.css">
+
+
+
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -50,7 +56,7 @@
             <a href="#page-top"></a>
           </li>
           <li>
-            <a class="page-scroll" href="#bandas">Bandas</a>
+            <a class="page-scroll" href="#mycarousel">Bandas</a>
           </li>
           <li>
             <a class="page-scroll" href="#artistas">Artistas</a>
@@ -83,7 +89,7 @@
   <footer>
     <div class="container text-center">
       <p class="copyright pull-right">
-        &copy; <script>document.write(new Date().getFullYear())</script> <a href="http://www.creative-tim.com">Creative Tim</a>, made with love for a better web
+        Copyright © DOSE 2016
     </p>
       
     </div>
@@ -100,7 +106,10 @@
   <!-- Google Maps API Key - Use your own API key to enable the map feature. More information on the Google Maps API can be found at https://developers.google.com/maps/ -->
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRngKslUGJTlibkQ3FkfTxj3Xss1UlZDA&sensor=false"></script>
 
-  <!-- Theme JavaScript -->
+  <!-- carousel -->
+  <script type="text/javascript" src="vendor/carousel/js/index.js"></script>
+
+
 </body>
 
 </html>
