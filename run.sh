@@ -6,7 +6,7 @@ mvn clean
 mvn compile
 echo "============= STARTING DOCKER ============="
 docker run -d -p $new_port:5432 rcrockbands_db_container:latest > .docker_saved_pid
-sleep  5
+sleep  3
 echo "================ MAKE OWNER ==============="
 psql -h localhost -p $new_port:5432  -U postgres -d rcrockbands -c "grant postgres to rock_db_owner;"
 

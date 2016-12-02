@@ -276,9 +276,10 @@ public class ArtistDaoImpl implements ArtistDAO {
 		if(name == null || name.equals("")){
 			throw new IllegalArgumentException("the 'name' param for search a band can not be null or empty.");
 		} else {
-			Query<Artist> query = this.currentSession.createQuery("from Artist where name like ? or from Artist where surname like ?
-			 																											or from Artist where nickname like ?", Artist.class);
-			query.setString(0, '%' + name.toLowerCase() + '%');
+			Query<Artist> query = this.currentSession.createQuery("from Artist where name like :name OR surname like :surname OR nickname like :nick ", Artist.class);
+			query.setParameter("name", '%' + name.toLowerCase() + '%' );
+			query.setParameter("surname", '%' + name.toLowerCase() + '%' );
+			query.setParameter("nick", '%' + name.toLowerCase() + '%' );
 			return query.getResultList();
 		}
 	}

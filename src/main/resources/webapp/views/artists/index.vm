@@ -1,3 +1,4 @@
+<div id="artistId"></div>
 <div class="content">
   <div class="container-fluid">
     <div class="row">
@@ -35,6 +36,7 @@
                   <th>Acciones</th>
                 </tr>
               </thead>
+              <div id="alert"></div>
               <tbody>
               </tbody>
             </table>

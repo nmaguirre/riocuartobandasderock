@@ -18,6 +18,8 @@
   <link href="/assets/css/material-dashboard.css" rel="stylesheet" type="text/css">
   <link href="/assets/css/demo.css" rel="stylesheet" type="text/css">
   <link href="/vendor/data-table/css/query.dataTables.min.css" rel="stylesheet" type="text/css">
+  ## <link href="/vendor/data-table/css/dataTables.material.min.css" rel="stylesheet" type="text/css">
+  <link href="/vendor/data-table/css/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -47,6 +49,8 @@
 
 
   <script type="text/javascript" src="/vendor/data-table/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="/vendor/data-table/js/dataTables.material.min.js"></script>
+  ## <script type="text/javascript" src="/vendor/data-table/js/dataTables.bootstrap.min.js"></script>
 
   <script src="/assets/js/dashboard/band.js"></script>
   <script src="/assets/js/dashboard/song.js"></script>

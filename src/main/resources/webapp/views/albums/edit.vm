@@ -1,3 +1,4 @@
+<div id="albumId"></div>
 <div class="container-fluid" id="noSearch">
   <div class="row">
     <div class="col-xs-12">
@@ -39,29 +40,3 @@
     </div>
   </div>
 </div>
-
-<script>
-  $(document).ready(function() {
-    $('li').removeClass('active');
-    $('#album').addClass('active');
-    var id = $('#form').attr('class');
-
-    $('#submit').on('click', function(event){
-      event.preventDefault();
-      var input_title = $('#title').val();
-      var input_release_date = $('#release_date').val();
-      var input_band_id = $('#band_id').val();
-      $.ajax({
-        url: "/albums/"+id,
-        method: "put",
-        data: {
-          title: input_title,
-          release_date: input_release_date,
-          band_id: input_band_id
-        }
-      }).done(function() {
-        window.location.replace("/albums/"+id);
-      });
-    })
-  });
-</script>

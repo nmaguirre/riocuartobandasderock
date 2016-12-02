@@ -1,25 +1,27 @@
+<div id="bandId"></div>
 <div class="modal-dialog modal-lg" role="document" id="noSearch">
   <div class="modal-content">
-    <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      <div class="alert alert-success" role="alert">
-        <h4 class="modal-title" id="myModalLabel">Datos de la Banda</h4>
+    <div class="col-md-12">
+      <div class= "card">
+        <div class="card-header" data-background-color="green">
+          <h4 class="modal-title" id="myModalLabel">Datos de la Banda</h4>
+        </div>
+        <div class="modal-body">
+          <strong>Nombre</strong>
+          <h5>$band.getName()</h5>
+
+          <strong>Género al que pertenece</strong>
+          #if($band.getGenre() != $null)
+            <h5>$band.getGenre()</h5>
+          #else
+            <h5>La banda no contiene ningun género asociado</h5>
+          #end
+
+        </div>
+        <div class="modal-footer">
+          <a href="/bands" type="button" class="btn btn-primary" data-dismiss="modal">Volver</a>
+        </div>
       </div>
-    </div>
-    <div class="modal-body">
-      <strong>Nombre</strong>
-      <h5>$band.getName()</h5>
-
-      <strong>Género al que pertenece</strong>
-      #if($band.getGenre() != $null)
-        <h5>$band.getGenre()</h5>
-      #else
-        <h5>La banda no contiene ningun género asociado</h5>
-      #end
-
-    </div>
-    <div class="modal-footer">
-      <a href="/bands" type="button" class="btn btn-primary" data-dismiss="modal">Volver</a>
     </div>
   </div>
 </div>
