@@ -54,6 +54,10 @@ angular.module('app')
 	
 	load_albums();
 
+	$scope.create = function createArtist(data) {
+		alert("Creación de banda correcta.");
+	}
+
 	/*$scope.bands = [];
 	$scope.band = '';
 
