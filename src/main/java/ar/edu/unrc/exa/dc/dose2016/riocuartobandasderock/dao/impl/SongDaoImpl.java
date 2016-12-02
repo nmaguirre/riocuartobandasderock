@@ -180,4 +180,13 @@ public class SongDaoImpl implements SongDAO{
 		}
 	}
 
+	public List<Song> ilike(String name){
+		if(name == null || name.equals("")){
+			throw new IllegalArgumentException("the 'name' param for search a band can not be null or empty.");
+		} else {
+			Query<Song> query = this.currentSession.createQuery("from Song where name like ?", Song.class);
+			query.setString(0, '%' + name.toLowerCase() + '%');
+			return query.getResultList();
+		}
+	}
 }

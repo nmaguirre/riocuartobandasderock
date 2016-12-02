@@ -285,4 +285,14 @@ public class AlbumDaoImpl implements AlbumDAO{
 		  this.currentSession.saveOrUpdate(toUpdate);
 		  return true;
 	}
+
+		public List<Album> ilike(String name){
+		if(name == null || name.equals("")){
+			throw new IllegalArgumentException("the 'name' param for search a album can not be null or empty.");
+		} else {
+			Query<Album> query = this.currentSession.createQuery("from Album where title like ?", Album.class);
+			query.setString(0, '%' + name.toLowerCase() + '%');
+			return query.getResultList();
+		}
+	}
 }
