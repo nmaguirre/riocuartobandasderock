@@ -22,6 +22,11 @@ public class SongDaoImpl implements SongDAO{
 	}
 
 	
+     /**
+		* This method count the number of songs
+		*
+		*@return number of songs in database
+		*/
 	
 	public int cantSongs() {
 		List<Song> songList = new LinkedList<>();
