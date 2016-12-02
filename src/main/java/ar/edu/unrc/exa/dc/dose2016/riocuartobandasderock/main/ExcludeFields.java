@@ -1,9 +1,8 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
-<<<<<<< HEAD
-import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
-=======
->>>>>>> 10c87e646e0e0956729e7c4a3dfc46c7731a4b06
+
+
+
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 

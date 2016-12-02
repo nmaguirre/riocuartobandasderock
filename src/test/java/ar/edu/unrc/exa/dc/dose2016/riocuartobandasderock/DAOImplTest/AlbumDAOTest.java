@@ -170,7 +170,7 @@ public class AlbumDAOTest {
 		
 		session.close();
 	}
-	//PROBANDO ESTEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+
 	@Test
 	public void createAlbumWhenNotNullReleaseDateAndTitleExist(){
 		Transaction transaction = session.beginTransaction();
