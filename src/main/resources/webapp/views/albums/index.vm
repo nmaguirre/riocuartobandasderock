@@ -10,7 +10,7 @@
                   <h4 class="title">Listado de todos los álbumes</h4>
                 </td>
                 <td>
-                  <a href="/albums/new" class="btn btn-warning pull-right">
+                  <a href="/albums/new" class="btn btn-default pull-right">
                     <i class="material-icons">playlist_add</i>
                     Crear Álbum
                   </a>
@@ -44,7 +44,7 @@
                         <a href="/albums/$!{album.getId()}/edit">
                           <i class="material-icons">edit</i>
                         </a>
-                        <a href="/albums/$!{album.getId()}" method="delete">
+                        <a href="/albums/$!{album.getId()}" class="$!{artist.getId()}" id="delete">
                           <i class="material-icons">close</i>
                         </a>
                       </td>
@@ -68,5 +68,16 @@
   $(document).ready(function() {
     $('li').removeClass('active');
     $('#album').addClass('active');
+    var id = $('#delete').attr('class')
+
+    $('#delete').on('click', function(event){
+      event.preventDefault();
+      $.ajax({
+        url: "/albums/"+id,
+        method: "delete"
+      }).done(function() {
+        window.location.replace("/albums");
+      });
+    })
   });
 </script>

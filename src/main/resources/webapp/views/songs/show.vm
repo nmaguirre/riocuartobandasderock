@@ -17,7 +17,7 @@
 
     </div>
     <div class="modal-footer">
-      <a href="/bands" type="button" class="btn btn-default" data-dismiss="modal">Volver</a>
+      <a href="/bands" type="button" class="btn btn-primary" data-dismiss="modal">Volver</a>
     </div>
   </div>
 </div>

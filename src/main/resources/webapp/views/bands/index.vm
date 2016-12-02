@@ -10,7 +10,7 @@
                   <h4 class="title">Listado de todas las bandas</h4>
                 </td>
                 <td>
-                  <a href="/bands/new" class="btn btn-warning pull-right">
+                  <a href="/bands/new" class="btn btn-default pull-right">
                     <i class="material-icons">playlist_add</i>
                     Crear Banda
                   </a>
@@ -34,7 +34,7 @@
                 </tr>
               </thead>
               <tbody>
-                #if ($bands != $null)
+                #if ($bands !=  $null&& $bands.size() != 0)
                   #foreach( $band in $bands )
                     <tr>
                       <td>$band.getName()</td>
@@ -46,7 +46,7 @@
                         <a href="/bands/$!{band.getId()}/edit">
                           <i class="material-icons">edit</i>
                         </a>
-                        <a href="/bands/$!{band.getId()}" method="delete">
+                        <a href="/bands/$!{band.getId()}" class="$!{artist.getId()}" id="delete">
                           <i class="material-icons">close</i>
                         </a>
                       </td>
@@ -70,5 +70,17 @@
   $(document).ready(function() {
     $('.sidebar-wrapper li').removeClass('active');
     $('.sidebar-wrapper li#band').addClass('active');
+    var id = $('#delete').attr('class')
+
+    $('#delete').on('click', function(event){
+      event.preventDefault();
+      $.ajax({
+        url: "/bands/"+id,
+        method: "delete"
+      }).done(function() {
+        window.location.replace("/bands");
+      });
+    })
+
   });
 </script>

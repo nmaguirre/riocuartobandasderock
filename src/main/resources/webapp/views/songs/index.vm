@@ -10,7 +10,7 @@
                   <h4 class="title">Listado de todas las canciones</h4>
                 </td>
                 <td>
-                  <a href="/songs/new" class="btn btn-warning pull-right">
+                  <a href="/songs/new" class="btn btn-default pull-right">
                     <i class="material-icons">playlist_add</i>
                     Crear Canción
                   </a>
@@ -44,7 +44,7 @@
                         <a href="/bands/$!{band.getId()}/edit">
                           <i class="material-icons">edit</i>
                         </a>
-                        <a href="/bands/$!{band.getId()}" method="delete">
+                        <a href="/bands/$!{band.getId()}" class="$!{artist.getId()}" id="delete">
                           <i class="material-icons">close</i>
                         </a>
                       </td>
@@ -68,5 +68,16 @@
   $(document).ready(function() {
     $('li').removeClass('active');
     $('#song').addClass('active');
+    var id = $('#delete').attr('class')
+
+    $('#delete').on('click', function(event){
+      event.preventDefault();
+      $.ajax({
+        url: "/songs/"+id,
+        method: "delete"
+      }).done(function() {
+        window.location.replace("/songs");
+      });
+    })
   });
 </script>

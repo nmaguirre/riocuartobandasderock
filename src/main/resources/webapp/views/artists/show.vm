@@ -23,7 +23,7 @@
       #end
     </div>
     <div class="modal-footer">
-      <a href="/artists" type="button" class="btn btn-default" data-dismiss="modal">Volver</a>
+      <a href="/artists" type="button" class="btn btn-success" data-dismiss="modal">Volver</a>
     </div>
   </div>
 </div>

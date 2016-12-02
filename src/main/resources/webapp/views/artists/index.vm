@@ -10,7 +10,7 @@
                   <h4 class="title">Listado de todos los artistas</h4>
                 </td>
                 <td>
-                  <a href="/artists/new" class="btn btn-warning pull-right">
+                  <a href="/artists/new" class="btn btn-default pull-right">
                     <i class="material-icons">playlist_add</i>
                     Crear Artista
                   </a>
@@ -54,7 +54,7 @@
                         <a href="/artists/$!{artist.getId()}/edit">
                           <i class="material-icons">edit</i>
                         </a>
-                        <a href="/artists/$!{artist.getId()}" method="delete">
+                        <a href="/artists/$!{artist.getId()}" class="$!{artist.getId()}" id="delete">
                           <i class="material-icons">close</i>
                         </a>
                       </td>
@@ -78,19 +78,16 @@
   $(document).ready(function() {
     $('li').removeClass('active');
     $('#artist').addClass('active');
+    var id = $('#delete').attr('class')
 
-    $('.btn-primary').on('click', function(){
-      id = this.id;
-      $('input#artistName').text($('#'+id).data('name'))
-      $('input#artistSurname').text($('#'+id).data('surname'))
-      $('input#artistNick').text($('#'+id).data('nick'))
-
-      $('#exampleModal').on('show.bs.modal', function (event) {
-        var modal = $(this)
-        modal.find('input#artistName').text($('#'+id).data('name'))
-        modal.find('input#artistSurname').text($('#'+id).data('surname'))
-        modal.find('input#artistNick').text($('#'+id).data('nick'))
-      })
+    $('#delete').on('click', function(event){
+      event.preventDefault();
+      $.ajax({
+        url: "/artists/"+id,
+        method: "delete"
+      }).done(function() {
+        window.location.replace("/artists");
+      });
     })
   });
 </script>
