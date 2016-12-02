@@ -267,8 +267,9 @@ public class BandDaoImpl implements BandDAO {
 			if(name == null || name.equals("")){
 					throw new IllegalArgumentException("the 'name' param for search a band can not be null or empty.");
 				} else {
-					Query<Band> query = this.currentSession.createQuery("from Band where name like ? or from Band where genre like ?", Band.class);
+					Query<Band> query = this.currentSession.createQuery("from Band where name like ? or genre like ?", Band.class);
 					query.setString(0, '%' + name.toLowerCase() + '%');
+					query.setString(1, '%' + name.toLowerCase() + '%');
 					return query.getResultList();
 				}
 		}
