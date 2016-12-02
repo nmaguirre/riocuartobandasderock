@@ -44,7 +44,7 @@
                         <a href="/albums/$!{album.getId()}/edit">
                           <i class="material-icons">edit</i>
                         </a>
-                        <a href="/albums/$!{album.getId()}" class="$!{artist.getId()}" id="$!{artist.getId()}">
+                        <a href="/albums/$!{album.getId()}" class="$!{album.getId()}" id="$!{album.getId()}">
                           <i class="material-icons">close</i>
                         </a>
                       </td>

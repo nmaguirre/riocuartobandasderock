@@ -44,7 +44,7 @@
                         <a href="/songs/$!{song.id}/edit">
                           <i class="material-icons">edit</i>
                         </a>
-                        <a href="/bands/$!{band.getId()}" class="$!{artist.getId()}" id="$!{artist.getId()}">
+                        <a href="/bands/$!{band.getId()}" class="$!{song.getId()}" id="$!{song.getId()}">
                           <i class="material-icons">close</i>
                         </a>
                       </td>
