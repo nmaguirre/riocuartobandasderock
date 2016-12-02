@@ -10,13 +10,24 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.xml.bind.DatatypeConverter;
 
+
+/**
+ * Title:   riocuartobandasderock.model.User<p>
+ * Description: class which defines a user of bands of rock with the basic elements
+ *              that are required for a user.<p>
+ * 
+ */
+
 @Entity
 @Table(name = "Users")
 public class User {
+	
+	/** User name*/
 	@Id
 	@Column(name = "name")
 	private String name;
 
+	/** User password*/
 	@Column(name = "password")
 	private String password;
 	

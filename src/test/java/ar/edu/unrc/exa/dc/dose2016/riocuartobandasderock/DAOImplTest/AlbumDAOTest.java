@@ -156,7 +156,6 @@ public class AlbumDAOTest {
 	public void createAlbumIfNotInDB(){
 		Transaction transaction = session.beginTransaction();
 		Band band = bdao.findByName(banda.getName()).get(0); //use in others tests
-		System.out.println(exampleDate2.toString());
 		boolean a = albumDao.create("AlbumTest1",exampleDate2,null,band.getId());
 		transaction.commit();
 		assertTrue(a);
@@ -453,7 +452,6 @@ public class AlbumDAOTest {
 		transaction.commit();
 		session.close();	
 		
-		System.out.println(res);
 		
 		assertFalse(res);
 	}

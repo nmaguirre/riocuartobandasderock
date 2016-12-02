@@ -16,7 +16,7 @@ public interface BandDAO {
 	   public List<Band> getAllBands();
 	   
 	   /**
-	    *
+	    * This method get a particular band
 	    * @param String id
 	    *
 	    * @return Bands that have a particular id
@@ -24,7 +24,7 @@ public interface BandDAO {
 	   public Band getBand(String id);
 
 	   /**
-	    *
+	    * This method modify a band
 	    * @param Band band
 	    *
 	    * @return true if the update was successful
@@ -32,7 +32,7 @@ public interface BandDAO {
 	   public boolean updateBand(String id, String name, String genre); 
 	   
 	   /**
-	    *
+	    * This method remove a band
 	    * @param String id
 	    *
 	    * @return true if the delete was successful
@@ -40,7 +40,7 @@ public interface BandDAO {
 	   public boolean deleteBand(String id);
 
 	   /**
-	    *
+	    * This method created a band
 	    * @param Band band
 	    *
 	    * @return true if the insert was successful
@@ -87,7 +87,7 @@ public interface BandDAO {
 	   
 	   
 	   /**
-		 * 
+		 * This method find a band by id
 		 * @param String id
 		 * @return Band that have a particular id	
 		 */
