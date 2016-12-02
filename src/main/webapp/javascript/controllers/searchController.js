@@ -8,7 +8,8 @@ angular.module('app')
 	$scope.songs = [];
 	
 	$scope.go_search = function(){
-		$location.path("/search_results?value="+$scope.value);	
+		$location.path("/search_results").search({value: $scope.value});
+
 	}
 
 	function search_all(value) {
@@ -74,8 +75,6 @@ angular.module('app')
 		})
 	};
 
-	console.log($location.path());
-	console.log($location.search().value);
 	if ($location.path() == "/search_results" && $location.search().value != undefined){
 		search_all($location.search().value);
 	} 
