@@ -9,10 +9,6 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-
-
-
-
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.AlbumDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.AlbumDaoImpl;
@@ -82,6 +78,16 @@ public class AlbumController {
 
     public ModelAndView editAlbum(Request req,Response res){
         Map<String, Object> attributes = new HashMap<>();
+
+        String id = req.params(":id");
+        attributes.put("id", id);
+
+        Session session = SessionManager.getInstance().openSession();
+        AlbumDAO albumDAO = new AlbumDaoImpl(session);
+        Album album = albumDAO.findById(req.params(":id"));
+
+        attributes.put("title", album.getTitle());
+        attributes.put("release_date", album.toString());
 
         attributes.put("template", Routes.edit_album());
         attributes.put("title", "Editar");

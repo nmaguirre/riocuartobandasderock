@@ -13,18 +13,18 @@
           <p class="category">Complete el formulario</p>
         </div>
         <div class="card-content">
-          <form action="/artists/$!{id}" method="put">
+          <form action="/artists/$!{id}" method="put" id="form" class="$!{id}">
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group label-floating">
                   <label class="control-label">Nombre</label>
-                  <input type="text" class="form-control" name="name">
+                  <input type="text" class="form-control" name="name" id="name" value="$!{name}">
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group label-floating">
                   <label class="control-label">Apellido</label>
-                  <input type="text" class="form-control" name="surname">
+                  <input type="text" class="form-control" name="surname" id="surname" value="$!{surname}">
                 </div>
               </div>
             </div>
@@ -33,12 +33,12 @@
               <div class="col-md-6">
                 <div class="form-group label-floating">
                   <label class="control-label">Apodo</label>
-                  <input type="text" class="form-control" name="nickname">
+                  <input type="text" class="form-control" name="nickname" id="nickname" value="$!{nickname}">
                 </div>
               </div>
             </div>
 
-            <button type="submit" class="btn btn-success pull-right">Actualizar</button>
+             <button id="submit" class="btn btn-primary pull-right">Actualizar</button>
             <div class="clearfix"></div>
           </form>
         </div>
@@ -52,5 +52,23 @@
   $(document).ready(function() {
     $('li').removeClass('active');
     $('#artist').addClass('active');
+    var id = $('#form').attr('class')
+
+    $('#submit').on('click', function(event){
+      event.preventDefault();
+      var input_name = $('#name').val();
+      var input_surname = $('#surname').val();
+      var input_nickname = $('#nickname').val();
+      $.ajax({
+        url: "/artists/"+id,
+        method: "put",
+        data: {
+          name: input_name,
+          surname: input_surname,
+          nickname: input_nickname }
+      }).done(function() {
+        window.location.replace("/artists/"+id);
+      });
+    })
   });
 </script>

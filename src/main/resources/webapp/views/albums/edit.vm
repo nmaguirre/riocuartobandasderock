@@ -13,18 +13,18 @@
           <p class="category">Complete el formulario</p>
         </div>
         <div class="card-content">
-          <form action="/albums" method="put">
+          <form action="/albums" method="put" id="form" class="$!{id}">
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group label-floating">
                   <label class="control-label">Título</label>
-                  <input type="text" class="form-control" name="title">
+                  <input type="text" class="form-control" name="title" id="title" value="$!{title}">
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group label-floating">
                   <label class="control-label">Lanzamiento</label>
-                  <input type="text" class="form-control" name="release_date">
+                  <input type="text" class="form-control" name="release_date" id="release_date" value="$!{release_date}">
                 </div>
               </div>
             </div>
@@ -43,5 +43,21 @@
   $(document).ready(function() {
     $('li').removeClass('active');
     $('#album').addClass('active');
+    var id = $('#form').attr('class');
+
+    $('#submit').on('click', function(event){
+      event.preventDefault();
+      var input_title = $('#title').val();
+      var input_release_date = $('#release_date').val();
+      $.ajax({
+        url: "/albums/"+id,
+        method: "put",
+        data: {
+          title: input_title,
+          release_date: input_release_date }
+      }).done(function() {
+        window.location.replace("/albums/"+id);
+      });
+    })
   });
 </script>
