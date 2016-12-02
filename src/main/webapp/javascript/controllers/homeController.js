@@ -68,6 +68,7 @@ angular.module('app')
 	**/
 	$scope.album_start = 0;
 	$scope.artist_start = 0;
+	$scope.song_start = 0;
 	$scope.previous = function (element) {
 		if (element == 'albums') {
 			if ($scope.album_start >= 3){
@@ -77,7 +78,12 @@ angular.module('app')
 			if ($scope.artist_start >= 3){
 				$scope.artist_start = $scope.artist_start - 3;
 			}
+		} else if (element == 'songs'){
+			if ($scope.song_start >= 3){
+				$scope.song_start = $scope.song_start - 3;
+			}
 		}
+
 	}
 
 	$scope.next = function (element){
@@ -88,6 +94,10 @@ angular.module('app')
 		} else if (element == 'artists') {
 			if ($scope.artist_start +3 < $scope.artists.length){
 				$scope.artist_start = $scope.artist_start +3 ;
+			}
+		} else if (element == 'songs'){
+			if ($scope.song_start >= 3){
+				$scope.song_start = $scope.song_start - 3;
 			}
 		}
 	}
