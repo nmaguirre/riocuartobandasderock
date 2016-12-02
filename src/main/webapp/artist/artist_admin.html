@@ -71,12 +71,13 @@
         $("#bandMModal").modal() 
         $("#bandMData").html('<table></table>'); // Clean table, need to refresh with non elements in db
 
-        resourcelocation='/artists/getbandsbyId/'+artistId;
+        artistShowing = artistId;
+
+        resourcelocation='/artists/getbandsbyId/'+artistId;        
          $.get(resourcelocation, function(data, status){
             if (typeof data === "undefined") {
                 response = '<tr><td colspan="5"> No Bands found...</td></tr>'
             }else{
-                artistShowing = artistId;
                 var request = JSON.parse(data);
                 response = '<table>';
                 itemindex = 1;
@@ -116,6 +117,8 @@
     }
 
     function addBandMember(bandId, artistId) {
+            alert(bandId);
+            alert(artistId);
             var url = '/bandmembers'; 
             $.ajax({
                 type: "POST",
