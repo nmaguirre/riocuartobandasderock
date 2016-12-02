@@ -4,7 +4,7 @@
     <div class="col-md-12">
       <div class= "card">
         <div class="card-header" data-background-color="green">
-          <h4 class="modal-title" id="myModalLabel">información Personal</h4>
+          <h4 class="modal-title" id="myModalLabel">Información Personal</h4>
         </div>
         <div class="modal-body">
           <strong>Nombre</strong>

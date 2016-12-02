@@ -4,7 +4,7 @@
     <div class="col-md-12">
       <div class= "card">
         <div class="card-header" data-background-color="green">
-          <h4 class="modal-title" id="myModalLabel">Datos del Album</h4>
+          <h4 class="modal-title" id="myModalLabel">Datos del Álbum</h4>
         </div>
       <div class="modal-body">
         <strong>Banda</strong>
@@ -17,7 +17,7 @@
         #if($album.getReleaseDate() != $null)
           <h5>$album.getReleaseDate()</h5>
         #else
-          <h5>El album no contiene fecha de lanzamiento</h5>
+          <h5>El ábum no contiene fecha de lanzamiento</h5>
         #end
 
       </div>
