@@ -139,8 +139,13 @@ public class AlbumDaoImpl implements AlbumDAO{
 		if(releaseDate == null){
 			List<Album> byTitle = this.findByTitle(title);
 			for(int i=0;i<byTitle.size();i++){
-				if ((byTitle.get(i).getTitle().compareTo(title) == 0) && (byTitle.get(i).getReleaseDate() == null)) {
-					return false;
+				try {
+					if ((byTitle.get(i).getTitle().compareTo(title) == 0) && (byTitle.get(i).getReleaseDate() == null)) {
+						return false;
+					}
+				} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 				}
 			}
 		}else if(releaseDate != null){
