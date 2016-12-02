@@ -45,9 +45,7 @@
 
 <script>
   $(document).ready(function() {
-    $('li').removeClass('active');
-    $('li').on('click', function(){
-      // this.addClass('active');
-    })
+    $('.sidebar-wrapper li').removeClass('active');
+    $('.sidebar-wrapper li#dashboard').addClass('active');
   });
 </script>
