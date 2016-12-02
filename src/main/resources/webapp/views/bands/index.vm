@@ -7,7 +7,7 @@
             <table class="table">
               <tr>
                 <td>
-                  <h4 class="title">Listado de todas las Bandas</h4>
+                  <h4 class="title">Listado de todas las bandas</h4>
                 </td>
                 <td>
                   <a href="/bands/new" class="btn btn-warning pull-right">
@@ -18,7 +18,7 @@
               </tr>
             </table>
           </div>
-          <div class="card-content table-responsive table-full-width">
+          <div class="card-content table-responsive">
             #if ($success != $null)
               <div class="alert alert-success" role="alert">
                 <strong>Nueva Banda</strong> $success
