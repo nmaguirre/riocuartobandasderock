@@ -9,6 +9,10 @@ body a:hover {
   color: #c8c8c8;
 }
 
+.width-100{
+  width: 100% !important;
+}
+
 .header {
   background: #282828;
   padding: 10px;
@@ -736,7 +740,8 @@ body a:hover {
 }
 .tracks__heading__length {
   margin-left: auto;
-  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 .tracks__heading__popularity {
   font-size: 20px;
