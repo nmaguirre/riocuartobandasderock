@@ -9,7 +9,7 @@ docker run -d -p $new_port:5432 rcrockbands_db_container:latest > .docker_saved_
 sleep  5
 echo "================ MAKE OWNER ==============="
 psql -h localhost -p $new_port:5432  -U rock_db_owner -d rcrockbands 
- \dt
+// \dt
 
 ## THIS COMMANDS SHOULD BE TYPED ON TERMINAL
 #	grant postgres to rock_db_owner;

@@ -33,7 +33,8 @@ $(document).ready(function() {
       $("#mycarousel").carousel(5);
     })
 
-    $('#link').click(function () {
+    $('#mycarousel').on("click",'.link', function(event){
+      event.preventDefault();
       var src = 'https://www.youtube.com/embed/JYgPk44tqa0?autoplay=1';
       $('#myModal').modal('show');
       $('#myModal iframe').attr('src', src);

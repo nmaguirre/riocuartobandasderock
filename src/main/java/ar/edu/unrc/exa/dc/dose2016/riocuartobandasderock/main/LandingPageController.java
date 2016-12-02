@@ -260,6 +260,6 @@ public class LandingPageController {
   }
 
   public String video_link(String name, String id){
-    return "<a id='"+id+"' href=''>"+name+"</a>";
+    return "<a class='"+id+"' href=''>"+name+"</a>";
   }
 }

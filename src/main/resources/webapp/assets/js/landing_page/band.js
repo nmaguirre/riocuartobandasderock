@@ -51,7 +51,7 @@ $(document).ready(function() {
         artist += "<img src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/7022/hoodie.jpg' alt='Hoodie Allen' />"
         artist += "</span>"
         artist += "<span class='related-artist__name'>"+data.members[i].name+"</span>"
-        artist += "</a>"
+        artist += "</a><br>"
 
         $('#band-member').append(artist);
         // $('#band-member').append(data.members[i].name+"<br>");
