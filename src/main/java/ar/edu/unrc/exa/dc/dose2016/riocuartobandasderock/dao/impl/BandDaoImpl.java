@@ -14,14 +14,14 @@ public class BandDaoImpl implements BandDAO {
 
 
 	// private SessionManager SessionManager;
-	
+
 	/**
-	 * This method counts the number of bands 
-	 * 
+	 * This method counts the number of bands
+	 *
 	 * @return number of bands
 	 */
-	
-	
+
+
 	public int cantBands() {
 		List<Band> bandList = new LinkedList<>();
 		Query<Band> query;
@@ -29,7 +29,7 @@ public class BandDaoImpl implements BandDAO {
 		bandList.addAll(query.getResultList());
 		return bandList.size();
 	}
-	
+
 	private Session currentSession=null;
 
 
@@ -260,14 +260,14 @@ public class BandDaoImpl implements BandDAO {
 				query.setParameter("id", bandID);
 				List<Album> result = query.getResultList();
 				return result;
-			}	
+			}
 		}
 
 		public List<Band> ilike(String name){
 			if(name == null || name.equals("")){
 					throw new IllegalArgumentException("the 'name' param for search a band can not be null or empty.");
 				} else {
-					Query<Band> query = this.currentSession.createQuery("from Band where name like ?", Band.class);
+					Query<Band> query = this.currentSession.createQuery("from Band where (name like ? or genre like ?)", Band.class);
 					query.setString(0, '%' + name.toLowerCase() + '%');
 					return query.getResultList();
 				}

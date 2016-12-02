@@ -10,7 +10,7 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.ArtistDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 
 /**
- * 
+ *
  * @author Adrian Galfioni, Ezequiel Zensich.
  *
  * Artist DAO Implementation.
@@ -19,7 +19,7 @@ import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 public class ArtistDaoImpl implements ArtistDAO {
 
 	private Session currentSession=null;
-	
+
 	/*
 	 * This method initializes the session.
 	 * @param Session session, current session.
@@ -35,7 +35,7 @@ public class ArtistDaoImpl implements ArtistDAO {
 		artistList.addAll(query.getResultList());
 		return artistList.size();
 	}
-	
+
 	/**
 	 * This method get all artists
 	 * @return List of artists
@@ -64,7 +64,7 @@ public class ArtistDaoImpl implements ArtistDAO {
 			return query.getResultList();
 		}
 	}
-	
+
 	/**
 	 * This method find an artist in the database, by nickname.
 	 * @param String nickname.
@@ -80,10 +80,10 @@ public class ArtistDaoImpl implements ArtistDAO {
 			return query.getResultList();
 		}
 	}
-	
+
 	/**
 	 * Search an artist in database
-	 * 
+	 *
 	 * @param artist name to search
 	 * @return artist wanted
 	 */
@@ -97,7 +97,7 @@ public class ArtistDaoImpl implements ArtistDAO {
 			return query.getResultList();
 		}
 	}
-	
+
 	/**
 	 * This method find an artist in the database, by name.
 	 * @param String name
@@ -164,7 +164,7 @@ public class ArtistDaoImpl implements ArtistDAO {
 	/**
 	 * This method find an artist in the database, by id.
 	 * @param String id.
-	 * @return Artist that have a particular id	
+	 * @return Artist that have a particular id
 	*/
 	@Override
 	public List<Artist> findById(String id) {
@@ -239,7 +239,7 @@ public class ArtistDaoImpl implements ArtistDAO {
 			return result;
 		}
 	}
-	
+
 	/**
 	 * This method search for an artist by its parameters.
 	 * @param String name.
@@ -276,12 +276,12 @@ public class ArtistDaoImpl implements ArtistDAO {
 		if(name == null || name.equals("")){
 			throw new IllegalArgumentException("the 'name' param for search a band can not be null or empty.");
 		} else {
-			Query<Artist> query = this.currentSession.createQuery("from Artist where name like ?", Artist.class);
+			Query<Artist> query = this.currentSession.createQuery("from Artist where (name like ? or surname like ? or nickname like ?)", Artist.class);
 			query.setString(0, '%' + name.toLowerCase() + '%');
 			return query.getResultList();
 		}
 	}
-	
-	
+
+
 
 }
