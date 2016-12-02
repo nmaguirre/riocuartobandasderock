@@ -20,11 +20,14 @@ function test(){
     var str = "";
     for (elem in resp)
     	  str = str + elem + ': ' + resp[elem]+'<br>';
+    
+    
+    
     sys.addNode('name',{'color':'blue','shape':'dot','label':resp.name});
     sys.addNode('apellido',{'color':'red','shape':'dot','label':resp.apellido});
     sys.addEdge('name', 'apellido',{'color':'black'});	  
     //window.alert(str);	  
-    document.getElementById('show').innerHTML = str;	
+    document.getElementById('show').innerHTML = str;	//MUestra str
     	  
 }
 
@@ -35,10 +38,10 @@ function test(){
 
 /** 
  * songGetAll
- * This method allows to make a request to the database, searching and bringing all the songs found.
+ * Description: This method allows to make a request to the database, searching and bringing all the songs found.
  * Subsequently this information will be used for its representation (ArborJs, and more).
  */
-function songGetAll() {
+function songGetAll() { 
    var xhttp; 
    xhttp = new XMLHttpRequest();
    xhttp.open("GET", "http://"+host+":"+port+"/songs", true);
@@ -67,7 +70,7 @@ function songGetAll() {
 
 /** 
  * songFindByName
- * This method allows to make a request to the database, searching and bringing all the songs found with the requested name.
+ * Description: This method allows to make a request to the database, searching and bringing all the songs found with the requested name.
  * Subsequently this information will be used for its representation (ArborJs, and more).
  */
 function songFindByName() {
@@ -127,7 +130,7 @@ function songFindByName() {
 
 /** 
  * songFindByDuration
- * This method allows to make a request to the database, searching and bringing all the songs found with the requested duration(In seconds format).
+ * Description: This method allows to make a request to the database, searching and bringing all the songs found with the requested duration(In seconds format).
  * Subsequently this information will be used for its representation (ArborJs, and more).
  */
 function songFindByDuration() {
@@ -181,7 +184,7 @@ function songFindByDuration() {
 
 /** 
  * artistGetAll
- * This method allows to make a request to the database, searching and bringing all the artists found.
+ *  Description: This method allows to make a request to the database, searching and bringing all the artists found.
  * Subsequently this information will be used for its representation (ArborJs, and more).
  */
 function artistGetAll() {
@@ -214,7 +217,7 @@ function artistGetAll() {
 
 /** 
  * artistFindByName
- * This method allows to make a request to the database, searching and bringing all the artists found with the requested name.
+ * Description: This method allows to make a request to the database, searching and bringing all the artists found with the requested name.
  * Subsequently this information will be used for its representation (ArborJs, and more).
  */
 function artistFindByName() {
@@ -256,7 +259,7 @@ function artistFindByName() {
 
 /** 
  * artistFindByNickname
- * This method allows to make a request to the database, searching and bringing all the artists found with the requested nickname.
+ * Description: This method allows to make a request to the database, searching and bringing all the artists found with the requested nickname.
  * Subsequently this information will be used for its representation (ArborJs, and more).
  */
 function artistFindByNickname() {
@@ -301,7 +304,7 @@ function artistFindByNickname() {
 
 /** 
  * artistFindBySurname
- * This method allows to make a request to the database, searching and bringing all the artists found with the requested surname.
+ * Description: This method allows to make a request to the database, searching and bringing all the artists found with the requested surname.
  * Subsequently this information will be used for its representation (ArborJs, and more).
  */
 function artistFindBySurname() {
@@ -347,7 +350,7 @@ function artistFindBySurname() {
 
 /** 
  * albumGetAll
- * This method allows to make a request to the database, searching and bringing all the albums found.
+ * Description: This method allows to make a request to the database, searching and bringing all the albums found.
  * Subsequently this information will be used for its representation (ArborJs, and more).
  */
 function albumGetAll() {
@@ -377,7 +380,7 @@ function albumGetAll() {
 
 /** 
  * albumFindByReleaseDate
- * This method allows to make a request to the database, searching and bringing all the albums found with the requested release date.
+ * Description: This method allows to make a request to the database, searching and bringing all the albums found with the requested release date.
  * Subsequently this information will be used for its representation (ArborJs, and more).
  */
 function albumFindByReleaseDate() {
@@ -413,7 +416,7 @@ function albumFindByReleaseDate() {
 
 /** 
  * albumFindByTitle
- * This method allows to make a request to the database, searching and bringing all the albums found with the requested title.
+ * Description: This method allows to make a request to the database, searching and bringing all the albums found with the requested title.
  * Subsequently this information will be used for its representation (ArborJs, and more).
  */
 function albumFindByTitle() {
@@ -453,7 +456,7 @@ function albumFindByTitle() {
 
 /** 
  * bandGetAll
- * This method allows to make a request to the database, searching and bringing all the bands found.
+ * Description: This method allows to make a request to the database, searching and bringing all the bands found.
  * Subsequently this information will be used for its representation (ArborJs, and more).
  */
 function bandGetAll() {
@@ -483,7 +486,7 @@ function bandGetAll() {
 
 /** 
  * bandFyndByName
- * This method allows to make a request to the database, searching and bringing all the bands found with the requested name.
+ * Description: This method allows to make a request to the database, searching and bringing all the bands found with the requested name.
  * Subsequently this information will be used for its representation (ArborJs, and more).
  */
 function bandFyndByName() {
@@ -494,7 +497,7 @@ function bandFyndByName() {
 	  return;
    }
    xhttp = new XMLHttpRequest();
-   xhttp.open("GET", "http://"+host+":"+port+"/bands/findbyname"+str, true);
+   xhttp.open("GET", "http://"+host+":"+port+"/bands/findbyname/"+str, true);
    xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
 	     document.getElementById("show").innerHTML = this.responseText;
@@ -535,7 +538,7 @@ function bandFyndByName() {
 
 /** 
  * bandFindByGenre
- * This method allows to make a request to the database, searching and bringing all the bands found with the requested genre.
+ * Description: This method allows to make a request to the database, searching and bringing all the bands found with the requested genre.
  * Subsequently this information will be used for its representation (ArborJs, and more).
  */
 function bandFindByGenre() {

@@ -15,6 +15,8 @@
     
     <!-- Our CSS -->
     <link href="css/our-css.css" rel="stylesheet">
+    
+    <script src="javascript/abm.js"></script> 
 
 </head>
 
@@ -32,6 +34,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li>
                             <button id="admin" type="button" onclick="location.href='index.html'" style="color: #FF0000; position: absolute; top: 20px;">Back</button>
+                            <button id="admin" type="button" onclick="location.href='login.html'" style="color: #FF0000; position: absolute; top: 20px;">Log Out</button>
                         </li>
                     </ul>
                 </div>
@@ -46,71 +49,53 @@
             <section class="searchZone" style="width: 250px; height: 800px; position: absolute; top: 100px; left: 50px;">
                 <div style="width: 250px; height: 250px; ">
                     <legend>Add Song</legend>
-                        <form>
+                        <form name="addSong" onsubmit='songAdd()'>
                             Name:<br>
-                            <input type="text" name="songName">
+                            <input type="text" name="name" required>
                             <br>
-                            
-                        </form>
-                        <form>
                             Duration:<br>
-                            <input type="text" name="songDuration">
+                            <input type="text" name="duration">
                             <br>
-                        </form>
-                        <form>
                             Album:<br>
-                            <input type="text" name="songAlbum">
-                            <br>
-                            
+                            <input type="text" name="albumTitle" required>
+                            <br><br>
+                            <input type="submit" value="Add Song">
                         </form>
-                        <br>
-                        <button class="button" style="color: black" onclick="songAdd()">Add Song</button>                   
+                        <br>                
                 </div>
                 <br>
                 <div style="width: 250px; height: 250px; ">
                     <legend>Delete Song</legend>
-                    <form>
+                    <form name="deleteSong" onsubmit="songDelete()">
                         Name:<br>
-                        <input type="text" name="songName">
+                        <input type="text" name="name">
                         <br>
-                        
-                    </form>
-                    <form>
                         Duration:<br>
-                        <input type="text" name="songDuration">
+                        <input type="text" name="duration">
                         <br>
-                    </form>
-                    <form>
                         Album:<br>
-                        <input type="text" name="songAlbum">
-                        <br>
-                        
+                        <input type="text" name="albumTitle">
+                        <br><br>
+                        <input type="submit" value="Delete Song">
                     </form>
-                    <br>
-                    <button class="button" style="color: black" onclick="songDelete()">Delete Song</button>                     
+                    <br>                
                 </div>
                   <br>
                 <div style="width: 250px; height: 250px; ">
                     <legend>Modify Song</legend>
-                    <form>
+                    <form name="modifySong" onsubmit="songModify()">
                         Name:<br>
-                        <input type="text" name="songName">
+                        <input type="text" name="name">
                         <br>
-                        
-                    </form>
-                    <form>
                         Duration:<br>
-                        <input type="text" name="songDuration">
+                        <input type="text" name="duration">
                         <br>
-                    </form>
-                    <form>
                         Album:<br>
-                        <input type="text" name="songAlbum">
-                        <br>
-                        
+                        <input type="text" name="albumTitle">
+                        <br><br>
+                        <input type="submit" value="Modify Song">
                     </form>
-                    <br>
-                    <button class="button" style="color: black" onclick="songModify()">Modify Song</button>                     
+                    <br>                  
                 </div>     
             </section>
 
@@ -119,71 +104,53 @@
             <section class="searchZone" style="width: 250px; height: 800px; position: absolute; top: 100px; left: 350px;">
                 <div style="width: 250px; height: 250px; ">
                     <legend>Add Album</legend>
-                        <form>
+                        <form name="addAlbum" onsubmit="albumAdd()">
                             Name:<br>
-                            <input type="text" name="albumName">
+                            <input type="text" name="title" required>
                             <br>
-                            
-                        </form>
-                        <form>
                             Release Date:<br>
-                            <input type="text" name="albumReleaseDate">
+                            <input type="text" name="release_date">
                             <br>
-                        </form>
-                        <form>
                             Band:<br>
-                            <input type="text" name="albumBand">
-                            <br>
-                            
+                            <input type="text" name="albumId" required>
+                            <br><br>
+                            <input type="submit" value="Add Album">                 
                         </form>
-                        <br>
-                        <button class="button" style="color: black" onclick="albumAdd()">Add Album</button>                   
+                        <br>                  
                 </div>
                 <br>
                 <div style="width: 250px; height: 250px; ">
                     <legend>Delete Album</legend>
-                    <form>
+                    <form name="deleteAlbum" onsubmit="albumDelete()">
                         Name:<br>
-                        <input type="text" name="albumName">
-                        <br>
-                        
-                    </form>
-                    <form>
+                        <input type="text" name="title">
+                        <br>        
                         Release Date:<br>
-                        <input type="text" name="albumReleaseDate">
+                        <input type="text" name="release_date">
                         <br>
-                    </form>
-                    <form>
                         Band:<br>
                         <input type="text" name="albumBand">
-                        <br>
-                        
+                        <br><br>
+                        <input type="submit" value="Delete Album">  
                     </form>
-                    <br>
-                    <button class="button" style="color: black" onclick="albumDelete()">Delete Album</button>                       
+                    <br>                   
                 </div>
                   <br>
                 <div style="width: 250px; height: 250px; ">
                     <legend>Modify Album</legend>
-                    <form>
+                    <form name="modifyAlbum" onsubmit="albumModify()">
                         Name:<br>
-                        <input type="text" name="albumName">
+                        <input type="text" name="title">
                         <br>
-                        
-                    </form>
-                    <form>
                         Release Date:<br>
-                        <input type="text" name="albumReleaseDate">
+                        <input type="text" name="release_date">
                         <br>
-                    </form>
-                    <form>
                         Band:<br>
                         <input type="text" name="albumBand">
-                        <br>
-                        
+                        <br><br>
+                        <input type="submit" value="Modify Album">  
                     </form>
-                    <br>
-                    <button class="button" style="color: black" onclick="albumModify()">Modify Album</button>                       
+                    <br>                
                 </div>     
             </section>
 
@@ -192,71 +159,53 @@
             <section class="searchZone" style="width: 250px; height: 800px; position: absolute; top: 100px; left: 650px;">
                 <div style="width: 250px; height: 250px; ">
                     <legend>Add Artist</legend>
-                        <form>
+                        <form name="addArtist" onsubmit="artistAdd()">
                             Name:<br>
-                            <input type="text" name="artistName">
+                            <input type="text" name="name">
                             <br>
-                            
-                        </form>
-                        <form>
                             Surname:<br>
-                            <input type="text" name="artistSurname">
+                            <input type="text" name="surname">
                             <br>
-                        </form>
-                        <form>
                             Nickname:<br>
-                            <input type="text" name="artistNickname">
-                            <br>
-                            
+                            <input type="text" name="nickname">
+                            <br><br>
+                            <input type="submit" value="Add Artist">   
                         </form>
-                        <br>
-                        <button class="button" style="color: black" onclick="artistAdd()">Add Artist</button>                   
+                        <br>                
                 </div>
                 <br>
                 <div style="width: 250px; height: 250px; ">
                     <legend>Delete Artist</legend>
-                    <form>
+                    <form name="deleteArtist" onsubmit="artistDelete()">
                         Name:<br>
-                        <input type="text" name="artistName">
+                        <input type="text" name="name">
                         <br>
-                        
-                    </form>
-                    <form>
                         Surname:<br>
-                        <input type="text" name="artistSurname">
+                        <input type="text" name="surname">
                         <br>
-                    </form>
-                    <form>
                         Nickname:<br>
-                        <input type="text" name="artistNickname">
-                        <br>
-                        
+                        <input type="text" name="nickname">
+                        <br><br>
+                        <input type="submit" value="Delete Artist">
                     </form>
-                    <br>
-                    <button class="button" style="color: black" onclick="artistDelete()">Delete Artist</button>                      
+                    <br>                     
                 </div>
                   <br>
                 <div style="width: 250px; height: 250px; ">
                     <legend>Modify Artist</legend>
-                    <form>
+                    <form name="modifyArtist" onsubmit="artistModify()">
                         Name:<br>
-                        <input type="text" name="artistName">
+                        <input type="text" name="name">
                         <br>
-                        
-                    </form>
-                    <form>
                         Surname:<br>
-                        <input type="text" name="artistSurname">
+                        <input type="text" name="surname">
                         <br>
-                    </form>
-                    <form>
                         Nickname:<br>
-                        <input type="text" name="artistNickname">
-                        <br>
-                        
+                        <input type="text" name="nickname">
+                        <br><br>
+                        <input type="submit" value="Modify Artist">
                     </form>
-                    <br>
-                    <button class="button" style="color: black" onclick="artistModify()">Modify Artist</button>                      
+                    <br>                     
                 </div>     
             </section>
 
@@ -265,53 +214,44 @@
             <section class="searchZone" style="width: 250px; height: 800px; position: absolute; top: 100px; left: 950px;">
                 <div style="width: 250px; height: 250px; ">
                     <legend>Add Band</legend>
-                        <form>
+                        <form name="addBand" onsubmit="bandAdd()">
                             Name:<br>
-                            <input type="text" name="bandName">
+                            <input type="text" name="name" required>
                             <br>
-                            
-                        </form>
-                        <form>
                             Genre:<br>
-                            <input type="text" name="bandGenre">
-                            <br>
+                            <input type="text" name="genre" required>
+							<br><br>
+                            <input type="submit" value="Add Band"> 
                         </form>
-                        <br>
-                        <button class="button" style="color: black" onclick="bandAdd()">Add Band</button>                   
+                        <br>               
                 </div>
                 <br>
                 <div style="width: 250px; height: 250px; ">
                     <legend>Delete Band</legend>
-                    <form>
+                    <form name="deleteBand" onsubmit="bandDelete()">
                         Name:<br>
-                        <input type="text" name="bandName">
+                        <input type="text" name="name">
                         <br>
-                        
-                    </form>
-                    <form>
                         Genre:<br>
-                        <input type="text" name="bandGenre">
-                        <br>
+                        <input type="text" name="genre">
+                        <br><br>
+                        <input type="submit" value="Delete Band"> 
                     </form>
-                    <br>
-                    <button class="button" style="color: black" onclick="bandDelete()">Delete Band</button>     
+                    <br>    
                 </div>
                   <br>
                 <div style="width: 250px; height: 250px; ">
                     <legend>Modify Band</legend>
-                    <form>
+                    <form name="modifyBand" onsubmit="bandmodify()">
                         Name:<br>
-                        <input type="text" name="bandName">
+                        <input type="text" name="name">
                         <br>
-                        
-                    </form>
-                    <form>
                         Genre:<br>
-                        <input type="text" name="bandGenre">
-                        <br>
+                        <input type="text" name="genre">
+                        <br><br>
+                        <input type="submit" value="Modify Band"> 
                     </form>
-                    <br>
-                    <button class="button" style="color: black" onclick="bandmodify()">Modify Band</button>              
+                    <br>             
                 </div>     
             </section>
         </div>
