@@ -47,7 +47,7 @@ angular.module('app')
 	}
 
 	$scope.dataAlbum  = {};
-$scope.bands = [
+	$scope.bands = [
 {
     "BandID": "1",
     "name": "Banda-1",
