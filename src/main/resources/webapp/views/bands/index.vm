@@ -46,7 +46,7 @@
                         <a href="/bands/$!{band.getId()}/edit">
                           <i class="material-icons">edit</i>
                         </a>
-                        <a href="/bands/$!{band.getId()}" class="$!{artist.getId()}" id="delete">
+                        <a href="/bands/$!{band.getId()}" class="$!{artist.getId()}" id="$!{artist.getId()}">
                           <i class="material-icons">close</i>
                         </a>
                       </td>
@@ -70,10 +70,10 @@
   $(document).ready(function() {
     $('.sidebar-wrapper li').removeClass('active');
     $('.sidebar-wrapper li#band').addClass('active');
-    var id = $('#delete').attr('class')
 
-    $('#delete').on('click', function(event){
+    $('a').on('click', function(event){
       event.preventDefault();
+      var id = this.id
       $.ajax({
         url: "/bands/"+id,
         method: "delete"

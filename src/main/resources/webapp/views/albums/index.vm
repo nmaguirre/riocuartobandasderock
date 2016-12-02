@@ -44,7 +44,7 @@
                         <a href="/albums/$!{album.getId()}/edit">
                           <i class="material-icons">edit</i>
                         </a>
-                        <a href="/albums/$!{album.getId()}" class="$!{artist.getId()}" id="delete">
+                        <a href="/albums/$!{album.getId()}" class="$!{artist.getId()}" id="$!{artist.getId()}">
                           <i class="material-icons">close</i>
                         </a>
                       </td>
@@ -68,10 +68,10 @@
   $(document).ready(function() {
     $('li').removeClass('active');
     $('#album').addClass('active');
-    var id = $('#delete').attr('class')
 
-    $('#delete').on('click', function(event){
+    $('a').on('click', function(event){
       event.preventDefault();
+      var id = this.id
       $.ajax({
         url: "/albums/"+id,
         method: "delete"
