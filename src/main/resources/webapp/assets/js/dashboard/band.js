@@ -1,4 +1,8 @@
 $(document).ready(function() {
+  if ($('#bandId').length) {
+    $('li').removeClass('active');
+    $('#band').addClass('active');
+  }
   if($('#dashboard-bands-datatable').length){
     $('#dashboard-bands-datatable').DataTable({
       "bSort": false,
@@ -27,8 +31,21 @@ $(document).ready(function() {
       $('#dashboard-bands-datatable').DataTable().draw();
     });
 
-    $('li').removeClass('active');
-    $('#band').addClass('active');
+    $('#submit').on('click', function(event){
+      event.preventDefault();
+      var input_name = $('#name').val();
+      var input_genre = $('#genre').val();
+      $.ajax({
+        url: "/bands/"+id,
+        method: "put",
+        data: {
+          name: input_name,
+          genre: input_genre }
+      }).done(function() {
+        window.location.replace("/bands/"+id);
+      });
+    })
+
 
     $('#dashboard-bands-datatable').on('click','.delete', function(event){
       event.preventDefault();

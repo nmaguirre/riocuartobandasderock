@@ -1,3 +1,4 @@
+<div id="artistId"></div>
 <div class="modal-dialog modal-lg" role="document">
   <div class="modal-content">
     <div class="modal-header">
@@ -29,10 +30,3 @@
     </div>
   </div>
 </div>
-
-<script>
-  $(document).ready(function() {
-    $('li').removeClass('active');
-    $('#artist').addClass('active');
-  });
-</script>

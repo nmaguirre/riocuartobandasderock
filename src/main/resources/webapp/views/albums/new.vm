@@ -1,3 +1,4 @@
+<div id="albumId"></div>
 <div class="container-fluid">
   <div class="row">
     <div class="col-xs-12">
@@ -56,10 +57,3 @@
     </div>
   </div>
 </div>
-
-<script>
-  $(document).ready(function() {
-    $('.sidebar-wrapper li').removeClass('active');
-    $('.sidebar-wrapper #album').addClass('active');
-  });
-</script>

@@ -1,3 +1,4 @@
+<div id="artistId"></div>
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-8">
@@ -46,28 +47,3 @@
     </div>
   </div>
 </div>
-
-<script>
-  $(document).ready(function() {
-    $('li').removeClass('active');
-    $('#artist').addClass('active');
-    var id = $('#form').attr('class')
-
-    $('#submit').on('click', function(event){
-      event.preventDefault();
-      var input_name = $('#name').val();
-      var input_surname = $('#surname').val();
-      var input_nickname = $('#nickname').val();
-      $.ajax({
-        url: "/artists/"+id,
-        method: "put",
-        data: {
-          name: input_name,
-          surname: input_surname,
-          nickname: input_nickname }
-      }).done(function() {
-        window.location.replace("/artists/"+id);
-      });
-    })
-  });
-</script>

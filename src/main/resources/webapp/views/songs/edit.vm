@@ -1,3 +1,4 @@
+<div id="songId"></div>
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-8">
@@ -37,26 +38,3 @@
     </div>
   </div>
 </div>
-
-<script>
-  $(document).ready(function() {
-    $('li').removeClass('active');
-    $('#song').addClass('active');
-    var id = $('#form').attr('class');
-
-    $('#submit').on('click', function(event){
-      event.preventDefault();
-      var input_name = $('#name').val();
-      var input_duration = $('#duration').val();
-      $.ajax({
-        url: "/songs/"+id,
-        method: "put",
-        data: {
-          name: input_name,
-          duration: input_duration }
-      }).done(function() {
-        window.location.replace("/songs/"+id);
-      });
-    })
-  });
-</script>

@@ -1,4 +1,8 @@
 $(document).ready(function() {
+  if ($('#albumId').length) {
+    $('li').removeClass('active');
+    $('#album').addClass('active');
+  }
   if($('#dashboard-albums-datatable').length){
    $('#dashboard-albums-datatable').DataTable({
       "bSort": false,
@@ -27,8 +31,23 @@ $(document).ready(function() {
       $('#dashboard-albums-datatable').DataTable().draw();
     });
 
-    $('li').removeClass('active');
-    $('#album').addClass('active');
+    $('#submit').on('click', function(event){
+      event.preventDefault();
+      var input_title = $('#title').val();
+      var input_release_date = $('#release_date').val();
+      var input_band_id = $('#band_id').val();
+      $.ajax({
+        url: "/albums/"+id,
+        method: "put",
+        data: {
+          title: input_title,
+          release_date: input_release_date,
+          band_id: input_band_id
+        }
+      }).done(function() {
+        window.location.replace("/albums/"+id);
+      });
+    })
 
     $('#dashboard-albums-datatable').on('click','.delete', function(event){
       event.preventDefault();
