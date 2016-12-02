@@ -62,7 +62,7 @@ angular.module('app')
 	$scope.updateAlbum = function(data){
 		data.releaseDate = moment(data.releaseDate).format("YYYY-MM-DD");
 		
-		$http.put("https://private-53163-riocuartobandasderock.apiary-mock.com/albums", data).then(function callback(response) {
+		$http.put("https://private-53163-riocuartobandasderock.apiary-mock.com/albums/"+$routeParams.id, data).then(function callback(response) {
 			if (response.status == 200) {
 				$location.path("/admin");
 			} else {
