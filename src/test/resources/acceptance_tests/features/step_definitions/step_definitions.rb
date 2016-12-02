@@ -60,7 +60,7 @@ Given(/^that the album's database have one album with title "([^"]*)" and releas
 end
 
 Given(/^that the album's database contains an album named "([^"]*)" with release date "([^"]*)"$/) do |title,release_date|
-  response = RestClient.post 'http://localhost:4567/albums', { :title => title, :release_date => release_date }, :content_type => 'text/plain'
+  response = RestClient.post 'http://localhost:4567/albums', { :title => title, :release_date => release_date, :band_id => '1'}, :content_type => 'text/plain'
   expect(response.code).to eq(201)
 end
 
@@ -110,9 +110,15 @@ And(/^the album's database does not change and maintain (\d+) entry$/) do |entry
   expect(queryResult == entry)
 end
 
+
+And(/^band's database contain a band name "([^"]*)" and genre "([^"]*)"$/) do |name,genre |
+	`psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"INSERT INTO BandDB VALUES ('1','Labanda','musica');\" -t`
+end
+
+
 When(/^I add an album with name "([^"]*)" and release date "([^"]*)"$/) do |title,release_date|
 
-  response = RestClient.post 'http://localhost:4567/albums', { :title => title, :release_date => release_date }, :content_type => 'text/plain'
+  response = RestClient.post 'http://localhost:4567/albums', { :title => title, :release_date => release_date, :band_id => '1'}, :content_type => 'text/plain'
   expect(response.code).to eq(201)
 
 end

@@ -49,7 +49,7 @@ public class AlbumDAOTest {
 	private Song songWrongFormed;
 	List<Object> songs;
 	List<Object> songsListWrongFormed;
-	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 	@Before
 	public void setUp(){
@@ -60,10 +60,10 @@ public class AlbumDAOTest {
 		sdao = new SongDaoImpl(session);
     	
 		try {
-			exampleDate1 = sdf.parse("2010-10-10 12:10:10.10");
-			exampleDateAux = sdf.parse("2010-08-10 12:10:10.10");
-			exampleDate2 = sdf.parse("2010-08-10 12:10:10.10");
-			exampleDate3 = sdf.parse("2010-08-11 12:10:10.10");
+			exampleDate1 = sdf.parse("2010-10-10");
+			exampleDateAux = sdf.parse("2010-08-10");
+			exampleDate2 = sdf.parse("2010-08-10");
+			exampleDate3 = sdf.parse("2010-08-11");
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -73,15 +73,8 @@ public class AlbumDAOTest {
 		song2 = new Song("Song2", 200);
 		song3 = new Song("Song3",300);
 		
-		//song1.setAlbum(alb); 
-		//sdao.addSong("Song1",200); //TODO 
-//		sdao.addSong("Song2", 200);
-//		sdao.addSong("Song3", 300);
-//		sdao.addSong("Song2", 200);
-//		sdao.addSong("Song3", 300);		
 		songs = new LinkedList<Object>();
 		
-		//-----------
 		songWrongFormed= new Song(null,100);
 		songsListWrongFormed = new LinkedList<Object>();
 		songsListWrongFormed.add(songWrongFormed);
@@ -99,99 +92,36 @@ public class AlbumDAOTest {
 	}
 	
 	@Test 
-	public void aA02createAlbumWithTitleAndSongs(){
+	public void aA02createAlbumWithTitleReleaseDateAndBandId(){
 		Transaction transaction = session.beginTransaction();
 		
 		Band band = bdao.findByName(banda.getName()).get(0);
 		boolean b = albumDao.create("AlbumTest1",exampleDate2,band.getId());
-	
 		transaction.commit();
 		session.close();
 		assertTrue(b);
 	}
-	@Test
-	public void createAlbumWithTitleAndListSongsWithSongWrongFormed(){
-		Transaction transaction = session.beginTransaction();
-		
-		Band band = bdao.findByName(banda.getName()).get(0);
-		boolean b = albumDao.create("AlbumTestWithWrongSongs",exampleDate2,band.getId());
-		
-		transaction.commit();
-		session.close();
-		assertFalse(b);
-	}
-	@Test
-	public void updateAlbumWithListSongsWrongFormed(){
-		Transaction transaction = session.beginTransaction();
-		
-		Band band = bdao.findByName(banda.getName()).get(0);
-		
-		albumDao.create("ToUpdateWithWrongSongs",exampleDate2,band.getId());
-
-		List<Album> albumFind = albumDao.findByTitle("ToUpdateWithWrongSongs");
-		
-		boolean b = albumDao.update(albumFind.get(0).getId(), null, null, null);
-		
-		transaction.commit();
-		session.close();
-		
-		assertFalse(b);
-		
-	}
-	@Test
-	public void updateAlbumWithOnlySongs(){
-		Transaction transaction = session.beginTransaction();
-		
-		Band band = bdao.findByName(banda.getName()).get(0);
-		
-		albumDao.create("ToUpdateWithSongs",exampleDate2,band.getId());
-
-		List<Album> albumFind = albumDao.findByTitle("ToUpdateWithSongs");
-		
-		boolean b = albumDao.update(albumFind.get(0).getId(), null, null, null);
-		
-		transaction.commit();
-		session.close();
-		
-		assertTrue(b);
-		
-	}
-	
+			
 	@Test
 	public void createAlbumIfNotInDB(){
 		Transaction transaction = session.beginTransaction();
 		Band band = bdao.findByName(banda.getName()).get(0); //use in others tests
-		boolean a = albumDao.create("AlbumTest1",exampleDate2,band.getId());
+		boolean a = albumDao.create("AlbumTest1_1",exampleDate2,band.getId());
 		transaction.commit();
 		assertTrue(a);
 		session.close();
 	}
-	@Test
-	public void createAlbumIfExistInDBwithOtherSession(){
-		
-		Transaction transaction = session.beginTransaction();
-		
-		Band band = bdao.findByName(banda.getName()).get(0);
-		boolean a = albumDao.create("A2",exampleDate1,band.getId());
-		boolean b = albumDao.create("A2",exampleDate1,band.getId());
-		
-		transaction.commit();
-	
-		assertFalse(b);
-		session.close();
-	}
 	 
 	@Test
-	public void createAlbumIfInDB(){
+	public void createAlbum(){
 		Transaction transaction = session.beginTransaction();
 		Band band = bdao.findByName(banda.getName()).get(0);
+		
 		boolean a = albumDao.create("AlbumTest2",exampleDate2,band.getId());
 		boolean b = albumDao.create("AlbumTest2",exampleDate2,band.getId());
-	
 		transaction.commit();
-		
-		assertFalse(b);
 		session.close();
+		assertFalse(b);
 	}
 	
 	@Test
@@ -240,6 +170,33 @@ public class AlbumDAOTest {
 		
 		session.close();
 	}
+
+	@Test
+	public void createAlbumWhenNotNullReleaseDateAndTitleExist(){
+		Transaction transaction = session.beginTransaction();
+		Band band = bdao.findByName(banda.getName()).get(0);
+		
+		List<Album> findTitle = albumDao.findByTitle("AlbumTest1");
+		
+		boolean a = albumDao.create("AlbumTest1",exampleDate2,band.getId());
+		transaction.commit();
+		session.close();
+		
+		assertFalse(a);	
+		
+	}
+	@Test
+	public void createAlbumWithReleaseDateNUllAndTitleNotExist(){
+		Transaction transaction = session.beginTransaction();
+		Band band = bdao.findByName(banda.getName()).get(0);
+		boolean c = albumDao.create("NullReleaseDate",null,band.getId());
+		
+		transaction.commit();
+		
+		assertTrue(c);
+		
+		session.close();
+	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void createAlbumIfTitleIsNull(){
@@ -253,6 +210,12 @@ public class AlbumDAOTest {
 		Transaction transaction = session.beginTransaction();
 		Band band = bdao.findByName(banda.getName()).get(0);
 		boolean a = albumDao.create("",null,band.getId());	
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void createAlbumWithIDBandNull(){
+		Transaction transaction = session.beginTransaction();
+		boolean a = albumDao.create("SameTitle",exampleDate2,null);
 	}
 	
 	@Test
@@ -292,52 +255,21 @@ public class AlbumDAOTest {
 	}
 	
 	@Test
+	public void findByReleaseDateWhenDateParamIsNull(){
+		List<Album> findByReleaseDate = albumDao.findByReleaseDate(null);
+		assertEquals(0,findByReleaseDate.size());
+	}
+	@Test
 	public void findSongsByNullAlbumID(){
 		List<Song> songs = albumDao.findSongs(null);
-		assertNull(songs);
+		assertEquals(0,songs.size());
 	}
 	@Test
 	public void findSongsByEmptyAlbumID(){
 		List<Song> songs = albumDao.findSongs("");
-		assertNull(songs);
+		assertEquals(0,songs.size());
 	}
 	
-//	@Test
-//	public void findSongsByAlbumID(){
-//		Transaction transaction = session.beginTransaction();
-//		
-//		Band band1 = bdao.findByName(banda.getName()).get(0);
-//		albumDao.create("FindSongs",exampleDate2,songs,band1.getId()); //create support null band ?
-//		
-//		List<Album> albumFound= albumDao.findByTitle("FindSongs");
-//		
-//		song1.setAlbum(albumFound.get(0));
-//		song2.setAlbum(albumFound.get(0));
-//		song3.setAlbum(albumFound.get(0));
-//		
-//		songs.add(song1);
-//		songs.add(song2);
-//		songs.add(song3);
-//		
-//		sdao.addSong("Song1", 200);
-//		sdao.addSong("Song2", 200);
-//		sdao.addSong("Song3", 300);
-//		
-//		
-//		transaction.commit();
-//		
-//		
-//		
-//		System.out.println("ENCONTRADO "+ albumFound.get(0).getTitle() );
-//		System.out.println("id ENCONTRADO "+ albumFound.get(0).getId() );
-//		List<Song> songsFounds = albumDao.findSongs(albumFound.get(0).getId());
-//		
-//		System.out.println("Songs"+songs.size());
-//		System.out.println("songsFounds "+ songsFounds.size());
-//		System.out.println("Songs "+songs.size() +"= songsfounds "+ songsFounds.size());
-//		assertEquals(songs.size(),songsFounds.size());
-//		session.close();
-//	}
 	
 	@Test
 	public void getAllAlbumWhenDBIsEmpty(){
@@ -377,7 +309,7 @@ public class AlbumDAOTest {
 	}
 	
 	@Test
-	public void findByNameTest(){
+	public void findByTitleTest(){
 		Transaction transaction = session.beginTransaction();
 		Band band = bdao.findByName(banda.getName()).get(0);
 		albumDao.create("AlbumTestToFind", exampleDate1,band.getId());
@@ -386,6 +318,11 @@ public class AlbumDAOTest {
 		
 		transaction.commit();
 		assertEquals("AlbumTestToFind", queryAlbum.get(0).getTitle() );
+	}
+	@Test
+	public void findByTitleWhenTitleParamIsNull(){
+		List<Album> byTitle = albumDao.findByTitle(null);
+		assertEquals(0,byTitle.size());
 	}
 	
 	@Test
@@ -485,12 +422,40 @@ public class AlbumDAOTest {
 		assertFalse(res);
 	}
 	
+	@Test
+	public void updateAlbumWithEmptyTitle(){
+		Transaction transaction = session.beginTransaction();
+		List<Album> alb = albumDao.findByTitle("AlbumTest1");
+		boolean res = albumDao.update(alb.get(0).getId(),"", exampleDate1,null);
+		transaction.commit();
+		session.close();	
+		
+		assertFalse(res);
+	}
+	
+	@Test
+	public void updateAlbumWithTitleExistent(){
+		Transaction transaction = session.beginTransaction();
+		List<Album> alb = albumDao.findByTitle("AlbumTest1");
+		boolean res = albumDao.update(alb.get(0).getId(),"AlbumTest1", exampleDate1,null);
+		transaction.commit();
+		session.close();	
+		
+		assertTrue(res);
+	}
+	
+	
 	@Test(expected=IllegalArgumentException.class)
 	public void updateAlbumWithNullId(){
 		Transaction transaction = session.beginTransaction();
 		boolean res = albumDao.update(null,"AlbumTestUpdate6",null,null);
 	}
 	
+	@Test(expected=IllegalArgumentException.class)
+	public void updateAlbumWithEmptyId(){
+		Transaction transaction = session.beginTransaction();
+		boolean res = albumDao.update("","AlbumTestUpdate6",null,null);
+	}
 	
 }
 

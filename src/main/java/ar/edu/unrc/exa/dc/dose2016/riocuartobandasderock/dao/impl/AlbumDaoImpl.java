@@ -107,7 +107,11 @@ public class AlbumDaoImpl implements AlbumDAO{
 		}		
 		return byReleaseDateList;		
 	}
-	
+
+	/**
+	 * @param id_album
+	 * @return the list of songs that belongs to the album with id "id_album"
+	 */
 	public List<Song> findSongs(String id_album){
 		List<Song> songs = new LinkedList<Song>();
 		if(id_album==null || id_album.equals("")){
@@ -135,8 +139,13 @@ public class AlbumDaoImpl implements AlbumDAO{
 		if(releaseDate == null){
 			List<Album> byTitle = this.findByTitle(title);
 			for(int i=0;i<byTitle.size();i++){
-				if(byTitle.get(i).getTitle().compareTo(title) == 0){
-					return false;
+				try {
+					if ((byTitle.get(i).getTitle().compareTo(title) == 0) && (byTitle.get(i).getReleaseDate() == null)) {
+						return false;
+					}
+				} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 				}
 			}
 		}else if(releaseDate != null){
@@ -158,7 +167,7 @@ public class AlbumDaoImpl implements AlbumDAO{
 			Band b = bdao.findById(id_band);
 			album.setBand(b);
 		}catch(IllegalArgumentException e){
-			System.out.println("ERROR: "+ e);
+			e.printStackTrace();
 		}
 		if (!album.repOk()) throw new IllegalArgumentException ("Bad representation of album");
 		this.currentSession.save(album);

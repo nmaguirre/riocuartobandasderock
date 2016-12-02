@@ -3,6 +3,7 @@ angular.module('app')
 
 	$scope.artists = [];
 	$scope.artist = '';
+	$scope.dataArtist = {};
 
 	function load_artists() {
 		/*$http.get("https://private-53163-riocuartobandasderock.apiary-mock.com/artists").then(function callback(response) {
@@ -42,6 +43,29 @@ angular.module('app')
 		});
 	}
 
+	$scope.create = function createArtist(data) {
+		$http.post("https://private-53163-riocuartobandasderock.apiary-mock.com/artists", data).then(function callback(response) {
+			if (response.status == 201) {
+				$location.path("/admin");
+			} else {
+				alert("Creación de artista fallida.");
+			}
+			
+		});
+	}
+
+	$scope.create = function updateArtist(dataBand){
+		$http.put("https://private-53163-riocuartobandasderock.apiary-mock.com/artists/"+$routeParams.id, data).then(function callback(response) {
+			if (response.status == 201) {
+				$location.path("/admin");
+			} else {
+				alert("Actualización de artista fallida.");
+			}
+			
+		});
+	}
+	
+	
 	$scope.go_to = function(id) {
 		$location.path("/artists/"+id);
 	}

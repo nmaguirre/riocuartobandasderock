@@ -40,6 +40,22 @@
 // ];
 // 	$scope.band = $scope.bands[0];
 
+	function load_albums() {
+		$http.get("https://private-53163-riocuartobandasderock.apiary-mock.com/albums").then(function callback(response){
+			if (response.status == 200){
+				$scope.albums = response.data;
+			} else {
+				alert("Oops, something went wrong, try again later!")
+			}
+		});
+	}
+	
+	load_albums();
+
+	$scope.create = function createArtist(data) {
+		alert("Creación de banda correcta.");
+	}
+
 	/*$scope.bands = [];
 	$scope.band = '';
 

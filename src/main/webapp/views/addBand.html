@@ -1,0 +1,34 @@
+<div class="row">
+	<div class="col-xs-12 external-login-container">
+		<div class = "row">
+			<div class="center-block">
+				<div class="offset-xs-2 col-xs-8 internal-login-container">
+					<form name="loginForm">
+						<div class="form-group">
+							<legend><center>ALTA BANDA</center></legend><hr>
+							<label for="Name"><h3>Nombre</h3></label>
+							<input type="text" class="form-control" id="name" ng-model="dataBand.name" aria-describedby="nameHelp" placeholder="Ingrese el nombre de la banda">
+							<hr>
+						</div>
+						<div class="form-group">
+							<label for="Genre"><h3>Género musical</h3></label>
+							<input type="text" class="form-control" id="genre" ng-model="dataBand.genre" aria-describedby="genreHelp" placeholder="Ingrese el género de la banda">
+							<hr>
+						</div>
+						<div class="form-group">
+							<label for="Select"><h3>Album</h3></label>
+							<select class="form-control" id="select" ng-model="dataBand.album">
+								<option value="" selected disabled>Seleccione un album</option>
+								<option ng-repeat="album in albums" value="{{album.AlbumID}}">{{album.title}}</option>
+							</select>
+						<div class="form-group pull-right">
+							<hr>
+							<button type="submit" class="btn btn-success" ng-click="create(dataBand)">Crear Banda</button>
+						</div>
+					</form>	
+				</div>
+			</div>
+		</div>
+	</div>
+</div>	
+ 

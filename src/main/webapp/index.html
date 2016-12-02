@@ -15,9 +15,7 @@
 	<link rel="stylesheet" type="text/css" href="/css/bands.css">
 	<link rel="stylesheet" type="text/css" href="/css/songs.css">
 	<link rel="stylesheet" type="text/css" href="/css/login.css">
-	<link rel="stylesheet" type="text/css" href="/css/albumForm.css">
-
-
+	
 	<!--JS-->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.7/js/tether.min.js" integrity="sha384-XTs3FgkjiBgo8qjEjBk0tGmf3wPrWtA6coPfQDfFEY8AnYJwjalXCiosYRBIBZX8" crossorigin="anonymous"></script>
@@ -27,6 +25,8 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-route.js"></script>
 
 	<script type="text/javascript" src="/javascript/angularSlideables.js"></script>
+
+	<script type="text/javascript" src="/javascript/moment.js"></script>
 	<!-- APP -->
 	<script type="text/javascript" src="app.js"></script>
 	<script type="text/javascript" src="/javascript/controllers/adminController.js"></script>
@@ -34,14 +34,16 @@
 	<script type="text/javascript" src="/javascript/controllers/artistsController.js"></script>
 	<script type="text/javascript" src="/javascript/controllers/bandsController.js"></script>
 	<script type="text/javascript" src="/javascript/controllers/homeController.js"></script>
+	<script type="text/javascript" src="/javascript/controllers/searchController.js"></script>
 	<script type="text/javascript" src="/javascript/controllers/songsController.js"></script>
 	<script type="text/javascript" src="/javascript/controllers/loginController.js"></script>
-	<script type="text/javascript" src="/javascript/controllers/albumFormController.js"></script>
+	
+
 </head>
 <body ng-app="app">
 	<div class="container">
 		<nav class="navbar navbar-fixed-top navbar-light bg-faded">
-					<a class="navbar-brand" href="#">RCBR</a>
+					<a class="navbar-brand" href="#/">RCBR</a>
 					<ul class="nav navbar-nav">
 						<li class="nav-item">
 							<a class="nav-link" href="#/bands">Bandas <span class="sr-only">(current)</span></a>
@@ -64,10 +66,12 @@
 							</div>
 						</li>
 					</ul>
-					<form class="form-inline float-xs-right">
-						<input class="form-control" type="text" placeholder="Buscar">
+					<div ng-controller="SearchController">
+					<form class="form-inline float-xs-right ng" ng-submit="go_search()">
+						<input class="form-control" type="text" ng-model="value" placeholder="Buscar">
 						<button class="btn btn-success-outline" type="submit">Buscar</button>
 					</form>
+					</div>
 		</nav>
 		<div ng-view>
 		</div>

@@ -8,7 +8,8 @@ angular.module('app')
 	$scope.songs = [];
 	
 	$scope.go_search = function(){
-		$location.path("/search_results?value="+$scope.value);	
+		$location.path("/search_results").search({value: $scope.value});
+
 	}
 
 	function search_all(value) {

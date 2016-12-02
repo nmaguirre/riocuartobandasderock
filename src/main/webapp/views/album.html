@@ -8,7 +8,7 @@
 				<p>ALBUM</p>
 				<h1>{{album.title}}</h1>
 
-				<p>De <a ng-href="/#/bands/{{album.band}}" class="album-song">{{album.band_name}}</a> | Publicado: {{album.releaseDate}} | {{album.songs.length}} canciones</p>
+				<p>De <a ng-href="/#/bands/{{album.band.bandId}}" class="album-song">{{album.band_name}}</a> | Publicado: {{album.releaseDate}} | {{album.songs.length}} canciones</p>
 			</div>
 		</div>
 		<div class="row">
@@ -22,7 +22,7 @@
 				</thead>
 				<tbody>
 					<tr ng-repeat="song in album.songs">
-						<td>{{song.name}}</td>
+						<td><a class="album-song" ng-href="/#/songs/{{song.idSong}}">{{song.name}}</a></td>
 						<td>{{song.duration}}</td>
 					</tr>
 				</tbody>
