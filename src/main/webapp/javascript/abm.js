@@ -302,7 +302,7 @@ function artistModify() {
 	    	  window.alert(xhttp.responseText);
 	      }
 	   };
-	   xhttp.send(params);
+	   xhttp.send(params);*/
 }
 
 //**************BAND ABM************
