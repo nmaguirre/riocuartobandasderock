@@ -102,7 +102,7 @@
                 response = '<table>';
                 itemindex = 1;
                 $.each(request, function(i, item) {
-                       response += '<tr>'+'<td>'+itemindex+'</td>'+item.name+'</td>'+'<td>'+item.surname+'</td>'+'<td>'+item.nickname+'</td> <td> <a href="javascript:void(0);" class="glyphicon glyphicon-trash" onclick="addBandMember(\''+item.artistID+'\',+id+); event.stopImmediatePropagation();"</a> </td>'+'</tr>';
+                       response += '<tr>'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.surname+'</td>'+'<td>'+item.nickname+'</td> <td> <a href="javascript:void(0);" class="glyphicon glyphicon-plus" onclick="addBandMember(\''+item.artistID+'\','+bandId+'); event.stopImmediatePropagation();"</a> </td>'+'</tr>';
                         ++itemindex;
                 });           
                 response += '</table>';    
