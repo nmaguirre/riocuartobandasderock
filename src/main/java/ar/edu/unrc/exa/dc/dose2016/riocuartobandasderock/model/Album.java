@@ -112,10 +112,12 @@ public class Album {
 	 * Returns the Album release date.
 	 *
 	 * @return releaseDate
+	 * @throws ParseException 
 	 */
-	public Date getReleaseDate() throws ParseException {
-		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
-		return f.parse(this.releaseDate.toString());
+	public Date getReleaseDate() throws ParseException{
+//		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+//		return f.parse(this.releaseDate.toString());
+		return this.releaseDate;
 	}
 
 	/**
