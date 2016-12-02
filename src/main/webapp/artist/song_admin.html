@@ -56,7 +56,7 @@
                 itemindex = 1;
                 //$.each(request, function(i, item) {
                 $.each(data, function(i, item) {
-                       response += '<tr>'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.duration+'</td>'+'<td>'+item.album+'</td>' + '<td> <a href="javascript:void(0);" class="glyphicon glyphicon-edit" onclick="showInEdit(\''+item.name+'\'); event.stopImmediatePropagation();"</a> <a href="javascript:void(0);" class="glyphicon glyphicon-trash" onclick="deleteArtist(\''+item.idSong+'\'); event.stopImmediatePropagation();"</a> </td> </tr>';
+                       response += '<tr>'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.duration+'</td>'+'<td>'+item.album+'</td>' + '<td> <a href="javascript:void(0);" class="glyphicon glyphicon-edit" onclick="showInEdit(\''+item.name+'\'); event.stopImmediatePropagation();"</a> <a href="javascript:void(0);" class="glyphicon glyphicon-trash" onclick="deleteSong(\''+item.idSong+'\'); event.stopImmediatePropagation();"</a> </td> </tr>';
                         ++itemindex;
                 });           
                 response += '</table>';
@@ -179,7 +179,7 @@
         }*/
     }
 
-    function deleteArtist(id) {            
+    function deleteSong(id) {            
             
         //resourcelocation ='/songs/'+id;
         resourcelocation= 'https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/songs/'+id;
@@ -299,7 +299,8 @@
         <div class="panel panel-default users-content">
             <div class="panel-heading"><i class="glyphicon glyphicon-th-list"></i>  Songs list
     <div class="btn-group pull-right" role="group">
-    <button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:showSongs('/songs')">Show all</button>
+    <!--<button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:showSongs('/songs')">Show all</button>-->
+    <button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:showSongs('https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/songs/')">Show all</button>
     <button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:$('#addForm').slideToggle(); $('.form')[0].reset();">Add</button>
       <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Search <span class="caret"></span>
