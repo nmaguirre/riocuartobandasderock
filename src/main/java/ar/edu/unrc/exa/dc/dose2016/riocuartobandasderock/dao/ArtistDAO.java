@@ -91,4 +91,6 @@ public interface ArtistDAO {
 	public List<Artist> getArtist(String name, String surname, String nickname);
 
 	public int cantArtists();
+
+	public List<Artist> ilike(String name);
 }
