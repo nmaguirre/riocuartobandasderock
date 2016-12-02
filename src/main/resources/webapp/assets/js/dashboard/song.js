@@ -1,4 +1,8 @@
 $(document).ready(function() {
+  if ($('#songId').length) {
+    $('li').removeClass('active');
+    $('#song').addClass('active');
+  }
   if($('#dashboard-songs-datatable').length){
     $('#dashboard-songs-datatable').DataTable({
       "bSort": false,
@@ -27,8 +31,20 @@ $(document).ready(function() {
       $('#dashboard-songs-datatable').DataTable().draw();
     });
 
-    $('li').removeClass('active');
-    $('#song').addClass('active');
+    $('#submit').on('click', function(event){
+      event.preventDefault();
+      var input_name = $('#name').val();
+      var input_duration = $('#duration').val();
+      $.ajax({
+        url: "/songs/"+id,
+        method: "put",
+        data: {
+          name: input_name,
+          duration: input_duration }
+      }).done(function() {
+        window.location.replace("/songs/"+id);
+      });
+    })
 
     $('#dashboard-songs-datatable').on('click','.delete', function(event){
       event.preventDefault();

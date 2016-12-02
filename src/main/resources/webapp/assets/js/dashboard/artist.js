@@ -1,4 +1,8 @@
 $(document).ready(function() {
+  if ($('#artistId').length) {
+    $('li').removeClass('active');
+    $('#artist').addClass('active');
+  }
   if($('#dashboard-artists-datatable').length){
     $('#dashboard-artists-datatable').DataTable({
       "bSort": false,
@@ -28,8 +32,22 @@ $(document).ready(function() {
       $('#dashboard-artists-datatable').DataTable().draw();
     });
 
-    $('li').removeClass('active');
-    $('#artist').addClass('active');
+    $('#submit').on('click', function(event){
+      event.preventDefault();
+      var input_name = $('#name').val();
+      var input_surname = $('#surname').val();
+      var input_nickname = $('#nickname').val();
+      $.ajax({
+        url: "/artists/"+id,
+        method: "put",
+        data: {
+          name: input_name,
+          surname: input_surname,
+          nickname: input_nickname }
+      }).done(function() {
+        window.location.replace("/artists/"+id);
+      });
+    })
 
     $('#dashboard-artists-datatable').on('click','.delete', function(event){
       event.preventDefault();

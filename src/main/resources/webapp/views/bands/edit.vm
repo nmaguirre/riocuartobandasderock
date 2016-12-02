@@ -1,3 +1,4 @@
+<div id="bandId"></div>
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-8">
@@ -52,27 +53,3 @@
     </div>
   </div>
 </div>
-
-<script>
-  $(document).ready(function() {
-    $('li').removeClass('active');
-    $('#band').addClass('active');
-    var id = $('#form').attr('class');
-
-    $('#submit').on('click', function(event){
-      event.preventDefault();
-      var input_name = $('#name').val();
-      var input_genre = $('#genre').val();
-      $.ajax({
-        url: "/bands/"+id,
-        method: "put",
-        data: {
-          name: input_name,
-          genre: input_genre }
-      }).done(function() {
-        window.location.replace("/bands/"+id);
-      });
-    })
-  });
-</script>
-
