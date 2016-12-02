@@ -45,9 +45,16 @@
 
             <div class="row">
               <div class="col-xs-12">
-                <div class="form-group label-floating">
+                <div class="form-group">
                   <label class="control-label">Bandas</label>
-                  <select multiple="multiple" class="form-control" name="band_ids[]">
+                  <select multiple="multiple"
+                          name="band_ids[]"
+                          class="form-control selectpicker show-tick"
+                          data-live-search="true"
+                          data-style="btn-success"
+                          data-dropup-auto="false"
+                          data-size="4"
+                          title="Busque las bandas a las que pertenece el artista">
                     #foreach ($band in $bands)
                       <option value="$band.id">$band.name</option>
                     #end
