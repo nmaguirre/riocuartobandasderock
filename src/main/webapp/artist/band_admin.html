@@ -42,6 +42,8 @@
 <script>
     
     var findResourceTag = '/bands/findbyname/'; // Default value
+    var bandShowing = 1; // Default artist ID showing
+
 
     function showBands(resourcelocation){
         $("#userData").html('<table></table>'); // Clean table, need to refresh with non elements in db
@@ -69,7 +71,7 @@
     function showArtistMInDialog(id){
         $("#artistMModal").modal() 
         $("#artistMData").html('<table></table>'); // Clean table, need to refresh with non elements in db
-
+        bandShowing = id;
         resourcelocation='/bands/getbandmember/'+id;
          $.get(resourcelocation, function(data, status){
             if (typeof data === "undefined") {
@@ -90,7 +92,7 @@
           });
     }
     
-    function showAllArtist(bandId){
+    function showAllArtist(id){
         $("#artistMAllData").html('<table></table>'); // Clean table, need to refresh with non elements in db
 
         resourcelocation='/artists';
@@ -102,7 +104,7 @@
                 response = '<table>';
                 itemindex = 1;
                 $.each(request, function(i, item) {
-                       response += '<tr>'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.surname+'</td>'+'<td>'+item.nickname+'</td> <td> <a href="javascript:void(0);" class="glyphicon glyphicon-plus" onclick="addBandMember(\''+item.artistID+'\','+bandId+'); event.stopImmediatePropagation();"</a> </td>'+'</tr>';
+                       response += '<tr>'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.surname+'</td>'+'<td>'+item.nickname+'</td> <td> <a href="javascript:void(0);" class="glyphicon glyphicon-plus" onclick="addBandMember(\''+id+'\',\''+item.artistID+'\'); event.stopImmediatePropagation();"</a> </td>'+'</tr>';
                         ++itemindex;
                 });           
                 response += '</table>';    
@@ -114,12 +116,11 @@
     }
 
 	function addBandMember(bandId, artistId) {
-            
             var url = '/bandmembers'; 
             $.ajax({
                 type: "POST",
                 url: url,
-                data: '{"artistID":"' + artistId + '"bandID":"' + bandId + '"}',
+                data: 'artistID='+artistId+'&bandID='+bandId,
                 success: function(data)
                 {
                     $('.formData').slideUp();
@@ -512,7 +513,7 @@
             <div class="panel panel-default users-content">
                 <div class="panel-heading"><i class="glyphicon glyphicon-th-list"></i>  Bands artists
                     <div class="btn-group pull-right" role="group">
-                    <button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:$('#artistMaddForm').slideToggle(); showAllArtist();">Add</button>
+                    <button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:$('#artistMaddForm').slideToggle(); showAllArtist(bandShowing);">Add</button>
                     </div>
                 </div>
             </div>
