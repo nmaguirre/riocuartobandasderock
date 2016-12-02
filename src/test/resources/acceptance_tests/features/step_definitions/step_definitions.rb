@@ -6,7 +6,7 @@ require "rspec"
 include RSpec::Matchers
 
 HOST = "localhost"
-PORT = "5432"
+PORT = "7500"
 
 def execute_sql(sql_code)
     done = system "sh db_execute.sh \"#{sql_code}\""
@@ -84,6 +84,20 @@ Given(/^the album named "([^"]*)" doesn't exist in database$/) do |title|
     expect(queryResult == "0")
 end
 
+## update feature
+Given(/that the song's database have one song with UUID "([^"]*)" and name "([^"]*)" and duration "([^"]*)" and belongs to the album "([^"]*)"$/) do |id, name, duration, title|
+    
+	`psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"INSERT INTO BandDB VALUES ('7','nam','Reggae');\" -t`
+  	`psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"INSERT INTO AlbumDB VALUES ('1','#{title}','2010-12-27','7');\" -t`
+	`psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"INSERT INTO SongDB VALUES ('#{id}','#{name}','#{duration}');\" -t`
+end
+
+## update feature 1
+Given(/that the song's database is empty and exist an album "([^"]*)"$/) do |title|
+    
+	`psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"INSERT INTO BandDB VALUES ('7','nam','Reggae');\" -t`
+  	`psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"INSERT INTO AlbumDB VALUES ('1','#{title}','2010-12-27','7');\" -t`
+end
 
 When(/^I try to add an album with name "([^"]*)" and release date "([^"]*)"$/) do |title,release_date|
   begin
@@ -242,6 +256,38 @@ When(/^I update the album with name "([^"]*)" and release date "([^"]*)" to name
         end
 end
 
+# update feature 1
+When(/^I update a song with UUID "([^"]*)" and name "([^"]*)" and duration "([^"]*)" and album "([^"]*)"$/) do |uuid, name, duration, albumName|
+begin
+  
+    response = RestClient.put "http://localhost:4567/songs/#{uuid}", { :name => name, :duration => duration, :albumTitle => albumName }, :content_type => 'text/plain'
+            expect(response.code).to eq(200)
+        rescue RestClient::Conflict => e
+            expect(response.code).to eq(409)
+        end
+
+end
+
+# update feature 3
+When(/^I update the song with UUID "([^"]*)" and name "([^"]*)" to duration "([^"]*)" and album "([^"]*)"$/) do |uuid, name, newDuration, albumName|
+    begin
+	response = RestClient.put "http://localhost:4567/songs/#{uuid}", {:name => name, :duration => newDuration, :albumTitle => albumName}, :content_type => 'text/plain'
+        expect(response.code).to eq(200)
+        rescue RestClient::Conflict => e
+            expect(response.code).to eq(409)
+        end
+end
+
+# update feature 2 y 4
+When(/^I update the song with UUID "([^"]*)" to name "([^"]*)" and duration "([^"]*)" and album "([^"]*)"$/) do |uuid, name, duration, albumName|
+    begin
+        response = RestClient.put "http://localhost:4567/songs/#{uuid}", {:name => name, :duration => duration, :albumTitle => albumName}, :content_type => 'text/plain'
+        expect(response.code).to eq(200)
+        rescue RestClient::Conflict => e
+            expect(response.code).to eq(409)
+        end
+end
+
 When(/^I delete a song with UUID "([^"]*)"$/) do |id|
   begin
        String s = 'http://localhost:4567/songs/'+id
@@ -279,6 +325,20 @@ Then(/^the entry should have name "([^"]*)" and release date "([^"]*)"$/) do |ti
     resultingReleaseDate = resultingReleaseDate.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
     expect(resultingReleaseDate) == (release_date)
 end
+
+# updateSong feature
+Then(/^the song's database should have one song with UUID "([^"]*)", name "([^"]*)" and duration "([^"]*)" exist in database$/) do |uuid, name, duration|
+	resultingUuid = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select idsong from SongDB;\" -t`   
+	resultingUuid = resultingUuid.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+    expect(resultingUuid) == (uuid)
+    resultingName = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select name from SongDB;\" -t`
+    resultingName = resultingName.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+    expect(resultingName) == (name)
+    resultingDuration = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select duration from SongDB;\" -t`
+    resultingDuration = resultingDuration.gsub(/[^[:print:]]|\s/,'') # removing non printable chars
+    expect(resultingDuration) == (duration)
+end
+
 
 Then(/^the entry should have name "([^"]*)" and duration "([^"]*)"$/) do |name, duration|
     resultingName = `psql -h #{HOST} -p #{PORT}  -U rock_db_owner -d rcrockbands -c \"select name from SongDB;\" -t`

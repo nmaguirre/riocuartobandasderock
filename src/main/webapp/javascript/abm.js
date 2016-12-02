@@ -36,7 +36,7 @@ function songAdd() {
 /**
 * songDelete
 * Description: This method allows to remove a song from the database
-* with the data 'name' ,'duration' and 'albumTitle' filled in the form
+* with the data 'songID' filled in the form
 */	
 function songDelete() { 
      /* delete("/songs/:id",(req, res) -> songController.remove(req, res)); */	
@@ -80,8 +80,8 @@ function songDelete() {
 /**
 * songModify
 * Description: This method allows to modify a song in the database 
-* with the data 'name' ,'duration' and 'albumTitle' filled in the form
-* (the values 'id' can't be empty).
+* with the data ''songID','name' ,'duration' and 'albumTitle' filled in the form
+* (the value 'songID' can't be empty).
 */	
 function songModify() {
 	   /* put("/songs/:id",(req,res)->songController.update(req,res)); */
@@ -171,7 +171,7 @@ function albumDelete() {
 /**
  * albumModify
  * Description: This method allows to modify a album in the database 
- * with the data 'AlbumID' filled in the form (the value 'AlbumID' can't be empty).
+ * with the data 'AlbumID','title' and 'release_date' filled in the form (the value 'AlbumID' can't be empty).
  */
 function albumModify() {
 	  /* put("/albums/:id", (req, res) -> albumController.update(req, res)); */
@@ -242,7 +242,7 @@ function artistAdd() {
 /**
  * artistDelete
  * Description: This method allows to remove an artist from the database
- * with the data 'name','surname' and 'nickname' filled in the form (All values can not be empty at the same time).
+ * with the data 'artisID'filled in the form (the value 'artisID' can not be empty).
  */
 function artistDelete() {
       /* delete("/artists/:id",(req,res)->artistController.deleteArtist(req,res));*/
@@ -274,7 +274,7 @@ function artistDelete() {
 /**
  * artistModify
  * Description: This method allows to modify an artist in the database 
- * with the data 'name','surname' and 'nickname' filled in the form (All values can not be empty at the same time).
+ * with the data 'artisID','name','surname' and 'nickname' filled in the form (the value 'artisID' can not be empty).
  */
 function artistModify() {
 	   /*  put("/artists/:id",(req,res)->artistController.updateArtist(req,res)); */
@@ -336,7 +336,7 @@ function bandAdd() {
 /**
  * bandDelete
  * Description: This method allows to remove a  band from the database 
- * with the data 'name' and 'genre' filled in the form (no one of these values can be empty).
+ * with the data 'bandID', 'name' and 'genre' filled in the form (the value 'bandID' can't be empty).
  */
 function bandDelete() {
 	  /*  delete("/bands/:name",(req, res) -> bands.deleteBand(req, res));  */	
