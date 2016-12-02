@@ -27,11 +27,22 @@ $(document).ready(function() {
       event.preventDefault();
       $("#mycarousel").carousel(4);
     })
-    
+
     $('#mycarousel').on("click",'.slide-5', function(event){
       event.preventDefault();
       $("#mycarousel").carousel(5);
     })
+
+    $('#link').click(function () {
+      var src = 'https://www.youtube.com/embed/JYgPk44tqa0?autoplay=1';
+      $('#myModal').modal('show');
+      $('#myModal iframe').attr('src', src);
+      $('#myModal iframe').attr('autoplay', "1");
+    });
+
+    $('#myModal button').click(function () {
+      $('#myModal iframe').removeAttr('src');
+    });
 
   }
 });
