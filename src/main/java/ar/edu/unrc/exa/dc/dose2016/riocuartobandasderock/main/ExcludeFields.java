@@ -1,5 +1,6 @@
 package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 
@@ -15,7 +16,8 @@ public class ExcludeFields implements ExclusionStrategy {
     public boolean shouldSkipField(FieldAttributes f) {
 
         return (f.getDeclaringClass() == Song.class && f.getName().equals("album")||
-        		f.getDeclaringClass() == Band.class && f.getName().equals("albums"));
+        		f.getDeclaringClass() == Band.class && f.getName().equals("albums")||
+        		f.getDeclaringClass() == Album.class && f.getName().equals("band"));
     }
 
 }
