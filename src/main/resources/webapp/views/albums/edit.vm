@@ -13,7 +13,7 @@
           <p class="category">Complete el formulario</p>
         </div>
         <div class="card-content">
-          <form action="/albums" method="put" id="form" class="$!{id}">
+          <form action="/albums" id="form" class="$!{id}">
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group label-floating">
@@ -28,8 +28,10 @@
                 </div>
               </div>
             </div>
-
-            <button type="submit" class="btn btn-success pull-right">Actualizar</button>
+            <input type="hidden" name="band_id" id="band_id" value="$!{band_id}">
+            <div class="row text-center">
+              <button type="submit" class="btn btn-success" id="submit">Actualizar</button>
+            </div>
             <div class="clearfix"></div>
           </form>
         </div>
@@ -48,12 +50,14 @@
       event.preventDefault();
       var input_title = $('#title').val();
       var input_release_date = $('#release_date').val();
+      var input_band_id = $('#band_id').val();
       $.ajax({
         url: "/albums/"+id,
         method: "put",
         data: {
           title: input_title,
-          release_date: input_release_date
+          release_date: input_release_date,
+          band_id: input_band_id
         }
       }).done(function() {
         window.location.replace("/albums/"+id);
