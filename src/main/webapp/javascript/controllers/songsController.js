@@ -2,7 +2,8 @@ angular.module('app')
 .controller('SongsController', ['$scope', '$http','$location','$routeParams', function($scope,$http,$location, $routeParams){
 		
 	$scope.songs = [];
-
+	$scope.dataSong = {};
+	$scope.albums = [];
 	function load_songs() {
 		$http.get("https://private-53163-riocuartobandasderock.apiary-mock.com/songs/").then(function callback(response){
 			if (response.status == 200){
@@ -16,8 +17,24 @@ angular.module('app')
 		});
 	}
 		
-	load_songs();
-	
+
+	if ($location.path() == "/admin/songs/add"){
+		load_albums();
+	} else {
+		load_songs();
+	}
+
+	function load_albums() { 
+		$http.get("https://private-53163-riocuartobandasderock.apiary-mock.com/albums").then(function callback(response) {
+			if (response.status == 200){
+				$scope.albums = response.data;
+			} else {
+				alert("Oops, something went wrong, try again later!")
+			}
+		});
+	}
+
+
 	function load_album(id, index) { 
 		$http.get("https://private-53163-riocuartobandasderock.apiary-mock.com/albums/"+id).then(function callback(response) {
 			if (response.status == 200){
