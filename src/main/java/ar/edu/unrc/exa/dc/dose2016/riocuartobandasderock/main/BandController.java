@@ -282,7 +282,7 @@ public class BandController {
    */
   public String deleteBand(Request req,Response res){
     String result;
-	  if ((req.params(":name"))==""){
+	  if ((req.queryParams(":id"))==""){
       res.status();
       return "Request invalid";
     }
@@ -292,13 +292,13 @@ public class BandController {
     boolean status= false;
     try{
       transaction = session.beginTransaction();
-      List<Band> searchResult = bdao.findByName(req.params(":name"));
+      Band searchResult = bdao.findById(req.queryParams(":id"));
       transaction.commit();
-      if (searchResult.size()==1){
-        Band toRemove = searchResult.get(0);
+      // if (searchResult.size()==1){
+        Band toRemove = searchResult;
         transaction = session.beginTransaction();
         status = bdao.deleteBand(toRemove.getId());
-      }
+      //}
       transaction.commit();
     }catch (HibernateException e) {
       transaction.rollback();

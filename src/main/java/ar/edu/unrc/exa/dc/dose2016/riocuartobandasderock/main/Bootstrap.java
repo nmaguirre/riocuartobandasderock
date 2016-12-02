@@ -208,7 +208,7 @@ public class Bootstrap {
 
         put("/bands",(req, res) -> bands.updateBand(req, res));
 
-        delete("/bands/:name",(req, res) -> bands.deleteBand(req, res));
+        delete("/bands/:id",(req, res) -> bands.deleteBand(req, res));
 
         /**
         * ARTIST
