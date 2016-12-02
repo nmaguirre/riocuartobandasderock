@@ -1,7 +1,8 @@
-<div class="col-lg-3 col-md-6 col-sm-6">
+<div>
+  <div class="col-lg-3 col-md-6 col-sm-6">
     <div class="card card-stats">
       <div class="card-header" data-background-color="orange">
-        <i class="material-icons">content_copy</i>
+        <i class="fa fa-microphone" aria-hidden="true"></i>
       </div>
       <div class="card-content">
         <p class="category">BANDAS</p>
@@ -17,7 +18,7 @@
   <div class="col-lg-3 col-md-6 col-sm-6">
     <div class="card card-stats">
       <div class="card-header" data-background-color="green">
-        <i class="material-icons">store</i>
+        <i class="fa fa-users" aria-hidden="true"></i>
       </div>
       <div class="card-content">
         <p class="category">ARTISTAS</p>
@@ -33,7 +34,7 @@
   <div class="col-lg-3 col-md-6 col-sm-6">
     <div class="card card-stats">
       <div class="card-header" data-background-color="red">
-        <i class="material-icons">info_outline</i>
+        <i class="fa fa-music"></i> 
       </div>
       <div class="card-content">
         <p class="category">CANCIONES</p>
@@ -50,7 +51,7 @@
   <div class="col-lg-3 col-md-6 col-sm-6">
     <div class="card card-stats">
       <div class="card-header" data-background-color="blue">
-        <i class="fa fa-twitter"></i>
+        <i class="fa fa-headphones" aria-hidden="true"></i>
       </div>
       <div class="card-content">
         <p class="category">ÁLBUMES</p>
@@ -64,8 +65,3 @@
     </div>
   </div>
 </div> 
-<div class="col-lg-3 col-md-6 col-sm-6">
-    <div class="card card-stats">
-      <div class="card-content">
-        <p class="category">BANDAS</p>
-         <h3 class="title"></h3>

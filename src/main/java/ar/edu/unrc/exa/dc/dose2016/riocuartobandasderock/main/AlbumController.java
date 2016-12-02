@@ -10,8 +10,11 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Album;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.AlbumDAO;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.AlbumDaoImpl;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandDaoImpl;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SessionManager;
 import spark.Request;
 import spark.Response;
@@ -20,6 +23,8 @@ import spark.ModelAndView;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.LinkedList;
+import java.util.List;
 
 
 public class AlbumController {
@@ -70,8 +75,11 @@ public class AlbumController {
 
     public ModelAndView newAlbum(Request req,Response res){
         Map<String, Object> attributes = new HashMap<>();
-
+        Session session = SessionManager.getInstance().openSession();
+        BandDAO bdao = new BandDaoImpl(session);
+        List<Band> bands = bdao.getAllBands();
         attributes.put("template", Routes.new_album());
+        attributes.put("bands", bands);
         attributes.put("title", "Crear");
         return new ModelAndView(attributes, Routes.layout_dashboard());
     }

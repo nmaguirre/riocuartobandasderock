@@ -8,7 +8,7 @@
           </div>
           <br>
         #end
-        <div class="card-header" data-background-color="purple">
+        <div class="card-header" data-background-color="green">
           <h4 class="title">Nueva Canción</h4>
           <p class="category">Complete el formulario</p>
         </div>
@@ -39,7 +39,6 @@
 </div>
 
 <script>
-  #include("vendor/jquery/jquery.min.js")
   $(document).ready(function() {
     $('li').removeClass('active');
     $('#song').addClass('active');

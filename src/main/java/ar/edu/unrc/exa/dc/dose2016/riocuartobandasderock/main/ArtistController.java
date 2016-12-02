@@ -2,9 +2,12 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Band;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.BandMember;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.ArtistDAO;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.BandMemberDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.ArtistDaoImpl;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandDaoImpl;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.BandMemberDAOImpl;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SessionManager;
 import spark.Response;
@@ -13,6 +16,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.HibernateException;
 import java.util.List;
+import java.util.LinkedList;
 
 import spark.ModelAndView;
 
@@ -144,8 +148,12 @@ public class ArtistController {
 
   public ModelAndView newArtist(Request req,Response res){
     Map<String, Object> attributes = new HashMap<>();
+    Session session = SessionManager.getInstance().openSession();
+    BandDAO bdao = new BandDaoImpl(session);
+    List<Band> bands = bdao.getAllBands();
     attributes.put("template", Routes.new_artist());
-    attributes.put("title", "Crear");
+    attributes.put("bands", bands);
+    attributes.put("title", "Crear un nuevo artista");
     return new ModelAndView(attributes, Routes.layout_dashboard());
   }
 
@@ -236,53 +244,63 @@ public class ArtistController {
 	 * @return a string that describes the result of createArtist
 	 */
 	public ModelAndView createArtist(Request req,Response res){
-		//Not Implemented yet
-		/*String user = req.session().attribute("name");
-			if ((user==null)||(!(user.equals("admin")))){
-			res.status(401);
-			return "Forbidden Access";
-		}*/
-		Map<String, Object> attributes = new HashMap<>();
-		String name = req.queryParams("name");
-		if (name==null){
-			name="";
-		}
-		String surname = req.queryParams("surname");
-		if (surname==null){
-			surname="";
-		}
-		String nickname = req.queryParams("nickname");
-		if (nickname==null){
-			nickname="";
-		}
-		if((name.isEmpty()) && (surname.isEmpty()) && (nickname.isEmpty())){
-			res.status(400);
-			// return "Request invalid";
-			attributes.put("title", "Crear");
-	    attributes.put("error", "El nombre no puede estar en blanco");
-			attributes.put("template", Routes.new_artist());
-	    return new ModelAndView(attributes, Routes.layout_dashboard());
-		}
-		Session session = SessionManager.getInstance().openSession();
-		ArtistDAO artistDAO=new ArtistDaoImpl(session);
-		Transaction transaction = session.beginTransaction();
-		boolean status = artistDAO.createArtist(name,surname,nickname);
-		transaction.commit();
-		session.close();
-		if (status){
-			res.status(201);
-			attributes.put("title", "Artistas");
-			attributes.put("success", "El Artista se creo con exito");
-			attributes.put("template", Routes.index_artist());
-    	return new ModelAndView(attributes, Routes.layout_dashboard());
-			// return "Success";
-		}
-		res.status(409);
-		attributes.put("title", "Crear");
-    attributes.put("error", "El nombre no puede estar en blanco");
-		attributes.put("template", Routes.new_artist());
-    return new ModelAndView(attributes, Routes.layout_dashboard());
-		// return "Fail";
+  	Map<String, Object> attributes = new HashMap<>();
+    List<String> errors = new LinkedList<>();
+
+    String name = req.queryParams("name");
+    String surname = req.queryParams("surname");
+    String nickname = req.queryParams("nickname");
+
+    if (name == null || name.equals(""))
+      errors.add("El <strong>nombre</strong> no puede estar en blanco");
+    if (surname == null || surname.equals(""))
+      errors.add("El <strong>apellido</strong> no puede estar en blanco");
+    if (nickname == null || nickname.equals(""))
+      errors.add("El <strong>apodo</strong> no puede estar en blanco");
+
+    if (!errors.isEmpty()) {
+      attributes.put("errors", errors);
+      attributes.put("template", Routes.new_artist());
+      return new ModelAndView(attributes, Routes.layout_dashboard());
+    }
+
+    Session session = SessionManager.getInstance().openSession();
+		ArtistDAO artistDAO = new ArtistDaoImpl(session);
+    Transaction transaction = null;
+    Boolean status = false;
+
+    try {
+      transaction = session.beginTransaction();
+      status = artistDAO.createArtist(name, surname, nickname);
+      transaction.commit();
+
+      if (status) {
+        List<Artist> artists = artistDAO.getAllArtists();
+        attributes.put("success", "El artista fue creado");
+        attributes.put("artists", artists);
+        attributes.put("template", Routes.index_artist());
+        session.close();
+        res.status(201);
+        return new ModelAndView(attributes, Routes.layout_dashboard());
+      } else {
+        errors.add("Ya existe un artista con los mismos datos");
+        attributes.put("errors", errors);
+        attributes.put("template", Routes.new_artist());
+        session.close();
+        res.status(409);
+        return new ModelAndView(attributes, Routes.layout_dashboard());
+      }
+
+    } catch(HibernateException e) {
+      e.printStackTrace();
+      transaction.rollback();
+      session.close();
+      res.status(409);
+      errors.add("El artista no pudo ser creado");
+      attributes.put("errors", errors);
+      attributes.put("template", Routes.new_artist());
+      return new ModelAndView(attributes, Routes.layout_dashboard());
+    }
 	}
 
 	public ModelAndView updateView(Request req, Response res){

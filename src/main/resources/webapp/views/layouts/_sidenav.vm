@@ -1,4 +1,4 @@
-<div class="sidebar" data-color="orange" data-image="assets/img/sidebar-1.jpg">
+<div class="sidebar" data-color="green" data-image="/assets/img/sidebar-1.jpg">
 
   <div class="logo">
     <a href="/" class="simple-text">
@@ -10,31 +10,32 @@
     <ul class="nav">
       <li id="dashboard">
         <a href="/dashboard">
-          <i class="material-icons">dashboard</i>
+          <i class="fa fa-tachometer" aria-hidden="true"></i>
           <p>Panel de administrador</p>
         </a>
       </li>
       <li id="band">
         <a href="/bands">
-          <i class="material-icons">person</i>
+          <i class="fa fa-microphone" aria-hidden="true"></i>
+
           <p>Bandas</p>
         </a>
       </li>
       <li id="album">
         <a href="/albums">
-          <i class="material-icons">content_paste</i>
+          <i class="fa fa-headphones" aria-hidden="true"></i>
           <p>Albumes</p>
         </a>
       </li>
       <li id="song">
         <a href="/songs">
-          <i class="material-icons">library_books</i>
+          <i class="fa fa-music"></i>
           <p>Canciones</p>
         </a>
       </li>
       <li id="artist">
         <a href="/artists">
-          <i class="material-icons">bubble_chart</i>
+          <i class="fa fa-users" aria-hidden="true"></i>
           <p>Artistas</p>
         </a>
       </li>
@@ -43,11 +44,8 @@
 </div>
 
 <script>
-  #include("vendor/jquery/jquery.min.js")
   $(document).ready(function() {
-    $('li').removeClass('active');
-    $('li').on('click', function(){
-      // this.addClass('active');
-    })
+    $('.sidebar-wrapper li').removeClass('active');
+    $('.sidebar-wrapper li#dashboard').addClass('active');
   });
 </script>

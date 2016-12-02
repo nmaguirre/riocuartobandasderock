@@ -62,3 +62,19 @@
 .tim-row h3{
     margin-top: 0;
 }
+
+div.container-center-vertical {
+    display: table;
+    height: 100%;
+}
+
+div.container-center-vertical > div {
+    display: table-cell;
+    height: 100%;
+    vertical-align:middle;
+}
+
+.remove-vertical-padding {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
