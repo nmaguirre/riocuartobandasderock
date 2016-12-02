@@ -60,12 +60,12 @@ Given(/^that the album's database have one album with title "([^"]*)" and releas
 end
 
 Given(/^that the album's database contains an album named "([^"]*)" with release date "([^"]*)"$/) do |title,release_date|
-  response = RestClient.post 'http://localhost:4567/albums', { :title => title, :release_date => release_date, :band_id => '1'}, :content_type => 'text/plain'
+  response = RestClient.post 'http://localhost:4567/albums', { :title => title, :release_date => release_date, :band_id => '1', :band_id => '1'}, :content_type => 'text/plain'
   expect(response.code).to eq(201)
 end
 
 Given(/^that the album's database contains an album with title "([^"]*)" and release date "([^"]*)"$/) do |currentTitle, currentReleaseDate|
-   response = RestClient.post 'http://localhost:4567/albums', { :title => currentTitle, :release_date => currentReleaseDate }, :content_type => 'text/plain'
+   response = RestClient.post 'http://localhost:4567/albums', { :title => currentTitle, :release_date => currentReleaseDate, :band_id => '1'}, :content_type => 'text/plain'
    expect(response.code).to eq(201)
 end
 
@@ -84,6 +84,9 @@ Given(/^the album named "([^"]*)" doesn't exist in database$/) do |title|
     expect(queryResult == "0")
 end
 
+Given(/^band's database contain a band with name "([^"]*)" and genre "([^"]*)"$/) do |name, genre|
+	`psql -h #{HOST} -p #{PORT} -U rock_db_owner -d rcrockbands -c \"INSERT INTO BandDB VALUES ('1', '#{name}' , '#{genre}' );\" -t`
+end
 
 When(/^I try to add an album with name "([^"]*)" and release date "([^"]*)"$/) do |title,release_date|
   begin

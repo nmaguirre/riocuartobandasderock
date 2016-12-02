@@ -17,16 +17,22 @@ Feature: The application responds appropriately to all events that correspond to
 		And the album named "Perdidos" doesn't exist in database
 
 	Scenario: Update the name of an existing album in database
-		Given that the album's database contains an album with title "Perdidos" and release date "2000-12-27"
+		Given band's database contain a band with name "Circles" and genre "rock"
+		And that the album's database contains an album with title "Perdidos" and release date "2000-12-27"
+		And band's database contain a band with name "Circles" and genre "rock"
 		When I update the album name from "Perdidos" to "Encontrados" keeping "2000-12-27" as release date
 		Then the album's database contains an album named "Encontrados" with release date "2000-12-27"
 
 	Scenario: Update the release date of an existing album in database
-		Given that the album's database contains an album with title "Perdidos" and release date "2000-12-27"
+		Given band's database contain a band with name "Circles" and genre "rock"
+		And that the album's database contains an album with title "Perdidos" and release date "2000-12-27"
+		And band's database contain a band with name "Circles" and genre "rock"
 		When I update the album release date from "2000-12-27" to "1999-10-02" keeping "Perdidos" as name
 		Then the album's database contains an album named "Encontrados" with release date "1999-10-02"
 
 	Scenario: Update the name and the release date of an existing album in database
-		Given that the album's database contains an album with title "Perdidos" and release date "2000-12-27"
+		Given band's database contain a band with name "Circles" and genre "rock"
+		And that the album's database contains an album with title "Perdidos" and release date "2000-12-27"
+		And band's database contain a band with name "Circles" and genre "rock"
 		When I update the album with name "Perdidos" and release date "2000-12-27" to name "Encontrados" and release date "1999-10-02"
 		Then the album's database contains an album named "Encontrados" with release date "1999-10-02"
