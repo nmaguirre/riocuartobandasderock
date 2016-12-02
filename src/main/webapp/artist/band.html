@@ -55,7 +55,7 @@
                 itemindex = 1;
                 $.each(request, function(i, item) {
                 		console.log(item);
-                       response += '<tr onclick="showArtistMInDialog(\''+item.id+'\')">'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.genre+'</td>'+'<td> <a href="javascript:void(0);" class="glyphicon glyphicon-edit" onclick="showInEdit(\''+item.name+'\'); event.stopImmediatePropagation();"</a> <a href="javascript:void(0);" class="glyphicon glyphicon-trash" onclick="deleteBand(\''+item.name+'\'); event.stopImmediatePropagation();"</a> </td> </tr>';
+                       response += '<tr onclick="showArtistMInDialog(\''+item.id+'\')">'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.genre+'</td> </tr>';
                         ++itemindex;
                 });           
                 response += '</table>';
@@ -354,7 +354,7 @@
 <div class="container">
     <div align="center">
         <h2>
-            <i class="glyphicon glyphicon-th-list"></i> Admin - Bands
+            <i class="glyphicon glyphicon-th-list"></i> Bands
             <span id=loader class="loader progress progress-striped active"><span class="bar"></span></span>
         </h2>
     </div>    
@@ -432,7 +432,6 @@
                         <th></th>
                         <th>Name</th>
                         <th>Genre</th>
-                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody id="userData" class="table-row"></tbody>
@@ -457,7 +456,6 @@
             <div class="panel panel-default users-content">
                 <div class="panel-heading"><i class="glyphicon glyphicon-th-list"></i>  Bands artists
                     <div class="btn-group pull-right" role="group">
-                    <button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:$('#artistMaddForm').slideToggle(); showAllArtist();">Add</button>
                     </div>
                 </div>
             </div>
@@ -469,7 +467,6 @@
                             <th>Name</th>
                             <th>Surname</th>
                             <th>Nickname</th>
-                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody id="artistMAllData"></tbody>
