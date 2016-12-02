@@ -26,7 +26,7 @@ function songAdd() {
 	   xhttp.setRequestHeader("Connection", "close")
 	   xhttp.onreadystatechange = function() {
 	      if (xhttp.readyState == 4 && xhttp.status == 200) {
-	    	  window.alert(xhttp.responseText);
+	    	  window.alert("The song was successfully created");
 	      }
 	   };
 	   xhttp.send(params);
@@ -130,7 +130,7 @@ function albumAdd() {
 	   xhttp.setRequestHeader("Connection", "close")
 	   xhttp.onreadystatechange = function() {
 	      if (xhttp.readyState == 4 && xhttp.status == 200) {
-	    	  window.alert(xhttp.responseText);
+	    	  window.alert("The album was successfully created");
 	      }
 	   };
 	   xhttp.send(params);
@@ -229,7 +229,7 @@ function artistAdd() {
 	   xhttp.setRequestHeader("Connection", "close")
 	   xhttp.onreadystatechange = function() {
 	      if (xhttp.readyState == 4 && xhttp.status == 200) {
-	    	  window.alert(xhttp.responseText);
+	    	  window.alert("The artist was successfully created");
 	      }
 	   };
 	   xhttp.send(params);
@@ -323,7 +323,7 @@ function bandAdd() {
 	   xhttp.setRequestHeader("Connection", "close")
 	   xhttp.onreadystatechange = function() {
 	      if (this.readyState == 4 && this.status == 200) {
-	    	  window.alert(xhttp.responseText);
+	    	  window.alert("The band was successfully created");
 	      }
 	   };
 	   xhttp.send(params);
