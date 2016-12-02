@@ -125,6 +125,7 @@
                     $('.formData').slideUp();
                  },
                  error: function(x, e) {
+                 	alert("Se ha producido un error");
 
                  }
             });
@@ -303,6 +304,60 @@
 			}
 		}); */
 	}
+
+	function showAlbumMInDialog(id){
+        $("#albumMModal").modal()
+        $("#albumMData").html('<table></table>'); // Clean table, need to refresh with non elements in db
+
+        esourcelocation ='https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/albums/'+id;
+        $.get(resourcelocation, function(data, status){
+            if (typeof data === "undefined") {
+                response = '<tr><td colspan="5"> No Album found...</td></tr>'
+            }else{
+                //var request = JSON.parse(data);
+                response = '<table>';
+                itemindex = 1;
+                //$.each(request, function(i, item) {
+                $.each(data, function(i, item) {
+                       response += '<tr>'+'<td>'+itemindex+'</td>'+'<td>'+item.title+'</td>'+'<td>'+item.releaseDate+'</td>'+ '</tr>';
+                       ++itemindex;
+                });
+                response += '<tr><td colspan=4><button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:addAlbumToBand(\''+id+'\');">Add Album</button> <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button></td></tr>';
+                response += '</table>';
+            }
+
+            $("#albumMData").html(response);
+
+          });
+    }
+    
+    function addAlbumToBand(idBand){
+        //missing implementation
+        /*$("#allAlbumMModal").modal()
+        $("#allAlbumMData").html('<table></table>');
+        resourcelocation='https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/albums/'+id;
+        $.get(resourcelocation, function(data, status){
+            if (typeof data === "undefined") {
+                response = '<tr><td colspan="5"> No Album found...</td></tr>'
+            }else{
+            	//var request = JSON.parse(data);
+                response = '<table>';
+                itemindex = 1;
+                //$.each(request, function(i, item) {
+                $.each(data, function(i, item) {
+                       response += '<tr>'+'<td>'+itemindex+'</td>'+'<td>'+item.title+'</td>'+'<td>'+item.releaseDate+'</td>'+ '<td> <a href="javascript:void(0);" class="glyphicon glyphicon-add" onclick="showInEdit(\''+item.name+'\'); event.stopImmediatePropagation();"</a>'+'</tr>';
+                       ++itemindex;
+                });
+                response += '<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button></td></tr>';
+                response += '</table>';
+            }
+
+            $("#allAlbumMData").html(response);
+
+          });*/
+
+   	}
+
 
     /**
      * Vertically center Bootstrap 3 modals so they aren't always stuck at the top
@@ -495,6 +550,67 @@
 
   </div>
 </div>
+
+<!-- Modal -->
+<div id="albumMModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Album</h4>
+      </div>
+      <div class="modal-body">
+        <table class="table collection table table-bordered table-striped table-hover" id="bandMTable">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Title</th>
+                        <th>Release date</th>
+                    </tr>
+                </thead>
+                <tbody id="albumMData"></tbody>
+            </table>
+      </div>
+      <!--<div class="modal-footer">
+      	<button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:addAlbumToBand();">Add Album</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>-->
+    </div>
+
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="allAlbumMModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Add Album</h4>
+      </div>
+      <div class="modal-body">
+        <table class="table collection table table-bordered table-striped table-hover" id="allAlbumMTable">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Title</th>
+                        <th>Release Date</th>
+                    </tr>
+                </thead>
+                <tbody id="allAlbumMData"></tbody>
+            </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
 
 </body>
 </html>
