@@ -10,7 +10,7 @@
                   <h4 class="title">Listado de todas las canciones</h4>
                 </td>
                 <td>
-                  <a href="/songs/new" class="btn btn-warning pull-right">
+                  <a href="/songs/new" class="btn btn-default pull-right">
                     <i class="material-icons">playlist_add</i>
                     Crear Canción
                   </a>
