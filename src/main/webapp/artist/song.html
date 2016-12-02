@@ -56,7 +56,7 @@
                 itemindex = 1;
                 //$.each(request, function(i, item) {
                 $.each(data, function(i, item) {
-                       response += '<tr>'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.duration+'</td>'+'<td>'+item.album+'</td>' + '<td> <a href="javascript:void(0);" class="glyphicon glyphicon-edit" onclick="showInEdit(\''+item.name+'\'); event.stopImmediatePropagation();"</a> <a href="javascript:void(0);" class="glyphicon glyphicon-trash" onclick="deleteArtist(\''+item.idSong+'\'); event.stopImmediatePropagation();"</a> </td> </tr>';
+                       response += '<tr>'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.duration+'</td>'+'<td>'+item.album+'</td> </tr>';
                         ++itemindex;
                 });           
                 response += '</table>';
@@ -67,32 +67,7 @@
           });
     }
 
-    function showBandMInDialog(id){
-        //CREO QUE NO ES NECESARIO
-        /*$("#albumMModal").modal() 
-        $("#albumMData").html('<table></table>'); // Clean table, need to refresh with non elements in db
-
-        //resourcelocation='/songs/getbandsbyId/'+id;
-         $.get(resourcelocation, function(data, status){
-            if (typeof data === "undefined") {
-                response = '<tr><td colspan="5"> No Albums found...</td></tr>'
-            }else{
-                var request = JSON.parse(data);
-                response = '<table>';
-                itemindex = 1;
-                $.each(request, function(i, item) {
-                       response += '<tr>'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.surname+'</td> </tr>';
-                        ++itemindex;
-                });           
-                response += '</table>';    
-            }
-
-            $("#albumMData").html(response);
- 
-          });*/
-    }
-
-    function showInEdit(name){
+    /*function showInEdit(name){
         //Missing Implementation
 
         //var resourcelocation ='/songs/findbyname/:name/'+name;
@@ -176,7 +151,7 @@
                     $('.formData').slideUp();
                 }
             });
-        }*/
+        }
     }
 
     function deleteArtist(id) {            
@@ -199,10 +174,10 @@
             }
         });
 
-    }
+    }*/
 
    function showSearchMenu(by) {            
-        $('.form')[2].reset();
+        $('.form')[0].reset();
         $('#searchForm').slideToggle();        
         switch(by){
             case "name": 
@@ -237,7 +212,7 @@
                 break;
         }
 
-        $('.form')[2].reset();
+        $('.form')[0].reset();
         $('#searchForm').slideToggle(); 
    }
 
@@ -299,8 +274,7 @@
         <div class="panel panel-default users-content">
             <div class="panel-heading"><i class="glyphicon glyphicon-th-list"></i>  Songs list
     <div class="btn-group pull-right" role="group">
-    <button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:showSongs('/songs')">Show all</button>
-    <button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:$('#addForm').slideToggle(); $('.form')[0].reset();">Add</button>
+    <button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:showSongs('https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/songs/');">Show all</button>
       <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Search <span class="caret"></span>
       </button>
@@ -312,46 +286,6 @@
     </div>
 
         </div>
-            <div class="panel-body none formData" id="addForm">
-                <h2 id="actionLabel">Add Song</h2>
-                <form class="form" id="userForm">
-                    <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" class="form-control" name="name" id="name"/>
-                    </div>
-                    <div class="form-group">
-                        <label>Duration</label>
-                        <input type="text" class="form-control" name="duration" id="duration"/>
-                    </div>
-                    <div class="form-group">
-                        <label>Album</label>
-                        <input type="text" class="form-control" name="album" id="album"/>
-                    </div>
-                    <a href="javascript:void(0);" class="btn btn-warning" onclick="$('#addForm').slideUp();">Cancel</a>
-                    <a href="javascript:void(0);" class="btn btn-success" onclick="addSong()">Add Song</a>
-                </form>
-            </div>
-
-            <div class="panel-body none formData" id="editForm">
-                <h2 id="actionLabel">Edit Song</h2>
-                <form class="form" id="userForm">
-                    <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" class="form-control" name="name" id="nameEdit"/>
-                    </div>
-                    <div class="form-group">
-                        <label>Duration</label>
-                        <input type="text" class="form-control" name="duration" id="durationEdit"/>
-                    </div>
-                    <div class="form-group">
-                        <label>Album</label>
-                        <input type="text" class="form-control" name="album" id="albumEdit"/>
-                    </div>
-                    <input type="hidden" class="form-control" name="id" id="idEdit"/>
-                    <a href="javascript:void(0);" class="btn btn-warning" onclick="$('#editForm').slideUp(); ; $('.form')[1].reset();">Cancel</a>
-                    <a href="javascript:void(0);" class="btn btn-success" onclick="updateSong() ; $('.form')[1].reset();">Update Song</a>
-                </form>
-            </div>
 
         <div class="panel-body none formData" id="searchForm">
                 <h2 id="actionLabel">Search Song</h2>
@@ -376,7 +310,6 @@
                         <th>Name</th>
                         <th>Duration</th>
                         <th>Album</th>
-                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody id="userData" class="table-row"></tbody>
@@ -384,36 +317,6 @@
 
         </div>
     </div>
-</div>
-
-<!-- Modal -->
-<div id="albumMModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Band Member</h4>
-      </div>
-      <div class="modal-body">
-        <table class="table collection table table-bordered table-striped table-hover" id="bandMTable">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Name</th>
-                        <th>Genre</th>
-                    </tr>
-                </thead>
-                <tbody id="albumMData"></tbody>
-            </table>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-
-  </div>
 </div>
 
 </body>
