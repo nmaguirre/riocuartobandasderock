@@ -258,4 +258,16 @@ public class LandingPageController {
   public String song_link(String name, String id){
     return "<a class='songs-item' id='"+id+"' href=''>"+name+"</a>";
   }
+
+  public String link(String name, String id){
+    String track = "<div class='track'>";
+    track += "<div class='track__number'></div>";
+    track += "<div class='track__added'>";
+    track += "<i class='ion-checkmark-round added'></i></div>";
+    track += "<div class='track__title'>"+band_link(name,id)+"</div>";
+    track += "<div class='track__popularity'>";
+    track += "<i class='ion-arrow-graph-up-right'></i>";
+    track += "</div></div>";
+    return track;
+  }
 }

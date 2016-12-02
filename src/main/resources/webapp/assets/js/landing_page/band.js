@@ -11,8 +11,8 @@ $(document).ready(function() {
       "bInfo": false,
       "pageLength": 4,
       'columns': [
-        { 'data': 'name' },
-        { 'data': 'genre' }
+        { 'data': 'name' }
+        // { 'data': 'genre' }
       ],
       "ajax": {
         "data": function ( d ) {
@@ -25,7 +25,12 @@ $(document).ready(function() {
    
     $('#search-band').on('keyup change', function(){
       $('#index-band-table').DataTable().draw();
+      var todos = $('.movee');
+      $('#banddddd').append(todos);
     });
+
+    var todos = $('.movee');
+    $('#banddddd').append(todos);
   }
   
 

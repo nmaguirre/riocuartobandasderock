@@ -61,18 +61,21 @@ public class LandingBandsIndexDataTable{
     
     // pagination
     bands = subList(PAGE_NO, PAGE_SIZE, bands);
-
+    String todo = "";
     // make the data Json result for datable
-    for (Band band : bands) {
       JSONObject row = new JSONObject();
+      int i = 0;
+    for (Band band : bands) {
+      i+=1;
       JSONObject url = new JSONObject();
-      row.put("name", link_to(band.getName(), band.getId()));
-      row.put("genre", band.getGenre());
+      todo+= link(band.getName(),band.getGenre(), band.getId(),i)+"<br>";
+      // row.put("genre", band.getGenre());
       // row.put("DT_RowClass", "dt-link");
       // url.put("url", "href='/bands/"+band.getId()+"'");
       // row.put("DT_RowData", url);
-      array.add(row); 
     }
+      row.put("name", todo);
+      array.add(row); 
 
     // json resul for datatable
     try {
@@ -98,5 +101,20 @@ public class LandingBandsIndexDataTable{
   public String link_to(String name, String id){
     return "<a class='bands-item' id='"+id+"' href=''>"+name+"</a>";
   }
+
+  public String link(String name,String genre, String id,int i){
+    String band = "<div class='track movee'>";
+    band += "<div class='track__number'>"+(i)+"</div>";
+    band += "<div class='track__added'>";
+    band += "<i class='ion-checkmark-round added'></i></div>";
+    band += "<div class='track__title'>"+link_to(name,id)+"</div>";
+    band += "<div class='track__explicit'>"+genre+"</div>";
+    band += "<div class='track__popularity'>";
+    band += "<i class='ion-arrow-graph-up-right'></i>";
+    band += "</div></div>";
+
+    return band;
+  }
+
  
  }

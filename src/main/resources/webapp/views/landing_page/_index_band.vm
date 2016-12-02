@@ -7,13 +7,51 @@
 <div class="col-lg-6 input-group nav navbar-left panel_toolbox">
   <input type="text" id="search-band" class="form-control" placeholder="Buscar banda por nombre o genero">
 </div>
-<table id="index-band-table" data-url="/landing/bands/datatable" class="table table-striped table-bordered table-hover">
+<div class="col-md-7 width-100">
+  <div class="artist__content width-100">
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane active" id="artist-overview">
+        <div class="overview">
+          <div class="overview__albums">
+            <div class="album">
+              <div class="album__info">
+                <div class="album__info__meta">
+                  <div class="album__name">Bandas</div>
+                </div>
+              </div>
+              <div class="album__tracks">
+                <div class="tracks">
+                  <div class="tracks__heading">
+                    <div class="tracks__heading__number">#</div>
+                    <div class="tracks__heading__title">Nombre</div>
+                    <div class="tracks__heading__length">Genero</div>
+                    <div class="tracks__heading__popularity">
+                      <i class="ion-thumbsup"></i>
+                    </div>
+                  </div>
+
+                  <div id="banddddd"></div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<table id="index-band-table" data-url="/landing/bands/datatable" class="hide">
   <thead>
     <tr>
       <th>Nombre</th>
-      <th>Genero</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody id="b" >
   </tbody>
 </table>
+
+
+
+
