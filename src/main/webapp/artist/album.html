@@ -62,7 +62,7 @@
                 //Y borrar la linea de abajo
                 //$.each(request, function(i, item) {
                 $.each(data, function(i, item) {
-                       response += '<tr onclick="showSongsMInDialog(\''+item.AlbumID+'\')">'+'<td>'+itemindex+'</td>'+'<td>'+item.title+'</td>'+'<td>'+item.releaseDate+'</td>' +'<td>'+item.band.name+'</td>'  + '<td> <a href="javascript:void(0);" class="glyphicon glyphicon-edit" onclick="showInEdit(\''+item.AlbumID+'\'); event.stopImmediatePropagation();"</a> <a href="javascript:void(0);" class="glyphicon glyphicon-trash" onclick="deleteAlbum(\''+item.AlbumID+'\'); event.stopImmediatePropagation();"</a> </td> </tr>';
+                       response += '<tr onclick="showSongsMInDialog(\''+item.AlbumID+'\')">'+'<td>'+itemindex+'</td>'+'<td>'+item.title+'</td>'+'<td>'+item.releaseDate+'</td>' +'<td>'+item.band.name+'</td>'  +' </td> </tr>';
                         ++itemindex;
                 });
                 response += '</table>';
@@ -95,7 +95,6 @@
                        response += '<tr>'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.duration+'</td>'+ '</tr>';
                        ++itemindex;
                 });
-                response += '<tr><td colspan=4><button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:addSongToAlbum(\''+id+'\');">Add Song</button> <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button></td></tr>';
                 response += '</table>';
             }
 
@@ -104,126 +103,9 @@
           });
     }
 
-    function showInEdit(id){
-        //AUNQUE NO PAREZCA, FUNCIONA PERO APIARY ES UNA MIERDA Y PARECE QUE NO ANDA 
-
-    	//CUANDO FUNCIONEN LAS RUTAS SACAR ESTE COMENTARIO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        //var resourcelocation ='/album/'+id;
-        var resourcelocation ='https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/albums/'+id;
-        $.ajax({
-            type: 'GET',
-            url: resourcelocation,
-            data: '',
-            success:function(res){
-            	//CUANDO FUNCIONEN LAS RUTAS SACAR ESTE COMENTARIO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                //var request = JSON.parse(res);
-
-                //CUANDO FUNCIONEN LAS RUTAS SACAR ESTE COMENTARIO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                //$.each(request, function(i, item) {
-				$.each(res, function(i, item) {
-                    $('#titleEdit').val(item.title);
-                    $('#releaseDateEdit').val(item.releaseDate);
-                    $('#idEdit').val(item.AlbumID);
-                });
-
-                $('#editForm').slideDown();
-            }
-        });
-    }
-
-    function addAlbum() {
-        title=$('#title').val();
-        releaseDate=$('#releaseDate').val();
-        //console.log(releaseDate);
-
-        //CUANDO FUNCIONEN LAS RUTAS SACAR ESTE COMENTARIO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        //var url = '/albums';
-        var url = 'https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/albums';
-
-        if (title=='') {
-            alert("Debe rellenar al menos el campo 'Titulo'.");
-        } 
-        else {
-        	$.ajax({
-        	    type: "POST",
-            	url: url,
-	            data: $("#addForm").find('.form').serialize(), // Adjuntar los campos del formulario enviado.
-    	        success: function(data){
-        	        //CUANDO FUNCIONEN LAS RUTAS SACAR ESTE COMENTARIO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            	    //showAlbums('/albums'); //optional refresh list
-                	showAlbums('https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/albums');
-	                $('.form')[0].reset();
-    	            $('.formData').slideUp();
-        	    },
-            	error: function(x, e) {
-            		alert("error "+e);
-        	    }
-        	});
-        }
-    }
-
-    function updateAlbum() {
-        id=$('#idEdit').val();
-        //CUANDO FUNCIONEN LAS RUTAS SACAR ESTE COMENTARIO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        //var resourcelocation ='/albums/'+id;
-        var resourcelocation ='https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/albums/'+id;
-
-        title=$('#titleEdit').val();
-        releaseDate=$('#releaseDateEdit').val();
-        //console.log(releaseDate);
-
-        if (title=='') {
-            alert("Debe rellenar al menos el campo 'Titulo'.");
-        } 
-        else {
-            $.ajax({
-                type: "PUT",
-                url: resourcelocation,
-                data: $("#editForm").find('.form').serialize(), // Adjuntar los campos del formulario enviado.
-                success: function(data)
-                {
-                   //CUANDO FUNCIONEN LAS RUTAS SACAR ESTE COMENTARIO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                   //showAlbums('/albums'); //optional refresh list
-                   showAlbums('https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/albums');
-                   $('.form')[1].reset();
-                   $('.formData').slideUp();
-                },
-                error: function(x, e) {
-                    //$("#dataartisaddformstatus").html('<font color="red">Result: Error</font>'); //  Show response Api Rest
-                    alert('No ha realizado ninguna modificación en el registro');
-                    $('.form')[1].reset();
-                    $('.formData').slideUp();
-                }
-            });
-        }
-    }
-
-    function deleteAlbum(id) {
-
-        //CUANDO FUNCIONEN LAS RUTAS SACAR ESTE COMENTARIO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        //resourcelocation ='/albums/'+id;
-        resourcelocation ='https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/albums/'+id;
-
-        $.ajax({
-            type: "DELETE",
-            url: resourcelocation,
-            data: '',
-            success: function(data)
-            {
-                //CUANDO FUNCIONEN LAS RUTAS SACAR ESTE COMENTARIO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                //showArtists('/albums'); //optional refresh list
-                alert("Esta seguro que desea borrar este album?");
-                showAlbums('https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/albums');
-            },
-            error: function(x, e) {
-
-            }
-        });
-
-    }
 
    function showSearchMenu(by) {
-        $('.form')[2].reset();
+        $('.form')[0].reset();
         $('#searchForm').slideToggle();
         switch(by){
             case "title":
@@ -243,7 +125,6 @@
    }
 
    function executeSearch() {
-
         switch(findResourceTag){
             //case "/artists/findByTitle/":
             case "https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/albums/findByTitle/":
@@ -257,63 +138,9 @@
                 break;
         }
 
-        $('.form')[2].reset();
+        $('.form')[0].reset();
         $('#searchForm').slideToggle();
    }
-
-    function addSongToAlbum(idAlbum){
-        //missing implementation
-        /*$("#allSongsMModal").modal()
-        $("#allSongsMData").html('<table></table>');
-        resourcelocation="/songs";
-        $.get(resourcelocation, function(data, status){
-            if (typeof data === "undefined") {
-                response = '<tr><td colspan="5"> No Songs found...</td></tr>'
-            }else{
-                //CUANDO FUNCIONEN LAS RUTAS SACAR ESTE COMENTARIO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                //var request = JSON.parse(data);
-                response = '<table>';
-                itemindex = 1;
-                //CUANDO FUNCIONEN LAS RUTAS SACAR ESTE COMENTARIO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                //$.each(request, function(i, item) {
-                $.each(data, function(i, item) {
-                       response += '<tr>'+'<td>'+itemindex+'</td>'+'<td>'+item.name+'</td>'+'<td>'+item.duration+'</td>'+ '<td> <a href="javascript:void(0);" class="glyphicon glyphicon-add" onclick="showInEdit(\''+idAlbum+'\'); event.stopImmediatePropagation();"</a>'+'</tr>';
-                       ++itemindex;
-                });
-                response += '<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button></td></tr>';
-                response += '</table>';
-            }
-
-            $("#allSongsMData").html(response);
-
-          });*/
-
-   	}
-
-	function deleteSongFromAlbum(idAlbum,idSong){
-		console.log(idAlbum);
-		console.log(idSong);
-		alert("Delete Song from Album: Missing Implementation");
-		/*Missing implementation
-        esto es borrar directamente la cancion ! ver como mierda lo hago S
-
-        resourcelocation = "??";
-
-        $.ajax({
-            type: "DELETE",
-            url: resourcelocation,
-            data: '',
-            success: function(data)
-            {
-                showAlbums('https://private-anon-8745f09521-riocuartobandasderock.apiary-mock.com/albums');
-            },
-            error: function(x, e) {
-
-            }
-        });
-
-        */
-	}
 
     /**
      * Vertically center Bootstrap 3 modals so they aren't always stuck at the top
@@ -353,11 +180,11 @@
       <a class="navbar-brand" href="#">Artist TEAM</a>
     </div>
     <ul class="nav navbar-nav">
-          <li><a href="http://localhost:4567/artistadmin/index_admin.html">Home</a></li>
-          <li><a href="http://localhost:4567/artistadmin/artist_admin.html">Artist</a></li>
-          <li class="active"><a href="http://localhost:4567/artistadmin/album_admin.html">Album</a></li>
-          <li><a href="http://localhost:4567/artistadmin/band_admin.html">Band</a></li>
-          <li><a href="http://localhost:4567/artistadmin/song_admin.html">Song</a></li>
+          <li><a href="http://localhost:4567/artistadmin/index.html">Home</a></li>
+          <li><a href="http://localhost:4567/artistadmin/artist.html">Artist</a></li>
+          <li class="active"><a href="http://localhost:4567/artistadmin/album.html">Album</a></li>
+          <li><a href="http://localhost:4567/artistadmin/band.html">Band</a></li>
+          <li><a href="http://localhost:4567/artistadmin/song.html">Song</a></li>
     </ul>
   </div>
 </nav>
@@ -374,7 +201,6 @@
             <div class="panel-heading"><i class="glyphicon glyphicon-th-list"></i>  Albums list
 	<div class="btn-group pull-right" role="group">
     <button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:showAlbums('/albums')">Show all</button>
-	<button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:$('#addForm').slideToggle(); $('.form')[0].reset();">Add</button>
 	  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	    Search <span class="caret"></span>
 	  </button>
@@ -386,44 +212,6 @@
 	</div>
 
 	    </div>
-            <div class="panel-body none formData" id="addForm">
-                <h2 id="actionLabel">Add Album</h2>
-                <form class="form" id="userForm">
-                    <div class="form-group">
-                        <label>Title</label>
-                        <input type="text" class="form-control" name="title" id="title"/>
-                    </div>
-                    <div class="input-append date" data-date-format="yyyy-mm-dd">
-                        <!--<label>Release Date</label>
-                        <input type="text" class="form-control" name="releaseDate" id="releaseDate"/>-->
-                        <label>Release Date</label>
-                        <input type="date" class="form-control" id="releaseDate" name="releaseDate">
-                    </div>
-                    <br></br>
-                    <a href="javascript:void(0);" class="btn btn-warning" onclick="$('#addForm').slideUp();">Cancel</a>
-                    <a href="javascript:void(0);" class="btn btn-success" onclick="addAlbum()">Add Album</a>
-                </form>
-            </div>
-
-            <div class="panel-body none formData" id="editForm">
-                <h2 id="actionLabel">Edit Album</h2>
-                <form class="form" id="userForm">
-                    <div class="form-group">
-                        <label>Title</label>
-                        <input type="text" class="form-control" name="title" id="titleEdit"/>
-                    </div>
-                    <div class="input-append date" data-date-format="yyyy-mm-dd">
-                        <!--<label>Release Date</label>
-                        <input type="text" class="form-control" name="releaseDate" id="releaseDateEdit"/>-->
-                        <label>Release Date</label>
-                        <input type="date" class="form-control" id="releaseDate" name="releaseDateEdit">
-                    </div>
-                    <br></br>
-                    <input type="hidden" class="form-control" name="id" id="idEdit"/>
-                    <a href="javascript:void(0);" class="btn btn-warning" onclick="$('#editForm').slideUp(); ; $('.form')[1].reset();">Cancel</a>
-                    <a href="javascript:void(0);" class="btn btn-success" onclick="updateAlbum() ; $('.form')[1].reset();">Update Album</a>
-                </form>
-            </div>
 
 	    <div class="panel-body none formData" id="searchForm">
                 <h2 id="actionLabel">Search Album</h2>
@@ -433,9 +221,6 @@
                         <input type="text" class="form-control" name="title" id="titleSearch"/>
                     </div>
                     <div class="input-append date" data-date-format="yyyy-mm-dd">
-                        <!--<label>Release Date</label>
-                        <input type="text" class="form-control" name="releaseDate" id="releaseDateSearch
-                        "/>-->
                         <label>Release Date</label>
                         <input type="date" class="form-control" id="releaseDateSearch" name="releaseDate">
                     </div>
@@ -452,7 +237,7 @@
                         <th>Title</th>
                         <th>Release Date</th>
                         <th>Band</th>
-                        <th>Action</th>
+                        <!--<th>Action</th>-->
                     </tr>
                 </thead>
                 <tbody id="userData" class="table-row"></tbody>
@@ -484,36 +269,8 @@
                 <tbody id="songMData"></tbody>
             </table>
       </div>
-      <!--<div class="modal-footer">
-      	<button type="button" class="btn btn-default" href="javascript:void(0);" onclick="javascript:addSongToAlbum();">Add Song</button>
+      <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>-->
-    </div>
-
-  </div>
-</div>
-
-<!-- Modal -->
-<div id="allSongsMModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Add Song</h4>
-      </div>
-      <div class="modal-body">
-        <table class="table collection table table-bordered table-striped table-hover" id="allSongsMTable">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Title</th>
-                        <th>Duration</th>
-                    </tr>
-                </thead>
-                <tbody id="allSongsMData"></tbody>
-            </table>
       </div>
     </div>
 
