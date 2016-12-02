@@ -161,7 +161,25 @@ public class Bootstrap {
         post("/bandmembers",(req,res)->bandMemberController.createBandMember(req, res));
         
         delete("/bandmembers/:artistID/:bandID",(req,res)->bandMemberController.deleteBandMember(req, res));
+      
         
+        /**
+         * Song routes
+         */
+
+        post("/songs/",(req,res)->songController.create(req, res));
+
+        get ("/songs", (req,res)->songController.getAll(req,res),json());
+        
+        get("/songs/findbyname/:name",(req,res)->songController.getByName(req,res),json());
+        
+        get("/songs/findbyduration/:duration",(req,res)->songController.getByDuration(req,res),json());
+        
+        delete("/songs/:id",(req, res) -> songController.remove(req, res));
+        
+        put("/songs/:id",(req,res)->songController.update(req,res));
+        
+
         /**
          * Users routes
          */
@@ -170,24 +188,6 @@ public class Bootstrap {
         delete("/users/:name", (req, res) -> userController.delete(req, res));
         post("/login", (req, res) -> userController.login(req, res));
         post("/logout", (req, res) -> userController.logout(req, res));
-
-        post("/songs/",(req,res)->songController.create(req, res));
-
-        get("/songs/findbyname/:name",(req,res)->songController.getByName(req,res),json());
-        
-        get("/songs/findbyduration/:duration",(req,res)->songController.getByDuration(req,res),json());
-        
-        /**
-         * Song routes
-         */
-
-        post("/songs/",(req,res)->songController.create(req, res));
-        get ("/songs", (req,res)->songController.getAll(req,res),json());
-        get("/songs/findbyname/:name",(req,res)->songController.getByName(req,res),json());
-        get("/songs/findbyduration/:duration",(req,res)->songController.getByDuration(req,res),json());
-        delete("/songs/:id",(req, res) -> songController.remove(req, res));
-        put("/songs/:id",(req,res)->songController.update(req,res));
-        
 
         after((req, res) -> {res.type("application/json");});
 
