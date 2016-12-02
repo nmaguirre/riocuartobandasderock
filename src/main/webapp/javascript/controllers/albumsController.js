@@ -5,10 +5,17 @@ angular.module('app')
 	$scope.album = '';
 
 	function load_albums() {
-		$http.get("https://private-53163-riocuartobandasderock.apiary-mock.com/albums").then(function callback(response){
+		/*$http.get("https://private-53163-riocuartobandasderock.apiary-mock.com/albums").then(function callback(response){
 			if (response.status == 200){
 				$scope.albums = response.data;
 			} else {
+				alert("Oops, something went wrong, try again later!")
+			}
+		});*/
+		$http.get("http://localhost:4567/albums").then(function callback(response){
+			if (response.status == 200){
+				$scope.albums = response.data;
+			}else{
 				alert("Oops, something went wrong, try again later!")
 			}
 		});
@@ -47,7 +54,7 @@ angular.module('app')
 	}
 
 	$scope.dataAlbum  = {};
-$scope.bands = [
+/*$scope.bands = [
 {
     "BandID": "1",
     "name": "Banda-1",
@@ -82,7 +89,7 @@ $scope.bands = [
       }
     ]
 }
-];
+];*/
 /*
 	function load_bands() {
 		$http.get("https://private-53163-riocuartobandasderock.apiary-mock.com/bands").then(function callback(response) {
