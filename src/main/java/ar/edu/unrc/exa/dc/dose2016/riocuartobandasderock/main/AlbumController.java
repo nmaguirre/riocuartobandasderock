@@ -94,8 +94,13 @@ public class AlbumController {
         AlbumDAO albumDAO = new AlbumDaoImpl(session);
         Album album = albumDAO.findById(req.params(":id"));
 
-        attributes.put("title", album.getTitle());
-        attributes.put("release_date", album.toString());
+        attributes.put("album_title", album.getTitle());
+        try {
+            SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+            attributes.put("release_date", f.format(album.getReleaseDate()));
+        } catch (ParseException e) {
+            attributes.put("release_date", "");
+        }
 
         attributes.put("template", Routes.edit_album());
         attributes.put("title", "Editar");

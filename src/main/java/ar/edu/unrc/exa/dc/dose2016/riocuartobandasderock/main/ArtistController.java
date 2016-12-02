@@ -250,6 +250,7 @@ public class ArtistController {
     String name = req.queryParams("name");
     String surname = req.queryParams("surname");
     String nickname = req.queryParams("nickname");
+    String band_ids[] = req.queryParamsValues("band_ids[]");
 
     if (name == null || name.equals(""))
       errors.add("El <strong>nombre</strong> no puede estar en blanco");
@@ -266,21 +267,36 @@ public class ArtistController {
 
     Session session = SessionManager.getInstance().openSession();
 		ArtistDAO artistDAO = new ArtistDaoImpl(session);
+	  BandMemberDAO bandMemberDAO = new BandMemberDAOImpl(session);
     Transaction transaction = null;
-    Boolean status = false;
+    Boolean status_artist = false;
+    Boolean status_band_member = false;
 
     try {
       transaction = session.beginTransaction();
-      status = artistDAO.createArtist(name, surname, nickname);
+      status_artist = artistDAO.createArtist(name, surname, nickname);
+      Artist current = artistDAO.getArtist(name, surname, nickname).get(0);
+	    for (String s : band_ids) {
+	    	status_band_member = bandMemberDAO.createBandMember(s, current.getId());
+	    }
       transaction.commit();
 
-      if (status) {
+      if (status_artist && status_band_member) {
         List<Artist> artists = artistDAO.getAllArtists();
         attributes.put("success", "El artista fue creado");
         attributes.put("artists", artists);
         attributes.put("template", Routes.index_artist());
         session.close();
         res.status(201);
+        return new ModelAndView(attributes, Routes.layout_dashboard());
+      } else if (status_artist && !status_band_member) {
+	      transaction.rollback();
+	      session.close();
+        errors.add("No se pudo crear el artista en las bandas seleccionadas");
+        attributes.put("errors", errors);
+        attributes.put("template", Routes.new_artist());
+        session.close();
+        res.status(409);
         return new ModelAndView(attributes, Routes.layout_dashboard());
       } else {
         errors.add("Ya existe un artista con los mismos datos");
