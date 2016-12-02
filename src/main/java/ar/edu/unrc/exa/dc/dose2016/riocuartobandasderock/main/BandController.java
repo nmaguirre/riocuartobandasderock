@@ -201,23 +201,32 @@ public class BandController {
       transaction = session.beginTransaction();
       status = bdao.createBand(name, genre);
       transaction.commit();
-      session.close();
-      res.status(201);
 
-      if (status)
+      if (status) {
         attributes.put("success", "La banda fue creada");
-      else
-        attributes.put("success", "Ya existe una banda con el mismo nombre");
+        List<Band> bands = bdao.getAllBands();
+        attributes.put("bands", bands);
+        attributes.put("template", Routes.index_band());
+        session.close();
+        res.status(201);
+        return new ModelAndView(attributes, Routes.layout_dashboard());
+      } else {
+        errors.add("Ya existe una banda con el mismo nombre");
+        attributes.put("errors", errors);
+        attributes.put("template", Routes.new_band());
+        session.close();
+        res.status(409);
+        return new ModelAndView(attributes, Routes.layout_dashboard());
+      }
 
-      attributes.put("template", Routes.index_band());
-      return new ModelAndView(attributes, Routes.layout_dashboard());
     } catch(HibernateException e) {
       e.printStackTrace();
       transaction.rollback();
       session.close();
       res.status(409);
-      attributes.put("success", "La banda no pudo ser creada");
-      attributes.put("template", Routes.index_band());
+      errors.add("La banda no pudo ser creada");
+      attributes.put("errors", errors);
+      attributes.put("template", Routes.new_band());
       return new ModelAndView(attributes, Routes.layout_dashboard());
     }
   }
