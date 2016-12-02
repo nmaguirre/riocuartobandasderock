@@ -94,5 +94,7 @@ public interface BandDAO {
 	   public Band findById(String id);
 
 	   public int cantBands();
+
+ 	   public List<Band> ilike(String name);
 }
 

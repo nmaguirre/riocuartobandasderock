@@ -270,6 +270,17 @@ public class ArtistDaoImpl implements ArtistDAO {
 			return result;
 		}
 	}
+
+
+	public List<Artist> ilike(String name){
+		if(name == null || name.equals("")){
+			throw new IllegalArgumentException("the 'name' param for search a band can not be null or empty.");
+		} else {
+			Query<Artist> query = this.currentSession.createQuery("from Artist where name like ?", Artist.class);
+			query.setString(0, '%' + name.toLowerCase() + '%');
+			return query.getResultList();
+		}
+	}
 	
 	
 

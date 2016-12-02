@@ -25,46 +25,17 @@
               </div>
               <br>
             #end
-            <table class="table table-hover" id="table">
-              <thead class="text-success">
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Apodo</th>
-                <th>Acciones</th>
+
+            <table id="dashboard-artists-datatable" data-url="/artists/datatable" class="table table-striped table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Apellido</th>
+                  <th>Apodo</th>
+                  <th>Acciones</th>
+                </tr>
               </thead>
               <tbody>
-                #if ($artists != $null)
-                  #foreach( $artist in $artists )
-                    <tr>
-                      <td>$artist.getName()</td>
-                      #if($artist.getSurname() != $null)
-                        <td>$artist.getSurname()</td>
-                      #else
-                        <td>Sin Datos</td>
-                      #end
-                      #if($artist.getNickname() != $null)
-                        <td>$artist.getNickname()</td>
-                      #else
-                        <td>Sin Datos</td>
-                      #end
-                      <td>
-                        <a href="/artists/$!{artist.getId()}">
-                          <i class="material-icons">remove_red_eye</i>
-                        </a>
-                        <a href="/artists/$!{artist.getId()}/edit">
-                          <i class="material-icons">edit</i>
-                        </a>
-                        <a href="/artists/$!{artist.getId()}" class="$!{artist.getId()}" id="$!{artist.getId()}">
-                          <i class="material-icons">close</i>
-                        </a>
-                      </td>
-                    </tr>
-                  #end
-                #else
-                  <tr>
-                    <td colspan="4">No hay ningun artista cargado en el sistema</td>
-                  </tr>
-                #end
               </tbody>
             </table>
           </div>

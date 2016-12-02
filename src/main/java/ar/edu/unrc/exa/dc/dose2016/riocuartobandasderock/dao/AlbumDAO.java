@@ -80,4 +80,6 @@ public interface AlbumDAO {
 	public boolean update(String id, String title, Date releaseDate, List<Object> songs, String band);
 
 	public int cantAlbums();
+
+	 public List<Album> ilike(String name);
 }

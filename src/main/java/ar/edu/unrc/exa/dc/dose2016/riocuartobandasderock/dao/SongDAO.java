@@ -19,6 +19,8 @@ public interface SongDAO {
 	public List<Song> findByName(String name);
 
 	public List<Song> findByDuration(Integer duration);
+  
+  public List<Song> ilike(String name);
 
 	public int cantSongs();
 

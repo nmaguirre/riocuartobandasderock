@@ -25,11 +25,14 @@
               </div>
               <br>
             #end
-            <table class="table table-hover">
-              <thead class="text-success">
-                <th>Titulo</th>
-                <th>Lanzamiento</th>
-                <th>Acciones</th>
+
+            <table id="dashboard-albums-datatable" data-url="/albums/datatable" class="table table-striped table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th>Titulo</th>
+                  <th>Lanzamiento</th>
+                  <th>Acciones</th>
+                </tr>
               </thead>
               <tbody>
                 #if($albums != $null)
