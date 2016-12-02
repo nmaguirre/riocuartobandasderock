@@ -100,7 +100,7 @@ public class DashboardAlbumsDatatable{
     buttons += "<i class='material-icons'>remove_red_eye</i></a>";
     buttons += "<a href='/albums/"+album.getId()+"/edit'>";
     buttons += "<i class='material-icons'>edit</i></a>";
-    buttons += "<a href='/albums/"+album.getId()+"'>";
+    buttons += "<a class='delete' id='"+album.getId()+"' href='/albums/"+album.getId()+"'>";
     buttons += "<i class='material-icons'>close</i></a>";
     return buttons;
   }

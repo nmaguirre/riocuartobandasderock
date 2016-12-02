@@ -99,7 +99,7 @@ public class DashboardArtistsDatatable{
     buttons += "<i class='material-icons'>remove_red_eye</i></a>";
     buttons += "<a href='/artists/"+artist.getId()+"/edit'>";
     buttons += "<i class='material-icons'>edit</i></a>";
-    buttons += "<a href='/artists/"+artist.getId()+"'>";
+    buttons += "<a class='delete' id='"+artist.getId()+"' href='/artists/"+artist.getId()+"'>";
     buttons += "<i class='material-icons'>close</i></a>";
     return buttons;
   }

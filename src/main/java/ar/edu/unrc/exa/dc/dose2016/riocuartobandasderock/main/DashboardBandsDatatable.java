@@ -98,7 +98,7 @@ public class DashboardBandsDatatable{
     buttons += "<i class='material-icons'>remove_red_eye</i></a>";
     buttons += "<a href='/bands/"+band.getId()+"/edit'>";
     buttons += "<i class='material-icons'>edit</i></a>";
-    buttons += "<a href='/bands/"+band.getId()+"'>";
+    buttons += "<a class='delete' id='"+band.getId()+"' href='/bands/"+band.getId()+"'>";
     buttons += "<i class='material-icons'>close</i></a>";
     return buttons;
   }
