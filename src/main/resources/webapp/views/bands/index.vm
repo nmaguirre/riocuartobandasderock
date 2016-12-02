@@ -26,7 +26,7 @@
                 <th>Acciones</th>
               </thead>
               <tbody>
-                #if ($bands != $null)
+                #if ($bands !=  $null&& $bands.size() != 0)
                   #foreach( $band in $bands )
                     <tr>
                       <td>$band.getName()</td>
@@ -38,7 +38,7 @@
                         <a href="/bands/$!{band.getId()}/edit">
                           <i class="material-icons">edit</i>
                         </a>
-                        <a href="/bands/$!{band.getId()}" method="delete">
+                        <a href="/bands/$!{band.getId()}" class="$!{artist.getId()}" id="delete">
                           <i class="material-icons">close</i>
                         </a>
                       </td>
@@ -63,5 +63,16 @@
   $(document).ready(function() {
     $('li').removeClass('active');
     $('#band').addClass('active');
+    var id = $('#delete').attr('class')
+
+    $('#delete').on('click', function(event){
+      event.preventDefault();
+      $.ajax({
+        url: "/bands/"+id,
+        method: "delete"
+      }).done(function() {
+        window.location.replace("/bands");
+      });
+    })
   });
 </script>
