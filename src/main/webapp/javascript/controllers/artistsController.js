@@ -36,6 +36,18 @@ angular.module('app')
 		});
 	}
 
+	$scope.create = function createArtist(data) {
+		$http.post("https://private-53163-riocuartobandasderock.apiary-mock.com/artists", data).then(function callback(response) {
+			if (response.status == 201) {
+				$location.path("/admin");
+			} else {
+				alert("Creación de artista fallida.");
+			}
+			
+		});
+	}
+	
+	
 	$scope.go_to = function(id) {
 		$location.path("/artists/"+id);
 	}

@@ -45,6 +45,17 @@ angular.module('app')
 	} else {
 		load_album($routeParams.id);
 	}
+	
+	$scope.create = function createAlbum(data) {
+		$http.post("https://private-53163-riocuartobandasderock.apiary-mock.com/albums", data).then(function callback(response) {
+			if (response.status == 201) {
+				$location.path("/admin");
+			} else {
+				alert("Creación de albúm fallida.");
+			}
+			
+		});
+	}
 
 	$scope.dataAlbum  = {};
 	$scope.bands = [
