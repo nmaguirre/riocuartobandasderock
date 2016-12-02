@@ -26,5 +26,20 @@ $(document).ready(function() {
     $('#dashboard-search').on('keyup change', function(){
       $('#dashboard-albums-datatable').DataTable().draw();
     });
+
+    $('li').removeClass('active');
+    $('#album').addClass('active');
+
+    $('#dashboard-albums-datatable').on('click','.delete', function(event){
+      event.preventDefault();
+      var id = this.id
+      $.ajax({
+        url: "/albums/"+id,
+        method: "delete"
+      }).done(function() {
+        window.location.replace("/albums");
+      });
+    })
   }
+
 });

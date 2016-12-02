@@ -44,21 +44,3 @@
     </div>
   </div>
 </div>
-
-<script>
-  $(document).ready(function() {
-    $('li').removeClass('active');
-    $('#artist').addClass('active');
-
-    $('a').on('click', function(event){
-      event.preventDefault();
-      var id = this.id
-      $.ajax({
-        url: "/artists/"+id,
-        method: "delete"
-      }).done(function() {
-        window.location.replace("/artists");
-      });
-    })
-  });
-</script>

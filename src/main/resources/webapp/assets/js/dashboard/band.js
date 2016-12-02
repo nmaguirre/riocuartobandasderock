@@ -1,6 +1,6 @@
 $(document).ready(function() {
   if($('#dashboard-bands-datatable').length){
-   $('#dashboard-bands-datatable').DataTable({
+    $('#dashboard-bands-datatable').DataTable({
       "bSort": false,
       "processing": true,
       "serverSide": true,
@@ -26,5 +26,19 @@ $(document).ready(function() {
     $('#dashboard-search').on('keyup change', function(){
       $('#dashboard-bands-datatable').DataTable().draw();
     });
+
+    $('li').removeClass('active');
+    $('#band').addClass('active');
+
+    $('#dashboard-bands-datatable').on('click','.delete', function(event){
+      event.preventDefault();
+      var id = this.id
+      $.ajax({
+        url: "/bands/"+id,
+        method: "delete"
+      }).done(function() {
+        window.location.replace("/bands");
+      });
+    })
   }
 });

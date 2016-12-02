@@ -36,6 +36,15 @@
 
 </body>
 
+   <script src="/assets/js/jquery-3.1.0.min.js"></script>
+   <script src="/assets/js/bootstrap.min.js"></script>
+   <script src="/assets/js/material.min.js"></script>
+   <script src="/assets/js/chartist.min.js"></script>
+   <script src="/assets/js/bootstrap-notify.js"></script>
+   <script src="/assets/js/material-dashboard.js"></script>
+   <script src="/assets/js/demo.js"></script>
+  <script src="../../assets/js/dashboard/dashboard.js"></script>
+
 
   <script type="text/javascript" src="../../vendor/data-table/js/jquery.dataTables.min.js"></script>
 

@@ -1,6 +1,6 @@
 $(document).ready(function() {
   if($('#dashboard-songs-datatable').length){
-   $('#dashboard-songs-datatable').DataTable({
+    $('#dashboard-songs-datatable').DataTable({
       "bSort": false,
       "processing": true,
       "serverSide": true,
@@ -26,5 +26,19 @@ $(document).ready(function() {
     $('#dashboard-search').on('keyup change', function(){
       $('#dashboard-songs-datatable').DataTable().draw();
     });
+
+    $('li').removeClass('active');
+    $('#song').addClass('active');
+
+    $('#dashboard-songs-datatable').on('click','.delete', function(event){
+      event.preventDefault();
+      var id = this.id
+      $.ajax({
+        url: "/songs/"+id,
+        method: "delete"
+      }).done(function() {
+        window.location.replace("/songs");
+      });
+    })
   }
 });
