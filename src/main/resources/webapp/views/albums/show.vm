@@ -5,6 +5,9 @@
       <h4 class="modal-title" id="myModalLabel">Datos del Album</h4>
     </div>
     <div class="modal-body">
+      <strong>Banda</strong>
+      <h5>$album.getBand().getName()</h5>
+
       <strong>Título</strong>
       <h5>$album.getTitle()</h5>
 
@@ -16,7 +19,7 @@
       #end
 
     </div>
-    <div class="modal-footer">
+    <div class="modal-footer text-center">
       <a href="/albums" type="button" class="btn btn-default" data-dismiss="modal">Volver</a>
     </div>
   </div>
