@@ -25,38 +25,19 @@
               </div>
               <br>
             #end
-            <table class="table table-hover">
-              <thead class="text-success">
-                <th>Nombre</th>
-                <th>Duración</th>
-                <th>Acciones</th>
+
+            <table id="dashboard-songs-datatable" data-url="/songs/datatable" class="table table-striped table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Duracion</th>
+                  <th>Acciones</th>
+                </tr>
               </thead>
               <tbody>
-                #if ($songs != $null)
-                  #foreach( $song in $songs )
-                    <tr>
-                      <td>$song.name</td>
-                      <td>$song.duration</td>
-                      <td>
-                        <a href="/songs/$!{song.id}">
-                          <i class="material-icons">remove_red_eye</i>
-                        </a>
-                        <a href="/songs/$!{song.id}/edit">
-                          <i class="material-icons">edit</i>
-                        </a>
-                        <a href="/bands/$!{band.getId()}" class="$!{artist.getId()}" id="$!{artist.getId()}">
-                          <i class="material-icons">close</i>
-                        </a>
-                      </td>
-                    </tr>
-                  #end
-                #else
-                  <tr>
-                    <td colspan="3">No hay ninguna canción cargada en el sistema</td>
-                  </tr>
-                #end
               </tbody>
             </table>
+
           </div>
         </div>
       </div>
