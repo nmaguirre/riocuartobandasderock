@@ -28,20 +28,20 @@
             <table class="table table-hover">
               <thead class="text-success">
                 <th>Nombre</th>
-                <th>Genero</th>
+                <th>Duración</th>
                 <th>Acciones</th>
               </thead>
               <tbody>
-                #if ($bands != $null)
-                  #foreach( $band in $bands )
+                #if ($songs != $null)
+                  #foreach( $song in $songs )
                     <tr>
-                      <td>$band.getName()</td>
-                      <td>$band.getGenre()</td>
+                      <td>$song.name</td>
+                      <td>$song.duration</td>
                       <td>
-                        <a href="/bands/$!{band.getId()}">
+                        <a href="/songs/$!{song.id}">
                           <i class="material-icons">remove_red_eye</i>
                         </a>
-                        <a href="/bands/$!{band.getId()}/edit">
+                        <a href="/songs/$!{song.id}/edit">
                           <i class="material-icons">edit</i>
                         </a>
                         <a href="/bands/$!{band.getId()}" class="$!{artist.getId()}" id="$!{artist.getId()}">
@@ -52,7 +52,7 @@
                   #end
                 #else
                   <tr>
-                    <td colspan="3">No hay ninguna banda cargada en el sistema</td>
+                    <td colspan="3">No hay ninguna canción cargada en el sistema</td>
                   </tr>
                 #end
               </tbody>

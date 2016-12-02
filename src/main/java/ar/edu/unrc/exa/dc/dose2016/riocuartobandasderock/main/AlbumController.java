@@ -94,8 +94,14 @@ public class AlbumController {
         AlbumDAO albumDAO = new AlbumDaoImpl(session);
         Album album = albumDAO.findById(req.params(":id"));
 
-        attributes.put("title", album.getTitle());
-        attributes.put("release_date", album.toString());
+        attributes.put("album_title", album.getTitle());
+        attributes.put("band_id", album.getBand().getId());
+        try {
+            SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+            attributes.put("release_date", f.format(album.getReleaseDate()));
+        } catch (ParseException e) {
+            attributes.put("release_date", "");
+        }
 
         attributes.put("template", Routes.edit_album());
         attributes.put("title", "Editar");
@@ -226,12 +232,9 @@ public class AlbumController {
         	Date release_date = req.queryParams("release_date") != null ? sdf.parse(req.queryParams("release_date")) : null;
         	Transaction transaction = session.beginTransaction();
 
-        	//TODO: set correct values
-        	List<Object> songs = new LinkedList<Object>();
-        	String bandId = " ";
-        	//
+        	String bandId = req.queryParams("band_id");
 
-            boolean result = adao.update(req.params("id"), req.queryParams("title"), release_date, songs, bandId);
+            boolean result = adao.update(req.params("id"), req.queryParams("title"), release_date, null, bandId);
             transaction.commit();
             session.close();
             int http_status = result ? 201 : 409;

@@ -219,7 +219,7 @@ public class BandController {
         return new ModelAndView(attributes, Routes.layout_dashboard());
       }
 
-    } catch(HibernateException e) {
+    } catch (HibernateException e) {
       e.printStackTrace();
       transaction.rollback();
       session.close();
