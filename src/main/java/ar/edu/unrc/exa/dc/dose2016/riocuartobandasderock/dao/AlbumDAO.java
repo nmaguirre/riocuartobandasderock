@@ -79,5 +79,11 @@ public interface AlbumDAO {
 	 */
 	public boolean update(String id, String title, Date releaseDate, List<Object> songs, String band);
 
+
+	/**
+	* This method count the number of albums
+	*
+	*@return number of albums in database
+	*/
 	public int cantAlbums();
 }

@@ -75,7 +75,6 @@ public class BandController {
    */
   public List<Band> getBandByName(Request req,Response res){
     if (req.params(":name")==""){
-      System.out.println("ENTREEE AACACACACACACACACACACA");
       res.status(400);
       return null;
     }

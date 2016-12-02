@@ -240,6 +240,12 @@ public class BandDaoImpl implements BandDAO {
 				}
 		}
 
+		/**
+		* Search a band in database by id
+		*
+		* @param String id
+		* @return band with determined id
+		*/
 	   @Override
 		public Band findById(String id) {
 			if(id == null || id.equals("")){
@@ -252,6 +258,12 @@ public class BandDaoImpl implements BandDAO {
 			}
 		}
 
+		/**
+		* Search albums that match with band id
+		*
+		* @param String band id
+		* @return list of albums with determined id
+		*/
 		public List<Album> findAlbums(String bandID){
 			if(bandID == null || bandID.equals("")){
 				throw new IllegalArgumentException("the 'id' param can not be null or empty.");

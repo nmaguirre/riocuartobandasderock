@@ -11,6 +11,13 @@ public class UserDAOImpl implements UserDAO {
 	public UserDAOImpl(Session session){
 		this.currentSession = session;
 	}
+
+    /**
+    * This method search an user in database
+    *
+    *@param String id
+    *@return user with determinated id
+    */
     @Override
     public User find(String name) {
         if (name != null && name != "") {
@@ -20,7 +27,13 @@ public class UserDAOImpl implements UserDAO {
             return null;
         }
     }
-
+    /**
+    * This method create an user in database
+    *
+    *@param String username
+    *@param String password
+    *@return true if successfully created
+    */
     @Override
     public boolean create(String name, String password) {
         if (name == null || name == "" || password == null || password == "") {
@@ -32,7 +45,12 @@ public class UserDAOImpl implements UserDAO {
             return true;
         }
     }
-
+    /**
+    * This method modify an user in database
+    *
+    *@param User band
+    *@return true if successfully modified
+    */
     @Override
     public boolean update(User user) {
         if (user.repOk()) {
@@ -41,7 +59,12 @@ public class UserDAOImpl implements UserDAO {
         } else
             return false;
     }
-
+    /**
+    * This method delete an user in database
+    *
+    *@param String id
+    *@return true if successfully deleted
+    */
     @Override
     public boolean delete(String name) {
         User user = find(name);

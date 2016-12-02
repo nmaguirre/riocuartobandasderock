@@ -73,7 +73,7 @@ public class ArtistController {
 	*/
 	public List<Artist> getOneArtist (Request req, Response res){
 
-		System.out.println(req.pathInfo());
+		
 		String name = req.queryParams("name");
 		if (name==null){
 			name="";

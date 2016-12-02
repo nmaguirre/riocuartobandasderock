@@ -93,6 +93,11 @@ public interface BandDAO {
 		 */
 	   public Band findById(String id);
 
+	  /**
+		* This method count the number of bands
+		*
+		*@return number of bands in database
+		*/
 	   public int cantBands();
 }
 
