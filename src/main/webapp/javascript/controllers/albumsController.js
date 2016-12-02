@@ -22,10 +22,12 @@ angular.module('app')
 	}
 	
 	function load_album(id){
-		$http.get("https://private-53163-riocuartobandasderock.apiary-mock.com/albums/"+id).then(function callback(response){
+		console.log(id);
+		$http.get("http://localhost:4567/albums/"+id).then(function callback(response){
 			if (response.status == 200){
+				console.log(response.data);
 				$scope.album = response.data[0];
-				load_album_band($scope.album.band);
+				load_album_band($scope.album.band.id);
 			} else {
 				alert("Oops, something went wrong, try again later!");	
 			}
@@ -33,14 +35,13 @@ angular.module('app')
 	}
 
 	function load_album_band(id){
-		/*$http.get("https://private-53163-riocuartobandasderock.apiary-mock.com/bands/"+id).then(function callback(response){
+		$http.get("http://localhost:4567/bands/"+id).then(function callback(response){
 			if (response.status == 200){
 				$scope.album.band_name = response.data[0].name;
 			} else {
 				alert("Oops, something went wrong, try again later!");		
 			}
-		});*/
-		$scope.album.band_name = "The Strokes";
+		});
 	}
 
 	$scope.go_to = function(id){
@@ -54,9 +55,9 @@ angular.module('app')
 	}
 	
 	$scope.createAlbum = function(data) {
-		data.releaseDate = moment(data.releaseDate).format("YYYY-MM-DD");
-		
-		$http.post("https://private-53163-riocuartobandasderock.apiary-mock.com/albums", data).then(function callback(response) {
+		data.release_date = moment(data.release_date).format("YYYY-MM-DD");
+		console.log(data);
+		$http.post("http://localhost:4567/albums?title="+$scope.dataAlbum.title+"&release_date="+$scope.dataAlbum.release_date+"&band_id="+$scope.dataAlbum.band_id).then(function callback(response) {
 			if (response.status == 201) {
 				$location.path("/admin");
 			} else {
@@ -67,9 +68,9 @@ angular.module('app')
 	}
 
 	$scope.updateAlbum = function(data){
-		data.releaseDate = moment(data.releaseDate).format("YYYY-MM-DD");
+		data.release_date = moment(data.release_date).format("YYYY-MM-DD");
 		
-		$http.put("https://private-53163-riocuartobandasderock.apiary-mock.com/albums/"+$routeParams.id, data).then(function callback(response) {
+		$http.put("http://localhost:4567/albums/"+$routeParams.id+"?title="+$scope.dataAlbum.title+"&release_date="+$scope.dataAlbum.release_date+"&band_id="+$scope.dataAlbum.band_id).then(function callback(response) {
 			if (response.status == 200) {
 				$location.path("/admin");
 			} else {
@@ -80,8 +81,7 @@ angular.module('app')
 	}
 
 	$scope.dataAlbum  = {};
-/*$scope.bands = [
-{
+/*{
     "BandID": "1",
     "name": "Banda-1",
     "genre": "Rock",
@@ -116,15 +116,16 @@ angular.module('app')
     ]
 }
 ];*/
-/*
+
 	function load_bands() {
-		$http.get("https://private-53163-riocuartobandasderock.apiary-mock.com/bands").then(function callback(response) {
+		$http.get("http://localhost:4567/bands").then(function callback(response) {
 			if (response.status == 200) {
-				$scope.dataAlbum.bands = response.data;
+				$scope.bands = response.data;
 			} else {
 				alert("Oops, something went wrong, try again later!")
 			}
 		});
 	}
-*/
+
+	load_bands();
 }]);

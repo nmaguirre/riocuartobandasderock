@@ -7,20 +7,20 @@
 						<div class="form-group">
 							<legend><center>ACTUALIZAR ALBÚM</center></legend><hr>	
 							<label for="Title"><h3>Título</h3></label>
-							<input type="text" class="form-control" id="title"  ng-model="dataAlbum.name" aria-describedby="emailHelp" placeholder="Ingrese el título del album">
+							<input type="text" class="form-control" id="title"  ng-model="dataAlbum.title" aria-describedby="emailHelp" placeholder="Ingrese el título del album">
 							<hr>
 						</div>
 						<div class="form-group">
 							<label for="releaseDate"><h3>Fecha de Lanzamiento</h3></label>
 					  	<div>
-							<input class="form-control" type="date" value="aaaa-mm-dd" id="example-date-input" ng-model="dataAlbum.releaseDate">
+							<input class="form-control" type="date" value="aaaa-mm-dd" id="example-date-input" ng-model="dataAlbum.release_date">
 							<hr>
 						</div>
 						<div class="form-group">
 							<label for="exampleSelect1"><h3>Banda</h3></label>
-							<select class="form-control" id="exampleSelect1" ng-model="dataAlbum.band">
+							<select class="form-control" id="exampleSelect1" ng-model="dataAlbum.band_id">
 								<option value="" selected disabled>Seleccione una banda</option>
-								<option ng-repeat="band in bands" value="{{band.BandID}}">{{band.name}}</option>
+								<option ng-repeat="band in bands" value="{{band.id}}">{{band.name}}</option>
 							</select>
 						<div class="form-group pull-right">
 							<hr>

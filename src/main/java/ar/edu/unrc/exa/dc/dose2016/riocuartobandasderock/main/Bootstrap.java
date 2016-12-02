@@ -129,6 +129,8 @@ public class Bootstrap {
         post("/albums", (req, res) -> albumController.create(req, res));
 
         get("/albums", (req, res) ->  albumController.getAll(req, res),jsonAlbum() );
+        
+        get("/albums/:id", (req, res) ->  albumController.getAll(req, res),jsonAlbum() );
 
         get("/albums/findByTitle/:title", (req, res) -> albumController.findByTitle(req, res),jsonAlbum());
 

@@ -98,8 +98,18 @@ angular.module('app')
 	load_bands();
 
 	$scope.delete_album = function(id, i){
-		$http.delete("https://private-53163-riocuartobandasderock.apiary-mock.com/albums/"+id).then(function callback(response){
+		/*$http.delete("https://private-53163-riocuartobandasderock.apiary-mock.com/albums/"+id).then(function callback(response){
 			if (response.status == 200){
+				$scope.albums.splice(i,1);
+				alert("Album deleted");
+			} else {
+				alert("Oops, something went wrong, try again later!")
+			}
+		});*/
+		$http.delete("http://localhost:4567/albums/"+id).then(function callback(response){
+			if (response.status == 200){
+				alert(i);
+				alert(id);
 				$scope.albums.splice(i,1);
 				alert("Album deleted");
 			} else {

@@ -37,9 +37,9 @@ angular.module('app')
 		});*/
 		$http.get("http://localhost:4567/artists").then(function callback(response){
 			if (response.status == 200){
-				$scope.albums = response.data;
+				$scope.artists = response.data;
 			}else if(response.status == 204){
-				$scope.artist = []
+				$scope.artists = []
 			}else{
 				alert("ARTIST Oops, something went wrong, try again later!"+response.status)
 			

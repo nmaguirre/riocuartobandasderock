@@ -109,6 +109,25 @@ public class AlbumController {
         res.status(http_status);
         return albums;
     }
+    
+    public Album findById(Request req, Response res) {
+    	Session session = SessionManager.getInstance().openSession();
+    	AlbumDaoImpl adao = new AlbumDaoImpl(session);
+    	
+    	if (req.params("id") == null){
+            res.status(400);
+            res.body("Title can't be null");
+            return null;
+        }
+        Album albums = adao.findById(req.params("id"));
+        session.close();
+        if(albums != null){
+        	res.status(200);
+        }else{
+        	res.status(404);
+        }
+        return albums;
+    }
 
     public List<Album> findByReleaseDate(Request req, Response res){
     	Session session = SessionManager.getInstance().openSession();

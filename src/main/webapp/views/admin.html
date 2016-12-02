@@ -21,11 +21,11 @@
                     <td>{{album.title}}</td>
                     <td>{{album.releaseDate}}</td>
                     <td>
-                      <a ng-href="#/admin/albums/update/{{album.AlbumID}}">
+                      <a ng-href="#/admin/albums/update/{{album.id}}">
                         <img class="menu-edit" src="/img/octicons-5.0.1/lib/svg/pencil-white.svg">
                       </a>
                     </td>
-                    <td><input class="menu-delete" type="image" src="/img/octicons-5.0.1/lib/svg/x-white.svg" name="" ng-click="delete_album(album.AlbumID, $index)"></td>
+                    <td><input class="menu-delete" type="image" src="/img/octicons-5.0.1/lib/svg/x-white.svg" name="" ng-click="delete_album(album.id, $index)"></td>
                   </tr>
                 </tbody>
               </table>
