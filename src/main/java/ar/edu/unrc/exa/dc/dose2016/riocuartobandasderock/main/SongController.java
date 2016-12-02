@@ -5,6 +5,7 @@ package ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.main;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.SongDAO;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SessionManager;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.dao.impl.SongDaoImpl;
+import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Artist;
 import ar.edu.unrc.exa.dc.dose2016.riocuartobandasderock.model.Song;
 
 import java.util.List;
@@ -208,6 +209,12 @@ public class SongController {
     public String update(Request req, Response res){
     	Session session = SessionManager.getInstance().openSession();
     	SongDAO sdao = new SongDaoImpl(session);
+    	
+    	Song song = sdao.findById(req.params(":id"));
+		if (song==null){
+			res.status(409);
+			return "Error in database";
+		}
     	
     	String id = req.params(":id");
     	if ((id == "") ||(id == null)) {
