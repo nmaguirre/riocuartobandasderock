@@ -185,7 +185,7 @@ public class Bootstrap {
         * BAND
         **/
 
-        
+
         get("/bands",(req, res) -> bands.getBands(req, res), new VelocityTemplateEngine());
 
         get("/bands/findbyname/:name",(req, res) -> bands.getBandByName(req, res), json());
@@ -275,8 +275,7 @@ public class Bootstrap {
         /**
         * SONG
         **/
-        post("/songs",(req,res)-> songController.create(req, res));
-//        post("/songs/",(req,res)->songController.create(req, res));
+        post("/songs",(req,res)-> songController.create(req, res), new VelocityTemplateEngine());
 
         get("/songs/findById/:id",(req,res)-> songController.getById(req,res), json());
 

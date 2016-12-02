@@ -146,62 +146,69 @@ public class SongController {
      * @return a string that describes the result of create
      */
     public ModelAndView create (Request req, Response res){
-    Map<String, Object> attributes = new HashMap<>();
-    List<String> errors = new LinkedList<>();
+      Map<String, Object> attributes = new HashMap<>();
+      List<String> errors = new LinkedList<>();
 
-    String name = req.queryParams("name");
-    String duration = req.queryParams("duration");
-    String album_title = req.queryParams("album_title");
+      String name = req.queryParams("name");
+      String duration = req.queryParams("duration");
+      String album_title = req.queryParams("album_title");
 
-    if (name == null || name.equals(""))
-      errors.add("El <strong>nombre</strong> no puede estar en blanco");
-    if (duration == null || duration.equals(""))
-      errors.add("La <strong>duración</strong> no puede estar en blanco");
-    if (album_title == null || album_title.equals(""))
-      errors.add("El <strong>álbum</strong> no puede estar en blanco");
+      if (name == null || name.equals(""))
+        errors.add("El <strong>nombre</strong> no puede estar en blanco");
+      if (duration == null || duration.equals(""))
+        errors.add("La <strong>duración</strong> no puede estar en blanco");
+      if (album_title == null || album_title.equals(""))
+        errors.add("El <strong>álbum</strong> no puede estar en blanco");
 
-    if (!errors.isEmpty()) {
-      attributes.put("errors", errors);
-      attributes.put("template", Routes.new_song());
-      return new ModelAndView(attributes, Routes.layout_dashboard());
-    }
-
-    Session session = SessionManager.getInstance().openSession();
-    SongDAO songDAO = new SongDaoImpl(session);
-    Transaction transaction = null;
-    Boolean status = false;
-
-    try {
-      transaction = session.beginTransaction();
-      status = songDAO.addSong(name, Integer.parseInt(duration), album_title);
-      transaction.commit();
-
-      if (status) {
-        attributes.put("success", "La banda fue creada");
-        List<Song> songs = songDAO.getAllSongs();
-        attributes.put("songs", songs);
-        attributes.put("template", Routes.index_song());
-        session.close();
-        res.status(201);
-        return new ModelAndView(attributes, Routes.layout_dashboard());
-      } else {
-        errors.add("La canción ya existe");
+      if (!errors.isEmpty()) {
         attributes.put("errors", errors);
         attributes.put("template", Routes.new_song());
-        session.close();
-        res.status(409);
         return new ModelAndView(attributes, Routes.layout_dashboard());
       }
-    } catch (HibernateException e) {
-      e.printStackTrace();
-      transaction.rollback();
-      session.close();
-      res.status(409);
-      errors.add("La canción no pudo ser creada");
-      attributes.put("errors", errors);
-      attributes.put("template", Routes.new_song());
-      return new ModelAndView(attributes, Routes.layout_dashboard());
-    }
+
+      Session session = SessionManager.getInstance().openSession();
+      SongDAO songDAO = new SongDaoImpl(session);
+      AlbumDAO albumDAO = new AlbumDaoImpl(session);
+      Transaction transaction = null;
+      Boolean status = false;
+
+      try {
+        transaction = session.beginTransaction();
+        status = songDAO.addSong(name, Integer.parseInt(duration), album_title);
+        transaction.commit();
+
+        if (status) {
+          attributes.put("success", "La banda fue creada");
+          List<Song> songs = songDAO.getAllSongs();
+          List<Album> albums = albumDAO.getAll();
+          attributes.put("albums", albums);
+          attributes.put("songs", songs);
+          attributes.put("template", Routes.index_song());
+          session.close();
+          res.status(201);
+          return new ModelAndView(attributes, Routes.layout_dashboard());
+        } else {
+          errors.add("La canción ya existe");
+          attributes.put("errors", errors);
+          attributes.put("template", Routes.new_song());
+          session.close();
+          res.status(409);
+          return new ModelAndView(attributes, Routes.layout_dashboard());
+        }
+      } catch (HibernateException e) {
+        e.printStackTrace();
+        transaction.rollback();
+        session.close();
+        res.status(409);
+        List<Song> songs = songDAO.getAllSongs();
+        List<Album> albums = albumDAO.getAll();
+        attributes.put("albums", albums);
+        attributes.put("songs", songs);
+        errors.add("La canción no pudo ser creada");
+        attributes.put("errors", errors);
+        attributes.put("template", Routes.new_song());
+        return new ModelAndView(attributes, Routes.layout_dashboard());
+      }
     }
 
     /***
