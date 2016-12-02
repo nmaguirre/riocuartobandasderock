@@ -26,7 +26,7 @@ $(document).ready(function() {
         method: "POST"
       }
     });
-   
+
     $('#dashboard-search').on('keyup change', function(){
       $('#dashboard-bands-datatable').DataTable().draw();
     });
@@ -64,5 +64,10 @@ $(document).ready(function() {
         $('#alert').html(alert);
       });
     })
+  }
+  else{
+    if ($('#noSearch').length){
+      $('#search').remove()
+    }
   }
 });

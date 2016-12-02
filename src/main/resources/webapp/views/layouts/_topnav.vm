@@ -32,7 +32,7 @@
           </ul>
         </li>
       </ul>
-      <div class="navbar-form navbar-right">
+      <div class="navbar-form navbar-right" id="search">
         <div class="form-group  is-empty">
 
           <input id="dashboard-search" type="text" class="form-control" placeholder="Buscar">
